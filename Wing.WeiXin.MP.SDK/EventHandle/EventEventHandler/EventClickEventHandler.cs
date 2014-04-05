@@ -12,7 +12,7 @@ using Wing.WeiXin.MP.SDK.Lib.StringManager;
 namespace Wing.WeiXin.MP.SDK.EventHandle.EventEventHandler
 {
     /// <summary>
-    /// 自定义菜单事件（点击菜单拉取消息时的事件推送）事件处理
+    /// 点击菜单拉取消息时的事件处理
     /// </summary>
     public class EventClickEventHandler : EntityEventHandler<EventClick>
     {

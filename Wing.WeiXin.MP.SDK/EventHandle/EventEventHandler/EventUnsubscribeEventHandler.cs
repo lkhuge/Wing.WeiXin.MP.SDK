@@ -9,7 +9,7 @@ using Wing.WeiXin.MP.SDK.Lib.StringManager;
 namespace Wing.WeiXin.MP.SDK.EventHandle.EventEventHandler
 {
     /// <summary>
-    /// 取消关注事件基础事件事件处理
+    /// 取消关注事件事件处理
     /// </summary>
     public class EventUnsubscribeEventHandler : EntityEventHandler<EventUnsubscribe>
     {

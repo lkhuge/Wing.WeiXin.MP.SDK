@@ -9,7 +9,7 @@ using Wing.WeiXin.MP.SDK.Lib.StringManager;
 namespace Wing.WeiXin.MP.SDK.EventHandle.EventEventHandler
 {
     /// <summary>
-    /// 带参数二维码关注事件基础事件事件处理
+    /// 带参数二维码关注事件事件处理
     /// </summary>
     public class EventSubscribeByQRSceneEventHandler : EntityEventHandler<EventSubscribeByQRScene>
     {
