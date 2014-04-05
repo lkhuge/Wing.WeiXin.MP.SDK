@@ -1,0 +1,9 @@
+packages/
+*/bin/Release/
+*/bin/Debug/
+*/obj/
+*.dll
+*.nupkg
+.nuget/
+*.nuspec
+*.bat
