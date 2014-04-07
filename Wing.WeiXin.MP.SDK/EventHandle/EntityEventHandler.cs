@@ -16,50 +16,11 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
     /// <typeparam name="T">有事件处理实体</typeparam>
     public abstract class EntityEventHandler<T> where T : Entity
     {
-        #region 实体处理委托 public delegate IReturn EntityHandler(T entity);
+        #region 实体处理 public readonly static EntityHandler<T> EntityEvent
         /// <summary>
-        /// 实体处理委托
+        /// 实体处理
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns>返回实体</returns>
-        public delegate IReturn EntityHandler(T entity); 
-        #endregion
-
-        #region 实体处理事件 private static EntityHandler _entityEvent; 
-        /// <summary>
-        /// 实体处理事件
-        /// </summary>
-        private static EntityHandler _entityEvent; 
-        #endregion
-
-        #region 锁定标志 private const String lockMe = "lockMe"; 
-        /// <summary>
-        /// 锁定标志
-        /// </summary>
-        private const String lockMe = "lockMe"; 
-        #endregion
-
-        #region 实体处理事件 public static EntityHandler EntityEvent;
-        /// <summary>
-        /// 实体处理事件
-        /// </summary>
-        public static EntityHandler EntityEvent {
-            protected get
-            {
-                lock (lockMe)
-                {
-                    return _entityEvent;
-                }
-            }
-            set
-            {
-                if (value == null) return;
-                lock (lockMe)
-                {
-                    _entityEvent = value;
-                }
-            }
-        }
+        public readonly static EntityHandler<T> EntityEvent = new EntityHandler<T>(); 
         #endregion
 
         #region 根据实体处理 public IReturn Action(T entity)
@@ -72,9 +33,9 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         {
             IReturn global = GlobalEntityEventHandler.Action(entity);
             if (global != null) return global;
-            if (ConfigManager.EventConfig.UseCustomEventHandler && EntityEvent != null)
+            if (ConfigManager.EventConfig.UseCustomEventHandler && EntityEvent.EntityEvent != null)
             {
-                IReturn custom = EntityEvent(entity);
+                IReturn custom = EntityEvent.EntityEvent(entity);
                 if (custom != null) return custom;
             }
             if (ConfigManager.EventConfig.UseBaseEventHandler)

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Entities.HTTP;
+using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.Test.Controller
 {
@@ -26,9 +27,9 @@ namespace Wing.WeiXin.MP.Test.Controller
             {
                 ReceiveController.Action(messageText);
             }
-            catch (Exception)
+            catch (WXException e)
             {
-                Assert.Fail("接收消息错误");
+                Assert.Fail("接收消息错误" + e.GetNote().Message);
             }
         } 
         #endregion

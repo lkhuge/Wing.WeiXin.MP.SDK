@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle.MessageEventHandler
         public static void AddAutoReturnMessageHandler(AutoReturnMessageHandler hander)
         {
             AutoReturnMessageEvent = hander;
-            EntityEvent = TempAutoReturnMessageEvent;
+            EntityEvent.EntityEvent = TempAutoReturnMessageEvent;
         }
         #endregion
 
