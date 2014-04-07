@@ -54,6 +54,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             }
             set
             {
+                if (value == null) return;
                 lock (lockMe)
                 {
                     _globalEntityHandler = value;
