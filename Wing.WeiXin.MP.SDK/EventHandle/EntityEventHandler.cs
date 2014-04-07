@@ -26,11 +26,40 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         public delegate IReturn EntityHandler(T entity); 
         #endregion
 
-        #region 实体处理事件 public static event EntityHandler EntityEvent;
+        #region 实体处理事件 private static EntityHandler _entityEvent; 
         /// <summary>
         /// 实体处理事件
         /// </summary>
-        public static event EntityHandler EntityEvent; 
+        private static EntityHandler _entityEvent; 
+        #endregion
+
+        #region 锁定标志 private const String lockMe = "lockMe"; 
+        /// <summary>
+        /// 锁定标志
+        /// </summary>
+        private const String lockMe = "lockMe"; 
+        #endregion
+
+        #region 实体处理事件 public static EntityHandler EntityEvent;
+        /// <summary>
+        /// 实体处理事件
+        /// </summary>
+        public static EntityHandler EntityEvent {
+            protected get
+            {
+                lock (lockMe)
+                {
+                    return _entityEvent;
+                }
+            }
+            set
+            {
+                lock (lockMe)
+                {
+                    _entityEvent = value;
+                }
+            }
+        }
         #endregion
 
         #region 根据实体处理 public IReturn Action(T entity)

@@ -25,11 +25,41 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         public delegate IReturn GlobalEntityHandler(IEvent entity);
         #endregion
 
-        #region 全局实体处理事件 public static event GlobalEntityHandler GlobalEntityEvent;
+        #region 全局实体处理事件 private static GlobalEntityHandler _globalEntityHandler;
         /// <summary>
         /// 全局实体处理事件
         /// </summary>
-        public static event GlobalEntityHandler GlobalEntityEvent;
+        private static GlobalEntityHandler _globalEntityHandler;
+        #endregion
+
+        #region 锁定标志 private const String lockMe = "lockMe";
+        /// <summary>
+        /// 锁定标志
+        /// </summary>
+        private const String lockMe = "lockMe";
+        #endregion
+
+        #region 全局实体处理事件 public static GlobalEntityHandler GlobalEntityEvent;
+        /// <summary>
+        /// 全局实体处理事件
+        /// </summary>
+        public static GlobalEntityHandler GlobalEntityEvent
+        {
+            private get
+            {
+                lock (lockMe)
+                {
+                    return _globalEntityHandler;
+                }
+            }
+            set
+            {
+                lock (lockMe)
+                {
+                    _globalEntityHandler = value;
+                }
+            }
+        }
         #endregion
 
         #region 基于微信用户实体处理事件 private static readonly Dictionary<string, GlobalEntityHandler> WXUserBaseEntityEvent;
