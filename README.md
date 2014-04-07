@@ -75,7 +75,7 @@ EventWithQRSceneEventHandler           (带参数二维码事件事件处理)
 ```
 ###添加全局事件
 ```C#
-GlobalEntityEventHandler.GlobalEntityEvent += globalEntityEvent;
+GlobalEntityEventHandler.GlobalEntityEvent.EntityEvent = globalEntityEvent;
 ```
 
 ```C#
