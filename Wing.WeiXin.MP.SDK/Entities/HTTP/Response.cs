@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Exception;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
@@ -9,7 +8,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
     /// <summary>
     /// 响应对象
     /// </summary>
-    public class Response : IResponse
+    public class Response
     {
         #region 类型
         /// <summary>

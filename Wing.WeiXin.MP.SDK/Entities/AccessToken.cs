@@ -1,4 +1,4 @@
-﻿using Wing.WeiXin.MP.SDK.Entities.Interface;
+﻿using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {

@@ -4,9 +4,9 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Events;
 using Wing.WeiXin.MP.SDK.Entities.HTTP;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Messages;
+using Wing.WeiXin.MP.SDK.EventHandle;
 using Wing.WeiXin.MP.SDK.EventHandle.EventEventHandler;
 using Wing.WeiXin.MP.SDK.EventHandle.MessageEventHandler;
 using Wing.WeiXin.MP.SDK.Exception;
@@ -103,14 +103,14 @@ namespace Wing.WeiXin.MP.SDK.Common
         } 
         #endregion
 
-        #region 将请求解析为实体 private static T EntityDeserialize<T>(Request request) where T : IEntity
+        #region 将请求解析为实体 private static T EntityDeserialize<T>(Request request) where T : IEntity, IXML
         /// <summary>
         /// 将请求解析为实体
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="request">请求</param>
         /// <returns>实体</returns>
-        private static T EntityDeserialize<T>(Request request) where T : IEntity
+        private static T EntityDeserialize<T>(Request request) where T : IEntity, IXML
         {
             try
             {

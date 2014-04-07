@@ -1,11 +1,9 @@
-﻿using Wing.WeiXin.MP.SDK.Entities.Interface;
-
-namespace Wing.WeiXin.MP.SDK.Entities.HTTP.Request
+﻿namespace Wing.WeiXin.MP.SDK.Entities.HTTP.Request
 {
     /// <summary>
     /// 请求对象
     /// </summary>
-    public class Request : IRequest
+    public class Request
     {
         /// <summary>
         /// 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。

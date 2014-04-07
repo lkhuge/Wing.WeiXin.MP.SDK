@@ -20,14 +20,14 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         }
         #endregion
 
-        #region 将Json字符串转换为对象 public static T JSONDeserialize<T>(string jsonString)
+        #region 将Json字符串转换为对象 public static T JSONDeserialize<T>(string jsonString) where T : IJSON
         /// <summary>
         /// 将Json字符串转换为对象
         /// </summary>
         /// <typeparam name="T">对象类型</typeparam>
         /// <param name="jsonString">Json字符串</param>
         /// <returns>对象</returns>
-        public static T JSONDeserialize<T>(string jsonString)
+        public static T JSONDeserialize<T>(string jsonString) where T : IJSON
         {
             return JsonConvert.DeserializeObject<T>(jsonString);
         }

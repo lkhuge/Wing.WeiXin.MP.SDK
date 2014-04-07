@@ -1,4 +1,4 @@
-﻿namespace Wing.WeiXin.MP.SDK.Entities.Interface
+﻿namespace Wing.WeiXin.MP.SDK.Entities
 {
     /// <summary>
     /// 可响应实体接口

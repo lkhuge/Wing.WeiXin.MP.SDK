@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
     /// <summary>
     /// 错误码
     /// </summary>
-    public class ErrorMsg : IEntity
+    public class ErrorMsg : IEntity, IJSON
     {
         /// <summary>
         /// 错误码

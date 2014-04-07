@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
 {

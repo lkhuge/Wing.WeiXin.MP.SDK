@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Entities.User.Group;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
 using Wing.WeiXin.MP.SDK.Exception;
@@ -16,13 +15,13 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
     /// </summary>
     public static class GlobalEntityEventHandler
     {
-        #region 全局实体处理委托 public delegate IReturn GlobalEntityHandler(IEvent entity);
+        #region 全局实体处理委托 public delegate IReturn GlobalEntityHandler(Entity entity);
         /// <summary>
         /// 全局实体处理委托
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns>返回实体</returns>
-        public delegate IReturn GlobalEntityHandler(IEvent entity);
+        public delegate IReturn GlobalEntityHandler(Entity entity);
         #endregion
 
         #region 全局实体处理事件 private static GlobalEntityHandler _globalEntityHandler;
@@ -103,33 +102,31 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         } 
         #endregion
 
-        #region 判断执行全局处理 public static IReturn Action(IEvent eventEntity)
+        #region 判断执行全局处理 public static IReturn Action(Entity eventEntity)
         /// <summary>
         /// 判断执行全局处理
         /// </summary>
         /// <param name="eventEntity">有事件的实体</param>
         /// <returns>回复实体</returns>
-        public static IReturn Action(IEvent eventEntity)
+        public static IReturn Action(Entity eventEntity)
         {
             IReturn globalEntityEvent = GlobalAction(eventEntity);
             if (globalEntityEvent != null) return globalEntityEvent;
-            Entity entity = eventEntity as Entity;
-            if(entity == null) return null;
-            IReturn wxUserEntityEvent = WXUserBaseAction(entity);
+            IReturn wxUserEntityEvent = WXUserBaseAction(eventEntity);
             if (wxUserEntityEvent != null) return wxUserEntityEvent;
-            IReturn wxUserGroupEntityEvent = WXUserGroupBaseAction(entity);
+            IReturn wxUserGroupEntityEvent = WXUserGroupBaseAction(eventEntity);
 
             return wxUserGroupEntityEvent;
         } 
         #endregion
 
-        #region 全局事件处理 private static IReturn GlobalAction(IEvent eventEntity)
+        #region 全局事件处理 private static IReturn GlobalAction(Entity eventEntity)
         /// <summary>
         /// 全局事件处理
         /// </summary>
         /// <param name="eventEntity">有事件的实体</param>
         /// <returns>回复实体</returns>
-        private static IReturn GlobalAction(IEvent eventEntity)
+        private static IReturn GlobalAction(Entity eventEntity)
         {
             if (!ConfigManager.EventConfig.UseGlobalEventHandler || GlobalEntityEvent == null) return null;
             IReturn globalEntityEvent = GlobalEntityEvent(eventEntity);

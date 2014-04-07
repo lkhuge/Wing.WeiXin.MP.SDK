@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities.OAuth
 {
     /// <summary>
     /// OAuth使用的用户
     /// </summary>
-    public class OAuthUser
+    public class OAuthUser : IJSON
     {
         /// <summary>
         /// 用户的标识，对当前公众号唯一

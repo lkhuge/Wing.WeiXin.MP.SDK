@@ -1,4 +1,4 @@
-﻿namespace Wing.WeiXin.MP.SDK.Entities.Interface
+﻿namespace Wing.WeiXin.MP.SDK.Lib.Serialize
 {
     /// <summary>
     /// XML对象接口

@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml.Serialization;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities.HTTP;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.EventHandle;
 
 namespace Wing.WeiXin.MP.SDK.Entities.Messages

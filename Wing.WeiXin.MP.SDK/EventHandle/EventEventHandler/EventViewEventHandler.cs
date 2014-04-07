@@ -2,7 +2,6 @@
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Events;
 using Wing.WeiXin.MP.SDK.Entities.HTTP;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using Wing.WeiXin.MP.SDK.Lib.StringManager;

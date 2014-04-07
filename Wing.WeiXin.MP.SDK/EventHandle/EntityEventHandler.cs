@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Entities.Interface;
 using Wing.WeiXin.MP.SDK.Exception;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using BaseException = System.Exception;
@@ -15,7 +14,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
     /// 实体处理
     /// </summary>
     /// <typeparam name="T">有事件处理实体</typeparam>
-    public abstract class EntityEventHandler<T> where T : IEvent
+    public abstract class EntityEventHandler<T> where T : Entity
     {
         #region 实体处理委托 public delegate IReturn EntityHandler(T entity);
         /// <summary>
