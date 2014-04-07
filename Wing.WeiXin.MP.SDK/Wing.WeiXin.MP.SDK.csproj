@@ -103,13 +103,11 @@
     <Compile Include="Entities\HTTP\Request\HttpContextRequest.cs" />
     <Compile Include="Entities\HTTP\Request\Request.cs" />
     <Compile Include="Entities\HTTP\Response.cs" />
-    <Compile Include="Entities\Interface\IEntity.cs" />
-    <Compile Include="Entities\Interface\IEvent.cs" />
-    <Compile Include="Entities\Interface\IJSON.cs" />
-    <Compile Include="Entities\Interface\IRequest.cs" />
-    <Compile Include="Entities\Interface\IResponse.cs" />
-    <Compile Include="Entities\Interface\IReturn.cs" />
-    <Compile Include="Entities\Interface\IXML.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="EventHandle\IEvent.cs" />
+    <Compile Include="Lib\Serialize\IJSON.cs" />
+    <Compile Include="Entities\IReturn.cs" />
+    <Compile Include="Lib\Serialize\IXML.cs" />
     <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Menu\AMenuButton.cs" />
     <Compile Include="Entities\Menu\AMenuItem.cs" />
@@ -202,6 +200,7 @@
     <Compile Include="Lib\StringManager\LogHelper.cs" />
     <Compile Include="Lib\StringManager\Message.cs" />
     <Compile Include="Lib\StringManager\StringMaker.cs" />
+    <Compile Include="MessageState\IMessageStateContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

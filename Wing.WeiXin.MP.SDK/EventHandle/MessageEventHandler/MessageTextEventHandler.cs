@@ -19,11 +19,11 @@ namespace Wing.WeiXin.MP.SDK.EventHandle.MessageEventHandler
         public delegate string AutoReturnMessageHandler(string content);
         #endregion
 
-        #region 自动回复事件 private static event AutoReturnMessageHandler AutoReturnMessageEvent;
+        #region 自动回复事件 private static AutoReturnMessageHandler AutoReturnMessageEvent;
         /// <summary>
         /// 自动回复事件
         /// </summary>
-        private static event AutoReturnMessageHandler AutoReturnMessageEvent;
+        private static AutoReturnMessageHandler AutoReturnMessageEvent;
         #endregion
 
         #region 基础事件处理 protected override IReturn BaseEntityEvent(MessageText entity)
@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle.MessageEventHandler
         public static void AddAutoReturnMessageHandler(AutoReturnMessageHandler hander)
         {
             AutoReturnMessageEvent = hander;
-            EntityEvent += TempAutoReturnMessageEvent;
+            EntityEvent = TempAutoReturnMessageEvent;
         }
         #endregion
 

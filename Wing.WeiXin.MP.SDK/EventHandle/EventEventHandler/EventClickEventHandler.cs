@@ -60,7 +60,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle.EventEventHandler
         public static void AddReturnByKeyHandler(string key, ReturnByKeyHandler hander, bool isFinish = false)
         {
             ReturnByKeyHandlerList[key] = hander;
-            if (isFinish) EntityEvent += ReturnByKeyHandlerTemp;
+            if (isFinish) EntityEvent = ReturnByKeyHandlerTemp;
         }
         #endregion
 
