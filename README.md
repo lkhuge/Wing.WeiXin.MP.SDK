@@ -71,11 +71,34 @@ EventWithQRSceneEventHandler           (带参数二维码事件事件处理)
 ```
 ###事件处理优先级
 ```
-全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 自定义事件 > 基础事件
+全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 自定义事件
 ```
-###添加全局事件
+###添加实体处理对象
 ```C#
-GlobalEntityEventHandler.GlobalEntityEvent.EntityEvent = globalEntityEvent;
+//初始化实体处理对象
+EventHandleManager.Init(new EntityHandler
+{
+    //添加全局事件
+    GlobalHandler = new Func<BaseReceiveMessage,IReturn>[]{globalEntityEvent}, 
+
+    //添加基于微信用户事件
+    WXUserBaseHandler = new Dictionary<string, Func<BaseReceiveMessage, IReturn>>
+    {
+        {"xxxxxxxx", globalEntityEvent}
+    },
+
+    //添加基于微信用户分组事件
+    WXUserGroupBaseHandler = new Dictionary<int, Func<BaseReceiveMessage, IReturn>>
+    {
+        {0, globalEntityEvent}
+    }
+
+    //添加自定义事件
+    CustomEntityHandler = new Dictionary<ReceiveEntityType,Func<BaseReceiveMessage,IReturn>>
+    {
+        {ReceiveEntityType.MessageText, globalEntityEvent}
+    }
+});
 ```
 
 ```C#
@@ -97,24 +120,7 @@ public IReturn globalEntityEvent(IEvent c)
     return null;
 }
 ```
-###添加基于微信用户事件
-```C#
-GlobalEntityEventHandler.AddWXUserBaseEntityEvent(new WXUser
-{
-    openid = "xxxxxxxxxx"
-}, globalEntityEvent);
-```
-###添加基于微信用户分组事件
-```C#
-GlobalEntityEventHandler.AddWXUserGroupBaseEntityEvent(new WXGroup
-{
-    id = 0
-}, globalEntityEvent);
-```
-###添加自定义事件
-```C#
-EventClickEventHandler.AddReturnByKeyHandler("test1", click, true);
-```
+
 配置说明
 ----------------
 ###全部配置
@@ -125,8 +131,7 @@ EventClickEventHandler.AddReturnByKeyHandler("test1", click, true);
     <Event UseGlobalEventHandler="true" 
            UseWXUserGroupBaseEventHandler="true" 
            UseWXUserBaseEventHandler="true" 
-           UseCustomEventHandler="true" 
-           UseBaseEventHandler="true" >
+           UseCustomEventHandler="true" >
         <EventList>
             <add Name="Event1" IsAction="True" />
             <add Name="Event2" IsAction="True" />
@@ -160,7 +165,6 @@ UseGlobalEventHandler              是否开启全局事件处理
 UseWXUserGroupBaseEventHandler     是否开启基于微信用户事件处理
 UseWXUserBaseEventHandler          是否开启基于微信用户分组事件处理
 UseCustomEventHandler              是否开启自定义事件处理
-UseBaseEventHandler                是否开启基础事件处理
 EventList                          事件处理列表
 Name                               事件名称
 IsAction                           是否开启该事件
