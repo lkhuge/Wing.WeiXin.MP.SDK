@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复音乐消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageMusic : AReturnMessage
+    public class ReturnMessageMusic : BaseReturnMessage
     {
         /// <summary>
         /// 音乐对象

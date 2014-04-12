@@ -85,6 +85,7 @@
     <Compile Include="Controller\QRCodeControllerTest.cs" />
     <Compile Include="Controller\ReceiveControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
+    <Compile Include="EventHandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wing.WeiXin.MP.SDK\Wing.WeiXin.MP.SDK.csproj">

@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复图片消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageImage : AReturnMessage
+    public class ReturnMessageImage : BaseReturnMessage
     {
         /// <summary>
         /// 图片对象

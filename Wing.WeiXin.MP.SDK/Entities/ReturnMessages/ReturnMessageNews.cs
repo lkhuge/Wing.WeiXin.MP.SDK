@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复图文消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageNews : AReturnMessage
+    public class ReturnMessageNews : BaseReturnMessage
     {
         /// <summary>
         /// 图文消息个数，限制为10条以内

@@ -73,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Exception
         public Note GetNote()
         {
             string message = IsError
-                ? String.Format("异常介绍:{0} /n 异常信息:{1} /n 异常调试信息:{2}", IntroduceMessage, ExceptionMessage, ExceptionStackTrace)
+                ? String.Format("异常介绍:{0} \n 异常信息:{1} \n 异常调试信息:{2}", IntroduceMessage, ExceptionMessage, ExceptionStackTrace)
                 : IntroduceMessage;
             return new Note { Message = message };
         } 

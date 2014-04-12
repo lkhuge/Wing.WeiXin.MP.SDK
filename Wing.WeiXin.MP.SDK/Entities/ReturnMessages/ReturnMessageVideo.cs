@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复视频消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageVideo : AReturnMessage
+    public class ReturnMessageVideo : BaseReturnMessage
     {
         /// <summary>
         /// 视频对象

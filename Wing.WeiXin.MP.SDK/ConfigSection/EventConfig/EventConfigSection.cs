@@ -52,17 +52,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         }
         #endregion
 
-        #region 是否需要使用基础事件处理 public bool UseBaseEventHandler
-        /// <summary>
-        /// 是否需要使用基础事件处理
-        /// </summary>
-        [ConfigurationProperty("UseBaseEventHandler", DefaultValue = true)]
-        public bool UseBaseEventHandler
-        {
-            get { return Convert.ToBoolean(this["UseBaseEventHandler"]); }
-        }
-        #endregion
-
         #region 事件列表 public EventItemListConfigSection EventList
         /// <summary>
         /// 事件列表

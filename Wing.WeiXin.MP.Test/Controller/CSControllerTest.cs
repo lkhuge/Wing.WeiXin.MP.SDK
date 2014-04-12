@@ -1,7 +1,6 @@
 ﻿using Wing.WeiXin.MP.SDK.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Wing.WeiXin.MP.SDK.Entities.CSMessage;
 using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.Test.Controller

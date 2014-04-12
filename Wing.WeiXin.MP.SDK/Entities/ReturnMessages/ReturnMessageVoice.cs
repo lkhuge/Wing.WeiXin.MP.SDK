@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复语音消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageVoice : AReturnMessage
+    public class ReturnMessageVoice : BaseReturnMessage
     {
         /// <summary>
         /// 语音对象

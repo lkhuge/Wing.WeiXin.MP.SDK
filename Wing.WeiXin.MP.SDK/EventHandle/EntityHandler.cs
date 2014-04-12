@@ -3,60 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.EventHandle
 {
     /// <summary>
-    /// 实体处理
+    /// 实体处理对象
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EntityHandler<T> where T : Entity
+    public class EntityHandler
     {
-        #region 实体处理委托 public delegate IReturn Handler(T entity);
+        #region 全局事件处理 public Func<BaseReceiveMessage, IReturn>[] GlobalHandler { get; set; }
         /// <summary>
-        /// 实体处理委托
+        /// 全局事件处理
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns>返回实体</returns>
-        public delegate IReturn Handler(T entity);
+        public Func<BaseReceiveMessage, IReturn>[] GlobalHandler { get; set; }  
         #endregion
 
-        #region 实体处理事件 private Handler _handler;
+        #region 基于微信用户事件处理 public Dictionary<string, Func<BaseReceiveMessage, IReturn>> WXUserBaseHandler { get; set; }
         /// <summary>
-        /// 实体处理事件
+        /// 基于微信用户事件处理
         /// </summary>
-        private Handler _handler;
+        public Dictionary<string, Func<BaseReceiveMessage, IReturn>> WXUserBaseHandler { get; set; }
         #endregion
 
-        #region 锁定标志 private const String lockMe = "lockMe";
+        #region 基于微信用户分组事件处理 public Dictionary<int, Func<BaseReceiveMessage, IReturn>> WXUserGroupBaseHandler { get; set; }
         /// <summary>
-        /// 锁定标志
+        /// 基于微信用户分组事件处理
         /// </summary>
-        private const String lockMe = "lockMe";
+        public Dictionary<int, Func<BaseReceiveMessage, IReturn>> WXUserGroupBaseHandler { get; set; }
         #endregion
 
-        #region 实体处理事件 public Handler EntityEvent;
+        #region 自定义实体处理 public Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>> CustomEntityHandler { get; set; }
         /// <summary>
-        /// 实体处理事件
+        /// 自定义实体处理列表
         /// </summary>
-        public Handler EntityEvent
-        {
-            get
-            {
-                lock (lockMe)
-                {
-                    return _handler;
-                }
-            }
-            set
-            {
-                if (value == null) return;
-                lock (lockMe)
-                {
-                    _handler = value;
-                }
-            }
-        }
+        public Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>> CustomEntityHandler { get; set; } 
         #endregion
     }
 }

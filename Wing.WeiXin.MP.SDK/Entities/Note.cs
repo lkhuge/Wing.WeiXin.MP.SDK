@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {

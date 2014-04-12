@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
     /// 回复文本消息
     /// </summary>
     [XmlRoot("xml")]
-    public class ReturnMessageText : AReturnMessage
+    public class ReturnMessageText : BaseReturnMessage
     {
         /// <summary>
         /// 回复的消息内容（设置消息请使用此变量）
