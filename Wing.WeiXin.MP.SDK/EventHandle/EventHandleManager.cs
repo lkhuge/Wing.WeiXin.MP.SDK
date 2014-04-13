@@ -5,8 +5,11 @@ using System.Text;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages;
+using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events;
+using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages;
 using Wing.WeiXin.MP.SDK.Entities.User.Group;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.SDK.EventHandle
@@ -99,6 +102,13 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         }
         #endregion
 
+        #region 微信用户所属分组信息 private static readonly Dictionary<string, int> WXUserGroupList
+        /// <summary>
+        /// 微信用户所属分组信息
+        /// </summary>
+        private static readonly Dictionary<string, int> WXUserGroupList = new Dictionary<string, int>(); 
+        #endregion
+
         #region 基于微信用户分组事件处理 private static IReturn WXUserGroupBaseAction(BaseReceiveMessage message)
         /// <summary>
         /// 基于微信用户分组事件处理
@@ -110,10 +120,13 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             if (!ConfigManager.EventConfig.UseWXUserGroupBaseEventHandler || EntityHandler.WXUserGroupBaseHandler == null) return null;
             try
             {
-                WXUserGroup group = WXUserController.GetWXGroupByWXUser(new WXUser { openid = message.FromUserName });
-                if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserGroupBase(group.group.id)) return null;
-                if (!EntityHandler.WXUserGroupBaseHandler.ContainsKey(group.group.id)) return null;
-                IReturn wxUserGroupEntity = EntityHandler.WXUserGroupBaseHandler[group.group.id](message);
+                if (!WXUserGroupList.ContainsKey(message.FromUserName))
+                {
+                    WXUserGroupList[message.FromUserName] = WXUserController.GetWXGroupByWXUser(new WXUser { openid = message.FromUserName }).group.id;
+                }
+                if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserGroupBase(WXUserGroupList[message.FromUserName])) return null;
+                if (!EntityHandler.WXUserGroupBaseHandler.ContainsKey(WXUserGroupList[message.FromUserName])) return null;
+                IReturn wxUserGroupEntity = EntityHandler.WXUserGroupBaseHandler[WXUserGroupList[message.FromUserName]](message);
 
                 return wxUserGroupEntity;
             }
@@ -132,11 +145,51 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn CustomAction(BaseReceiveMessage message)
         {
-            if (!ConfigManager.EventConfig.UseCustomEventHandler || EntityHandler.CustomEntityHandler == null) return null;
-            if (!EntityHandler.CustomEntityHandler.ContainsKey(message.entityType)) return null;
-            IReturn customEntity = EntityHandler.CustomEntityHandler[message.entityType](message);
+            if (!ConfigManager.EventConfig.UseCustomEventHandler) return null;
 
-            return customEntity;
+            return !CustomHandlerList.ContainsKey(message.entityType) 
+                ? null 
+                : CustomHandlerList[message.entityType](message);
+        } 
+        #endregion
+
+        #region 自定义事件处理列表 private static readonly Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>> CustomHandlerList
+        /// <summary>
+        /// 自定义事件处理列表
+        /// </summary>
+        private static readonly Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>> CustomHandlerList =
+            new Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>>
+            {
+                {ReceiveEntityType.MessageImage, message => CustomListAction(EntityHandler.MessageImageHandler, message as MessageImage)},
+                {ReceiveEntityType.MessageLink, message => CustomListAction(EntityHandler.MessageLinkHandler, message as MessageLink)},
+                {ReceiveEntityType.MessageLocation, message => CustomListAction(EntityHandler.MessageLocationHandler, message as MessageLocation)},
+                {ReceiveEntityType.MessageText, message => CustomListAction(EntityHandler.MessageTextHandler, message as MessageText)},
+                {ReceiveEntityType.MessageVideo, message => CustomListAction(EntityHandler.MessageVideoHandler, message as MessageVideo)},
+                {ReceiveEntityType.MessageVoice, message => CustomListAction(EntityHandler.MessageVoiceHandler, message as MessageVoice)},
+                {ReceiveEntityType.EventClick, message => CustomListAction(EntityHandler.EventClickHandler, message as EventClick)},
+                {ReceiveEntityType.EventLocation, message => CustomListAction(EntityHandler.EventLocationHandler, message as EventLocation)},
+                {ReceiveEntityType.EventSubscribeByQRScene, message => CustomListAction(EntityHandler.EventSubscribeByQRSceneHandler, message as EventSubscribeByQRScene)},
+                {ReceiveEntityType.EventSubscribe, message => CustomListAction(EntityHandler.EventSubscribeHandler, message as EventSubscribe)},
+                {ReceiveEntityType.EventUnsubscribe, message => CustomListAction(EntityHandler.EventUnsubscribeHandler, message as EventUnsubscribe)},
+                {ReceiveEntityType.EventView, message => CustomListAction(EntityHandler.EventViewHandler, message as EventView)},
+                {ReceiveEntityType.EventWithQRScene, message => CustomListAction(EntityHandler.EventWithQRSceneHandler, message as EventWithQRScene)}
+            }; 
+        #endregion
+
+        #region 自定义事件列表处理 private static IReturn CustomListAction<T>(EntityHandler.CustomEntityHandler<T>[] handler, T message) where T : BaseReceiveMessage
+        /// <summary>
+        /// 自定义事件列表处理
+        /// </summary>
+        /// <typeparam name="T">特定实体类型</typeparam>
+        /// <param name="handler">自定义事件列表</param>
+        /// <param name="message">接收消息</param>
+        /// <returns>回复实体</returns>
+        private static IReturn CustomListAction<T>(EntityHandler.CustomEntityHandler<T>[] handler, T message)
+            where T : BaseReceiveMessage
+        {
+            if (handler == null) return null;
+            return handler.Select(handle => handle(message))
+                .FirstOrDefault(entity => entity != null);
         } 
         #endregion
     }

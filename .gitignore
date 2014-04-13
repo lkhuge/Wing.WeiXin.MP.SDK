@@ -8,3 +8,4 @@ packages/
 *.nuspec
 *.bat
 Wing.WeiXin.MP.Test/app.config
+*.user

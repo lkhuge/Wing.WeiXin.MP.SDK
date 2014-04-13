@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages;
+using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.EventHandle;
@@ -27,10 +28,11 @@ namespace Wing.WeiXin.MP.Test
         {
             EventHandleManager.Init(new EntityHandler
             {
-                CustomEntityHandler = new Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>>
+                MessageTextHandler = new EntityHandler.CustomEntityHandler<MessageText>[]
                 {
-                    {ReceiveEntityType.MessageText, GlobalEntityEvent}
-                }});
+                    GlobalEntityEvent
+                }
+            });
             ReturnMessageText text = XMLHelper.XMLDeserialize<ReturnMessageText>(ReceiveController.Action(messageText).Text);
             Assert.AreEqual(text.content, "ok");
         } 

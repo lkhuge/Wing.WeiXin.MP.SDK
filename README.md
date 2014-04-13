@@ -79,45 +79,51 @@ EventWithQRSceneEventHandler           (带参数二维码事件事件处理)
 EventHandleManager.Init(new EntityHandler
 {
     //添加全局事件
-    GlobalHandler = new Func<BaseReceiveMessage,IReturn>[]{globalEntityEvent}, 
+    GlobalHandler = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
 
     //添加基于微信用户事件
-    WXUserBaseHandler = new Dictionary<string, Func<BaseReceiveMessage, IReturn>>
+    WXUserBaseHandler = new Dictionary<string, EntityHandler.GlobalEntityHandler>
     {
         {"xxxxxxxx", globalEntityEvent}
     },
 
     //添加基于微信用户分组事件
-    WXUserGroupBaseHandler = new Dictionary<int, Func<BaseReceiveMessage, IReturn>>
+    WXUserGroupBaseHandler = new Dictionary<int, EntityHandler.GlobalEntityHandler>
     {
         {0, globalEntityEvent}
     }
 
     //添加自定义事件
-    CustomEntityHandler = new Dictionary<ReceiveEntityType,Func<BaseReceiveMessage,IReturn>>
+    MessageTextHandler = new[]
     {
-        {ReceiveEntityType.MessageText, globalEntityEvent}
+        MessageTextEntityEvent
     }
 });
 ```
 
 ```C#
-public IReturn globalEntityEvent(IEvent c)
+public IReturn globalEntityEvent(BaseReceiveMessage message)
 {
-    MessageText text = c as MessageText;
-    if (text == null) return null;
-    if (String.IsNullOrEmpty(text.Content))
-    {
-        return new ReturnMessageText
-        {
-            FromUserName = text.ToUserName,
-            ToUserName = text.FromUserName,
-            CreateTime = Message.GetLongTimeNow(),
-            content = "Hello World"
-        };
-    }
+	return new ReturnMessageText
+	{
+		FromUserName = message.ToUserName,
+		ToUserName = message.FromUserName,
+		CreateTime = Message.GetLongTimeNow(),
+		content = "Hello World"
+	};
+}
+```
 
-    return null;
+```C#
+public IReturn MessageTextEntityEvent(MessageText message)
+{
+	return new ReturnMessageText
+	{
+		FromUserName = message.ToUserName,
+		ToUserName = message.FromUserName,
+		CreateTime = Message.GetLongTimeNow(),
+		content = "Hello World"
+	};
 }
 ```
 

@@ -6,6 +6,7 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Entities.HTTP;
 using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages;
+using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.EventHandle;
@@ -30,9 +31,9 @@ namespace Wing.WeiXin.MP.Test.Common
         {
             EventHandleManager.Init(new EntityHandler
             {
-                CustomEntityHandler = new Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>>
+                MessageTextHandler = new EntityHandler.CustomEntityHandler<MessageText>[]
                 {
-                    {ReceiveEntityType.MessageText, GlobalEntityEvent}
+                    GlobalEntityEvent
                 }
             });
             Assert.AreEqual(EntityFactory.RequestHandle(requestRight).Text, requestRight.echostr);
@@ -48,12 +49,12 @@ namespace Wing.WeiXin.MP.Test.Common
         } 
         #endregion
 
-        #region 全局事件 public IReturn GlobalEntityEvent(AMessage message)
+        #region 全局事件 public IReturn GlobalEntityEvent(MessageText message)
         /// <summary>
         /// 全局事件
         /// </summary>
         /// <returns></returns>
-        public IReturn GlobalEntityEvent(BaseReceiveMessage message)
+        public IReturn GlobalEntityEvent(MessageText message)
         {
             if (message.FromUserName.Equals("olPjZjsXuQPJoV0HlruZkNzKc91E"))
             {

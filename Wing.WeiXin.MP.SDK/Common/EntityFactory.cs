@@ -19,6 +19,52 @@ namespace Wing.WeiXin.MP.SDK.Common
     /// </summary>
     public static class EntityFactory
     {
+        #region 实体类解析委托列表 private static readonly Dictionary<string, Func<Request, BaseReceiveMessage>> EntityList
+        /// <summary>
+        /// 实体类解析委托列表
+        /// </summary>
+        private static readonly Dictionary<string, Func<Request, BaseReceiveMessage>> EntityList =
+            new Dictionary<string, Func<Request, BaseReceiveMessage>>
+            {
+                {"text", EntityDeserialize<MessageText>},               //文本消息
+                {"image", EntityDeserialize<MessageImage>},             //图片消息
+                {"voice", EntityDeserialize<MessageVoice>},             //语音消息
+                {"video", EntityDeserialize<MessageVideo>},             //视频消息
+                {"location", EntityDeserialize<MessageLocation>},       //地理位置消息
+                {"link", EntityDeserialize<MessageLink>},               //链接消息
+                {"event", request =>
+                    {
+                        string typeEvent = XMLHelper.GetValueFromXML(request.postData, "Event");
+                        if (!EventList.ContainsKey(typeEvent)) throw new ConvertToEntityException(request);
+
+                        return EventList[typeEvent](request);
+                    }}
+            }; 
+        #endregion
+
+        #region 事件实体类解析委托列表 private static readonly Dictionary<string, Func<Request, BaseReceiveMessage>> EventList
+        /// <summary>
+        /// 事件实体类解析委托列表
+        /// </summary>
+        private static readonly Dictionary<string, Func<Request, BaseReceiveMessage>> EventList =
+            new Dictionary<string, Func<Request, BaseReceiveMessage>>
+            {
+                {"subscribe", request =>
+                    {
+                        if (XMLHelper.IsHaveNodeFromXMLString(request.postData, "Ticket"))
+                        {
+                            return EntityDeserialize<EventSubscribeByQRScene>(request); //带参数二维码关注事件
+                        }
+                        return EntityDeserialize<EventSubscribe>(request);              //关注事件
+                    }},
+                {"unsubscribe", EntityDeserialize<EventUnsubscribe>},                   //取消关注事件
+                {"SCAN", EntityDeserialize<EventWithQRScene>},                          //带参数二维码事件
+                {"LOCATION", EntityDeserialize<EventLocation>},                         //上报地理位置事件
+                {"CLICK", EntityDeserialize<EventClick>},                               //自定义菜单事件（点击菜单拉取消息时的事件推送）
+                {"VIEW", EntityDeserialize<EventView>}                                  //自定义菜单事件（点击菜单跳转链接时的事件推送）
+            }; 
+        #endregion
+
         #region 请求处理 public static Response GetEntity(Request request)
         /// <summary>
         /// 请求处理
@@ -54,54 +100,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>接收消息</returns>
         private static BaseReceiveMessage IEntity(Request request)
         {
-            string typeEntity = GetEntityType(request);
-            //文本消息
-            if ("text".Equals(typeEntity)) return EntityDeserialize<MessageText>(request);
-            //图片消息
-            if ("image".Equals(typeEntity)) return EntityDeserialize<MessageImage>(request);
-            //语音消息
-            if ("voice".Equals(typeEntity)) return EntityDeserialize<MessageVoice>(request);
-            //视频消息
-            if ("video".Equals(typeEntity)) return EntityDeserialize<MessageVideo>(request);
-            //地理位置消息
-            if ("location".Equals(typeEntity)) return EntityDeserialize<MessageLocation>(request);
-            //链接消息
-            if ("link".Equals(typeEntity)) return EntityDeserialize<MessageLink>(request);
-            if (!"event".Equals(typeEntity)) throw new ConvertToEntityException(request);
+            string typeEntity = XMLHelper.GetValueFromXML(request.postData, "MsgType");
+            if (!EntityList.ContainsKey(typeEntity)) throw new ConvertToEntityException(request);
 
-            return IEvent(request);
-        } 
-        #endregion
-
-        #region 事件实体类解析 private static BaseReceiveMessage IEvent(Request request)
-        /// <summary>
-        /// 事件实体类解析
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <returns>事件接收消息</returns>
-        private static BaseReceiveMessage IEvent(Request request)
-        {
-            string typeEvent = GetEventType(request);
-            if ("subscribe".Equals(typeEvent))
-            {
-                if (XMLHelper.IsHaveNodeFromXMLString(request.postData, "Ticket"))
-                {
-                    return EntityDeserialize<EventSubscribeByQRScene>(request); //带参数二维码关注事件
-                }
-                return EntityDeserialize<EventSubscribe>(request); //关注事件
-            }
-            //取消关注事件
-            if ("unsubscribe".Equals(typeEvent)) return EntityDeserialize<EventUnsubscribe>(request);
-            //带参数二维码事件
-            if ("SCAN".Equals(typeEvent)) return EntityDeserialize<EventWithQRScene>(request);
-            //上报地理位置事件
-            if ("LOCATION".Equals(typeEvent)) return EntityDeserialize<EventLocation>(request);
-            //自定义菜单事件（点击菜单拉取消息时的事件推送）
-            if ("CLICK".Equals(typeEvent)) return EntityDeserialize<EventClick>(request);
-            //自定义菜单事件（点击菜单跳转链接时的事件推送）
-            if ("VIEW".Equals(typeEvent)) return EntityDeserialize<EventView>(request);
-
-            throw new ConvertToEntityException(request);
+            return EntityList[typeEntity](request);
         } 
         #endregion
 
@@ -123,30 +125,6 @@ namespace Wing.WeiXin.MP.SDK.Common
                 throw new ConvertToEntityException(request);
             }
         } 
-        #endregion
-
-        #region 获取请求对象中实体类型 private static string GetEntityType(Request request)
-        /// <summary>
-        /// 获取请求对象中实体类型
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <returns>实体类型</returns>
-        private static string GetEntityType(Request request)
-        {
-            return XMLHelper.GetValueFromXML(request.postData, "MsgType");
-        } 
-        #endregion
-
-        #region 获取请求对象中事件类型 private static string GetEventType(Request request)
-        /// <summary>
-        /// 获取请求对象中事件类型
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <returns>事件类型</returns>
-        private static string GetEventType(Request request)
-        {
-            return XMLHelper.GetValueFromXML(request.postData, "Event");
-        }
         #endregion
     }
 }
