@@ -46,7 +46,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         public bool CheckEventForWXUserBase(string OpenID)
         {
             return this.OfType<EventItemConfigSection>().
-                All(config => !config.Name.Equals("WXUserBase" + OpenID) || config.IsAction);
+                All(config => !config.Name.Equals("WXUserBase:" + OpenID) || config.IsAction);
         } 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         public bool CheckEventForWXUserGroupBase(int GroupID)
         {
             return this.OfType<EventItemConfigSection>().
-                All(config => !config.Name.Equals("WXUserGroupBase" + GroupID) || config.IsAction);
+                All(config => !config.Name.Equals("WXUserGroupBase:" + GroupID) || config.IsAction);
         }
         #endregion
     }
