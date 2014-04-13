@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <summary>
         /// 是否需要使用全局事件处理
         /// </summary>
-        [ConfigurationProperty("UseGlobalEventHandler", DefaultValue = true)]
+        [ConfigurationProperty("UseGlobalEventHandler", DefaultValue = false)]
         public bool UseGlobalEventHandler
         {
             get { return Convert.ToBoolean(this["UseGlobalEventHandler"]); }
@@ -23,7 +23,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <summary>
         /// 是否需要使用基于微信用户事件处理
         /// </summary>
-        [ConfigurationProperty("UseWXUserBaseEventHandler", DefaultValue = true)]
+        [ConfigurationProperty("UseWXUserBaseEventHandler", DefaultValue = false)]
         public bool UseWXUserBaseEventHandler
         {
             get { return Convert.ToBoolean(this["UseWXUserBaseEventHandler"]); }
@@ -34,7 +34,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <summary>
         /// 是否需要使用基于微信用户分组事件处理
         /// </summary>
-        [ConfigurationProperty("UseWXUserGroupBaseEventHandler", DefaultValue = true)]
+        [ConfigurationProperty("UseWXUserGroupBaseEventHandler", DefaultValue = false)]
         public bool UseWXUserGroupBaseEventHandler
         {
             get { return Convert.ToBoolean(this["UseWXUserGroupBaseEventHandler"]); }
