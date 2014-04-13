@@ -7,3 +7,4 @@ packages/
 .nuget/
 *.nuspec
 *.bat
+Wing.WeiXin.MP.Test/app.config
