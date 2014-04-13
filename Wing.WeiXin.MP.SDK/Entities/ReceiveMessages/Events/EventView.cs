@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events
 {
@@ -20,6 +21,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events
         public EventView()
         {
             Event = "VIEW";
+            entityType = ReceiveEntityType.EventView;
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages
 {
@@ -35,6 +36,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages
         public MessageLocation()
         {
             MsgType = "location";
+            entityType = ReceiveEntityType.MessageLocation;
         }
         #endregion
     }

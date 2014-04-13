@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events
 {
@@ -15,6 +16,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events
         public EventUnsubscribe()
         {
             Event = "unsubscribe";
+            entityType = ReceiveEntityType.EventUnsubscribe;
         }
         #endregion
     }
