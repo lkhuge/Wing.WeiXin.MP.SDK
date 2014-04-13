@@ -38,7 +38,7 @@ QQ群：203230922
     </Event>
     <Log>
         <Base IsLog="True" />
-        <RollingFileAppender Path="C:\\" MaxSizeRollBackups="-1" MaximumFileSize="50MB" />
+        <RollingFileAppender Path="C:\\" MaximumFileSize="50MB" />
     </Log>
 </WeiXinMPSDKConfigGroup>
 ```
@@ -140,8 +140,7 @@ public IReturn globalEntityEvent(IEvent c)
     <Log>
         <Base IsLog="True" />
         <RollingFileAppender Pattern="记录时间：%d %n日志级别：%-5level %n类：%logger%n描述：%n%m%n%n" 
-                             Path="C:\\" 
-                             MaxSizeRollBackups="-1" 
+                             Path="C:\\"
                              MaximumFileSize="50MB" />
         <AdoNetAppender SQLType="SQLServer"
                         ConnectionString="xxxxxxxxxxxx"
@@ -175,7 +174,6 @@ IsLog                     是否记录日志
 RollingFileAppender       记录到文件
 Pattern                   记录格式
 Path                      文件路径
-MaxSizeRollBackups        最大变换数量
 MaximumFileSize           单文件最大容量
 AdoNetAppender            记录到数据库
 SQLType                   数据库类型

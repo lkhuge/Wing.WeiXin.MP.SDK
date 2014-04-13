@@ -33,17 +33,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.LogConfig
         }
         #endregion
 
-        #region 最大变换数量 public int MaxSizeRollBackups
-        /// <summary>
-        /// 最大变换数量
-        /// </summary>
-        [ConfigurationProperty("MaxSizeRollBackups", DefaultValue = -1)]
-        public int MaxSizeRollBackups
-        {
-            get { return Convert.ToInt32(this["MaxSizeRollBackups"]); }
-        }
-        #endregion
-
         #region 日志单文件最大容量 public string MaximumFileSize
         /// <summary>
         /// 日志单文件最大容量
