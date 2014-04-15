@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages.ReturnObject;
+using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
 {
@@ -30,6 +31,23 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         public ReturnMessageNews()
         {
             MsgType = "news";
+        }
+        #endregion
+
+        #region 根据多条图文消息信息和接收的实体实例化 public ReturnMessageNews(List<item> item, BaseEntity entity)
+        /// <summary>
+        /// 根据多条图文消息信息和接收的实体实例化
+        /// </summary>
+        /// <param name="item">多条图文消息信息</param>
+        /// <param name="entity">接收的实体</param>
+        public ReturnMessageNews(List<item> item, BaseEntity entity)
+        {
+            MsgType = "news";
+            FromUserName = entity.ToUserName;
+            ToUserName = entity.FromUserName;
+            CreateTime = Message.GetLongTimeNow();
+            ArticleCount = item.Count;
+            this.item = item;
         }
         #endregion
     }

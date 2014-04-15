@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
 namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
 {
@@ -36,6 +37,22 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         {
             MsgType = "text";
         } 
+        #endregion
+
+        #region 根据回复的消息内容和接收的实体实例化 public ReturnMessageText(string content, BaseEntity entity)
+        /// <summary>
+        /// 根据回复的消息内容和接收的实体实例化
+        /// </summary>
+        /// <param name="content">回复的消息内容</param>
+        /// <param name="entity">接收的实体</param>
+        public ReturnMessageText(string content, BaseEntity entity)
+        {
+            MsgType = "text";
+            FromUserName = entity.ToUserName;
+            ToUserName = entity.FromUserName;
+            CreateTime = Message.GetLongTimeNow();
+            this.content = content;
+        }
         #endregion
     }
 }
