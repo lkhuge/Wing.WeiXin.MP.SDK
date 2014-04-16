@@ -7,7 +7,7 @@ using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Exception;
-using Wing.WeiXin.MP.SDK.Lib.HTTP;
+using Wing.WeiXin.MP.SDK.Lib.Net;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Controller

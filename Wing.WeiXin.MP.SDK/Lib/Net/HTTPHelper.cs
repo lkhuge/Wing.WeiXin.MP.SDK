@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web;
 using Wing.WeiXin.MP.SDK.Exception;
-using BaseException = System.Exception;
 
-namespace Wing.WeiXin.MP.SDK.Lib.HTTP
+namespace Wing.WeiXin.MP.SDK.Lib.Net
 {
     /// <summary>
     /// HTTP请求工具类
@@ -153,6 +152,20 @@ namespace Wing.WeiXin.MP.SDK.Lib.HTTP
             }
 
             return null;
+        }
+        #endregion
+
+        #region 判断请求的用户代理 public static bool CheckUserAgent(HttpRequest request, string userAgent)
+        /// <summary>
+        /// 判断请求的用户代理
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <param name="userAgent">用户代理</param>
+        /// <returns>是否为该用户代理</returns>
+        public static bool CheckUserAgent(HttpRequest request, string userAgent)
+        {
+            return request.UserAgent != null &&
+                request.UserAgent.Contains(userAgent);
         }
         #endregion
     }

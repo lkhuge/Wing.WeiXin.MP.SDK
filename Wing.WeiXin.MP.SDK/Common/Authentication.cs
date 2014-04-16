@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 using Wing.WeiXin.MP.SDK;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Exception;
-using Wing.WeiXin.MP.SDK.Lib.HTTP;
+using Wing.WeiXin.MP.SDK.Lib.Net;
 using Wing.WeiXin.MP.SDK.Lib.Security;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using BaseException = System.Exception;
@@ -64,6 +65,18 @@ namespace Wing.WeiXin.MP.SDK.Common
             {
                 throw new WXFormationException(jsonValue, e);
             }
+        }
+        #endregion
+
+        #region 判断请求是否来自微信服务器 public static bool ISWeiXinRequest(HttpRequest request)
+        /// <summary>
+        /// 判断请求是否来自微信服务器
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <returns>是否来自微信服务器</returns>
+        public static bool ISWeiXinRequest(HttpRequest request)
+        {
+            return HTTPHelper.CheckUserAgent(request, "MicroMessenger");
         }
         #endregion
     }

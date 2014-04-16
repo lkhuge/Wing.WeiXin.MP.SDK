@@ -5,7 +5,7 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Exception;
-using Wing.WeiXin.MP.SDK.Lib.HTTP;
+using Wing.WeiXin.MP.SDK.Lib.Net;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using BaseException = System.Exception;
 

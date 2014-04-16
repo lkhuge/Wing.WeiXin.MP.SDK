@@ -5,7 +5,7 @@ using System.Text;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
-using Wing.WeiXin.MP.SDK.Lib.HTTP;
+using Wing.WeiXin.MP.SDK.Lib.Net;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
