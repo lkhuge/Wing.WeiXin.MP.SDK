@@ -37,6 +37,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding">
+      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -110,8 +113,11 @@
     <Compile Include="EventHandle\EntityHandler.cs" />
     <Compile Include="EventHandle\EventHandleManager.cs" />
     <Compile Include="EventHandle\IEvent.cs" />
+    <Compile Include="EventHandle\QuickConfigReturnMessageManager.cs" />
     <Compile Include="Exception\EventHandlerException.cs" />
     <Compile Include="Extension\EntityHandlerExtension.cs" />
+    <Compile Include="Lib\FileManager\FileHelper.cs" />
+    <Compile Include="Lib\Net\MailHelper.cs" />
     <Compile Include="Lib\Serialize\IJSON.cs" />
     <Compile Include="Entities\IReturn.cs" />
     <Compile Include="Lib\Serialize\IXML.cs" />
@@ -148,7 +154,6 @@
     <Compile Include="Entities\ReturnMessages\ReturnMessageText.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageVideo.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageVoice.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\Articles.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnObject\Image.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnObject\item.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnObject\Music.cs" />
@@ -184,13 +189,14 @@
     <Compile Include="Exception\FailGetOAuthUser.cs" />
     <Compile Include="HaveFun\Captcha.cs" />
     <Compile Include="HaveFun\Screenshot.cs" />
-    <Compile Include="Lib\HTTP\HTTPHelper.cs" />
+    <Compile Include="Lib\Net\HTTPHelper.cs" />
     <Compile Include="Lib\Security\Security.cs" />
     <Compile Include="Lib\Serialize\JSONHelper.cs" />
     <Compile Include="Lib\Serialize\XMLHelper.cs" />
     <Compile Include="Lib\StringManager\HTMLHelper.cs" />
     <Compile Include="Lib\StringManager\LogHelper.cs" />
     <Compile Include="Lib\StringManager\Message.cs" />
+    <Compile Include="Lib\StringManager\QRCodeHelper.cs" />
     <Compile Include="Lib\StringManager\StringMaker.cs" />
     <Compile Include="ServerDataContainer\IServerDataContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
