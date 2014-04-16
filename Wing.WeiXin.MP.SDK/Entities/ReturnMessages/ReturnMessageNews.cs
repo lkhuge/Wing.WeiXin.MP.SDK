@@ -22,7 +22,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         /// <summary>
         /// 多条图文消息信息，默认第一个item为大图,注意，如果图文数超过10，则将会无响应
         /// </summary>
-        public List<item> item { get; set; }
+        public List<item> Articles { get; set; }
 
         #region 实例化空数据回复图文消息 public ReturnMessageNews()
         /// <summary>
@@ -42,6 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         /// <param name="entity">接收的实体</param>
         public ReturnMessageNews(List<item> item, BaseEntity entity)
         {
+            if (item == null || entity == null) throw new ArgumentNullException();
             MsgType = "news";
             FromUserName = entity.ToUserName;
             ToUserName = entity.FromUserName;
