@@ -47,6 +47,8 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         /// <param name="entity">接收的实体</param>
         public ReturnMessageText(string content, BaseEntity entity)
         {
+            if(String.IsNullOrEmpty(content)) throw new ArgumentNullException("content");
+            if (entity == null) throw new ArgumentNullException("entity");
             MsgType = "text";
             FromUserName = entity.ToUserName;
             ToUserName = entity.FromUserName;

@@ -42,13 +42,14 @@ namespace Wing.WeiXin.MP.SDK.Entities.ReturnMessages
         /// <param name="entity">接收的实体</param>
         public ReturnMessageNews(List<item> item, BaseEntity entity)
         {
-            if (item == null || entity == null) throw new ArgumentNullException();
+            if (item == null) throw new ArgumentNullException("item");
+            if (entity == null) throw new ArgumentNullException("entity");
             MsgType = "news";
             FromUserName = entity.ToUserName;
             ToUserName = entity.FromUserName;
             CreateTime = Message.GetLongTimeNow();
             ArticleCount = item.Count;
-            this.item = item;
+            Articles = item;
         }
         #endregion
     }
