@@ -39,13 +39,8 @@ namespace Wing.WeiXin.MP.SDK.Extension
                     }
                     return nullMessageCallBack(message);
                 }
-                
-                return new ReturnMessageText
-                {
-                    FromUserName = message.ToUserName,
-                    ToUserName = message.FromUserName,
-                    content = returnMessage
-                };
+
+                return new ReturnMessageText(returnMessage, message);
             };
         } 
         #endregion

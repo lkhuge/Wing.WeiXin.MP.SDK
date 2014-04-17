@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
-using Wing.WeiXin.MP.SDK.Entities.CSMessages.CSMessageObject;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
@@ -75,14 +74,7 @@ namespace Wing.WeiXin.MP.Test
         /// <summary>
         /// 客服文本消息
         /// </summary>
-        protected CSMessageText csMessageText = new CSMessageText
-        {
-            touser = "orImOuC33jQiJFrVelQGGTmwPSFE",
-            text = new CSMessageObjectText
-            {
-                content = "Test"
-            }
-        }; 
+        protected CSMessageText csMessageText = new CSMessageText("Test", "orImOuC33jQiJFrVelQGGTmwPSFE");
         #endregion
 
         #region 菜单

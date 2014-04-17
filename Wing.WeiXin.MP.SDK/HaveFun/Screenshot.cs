@@ -10,7 +10,6 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using MessageHelper = Wing.WeiXin.MP.SDK.Lib.StringManager.Message;
-using ImageObject = Wing.WeiXin.MP.SDK.Entities.ReturnMessages.ReturnObject.Image;
 
 namespace Wing.WeiXin.MP.SDK.HaveFun
 {
