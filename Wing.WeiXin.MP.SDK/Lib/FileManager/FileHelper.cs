@@ -12,18 +12,17 @@ namespace Wing.WeiXin.MP.SDK.Lib.FileManager
     /// </summary>
     public static class FileHelper
     {
-        #region 从文件中读取KeyValue数据 public static Dictionary<string, string> ReadOfKeyValueData(string fileName, Dictionary<string, string> data = null)
+        #region 从文件中读取KeyValue数据 public static Dictionary<string, string> ReadOfKeyValueData(string fileName)
         /// <summary>
         /// 从文件中读取KeyValue数据
         /// </summary>
         /// <param name="fileName">文件名称</param>
-        /// <param name="data">填充的KeyValue数据列表</param>
         /// <returns>KeyValue数据</returns>
-        public static Dictionary<string, string> ReadOfKeyValueData(string fileName, Dictionary<string, string> data = null)
+        public static Dictionary<string, string> ReadOfKeyValueData(string fileName)
         {
             try
             {
-                Dictionary<string, string> kvList = data ?? new Dictionary<string, string>();
+                Dictionary<string, string> kvList = new Dictionary<string, string>();
                 using (StreamReader srReadFile = new StreamReader(fileName))
                 {
                     while (!srReadFile.EndOfStream)
@@ -33,10 +32,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.FileManager
                             || String.IsNullOrEmpty(strReadLine.Trim())) continue;
                         string[] strList = strReadLine.Split(':');
                         if (strList.Length != 2) continue;
-                        string kvKey = strList[0].Trim();
-                        string kvValue = strList[1].Trim();
-                        if (data != null && !kvList.ContainsKey(kvKey)) continue;
-                        kvList[kvKey] = kvValue;
+                        kvList[strList[0].Trim()] = strList[1].Trim();
                     }
                 }
                 return kvList;

@@ -63,6 +63,8 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             if (wxUserEntity != null) return wxUserEntity;
             IReturn wxUserGroupEntity = WXUserGroupBaseAction(message);
             if (wxUserGroupEntity != null) return wxUserGroupEntity;
+            IReturn quickConfigReturnMessage = QuickConfigReturnMessageAction(message);
+            if (quickConfigReturnMessage != null) return quickConfigReturnMessage;
             IReturn customEntity = CustomAction(message);
             if (customEntity == null) throw new NoResponseException("无事件处理");
 
@@ -135,6 +137,24 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                 return null;
             }
         }
+        #endregion
+
+        #region 基于快速配置回复消息事件处理 private static IReturn QuickConfigReturnMessageAction(BaseReceiveMessage message)
+        /// <summary>
+        /// 基于快速配置回复消息事件处理
+        /// </summary>
+        /// <param name="message">接收消息</param>
+        /// <returns>回复实体</returns>
+        private static IReturn QuickConfigReturnMessageAction(BaseReceiveMessage message)
+        {
+            if (message.entityType != ReceiveEntityType.MessageText) return null;
+            MessageText messageText = message as MessageText;
+            if (messageText == null) return null;
+            if (ConfigManager.EventConfig.QuickConfigReturnMessageList == null
+                || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count != 0) return null;
+
+            return ConfigManager.EventConfig.QuickConfigReturnMessageList.GetQuickConfigReturnMessage(messageText);
+        } 
         #endregion
 
         #region 自定义事件处理 private static IReturn CustomAction(BaseReceiveMessage message)
