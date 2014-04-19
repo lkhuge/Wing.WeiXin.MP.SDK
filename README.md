@@ -38,7 +38,7 @@ QQ群：203230922
     </Event>
     <Log>
         <Base IsLog="True" />
-        <RollingFileAppender Path="C:\\" MaximumFileSize="50MB" />
+        <RollingFileAppender Path="C:\\" />
     </Log>
 </WeiXinMPSDKConfigGroup>
 ```
@@ -68,22 +68,22 @@ EventHandleManager.Init(
             new EntityHandler
             {
                 //添加全局事件
-                GlobalHandler = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
+                GlobalHandlerList = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
 
                 //添加基于微信用户事件
-                WXUserBaseHandler = new Dictionary<string, EntityHandler.GlobalEntityHandler>
+                WXUserBaseHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
                 {
                     {"xxxxxxxx", globalEntityEvent}
                 },
 
                 //添加基于微信用户分组事件
-                WXUserGroupBaseHandler = new Dictionary<int, EntityHandler.GlobalEntityHandler>
+                WXUserGroupBaseHandlerList = new Dictionary<int, EntityHandler.GlobalEntityHandler>
                 {
                     {0, globalEntityEvent}
                 }
 
                 //添加自定义事件
-                MessageTextHandler = new[]
+                MessageTextHandlerList = new[]
                 {
                     MessageTextEntityEvent
                 }
@@ -130,10 +130,7 @@ public IReturn MessageTextEntityEvent(MessageText message)
       </AccountList>
     </Base>
     <Debug IsDebug="True" />
-    <Event UseGlobalEventHandler="true" 
-           UseWXUserGroupBaseEventHandler="true" 
-           UseWXUserBaseEventHandler="true" 
-           UseCustomEventHandler="true" >
+    <Event>
         <EventList>
             <add Name="Event1" IsAction="True" />
             <add Name="Event2" IsAction="True" />
@@ -168,10 +165,6 @@ IsDebug     是否启动调试
 ```
 ###事件配置说明（Event）
 ```
-UseGlobalEventHandler              是否开启全局事件处理
-UseWXUserGroupBaseEventHandler     是否开启基于微信用户事件处理
-UseWXUserBaseEventHandler          是否开启基于微信用户分组事件处理
-UseCustomEventHandler              是否开启自定义事件处理
 EventList                          事件处理列表
 Name                               事件名称
 IsAction                           是否开启该事件
