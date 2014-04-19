@@ -1,13 +1,10 @@
 ﻿using System.Linq;
-using Wing.WeiXin.MP.SDK.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Wing.WeiXin.MP.SDK.Entities.User.User;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities.User.Group;
-using System.Collections.Generic;
-using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.User.User;
 
-namespace Wing.WeiXin.MP.Test.Controller
+namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
     
     
@@ -34,7 +31,7 @@ namespace Wing.WeiXin.MP.Test.Controller
             WXUser newUser = new WXUser {openid = useList.data.openid[0]};
             WXUserGroup group = new WXUserGroup
             {
-                group = new WXGroup
+                @group = new WXGroup
                 {
                     name = "test234"
                 }
@@ -45,7 +42,7 @@ namespace Wing.WeiXin.MP.Test.Controller
             Assert.IsNotNull(groupTemp);
             WXUserGroup groupNew = new WXUserGroup
             {
-                group = new WXGroup
+                @group = new WXGroup
                 {
                     id = groupTemp.id,
                     name = "test2"

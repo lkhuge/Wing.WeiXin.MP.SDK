@@ -1,33 +1,28 @@
 ﻿using System.Collections.Generic;
-using Wing.WeiXin.MP.SDK.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Entities.HTTP;
 using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages;
 using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages;
 using Wing.WeiXin.MP.SDK.Entities.ReturnMessages;
-using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.EventHandle;
-using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.SDK.Lib.Serialize;
 using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
-namespace Wing.WeiXin.MP.Test.Common
+namespace Wing.WeiXin.MP.SDK.Test
 {
     /// <summary>
-    ///这是 EntityFactoryTest 的测试类，旨在
-    ///包含所有 EntityFactoryTest 单元测试
-    ///</summary>
+    /// 事件处理测试
+    /// </summary>
     [TestClass]
-    public class EntityFactoryTest : BaseTest
+    public class EventHandlerTest : BaseTest
     {
-        #region RequestHandle 的测试
+        #region 文本事件测试
         /// <summary>
-        /// RequestHandle 的测试
-        ///</summary>
+        /// 文本事件测试
+        /// </summary>
         [TestMethod]
-        public void RequestHandleTest()
+        public void MessageTextEventHandlerTest()
         {
             EventHandleManager.Init(
                 new Dictionary<string, EntityHandler>
@@ -41,25 +36,17 @@ namespace Wing.WeiXin.MP.Test.Common
                             }
                         }}
                 });
-            Assert.AreEqual(EntityFactory.RequestHandle(requestRight).Text, requestRight.echostr);
-            try
-            {
-                EntityFactory.RequestHandle(requestError);
-                Assert.Fail("应该发生异常");
-            }
-            catch (FirstInvalidMessageException)
-            {
-            }
-            Assert.IsNotNull(EntityFactory.RequestHandle(messageText));
+            ReturnMessageText text = XMLHelper.XMLDeserialize<ReturnMessageText>(ReceiveController.Action(messageText).Text);
+            Assert.AreEqual(text.content, "ok");
         } 
         #endregion
 
-        #region 全局事件 public IReturn GlobalEntityEvent(MessageText message)
+        #region 全局事件 public IReturn GlobalEntityEvent(BaseReceiveMessage message)
         /// <summary>
         /// 全局事件
         /// </summary>
         /// <returns></returns>
-        public IReturn GlobalEntityEvent(MessageText message)
+        public IReturn GlobalEntityEvent(BaseReceiveMessage message)
         {
             if (message.FromUserName.Equals("olPjZjsXuQPJoV0HlruZkNzKc91E"))
             {
@@ -78,7 +65,7 @@ namespace Wing.WeiXin.MP.Test.Common
                 CreateTime = Message.GetLongTimeNow(),
                 content = "no"
             };
-        }
+        } 
         #endregion
     }
 }

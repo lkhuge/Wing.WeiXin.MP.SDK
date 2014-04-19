@@ -1,10 +1,7 @@
-﻿using Wing.WeiXin.MP.SDK.Controller;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Wing.WeiXin.MP.SDK.Entities.Menu;
-using Wing.WeiXin.MP.SDK.Entities;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Controller;
 
-namespace Wing.WeiXin.MP.Test.Controller
+namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
     /// <summary>
     ///这是 MenuControllerTest 的测试类，旨在

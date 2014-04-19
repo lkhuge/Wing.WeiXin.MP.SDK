@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD0E74C3-5927-4715-943B-71D044352947}</ProjectGuid>
+    <ProjectGuid>{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wing.WeiXin.MP.SDK</RootNamespace>
     <AssemblyName>Wing.WeiXin.MP.SDK</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\Wing.WeiXin.MP.SDK.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,11 +31,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Wing.WeiXin.MP.SDK.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
+    <DocumentationFile>bin\Release\Wing.WeiXin.MP.SDK.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Gma.QrCodeNet.Encoding">
@@ -43,8 +41,7 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -69,6 +66,7 @@
     <Compile Include="ConfigSection\BaseConfig\AccountItemListConfigSection.cs" />
     <Compile Include="ConfigSection\BaseConfig\BaseConfigSection.cs" />
     <Compile Include="ConfigSection\DebugConfigSection.cs" />
+    <Compile Include="ConfigSection\EventConfig\EventConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemConfigSection.cs" />
@@ -84,6 +82,7 @@
     <Compile Include="Controller\ReceiveController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\CSMessages\CSMessage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageImage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageMusic.cs" />
@@ -91,37 +90,13 @@
     <Compile Include="Entities\CSMessages\CSMessageText.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVideo.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVoice.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\ErrorMsg.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\BaseEvent.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventClick.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventLocation.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribe.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribeByQRScene.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventUnsubscribe.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventView.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventWithQRScene.cs" />
     <Compile Include="Entities\HTTP\Request\HttpContextRequest.cs" />
     <Compile Include="Entities\HTTP\Request\Request.cs" />
     <Compile Include="Entities\HTTP\Response.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\IReceive.cs" />
-    <Compile Include="Enumeration\ReceiveEntityType.cs" />
-    <Compile Include="Enumeration\ReturnEntityType.cs" />
-    <Compile Include="Enumeration\WeixinMPType.cs" />
-    <Compile Include="EventHandle\EntityHandler.cs" />
-    <Compile Include="EventHandle\EventHandleManager.cs" />
-    <Compile Include="EventHandle\IEvent.cs" />
-    <Compile Include="EventHandle\QuickConfigReturnMessageManager.cs" />
-    <Compile Include="Exception\EventHandlerException.cs" />
-    <Compile Include="Exception\FailGetAccountException.cs" />
-    <Compile Include="Exception\OnlyServiceException.cs" />
-    <Compile Include="Extension\EntityHandlerExtension.cs" />
-    <Compile Include="Lib\FileManager\FileHelper.cs" />
-    <Compile Include="Lib\Net\MailHelper.cs" />
-    <Compile Include="Lib\Serialize\IJSON.cs" />
     <Compile Include="Entities\IReturn.cs" />
-    <Compile Include="Lib\Serialize\IXML.cs" />
     <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Menu\AMenuButton.cs" />
     <Compile Include="Entities\Menu\AMenuItem.cs" />
@@ -133,13 +108,6 @@
     <Compile Include="Entities\Menu\MenuButtonClick.cs" />
     <Compile Include="Entities\Menu\MenuButtonView.cs" />
     <Compile Include="Entities\Menu\MenuList.cs" />
-    <Compile Include="Entities\ReceiveMessages\BaseReceiveMessage.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageImage.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageLink.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageLocation.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageText.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageVideo.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageVoice.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\OAuth\OAuthAccessToken.cs" />
     <Compile Include="Entities\OAuth\OAuthUser.cs" />
@@ -147,6 +115,21 @@
     <Compile Include="Entities\QRCode\QRCodeTicketRequest.cs" />
     <Compile Include="Entities\QRCode\QRCodeTicketRequestActionInfo.cs" />
     <Compile Include="Entities\QRCode\QRCodeTicketRequestScene.cs" />
+    <Compile Include="Entities\ReceiveMessages\BaseReceiveMessage.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\BaseEvent.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventClick.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventLocation.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribe.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribeByQRScene.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventUnsubscribe.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventView.cs" />
+    <Compile Include="Entities\ReceiveMessages\Events\EventWithQRScene.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageImage.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageLink.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageLocation.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageText.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageVideo.cs" />
+    <Compile Include="Entities\ReceiveMessages\Messages\MessageVoice.cs" />
     <Compile Include="Entities\ReturnMessages\BaseReturnMessage.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageImage.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageMusic.cs" />
@@ -163,29 +146,43 @@
     <Compile Include="Entities\User\User\WXUserOpenIdList.cs" />
     <Compile Include="Enumeration\OAuthScope.cs" />
     <Compile Include="Enumeration\QRCodeType.cs" />
+    <Compile Include="Enumeration\ReceiveEntityType.cs" />
     <Compile Include="Enumeration\ReturnCode.cs" />
-    <Compile Include="ConfigSection\EventConfig\EventConfigSection.cs" />
+    <Compile Include="Enumeration\ReturnEntityType.cs" />
     <Compile Include="Enumeration\SQLType.cs" />
     <Compile Include="Enumeration\UDStringType.cs" />
     <Compile Include="Enumeration\UploadMediaType.cs" />
-    <Compile Include="Exception\FirstInvalidMessageException.cs" />
-    <Compile Include="Exception\LoadConfigException.cs" />
+    <Compile Include="Enumeration\WeixinMPType.cs" />
+    <Compile Include="EventHandle\EntityHandler.cs" />
+    <Compile Include="EventHandle\EventHandleManager.cs" />
+    <Compile Include="EventHandle\IEvent.cs" />
+    <Compile Include="EventHandle\QuickConfigReturnMessageManager.cs" />
     <Compile Include="Exception\ConfigNotFoundException.cs" />
     <Compile Include="Exception\ConvertToEntityException.cs" />
     <Compile Include="Exception\ErrorMsgException.cs" />
+    <Compile Include="Exception\EventHandlerException.cs" />
     <Compile Include="Exception\FailGetAccessToken.cs" />
+    <Compile Include="Exception\FailGetAccountException.cs" />
+    <Compile Include="Exception\FailGetGetAccessTokenByCode.cs" />
     <Compile Include="Exception\FailGetMenuException.cs" />
+    <Compile Include="Exception\FailGetOAuthUser.cs" />
+    <Compile Include="Exception\FailRefreshAccessToken.cs" />
+    <Compile Include="Exception\FirstInvalidMessageException.cs" />
     <Compile Include="Exception\InvalidMessageException.cs" />
+    <Compile Include="Exception\LoadConfigException.cs" />
     <Compile Include="Exception\NoResponseException.cs" />
+    <Compile Include="Exception\OnlyServiceException.cs" />
     <Compile Include="Exception\WXException.cs" />
     <Compile Include="Exception\WXFormationException.cs" />
-    <Compile Include="Exception\FailGetGetAccessTokenByCode.cs" />
-    <Compile Include="Exception\FailRefreshAccessToken.cs" />
-    <Compile Include="Exception\FailGetOAuthUser.cs" />
+    <Compile Include="Extension\EntityHandlerExtension.cs" />
     <Compile Include="HaveFun\Captcha.cs" />
     <Compile Include="HaveFun\Screenshot.cs" />
+    <Compile Include="Lib\FileManager\FileHelper.cs" />
     <Compile Include="Lib\Net\HTTPHelper.cs" />
+    <Compile Include="Lib\Net\MailHelper.cs" />
     <Compile Include="Lib\Security\Security.cs" />
+    <Compile Include="Lib\Serialize\IJSON.cs" />
+    <Compile Include="Lib\Serialize\IXML.cs" />
     <Compile Include="Lib\Serialize\JSONHelper.cs" />
     <Compile Include="Lib\Serialize\XMLHelper.cs" />
     <Compile Include="Lib\StringManager\HTMLHelper.cs" />
@@ -193,36 +190,25 @@
     <Compile Include="Lib\StringManager\Message.cs" />
     <Compile Include="Lib\StringManager\QRCodeHelper.cs" />
     <Compile Include="Lib\StringManager\StringMaker.cs" />
-    <Compile Include="ServerDataContainer\IServerDataContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ServerDataContainer\IServerDataContainer.cs" />
     <Compile Include="ServerDataContainer\StaticServerDataContainer.cs" />
     <Compile Include="URLManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

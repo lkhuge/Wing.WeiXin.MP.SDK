@@ -327,5 +327,61 @@ namespace Wing.WeiXin.MP.SDK
                 AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
         } 
         #endregion
+
+        #region 获取上传图文消息素材的URL public static string GetURLForSendAllUploadNews(string weixinMPID)
+        /// <summary>
+        /// 获取上传图文消息素材的URL
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <returns>上传图文消息素材的URL</returns>
+        public static string GetURLForSendAllUploadNews(string weixinMPID)
+        {
+            return String.Format(
+                Properties.Settings.Default.URLForSendAllUploadNews,
+                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+        }
+        #endregion
+
+        #region 获取根据分组进行群发的URL public static string GetURLForSendAllByGroup(string weixinMPID)
+        /// <summary>
+        /// 获取根据分组进行群发的URL
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <returns>根据分组进行群发的URL</returns>
+        public static string GetURLForSendAllByGroup(string weixinMPID)
+        {
+            return String.Format(
+                Properties.Settings.Default.URLForSendAllByGroup,
+                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+        }
+        #endregion
+
+        #region 获取根据OpenID列表群发的URL public static string GetURLForSendAllByOpenIDList(string weixinMPID)
+        /// <summary>
+        /// 获取根据OpenID列表群发的URL
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <returns>根据OpenID列表群发的URL</returns>
+        public static string GetURLForSendAllByOpenIDList(string weixinMPID)
+        {
+            return String.Format(
+                Properties.Settings.Default.URLForSendAllByOpenIDList,
+                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+        }
+        #endregion
+
+        #region 获取删除群发的URL public static string GetURLForSendAllDelete(string weixinMPID)
+        /// <summary>
+        /// 获取删除群发的URL
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <returns>删除群发的URL</returns>
+        public static string GetURLForSendAllDelete(string weixinMPID)
+        {
+            return String.Format(
+                Properties.Settings.Default.URLForSendAllDelete,
+                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+        }
+        #endregion
     }
 }

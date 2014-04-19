@@ -1,10 +1,7 @@
-﻿using Wing.WeiXin.MP.SDK.Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Entities;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 
-namespace Wing.WeiXin.MP.Test.Common
+namespace Wing.WeiXin.MP.SDK.Test.Common
 {
     
     

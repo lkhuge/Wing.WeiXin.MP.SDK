@@ -68,5 +68,17 @@
     <Setting Name="URLForOAuthGetUserInfo" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://api.weixin.qq.com/sns/userinfo?access_token={0}&amp;openid={1}&amp;lang={2}</Value>
     </Setting>
+    <Setting Name="URLForSendAllUploadNews" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token={0}</Value>
+    </Setting>
+    <Setting Name="URLForSendAllByGroup" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token={0}</Value>
+    </Setting>
+    <Setting Name="URLForSendAllByOpenIDList" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token={0}</Value>
+    </Setting>
+    <Setting Name="URLForSendAllDelete" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token={0}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

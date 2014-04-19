@@ -1,14 +1,10 @@
-﻿using Wing.WeiXin.MP.SDK.Controller;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Entities.HTTP;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.Test;
 
-namespace Wing.WeiXin.MP.Test.Controller
+namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
-    
-    
     /// <summary>
     ///这是 ReceiveControllerTest 的测试类，旨在
     ///包含所有 ReceiveControllerTest 单元测试

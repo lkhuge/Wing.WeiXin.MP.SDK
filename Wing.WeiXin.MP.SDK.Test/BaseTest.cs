@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wing.WeiXin.MP.SDK;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
 using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
@@ -11,7 +7,7 @@ using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.Test
+namespace Wing.WeiXin.MP.SDK.Test
 {
     /// <summary>
     /// 基础测试

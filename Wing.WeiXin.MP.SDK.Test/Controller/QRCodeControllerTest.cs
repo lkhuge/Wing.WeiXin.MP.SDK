@@ -1,12 +1,10 @@
 ﻿using System.IO;
-using Wing.WeiXin.MP.SDK.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
-using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Exception;
 
-namespace Wing.WeiXin.MP.Test.Controller
+namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
     
     

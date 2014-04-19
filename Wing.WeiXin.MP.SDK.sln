@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK", "Wing.WeiXin.MP.SDK\Wing.WeiXin.MP.SDK.csproj", "{CD0E74C3-5927-4715-943B-71D044352947}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK", "Wing.WeiXin.MP.SDK\Wing.WeiXin.MP.SDK.csproj", "{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{40EB672C-8F40-4A81-8616-50CF1CE062AB}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.Test", "Wing.WeiXin.MP.Test\Wing.WeiXin.MP.Test.csproj", "{4425B726-A940-49E3-BB88-C97DF0397640}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK.Test", "Wing.WeiXin.MP.SDK.Test\Wing.WeiXin.MP.SDK.Test.csproj", "{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CD0E74C3-5927-4715-943B-71D044352947}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD0E74C3-5927-4715-943B-71D044352947}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD0E74C3-5927-4715-943B-71D044352947}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD0E74C3-5927-4715-943B-71D044352947}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4425B726-A940-49E3-BB88-C97DF0397640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4425B726-A940-49E3-BB88-C97DF0397640}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4425B726-A940-49E3-BB88-C97DF0397640}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4425B726-A940-49E3-BB88-C97DF0397640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
