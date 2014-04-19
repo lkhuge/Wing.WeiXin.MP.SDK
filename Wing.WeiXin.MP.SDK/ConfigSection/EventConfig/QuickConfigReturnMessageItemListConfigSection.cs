@@ -41,16 +41,18 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         } 
         #endregion
 
-        #region 获取快速配置回复消息配置对象 public IReturn GetQuickConfigReturnMessage(MessageText message)
+        #region 获取快速配置回复消息配置对象 public IReturn GetQuickConfigReturnMessage(string weixinMPID, MessageText message)
         /// <summary>
         /// 获取快速配置回复消息配置对象
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="message">文本消息对象</param>
         /// <returns>回复消息</returns>
-        public IReturn GetQuickConfigReturnMessage(MessageText message)
+        public IReturn GetQuickConfigReturnMessage(string weixinMPID, MessageText message)
         {
+            string key = String.Format("{0}:{1}", weixinMPID, message.Content);
             List<QuickConfigReturnMessageItemConfigSection> list =
-                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(message.Content)).ToList();
+                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(key)).ToList();
 
             return list.Count != 1 
                 ? null 
