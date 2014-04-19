@@ -27,7 +27,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             string[] arr = new[] 
             { 
-                ConfigManager.GetToken(), 
+                ConfigManager.BaseConfig.Token, 
                 request.timestamp, 
                 request.nonce
             }.OrderBy(z => z).ToArray();

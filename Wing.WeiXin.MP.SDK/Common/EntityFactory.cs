@@ -77,7 +77,7 @@ namespace Wing.WeiXin.MP.SDK.Common
             //首次验证
             if (!String.IsNullOrEmpty(request.echostr))
             {
-                if (Authentication.CheckSignature(request) )
+                if (Authentication.CheckSignature(request))
                 {
                     return new Response(request.echostr);
                 }

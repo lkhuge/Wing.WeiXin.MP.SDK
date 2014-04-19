@@ -16,27 +16,29 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class MenuController
     {
-        #region 创建菜单 public static ErrorMsg CreateMenu(Menu menu)
+        #region 创建菜单 public static ErrorMsg CreateMenu(string weixinMPID, Menu menu)
         /// <summary>
         /// 创建菜单
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="menu">菜单对象</param>
         /// <returns>错误码</returns>
-        public static ErrorMsg CreateMenu(Menu menu)
+        public static ErrorMsg CreateMenu(string weixinMPID, Menu menu)
         {
             return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(URLManager.GetURLForCreateMenu(), JSONHelper.JSONSerialize(menu)));
+                HTTPHelper.Post(URLManager.GetURLForCreateMenu(weixinMPID), JSONHelper.JSONSerialize(menu)));
         } 
         #endregion
 
-        #region 获取菜单 public static MenuForGet GetMenu()
+        #region 获取菜单 public static MenuForGet GetMenu(string weixinMPID)
         /// <summary>
         /// 获取菜单
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <returns>菜单</returns>
-        public static Menu GetMenu()
+        public static Menu GetMenu(string weixinMPID)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForGetMenu());
+            string result = HTTPHelper.Get(URLManager.GetURLForGetMenu(weixinMPID));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailGetMenuException(errorMsg.GetIntroduce());
 
@@ -44,14 +46,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 删除菜单 public static ErrorMsg DeleteMenu()
+        #region 删除菜单 public static ErrorMsg DeleteMenu(string weixinMPID)
         /// <summary>
         /// 删除菜单
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <returns>错误码</returns>
-        public static ErrorMsg DeleteMenu()
+        public static ErrorMsg DeleteMenu(string weixinMPID)
         {
-            return Authentication.CheckHaveErrorMsg(HTTPHelper.Get(URLManager.GetURLForDeleteMenu()));
+            return Authentication.CheckHaveErrorMsg(HTTPHelper.Get(URLManager.GetURLForDeleteMenu(weixinMPID)));
         } 
         #endregion
     }

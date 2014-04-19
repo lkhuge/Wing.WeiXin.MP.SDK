@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
+using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
@@ -19,29 +20,39 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class OAuthController
     {
-        #region 获取取得Code的URL public static string GetURLForOAuthGetCode(string redirectURL, OAuthScope scope, string state)
+        #region 获取取得Code的URL public static string GetURLForOAuthGetCode(string weixinMPID, string redirectURL, OAuthScope scope, string state)
         /// <summary>
         /// 获取取得Code的URL
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="redirectURL">授权后重定向的回调链接地址</param>
         /// <param name="scope">应用授权作用域</param>
         /// <param name="state">重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值</param>
         /// <returns>取得Code的URL</returns>
-        public static string GetURLForOAuthGetCode(string redirectURL, OAuthScope scope, string state)
+        public static string GetURLForOAuthGetCode(string weixinMPID, string redirectURL, OAuthScope scope, string state)
         {
-            return URLManager.GetURLForOAuthGetCode(redirectURL, scope, state);
+            AccountItemConfigSection account =
+                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
+            if (account == null) throw new FailGetAccountException(weixinMPID);
+            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID); 
+            return URLManager.GetURLForOAuthGetCode(account.AppID, redirectURL, scope, state);
         } 
         #endregion
 
-        #region 根据Code获取AccessToken public static OAuthAccessToken GetAccessTokenByCode(string code)
+        #region 根据Code获取AccessToken public static OAuthAccessToken GetAccessTokenByCode(string weixinMPID, string code)
         /// <summary>
         /// 根据Code获取AccessToken
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="code">Code值</param>
         /// <returns>AccessToken</returns>
-        public static OAuthAccessToken GetAccessTokenByCode(string code)
+        public static OAuthAccessToken GetAccessTokenByCode(string weixinMPID, string code)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForOAuthGetAccessToken(code));
+            AccountItemConfigSection account =
+                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
+            if (account == null) throw new FailGetAccountException(weixinMPID);
+            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID); 
+            string result = HTTPHelper.Get(URLManager.GetURLForOAuthGetAccessToken(account.AppID, account.AppSecret, code));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailGetGetAccessTokenByCode(errorMsg.GetIntroduce());
 
@@ -49,15 +60,20 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 根据RefreshToken刷新AccessToken public static OAuthAccessToken RefreshAccessTokenByRefreshToken(string refresh_token)
+        #region 根据RefreshToken刷新AccessToken public static OAuthAccessToken RefreshAccessTokenByRefreshToken(string weixinMPID, string refresh_token)
         /// <summary>
         /// 根据RefreshToken刷新AccessToken
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="refresh_token">用户刷新AccessToken值</param>
         /// <returns>AccessToken</returns>
-        public static OAuthAccessToken RefreshAccessTokenByRefreshToken(string refresh_token)
+        public static OAuthAccessToken RefreshAccessTokenByRefreshToken(string weixinMPID, string refresh_token)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForOAuthRefreshAccessToken(refresh_token));
+            AccountItemConfigSection account =
+                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
+            if (account == null) throw new FailGetAccountException(weixinMPID);
+            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID); 
+            string result = HTTPHelper.Get(URLManager.GetURLForOAuthRefreshAccessToken(account.AppID, refresh_token));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailRefreshAccessToken(errorMsg.GetIntroduce());
 

@@ -51,7 +51,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="context">HTTP上下文</param>
         public static void ActionForHttpContext(HttpContext context)
         {
-            ReceiveController.Action(new HttpContextRequest(context)).ResponseOutput(context.Response);
+            Action(new HttpContextRequest(context)).ResponseOutput(context.Response);
         }
         #endregion
     }

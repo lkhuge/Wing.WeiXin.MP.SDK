@@ -4,6 +4,7 @@ using System.Configuration;
 using log4net.Appender;
 using log4net.Layout;
 using Wing.WeiXin.MP.SDK.ConfigSection;
+using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.LogConfig;
 using Wing.WeiXin.MP.SDK.Exception;
@@ -111,74 +112,6 @@ namespace Wing.WeiXin.MP.SDK
 
             LogHelper.Init(appenderList.ToArray());
         }
-        #endregion
-
-        #region 获取基础配置
-        #region 获取AppID public static string GetAppID()
-        /// <summary>
-        /// 获取AppID
-        /// </summary>
-        /// <returns>AppID</returns>
-        public static string GetAppID()
-        {
-            string appID;
-            try
-            {
-                appID = BaseConfig.AppID;
-            }
-            catch (BaseException)
-            {
-                throw new ConfigNotFoundException("AppID");
-            }
-            if (String.IsNullOrEmpty(appID)) throw new ConfigNotFoundException("AppID");
-
-            return appID;
-        }
-        #endregion
-
-        #region 获取AppSecret public static string GetAppSecret()
-        /// <summary>
-        /// 获取AppSecret
-        /// </summary>
-        /// <returns>AppSecret</returns>
-        public static string GetAppSecret()
-        {
-            string appSecret;
-            try
-            {
-                appSecret = BaseConfig.AppSecret;
-            }
-            catch (BaseException)
-            {
-                throw new ConfigNotFoundException("AppSecret");
-            }
-            if (String.IsNullOrEmpty(appSecret)) throw new ConfigNotFoundException("AppSecret");
-
-            return appSecret;
-        }
-        #endregion
-
-        #region 获取Token public static string GetToken()
-        /// <summary>
-        /// 获取Token
-        /// </summary>
-        /// <returns>Token</returns>
-        public static string GetToken()
-        {
-            string token;
-            try
-            {
-                token = BaseConfig.Token;
-            }
-            catch (BaseException)
-            {
-                throw new ConfigNotFoundException("Token");
-            }
-            if (String.IsNullOrEmpty(token)) throw new ConfigNotFoundException("Token");
-
-            return token;
-        }
-        #endregion 
         #endregion
 
         #region 获取配置节点对象 private static T GetConfigSection<T>(string configName) where T : ConfigurationSection
