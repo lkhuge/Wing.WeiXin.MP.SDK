@@ -32,7 +32,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void CreateMenuTest()
         {
-            Assert.AreEqual(MenuController.CreateMenu(menu).errcode, "0");
+            Assert.AreEqual(MenuController.CreateMenu("gh_7f215c8b1c91", menu).errcode, "0");
         } 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void DeleteMenuTest()
         {
-            Assert.AreEqual(MenuController.DeleteMenu().errcode, "0");
+            Assert.AreEqual(MenuController.DeleteMenu("gh_7f215c8b1c91").errcode, "0");
         } 
         #endregion
 
@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void GetMenuTest()
         {
-            Assert.AreEqual(MenuController.GetMenu().button.Count, menu.button.Count);
+            Assert.AreEqual(MenuController.GetMenu("gh_7f215c8b1c91").button.Count, menu.button.Count);
         } 
         #endregion
     }

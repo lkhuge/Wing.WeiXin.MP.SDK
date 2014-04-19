@@ -63,7 +63,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public WXUserList GetWXUserListTest()
         {
-            return WXUserController.GetWXUserList();
+            return WXUserController.GetWXUserList("gh_7f215c8b1c91");
         } 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void GetWXUserTest(string openID)
         {
-            Assert.AreEqual(WXUserController.GetWXUser(openID).openid, openID);
+            Assert.AreEqual(WXUserController.GetWXUser("gh_7f215c8b1c91", openID).openid, openID);
         }
         #endregion
 
@@ -83,7 +83,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void AddWXGroupTest(WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.AddWXGroup(group).group.name, group.group.name);
+            Assert.AreEqual(WXUserController.AddWXGroup("gh_7f215c8b1c91", group).group.name, group.group.name);
         }
         #endregion
 
@@ -93,7 +93,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public WXUserGroupList GetWXUserGroupListTest()
         {
-            return WXUserController.GetWXUserGroupList();
+            return WXUserController.GetWXUserGroupList("gh_7f215c8b1c91");
         } 
         #endregion
 
@@ -103,7 +103,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void ModityGroupNameTest(WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.ModityGroupName(group).errcode, "0");
+            Assert.AreEqual(WXUserController.ModityGroupName("gh_7f215c8b1c91", group).errcode, "0");
         } 
         #endregion
 
@@ -113,7 +113,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public void MoveGroupTest(WXUser user, WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.MoveGroup(user, group).errcode, "0");
+            Assert.AreEqual(WXUserController.MoveGroup("gh_7f215c8b1c91", user, group).errcode, "0");
         } 
         #endregion
 
@@ -123,7 +123,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public WXUserGroup GetWXGroupByWXUserTest(WXUser user)
         {
-            return WXUserController.GetWXGroupByWXUser(user);
+            return WXUserController.GetWXGroupByWXUser("gh_7f215c8b1c91", user);
         } 
         #endregion
 
@@ -133,7 +133,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         ///</summary>
         public WXUser GetWXUserListFromListTest(WXUserList userList)
         {
-            return WXUserController.GetWXUserListFromList(userList, 1)[0];
+            return WXUserController.GetWXUserListFromList("gh_7f215c8b1c91", userList, 1)[0];
         } 
         #endregion
     }

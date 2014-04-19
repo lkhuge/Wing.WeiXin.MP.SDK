@@ -37,7 +37,7 @@ namespace Wing.WeiXin.MP.Test.Controller
             const string name = "test.jpg";
             try
             {
-                return MediaController.Upload(type, path, name).media_id;
+                return MediaController.Upload("gh_7f215c8b1c91", type, path, name).media_id;
             }
             catch (WXException)
             {
@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.Test.Controller
             const string path = "E:\\Test\\test.jpg";
             try
             {
-                MediaController.DownLoad(media_id, path);
+                MediaController.DownLoad("gh_7f215c8b1c91", media_id, path);
             }
             catch (WXException)
             {

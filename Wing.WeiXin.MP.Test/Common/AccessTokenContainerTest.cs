@@ -19,7 +19,7 @@ namespace Wing.WeiXin.MP.Test.Common
         [TestMethod]
         public void GetAccessTokenTest()
         {
-            Assert.IsNotNull(AccessTokenContainer.GetAccessToken());
+            Assert.IsNotNull(AccessTokenContainer.GetAccessToken("gh_7f215c8b1c91"));
         } 
         #endregion
     }

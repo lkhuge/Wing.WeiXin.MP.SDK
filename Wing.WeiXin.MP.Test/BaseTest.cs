@@ -59,7 +59,7 @@ namespace Wing.WeiXin.MP.Test
             nonce = "929810330",
             postData = @"<?xml version=""1.0"" encoding=""utf-8""?>
                         <xml>
-                            <ToUserName><![CDATA[gh_a96a4a619366]]></ToUserName>
+                            <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
                             <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
                             <CreateTime>1357986928</CreateTime>
                             <MsgType><![CDATA[text]]></MsgType>

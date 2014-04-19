@@ -36,9 +36,9 @@ namespace Wing.WeiXin.MP.Test.Controller
         {
             try
             {
-                return QRCodeController.GetQRCodeTicket(qrCodeTemp);
+                return QRCodeController.GetQRCodeTicket("gh_7f215c8b1c91", qrCodeTemp);
             }
-            catch (WXException e)
+            catch (WXException)
             {
                 Assert.Fail("创建二维码错误");
             }

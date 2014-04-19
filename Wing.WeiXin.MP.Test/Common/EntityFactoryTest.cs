@@ -29,13 +29,18 @@ namespace Wing.WeiXin.MP.Test.Common
         [TestMethod]
         public void RequestHandleTest()
         {
-            EventHandleManager.Init(new EntityHandler
-            {
-                MessageTextHandler = new EntityHandler.CustomEntityHandler<MessageText>[]
+            EventHandleManager.Init(
+                new Dictionary<string, EntityHandler>
                 {
-                    GlobalEntityEvent
-                }
-            });
+                    {"gh_7f215c8b1c91", 
+                        new EntityHandler
+                        {
+                            MessageTextHandler = new EntityHandler.CustomEntityHandler<MessageText>[]
+                            {
+                                GlobalEntityEvent
+                            }
+                        }}
+                });
             Assert.AreEqual(EntityFactory.RequestHandle(requestRight).Text, requestRight.echostr);
             try
             {

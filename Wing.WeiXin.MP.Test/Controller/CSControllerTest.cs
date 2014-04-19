@@ -19,7 +19,7 @@ namespace Wing.WeiXin.MP.Test.Controller
         [TestMethod]
         public void SendCSMessageTest()
         {
-            Assert.AreEqual(CSController.SendCSMessage(csMessageText).errcode, "0");
+            Assert.AreEqual(CSController.SendCSMessage("gh_7f215c8b1c91", csMessageText).errcode, "0");
         } 
         #endregion
     }
