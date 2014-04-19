@@ -24,16 +24,6 @@ namespace Wing.WeiXin.MP.SDK.Exception
         /// 异常介绍
         /// </summary>
         private readonly string IntroduceMessage;
-
-        /// <summary>
-        /// 异常信息
-        /// </summary>
-        private readonly string ExceptionMessage;
-
-        /// <summary>
-        /// 异常调试信息
-        /// </summary>
-        private readonly string ExceptionStackTrace; 
         #endregion
 
         #region 实例化系统异常 public WXException(string message, BaseException e)
@@ -43,11 +33,10 @@ namespace Wing.WeiXin.MP.SDK.Exception
         /// <param name="message">消息</param>
         /// <param name="e">系统异常</param>
         public WXException(string message, BaseException e)
+            : base(String.Format("（{0}）{1}", e.Message, message))
         {
             IsError = true;
             IntroduceMessage = message;
-            ExceptionMessage = e.Message;
-            ExceptionStackTrace = e.StackTrace;
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Error(message, e, GetType());
         } 
         #endregion
@@ -58,6 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Exception
         /// </summary>
         /// <param name="message">逻辑异常</param>
         public WXException(string message)
+            : base(String.Format("{0}", message))
         {
             IsError = false;
             IntroduceMessage = message;
@@ -72,10 +62,20 @@ namespace Wing.WeiXin.MP.SDK.Exception
         /// <returns></returns>
         public Note GetNote()
         {
-            string message = IsError
-                ? String.Format("异常介绍:{0} \n 异常信息:{1} \n 异常调试信息:{2}", IntroduceMessage, ExceptionMessage, ExceptionStackTrace)
+            return new Note { Message = ToString() };
+        } 
+        #endregion
+
+        #region 获取异常消息 public override string ToString()
+        /// <summary>
+        /// 获取异常消息
+        /// </summary>
+        /// <returns>异常消息</returns>
+        public override string ToString()
+        {
+            return IsError
+                ? String.Format("异常介绍:{0} \n 异常信息:{1} \n 异常调试信息:{2}", IntroduceMessage, Message, StackTrace)
                 : IntroduceMessage;
-            return new Note { Message = message };
         } 
         #endregion
     }
