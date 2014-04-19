@@ -81,9 +81,9 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn GlobalAction(BaseReceiveMessage message)
         {
-            if (!ConfigManager.EventConfig.UseGlobalEventHandler || EntityHandlerList[message.ToUserName].GlobalHandler == null) return null;
+            if (EntityHandlerList[message.ToUserName].GlobalHandlerList == null) return null;
 
-            return EntityHandlerList[message.ToUserName].GlobalHandler.Select(handle => handle(message))
+            return EntityHandlerList[message.ToUserName].GlobalHandlerList.Select(handle => handle(message))
                 .FirstOrDefault(globalEntity => globalEntity != null);
         }
         #endregion
@@ -96,11 +96,10 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn WXUserBaseAction(BaseReceiveMessage message)
         {
-            if (!ConfigManager.EventConfig.UseWXUserBaseEventHandler 
-                || EntityHandlerList[message.ToUserName].WXUserBaseHandler == null) return null;
-            if (!EntityHandlerList[message.ToUserName].WXUserBaseHandler.ContainsKey(message.FromUserName)) return null;
+            if (EntityHandlerList[message.ToUserName].WXUserBaseHandlerList == null) return null;
+            if (!EntityHandlerList[message.ToUserName].WXUserBaseHandlerList.ContainsKey(message.FromUserName)) return null;
             if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserBase(message.FromUserName)) return null;
-            IReturn wxUserEntity = EntityHandlerList[message.ToUserName].WXUserBaseHandler[message.FromUserName](message);
+            IReturn wxUserEntity = EntityHandlerList[message.ToUserName].WXUserBaseHandlerList[message.FromUserName](message);
 
             return wxUserEntity;
         }
@@ -121,8 +120,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn WXUserGroupBaseAction(BaseReceiveMessage message)
         {
-            if (!ConfigManager.EventConfig.UseWXUserGroupBaseEventHandler
-                || EntityHandlerList[message.ToUserName].WXUserGroupBaseHandler == null) return null;
+            if (EntityHandlerList[message.ToUserName].WXUserGroupBaseHandlerList == null) return null;
             try
             {
                 if (!WXUserGroupList.ContainsKey(message.FromUserName))
@@ -134,9 +132,9 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                 if (!ConfigManager.EventConfig.EventList
                     .CheckEventForWXUserGroupBase(WXUserGroupList[message.FromUserName])) return null;
                 if (!EntityHandlerList[message.ToUserName]
-                    .WXUserGroupBaseHandler.ContainsKey(WXUserGroupList[message.FromUserName])) return null;
+                    .WXUserGroupBaseHandlerList.ContainsKey(WXUserGroupList[message.FromUserName])) return null;
                 IReturn wxUserGroupEntity = EntityHandlerList[message.ToUserName]
-                    .WXUserGroupBaseHandler[WXUserGroupList[message.FromUserName]](message);
+                    .WXUserGroupBaseHandlerList[WXUserGroupList[message.FromUserName]](message);
 
                 return wxUserGroupEntity;
             }
@@ -161,7 +159,8 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             if (ConfigManager.EventConfig.QuickConfigReturnMessageList == null
                 || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count == 0) return null;
 
-            return ConfigManager.EventConfig.QuickConfigReturnMessageList.GetQuickConfigReturnMessage(messageText);
+            return ConfigManager.EventConfig.QuickConfigReturnMessageList
+                .GetQuickConfigReturnMessage(messageText.ToUserName, messageText);
         } 
         #endregion
 
@@ -173,8 +172,6 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn CustomAction(BaseReceiveMessage message)
         {
-            if (!ConfigManager.EventConfig.UseCustomEventHandler) return null;
-
             return !CustomHandlerList.ContainsKey(message.entityType) 
                 ? null 
                 : CustomHandlerList[message.entityType](message);
@@ -188,19 +185,20 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         private static readonly Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>> CustomHandlerList =
             new Dictionary<ReceiveEntityType, Func<BaseReceiveMessage, IReturn>>
             {
-                {ReceiveEntityType.MessageImage, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageImageHandler, message as MessageImage)},
-                {ReceiveEntityType.MessageLink, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageLinkHandler, message as MessageLink)},
-                {ReceiveEntityType.MessageLocation, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageLocationHandler, message as MessageLocation)},
-                {ReceiveEntityType.MessageText, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageTextHandler, message as MessageText)},
-                {ReceiveEntityType.MessageVideo, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageVideoHandler, message as MessageVideo)},
-                {ReceiveEntityType.MessageVoice, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageVoiceHandler, message as MessageVoice)},
-                {ReceiveEntityType.EventClick, message => CustomListAction(EntityHandlerList[message.ToUserName].EventClickHandler, message as EventClick)},
-                {ReceiveEntityType.EventLocation, message => CustomListAction(EntityHandlerList[message.ToUserName].EventLocationHandler, message as EventLocation)},
-                {ReceiveEntityType.EventSubscribeByQRScene, message => CustomListAction(EntityHandlerList[message.ToUserName].EventSubscribeByQRSceneHandler, message as EventSubscribeByQRScene)},
-                {ReceiveEntityType.EventSubscribe, message => CustomListAction(EntityHandlerList[message.ToUserName].EventSubscribeHandler, message as EventSubscribe)},
-                {ReceiveEntityType.EventUnsubscribe, message => CustomListAction(EntityHandlerList[message.ToUserName].EventUnsubscribeHandler, message as EventUnsubscribe)},
-                {ReceiveEntityType.EventView, message => CustomListAction(EntityHandlerList[message.ToUserName].EventViewHandler, message as EventView)},
-                {ReceiveEntityType.EventWithQRScene, message => CustomListAction(EntityHandlerList[message.ToUserName].EventWithQRSceneHandler, message as EventWithQRScene)}
+                {ReceiveEntityType.MessageImage, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageImageHandlerList, message as MessageImage)},
+                {ReceiveEntityType.MessageLink, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageLinkHandlerList, message as MessageLink)},
+                {ReceiveEntityType.MessageLocation, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageLocationHandlerList, message as MessageLocation)},
+                {ReceiveEntityType.MessageText, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageTextHandlerList, message as MessageText)},
+                {ReceiveEntityType.MessageVideo, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageVideoHandlerList, message as MessageVideo)},
+                {ReceiveEntityType.MessageVoice, message => CustomListAction(EntityHandlerList[message.ToUserName].MessageVoiceHandlerList, message as MessageVoice)},
+                {ReceiveEntityType.EventClick, message => CustomListAction(EntityHandlerList[message.ToUserName].EventClickHandlerList, message as EventClick)},
+                {ReceiveEntityType.EventLocation, message => CustomListAction(EntityHandlerList[message.ToUserName].EventLocationHandlerList, message as EventLocation)},
+                {ReceiveEntityType.EventSubscribeByQRScene, message => CustomListAction(EntityHandlerList[message.ToUserName].EventSubscribeByQRSceneHandlerList, message as EventSubscribeByQRScene)},
+                {ReceiveEntityType.EventSubscribe, message => CustomListAction(EntityHandlerList[message.ToUserName].EventSubscribeHandlerList, message as EventSubscribe)},
+                {ReceiveEntityType.EventUnsubscribe, message => CustomListAction(EntityHandlerList[message.ToUserName].EventUnsubscribeHandlerList, message as EventUnsubscribe)},
+                {ReceiveEntityType.EventView, message => CustomListAction(EntityHandlerList[message.ToUserName].EventViewHandlerList, message as EventView)},
+                {ReceiveEntityType.EventWithQRScene, message => CustomListAction(EntityHandlerList[message.ToUserName].EventWithQRSceneHandlerList, message as EventWithQRScene)},
+                {ReceiveEntityType.EventMessageSendAllFinish, message => CustomListAction(EntityHandlerList[message.ToUserName].EventMessageSendAllFinishHandlerList, message as EventMessageSendAllFinish)}
             }; 
         #endregion
 

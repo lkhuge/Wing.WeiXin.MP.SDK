@@ -61,7 +61,8 @@ namespace Wing.WeiXin.MP.SDK.Common
                 {"SCAN", EntityDeserialize<EventWithQRScene>},                          //带参数二维码事件
                 {"LOCATION", EntityDeserialize<EventLocation>},                         //上报地理位置事件
                 {"CLICK", EntityDeserialize<EventClick>},                               //自定义菜单事件（点击菜单拉取消息时的事件推送）
-                {"VIEW", EntityDeserialize<EventView>}                                  //自定义菜单事件（点击菜单跳转链接时的事件推送）
+                {"VIEW", EntityDeserialize<EventView>},                                 //自定义菜单事件（点击菜单跳转链接时的事件推送）
+                {"MASSSENDJOBFINISH", EntityDeserialize<EventMessageSendAllFinish>}
             }; 
         #endregion
 

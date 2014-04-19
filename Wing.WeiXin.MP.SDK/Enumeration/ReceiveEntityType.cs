@@ -74,5 +74,10 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// 带参数二维码事件
         /// </summary>
         EventWithQRScene,
+
+        /// <summary>
+        /// 推送群发结果事件
+        /// </summary>
+        EventMessageSendAllFinish
     }
 }
