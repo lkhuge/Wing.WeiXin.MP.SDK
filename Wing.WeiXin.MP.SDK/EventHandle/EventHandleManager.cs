@@ -22,7 +22,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <summary>
         /// 实体处理对象列表
         /// </summary>
-        private static Dictionary<string, EntityHandler> EntityHandlerList = new Dictionary<string,EntityHandler>();
+        private static Dictionary<string, EntityHandler> EntityHandlerList;
 
         #region 加载实体处理对象 public static void Init(Dictionary<string,EntityHandler> entityHandler)
         /// <summary>

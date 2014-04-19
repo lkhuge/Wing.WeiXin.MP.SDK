@@ -14,7 +14,7 @@ QQ群：203230922
 1.首先在配置文件（Web.config）中添加节点配置
 ```
 <sectionGroup name="WeiXinMPSDKConfigGroup">
-     <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfigSection, Wing.WeiXin.MP.SDK" />
+     <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig.BaseConfigSection, Wing.WeiXin.MP.SDK" />
      <section name="Event" type="Wing.WeiXin.MP.SDK.ConfigSection.EventConfig.EventConfigSection, Wing.WeiXin.MP.SDK" />
     <section name="Debug" type="Wing.WeiXin.MP.SDK.ConfigSection.DebugConfigSection, Wing.WeiXin.MP.SDK" />
     <sectionGroup name="Log">
@@ -53,77 +53,68 @@ public void ProcessRequest(HttpContext context)
 
 事件处理
 ----------------
-###事件处理对象
-```
-MessageImageEventHandler               (图片消息事件处理)
-MessageLinkEventHandler                (链接消息事件处理)
-MessageLocationEventHandler            (地理位置消息事件处理)
-MessageTextEventHandler                (文本消息事件处理)
-MessageVideoEventHandler               (视频消息事件处理)
-MessageVoiceEventHandler               (语音消息事件处理)
-EventClickEventHandler                 (点击菜单拉取消息时的事件处理)
-EventLocationEventHandler              (上报地理位置事件事件处理)
-EventSubscribeByQRSceneEventHandler    (带参数二维码关注事件事件处理)
-EventSubscribeEventHandler             (关注事件事件处理)
-EventUnsubscribeEventHandler           (取消关注事件事件处理)
-EventViewEventHandler                  (点击菜单跳转链接时的事件处理)
-EventWithQRSceneEventHandler           (带参数二维码事件事件处理)
 ```
 ###事件处理优先级
 ```
-全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 自定义事件
+全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 快速配置回复时间 > 自定义事件
 ```
 ###添加实体处理对象
 ```C#
 //初始化实体处理对象
-EventHandleManager.Init(new EntityHandler
-{
-    //添加全局事件
-    GlobalHandler = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
-
-    //添加基于微信用户事件
-    WXUserBaseHandler = new Dictionary<string, EntityHandler.GlobalEntityHandler>
+EventHandleManager.Init(
+    new Dictionary<string, EntityHandler>
     {
-        {"xxxxxxxx", globalEntityEvent}
-    },
+        {"xxx(微信公共账号ID)", 
+            new EntityHandler
+            {
+                //添加全局事件
+                GlobalHandler = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
 
-    //添加基于微信用户分组事件
-    WXUserGroupBaseHandler = new Dictionary<int, EntityHandler.GlobalEntityHandler>
-    {
-        {0, globalEntityEvent}
+                //添加基于微信用户事件
+                WXUserBaseHandler = new Dictionary<string, EntityHandler.GlobalEntityHandler>
+                {
+                    {"xxxxxxxx", globalEntityEvent}
+                },
+
+                //添加基于微信用户分组事件
+                WXUserGroupBaseHandler = new Dictionary<int, EntityHandler.GlobalEntityHandler>
+                {
+                    {0, globalEntityEvent}
+                }
+
+                //添加自定义事件
+                MessageTextHandler = new[]
+                {
+                    MessageTextEntityEvent
+                }
+            }}
     }
-
-    //添加自定义事件
-    MessageTextHandler = new[]
-    {
-        MessageTextEntityEvent
-    }
-});
+);
 ```
 
 ```C#
 public IReturn globalEntityEvent(BaseReceiveMessage message)
 {
-	return new ReturnMessageText
-	{
-		FromUserName = message.ToUserName,
-		ToUserName = message.FromUserName,
-		CreateTime = Message.GetLongTimeNow(),
-		content = "Hello World"
-	};
+    return new ReturnMessageText
+    {
+        FromUserName = message.ToUserName,
+        ToUserName = message.FromUserName,
+        CreateTime = Message.GetLongTimeNow(),
+        content = "Hello World"
+    };
 }
 ```
 
 ```C#
 public IReturn MessageTextEntityEvent(MessageText message)
 {
-	return new ReturnMessageText
-	{
-		FromUserName = message.ToUserName,
-		ToUserName = message.FromUserName,
-		CreateTime = Message.GetLongTimeNow(),
-		content = "Hello World"
-	};
+    return new ReturnMessageText
+    {
+        FromUserName = message.ToUserName,
+        ToUserName = message.FromUserName,
+        CreateTime = Message.GetLongTimeNow(),
+        content = "Hello World"
+    };
 }
 ```
 
@@ -132,7 +123,12 @@ public IReturn MessageTextEntityEvent(MessageText message)
 ###全部配置
 ```
 <WeiXinMPSDKConfigGroup>
-    <Base AppID="xxxx" AppSecret="xxxx" Token="xxxx" />
+    <Base Token="xxxxxxxx">
+      <AccountList>
+        <add WeixinMPID="xxxxxx" WeixinMPType="Service" AppID="xxxxx" AppSecret="xxxxx" />
+        <add WeixinMPID="xxxxxx" WeixinMPType="Subscription" AppID="xxxxx" AppSecret="xxxxxx" />
+      </AccountList>
+    </Base>
     <Debug IsDebug="True" />
     <Event UseGlobalEventHandler="true" 
            UseWXUserGroupBaseEventHandler="true" 
@@ -142,6 +138,10 @@ public IReturn MessageTextEntityEvent(MessageText message)
             <add Name="Event1" IsAction="True" />
             <add Name="Event2" IsAction="True" />
         </EventList>
+        <QuickConfigReturnMessageList>
+            <add Key="" Path="C:\" />
+            <add Key="" Path="C:\" />
+        </QuickConfigReturnMessageList>
     </Event>
     <Log>
         <Base IsLog="True" />
@@ -156,9 +156,11 @@ public IReturn MessageTextEntityEvent(MessageText message)
 ```
 ###基础配置说明（Base）
 ```
+Token        Token
+AccountList  账号列表
 AppID        AppID
 AppSecret    AppSecret
-Token        Token
+
 ```
 ###调试配置说明（Debug）
 ```
@@ -173,6 +175,9 @@ UseCustomEventHandler              是否开启自定义事件处理
 EventList                          事件处理列表
 Name                               事件名称
 IsAction                           是否开启该事件
+QuickConfigReturnMessageList       快速配置回复消息列表
+Key                                快速配置回复消息关键字
+Path                               快速配置回复消息路劲
 ```
 ###日志配置说明（Log）
 ```

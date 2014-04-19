@@ -65,9 +65,14 @@
     <Compile Include="Common\EntityFactory.cs" />
     <Compile Include="Common\MenuHelper.cs" />
     <Compile Include="ConfigManager.cs" />
+    <Compile Include="ConfigSection\BaseConfig\AccountItemConfigSection.cs" />
+    <Compile Include="ConfigSection\BaseConfig\AccountItemListConfigSection.cs" />
+    <Compile Include="ConfigSection\BaseConfig\BaseConfigSection.cs" />
     <Compile Include="ConfigSection\DebugConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs" />
+    <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemConfigSection.cs" />
+    <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemListConfigSection.cs" />
     <Compile Include="ConfigSection\LogConfig\AdoNetAppenderConfigSection.cs" />
     <Compile Include="ConfigSection\LogConfig\LogConfigSection.cs" />
     <Compile Include="ConfigSection\LogConfig\RollingFileAppenderConfigSection.cs" />
@@ -83,13 +88,6 @@
     <Compile Include="Entities\CSMessages\CSMessageImage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageMusic.cs" />
     <Compile Include="Entities\CSMessages\CSMessageNews.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectArticles.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectImage.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectMusic.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectNews.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectText.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectVideo.cs" />
-    <Compile Include="Entities\CSMessages\CSMessageObject\CSMessageObjectVoice.cs" />
     <Compile Include="Entities\CSMessages\CSMessageText.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVideo.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVoice.cs" />
@@ -110,11 +108,14 @@
     <Compile Include="Entities\IReceive.cs" />
     <Compile Include="Enumeration\ReceiveEntityType.cs" />
     <Compile Include="Enumeration\ReturnEntityType.cs" />
+    <Compile Include="Enumeration\WeixinMPType.cs" />
     <Compile Include="EventHandle\EntityHandler.cs" />
     <Compile Include="EventHandle\EventHandleManager.cs" />
     <Compile Include="EventHandle\IEvent.cs" />
     <Compile Include="EventHandle\QuickConfigReturnMessageManager.cs" />
     <Compile Include="Exception\EventHandlerException.cs" />
+    <Compile Include="Exception\FailGetAccountException.cs" />
+    <Compile Include="Exception\OnlyServiceException.cs" />
     <Compile Include="Extension\EntityHandlerExtension.cs" />
     <Compile Include="Lib\FileManager\FileHelper.cs" />
     <Compile Include="Lib\Net\MailHelper.cs" />
@@ -128,7 +129,6 @@
     <Compile Include="Entities\Menu\ForGet\MenuForGet.cs" />
     <Compile Include="Entities\Menu\ForGet\MenuMainForGet.cs" />
     <Compile Include="Entities\Menu\IMenu.cs" />
-    <Compile Include="Entities\Menu\IMenuItem.cs" />
     <Compile Include="Entities\Menu\Menu.cs" />
     <Compile Include="Entities\Menu\MenuButtonClick.cs" />
     <Compile Include="Entities\Menu\MenuButtonView.cs" />
@@ -154,11 +154,6 @@
     <Compile Include="Entities\ReturnMessages\ReturnMessageText.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageVideo.cs" />
     <Compile Include="Entities\ReturnMessages\ReturnMessageVoice.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\Image.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\item.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\Music.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\Video.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnObject\Voice.cs" />
     <Compile Include="Entities\User\Group\WXGroup.cs" />
     <Compile Include="Entities\User\Group\WXGroupForGet.cs" />
     <Compile Include="Entities\User\Group\WXUserGroup.cs" />
@@ -205,7 +200,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ConfigSection\BaseConfigSection.cs" />
     <Compile Include="ServerDataContainer\StaticServerDataContainer.cs" />
     <Compile Include="URLManager.cs" />
   </ItemGroup>
