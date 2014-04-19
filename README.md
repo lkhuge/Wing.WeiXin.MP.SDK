@@ -28,13 +28,13 @@ QQ群：203230922
 2.添加配置节点
 ```
 <WeiXinMPSDKConfigGroup>
-    <Base AppID="" AppSecret="" Token="" />
+    <Base Token="xxxxxxxx">
+      <AccountList>
+        <add WeixinMPID="xxxxxx" WeixinMPType="Service" AppID="xxxxx" AppSecret="xxxxx" />
+      </AccountList>
+    </Base>
     <Debug IsDebug="True" />
     <Event>
-        <EventList>
-            <add Name="Event1" IsAction="True" />
-            <add Name="Event2" IsAction="True" />
-        </EventList>
     </Event>
     <Log>
         <Base IsLog="True" />

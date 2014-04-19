@@ -159,7 +159,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             MessageText messageText = message as MessageText;
             if (messageText == null) return null;
             if (ConfigManager.EventConfig.QuickConfigReturnMessageList == null
-                || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count != 0) return null;
+                || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count == 0) return null;
 
             return ConfigManager.EventConfig.QuickConfigReturnMessageList.GetQuickConfigReturnMessage(messageText);
         } 
