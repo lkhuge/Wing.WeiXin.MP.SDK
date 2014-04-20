@@ -68,7 +68,10 @@ EventHandleManager.Init(
             new EntityHandler
             {
                 //添加全局事件
-                GlobalHandlerList = new EntityHandler.GlobalEntityHandler[]{globalEntityEvent}, 
+                GlobalHandlerList = GlobalHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
+				{
+					{"global1", globalEntityEvent}
+				}, 
 
                 //添加基于微信用户事件
                 WXUserBaseHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
@@ -83,9 +86,9 @@ EventHandleManager.Init(
                 }
 
                 //添加自定义事件
-                MessageTextHandlerList = new[]
+                MessageTextHandlerList = new Dictionary<string, EntityHandler.CustomEntityHandler<MessageText>>
                 {
-                    MessageTextEntityEvent
+                    {"textEvent1", MessageTextEntityEvent}
                 }
             }}
     }
@@ -132,12 +135,12 @@ public IReturn MessageTextEntityEvent(MessageText message)
     <Debug IsDebug="True" />
     <Event>
         <EventList>
-            <add Name="Event1" IsAction="True" />
-            <add Name="Event2" IsAction="True" />
+            <add Name="Global:Event1" WeixinMPID="xxxxxx" IsAction="True" />
+            <add Name="Custom:Event2" WeixinMPID="xxxxxx" IsAction="True" />
         </EventList>
         <QuickConfigReturnMessageList>
-            <add Key="" Path="C:\" />
-            <add Key="" Path="C:\" />
+            <add Key="xxxxxx:111" Path="C:\" />
+            <add Key="xxxxxx:222" Path="C:\" />
         </QuickConfigReturnMessageList>
     </Event>
     <Log>
@@ -167,10 +170,11 @@ IsDebug     是否启动调试
 ```
 EventList                          事件处理列表
 Name                               事件名称
+WeixinMPID                         事件从属的微信公共平台账号ID
 IsAction                           是否开启该事件
 QuickConfigReturnMessageList       快速配置回复消息列表
-Key                                快速配置回复消息关键字
-Path                               快速配置回复消息路劲
+Key                                快速配置回复消息关键字(事件从属的微信公共平台账号ID:关键字)
+Path                               快速配置回复消息路径
 ```
 ###日志配置说明（Log）
 ```
