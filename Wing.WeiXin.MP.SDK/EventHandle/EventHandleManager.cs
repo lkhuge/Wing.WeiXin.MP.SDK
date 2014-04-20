@@ -126,7 +126,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                 if (!WXUserGroupList.ContainsKey(message.FromUserName))
                 {
                     WXUserGroupList[message.FromUserName] = 
-                        WXUserController.GetWXGroupByWXUser(message.FromUserName, 
+                        WXUserController.GetWXGroupByWXUser(message.ToUserName, 
                             new WXUser { openid = message.FromUserName }).group.id;
                 }
                 if (!ConfigManager.EventConfig.EventList
