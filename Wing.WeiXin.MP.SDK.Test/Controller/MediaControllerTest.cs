@@ -1,12 +1,9 @@
-﻿using Wing.WeiXin.MP.SDK.Common;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Exception;
 
-namespace Wing.WeiXin.MP.Test.Controller
+namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
     /// <summary>
     ///这是 MediaControllerTest 的测试类，旨在

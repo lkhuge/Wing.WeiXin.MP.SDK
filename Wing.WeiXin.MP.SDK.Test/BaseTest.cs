@@ -139,9 +139,9 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// </summary>
         protected QRCodeTicketRequest qrCodeTemp = new QRCodeTicketRequest
         {
-            action_info = new QRCodeTicketRequestActionInfo
+            action_info = new QRCodeTicketRequest.ActionInfo
             {
-                scene = new QRCodeTicketRequestScene
+                scene = new QRCodeTicketRequest.ActionInfo.Scene
                 {
                     scene_id = 0
                 }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Exception;
-using Wing.WeiXin.MP.Test;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {

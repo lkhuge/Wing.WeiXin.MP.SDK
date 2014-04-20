@@ -30,7 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Test
                     {"gh_7f215c8b1c91", 
                         new EntityHandler
                         {
-                            MessageTextHandler = new EntityHandler.CustomEntityHandler<MessageText>[]
+                            MessageTextHandlerList = new EntityHandler.CustomEntityHandler<MessageText>[]
                             {
                                 GlobalEntityEvent
                             }

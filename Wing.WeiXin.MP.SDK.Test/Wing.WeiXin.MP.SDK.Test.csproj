@@ -60,6 +60,7 @@
     <Compile Include="Controller\MenuControllerTest.cs" />
     <Compile Include="Controller\QRCodeControllerTest.cs" />
     <Compile Include="Controller\ReceiveControllerTest.cs" />
+    <Compile Include="Controller\SendAllControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
     <Compile Include="EventHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
