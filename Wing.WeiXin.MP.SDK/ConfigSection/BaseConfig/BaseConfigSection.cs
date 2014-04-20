@@ -26,7 +26,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         /// <summary>
         /// 公共平台账号项目列表
         /// </summary>
-        [ConfigurationProperty("AccountList")]
+        [ConfigurationProperty("AccountList", IsRequired = true)]
         public AccountItemListConfigSection AccountList
         {
             get { return this["AccountList"] as AccountItemListConfigSection; }

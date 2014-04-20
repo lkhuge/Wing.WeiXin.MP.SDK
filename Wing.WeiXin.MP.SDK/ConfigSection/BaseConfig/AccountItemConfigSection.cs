@@ -16,7 +16,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         /// <summary>
         /// 微信公共平台ID
         /// </summary>
-        [ConfigurationProperty("WeixinMPID")]
+        [ConfigurationProperty("WeixinMPID", IsRequired = true)]
         public string WeixinMPID
         {
             get { return Convert.ToString(this["WeixinMPID"]); }
@@ -27,7 +27,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         /// <summary>
         /// 微信公共平台类型
         /// </summary>
-        [ConfigurationProperty("WeixinMPType")]
+        [ConfigurationProperty("WeixinMPType", IsRequired = true)]
         public WeixinMPType WeixinMPType
         {
             get { return (WeixinMPType)this["WeixinMPType"]; }
