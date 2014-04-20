@@ -74,7 +74,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应</returns>
         public static Response RequestHandle(Request request)
         {
-            if (request == null) throw new ConvertToEntityException(null);
+            if (request == null) throw new ConvertToEntityException(request: null);
             //首次验证
             if (!String.IsNullOrEmpty(request.echostr))
             {

@@ -51,9 +51,10 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复消息</returns>
         public static IReturn GetReturnMessage(Dictionary<string, string> kvList, BaseEntity entity)
         {
-            if (!kvList.ContainsKey("Type")) throw new WXException("无法识别回复消息类型");
-            ReturnEntityType type = (ReturnEntityType)Enum.Parse(typeof(ReturnEntityType), kvList["Type"]);
-            if (!funcList.ContainsKey(type)) throw new WXException("不支持该回复消息解析");
+            ReturnEntityType type = (!kvList.ContainsKey("Type"))
+                ? ReturnEntityType.ReturnMessageText
+                : (ReturnEntityType)Enum.Parse(typeof(ReturnEntityType), kvList["Type"]);
+            if (!funcList.ContainsKey(type)) throw new ConvertToEntityException(kvList);
 
             return funcList[type](kvList, entity);
         }

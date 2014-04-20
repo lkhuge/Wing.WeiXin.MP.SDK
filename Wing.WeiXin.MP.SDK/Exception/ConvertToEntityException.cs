@@ -17,6 +17,11 @@ namespace Wing.WeiXin.MP.SDK.Exception
         /// </summary>
         public Request request { get; private set; }
 
+        /// <summary>
+        /// Key-Value数据
+        /// </summary>
+        public Dictionary<string, string> kvList { get; private set; }
+
         #region 根据请求对象实例化 public ConvertToEntityException(Request request)
         /// <summary>
         /// 根据请求对象实例化
@@ -27,6 +32,18 @@ namespace Wing.WeiXin.MP.SDK.Exception
         {
             this.request = request;
         } 
+        #endregion
+
+        #region 根据快速配置回复消息Key-Value数据实例化 public ConvertToEntityException(Dictionary<string, string> kvList)
+        /// <summary>
+        /// 根据快速配置回复消息Key-Value数据实例化
+        /// </summary>
+        /// <param name="kvList">快速配置回复消息Key-Value数据</param>
+        public ConvertToEntityException(Dictionary<string, string> kvList)
+            : base("快速配置回复消息文件解析为实体的过程中发生异常")
+        {
+            this.kvList = kvList;
+        }
         #endregion
 
         #region 获取错误信息 private static string GetErrMsg(Request requestObj)
