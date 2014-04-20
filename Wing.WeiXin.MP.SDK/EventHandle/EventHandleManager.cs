@@ -82,9 +82,10 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         private static IReturn GlobalAction(BaseReceiveMessage message)
         {
             if (EntityHandlerList[message.ToUserName].GlobalHandlerList == null) return null;
-
-            return EntityHandlerList[message.ToUserName].GlobalHandlerList.Select(handle => handle(message))
-                .FirstOrDefault(globalEntity => globalEntity != null);
+            return EntityHandlerList[message.ToUserName].GlobalHandlerList
+                    .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForGlobal(message.ToUserName, pair.Key))
+                    .Select(handle => handle.Value(message))
+                    .FirstOrDefault(globalEntity => globalEntity != null);
         }
         #endregion
 
@@ -98,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         {
             if (EntityHandlerList[message.ToUserName].WXUserBaseHandlerList == null) return null;
             if (!EntityHandlerList[message.ToUserName].WXUserBaseHandlerList.ContainsKey(message.FromUserName)) return null;
-            if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserBase(message.FromUserName)) return null;
+            if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserBase(message.ToUserName, message.FromUserName)) return null;
             IReturn wxUserEntity = EntityHandlerList[message.ToUserName].WXUserBaseHandlerList[message.FromUserName](message);
 
             return wxUserEntity;
@@ -130,7 +131,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                             new WXUser { openid = message.FromUserName }).group.id;
                 }
                 if (!ConfigManager.EventConfig.EventList
-                    .CheckEventForWXUserGroupBase(WXUserGroupList[message.FromUserName])) return null;
+                    .CheckEventForWXUserGroupBase(message.ToUserName, WXUserGroupList[message.FromUserName])) return null;
                 if (!EntityHandlerList[message.ToUserName]
                     .WXUserGroupBaseHandlerList.ContainsKey(WXUserGroupList[message.FromUserName])) return null;
                 IReturn wxUserGroupEntity = EntityHandlerList[message.ToUserName]
@@ -202,7 +203,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             }; 
         #endregion
 
-        #region 自定义事件列表处理 private static IReturn CustomListAction<T>(EntityHandler.CustomEntityHandler<T>[] handler, T message) where T : BaseReceiveMessage
+        #region 自定义事件列表处理 private static IReturn CustomListAction<T>(Dictionary<string, EntityHandler.CustomEntityHandler<T>> handler, T message) where T : BaseReceiveMessage
         /// <summary>
         /// 自定义事件列表处理
         /// </summary>
@@ -210,11 +211,13 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <param name="handler">自定义事件列表</param>
         /// <param name="message">接收消息</param>
         /// <returns>回复实体</returns>
-        private static IReturn CustomListAction<T>(EntityHandler.CustomEntityHandler<T>[] handler, T message)
+        private static IReturn CustomListAction<T>(Dictionary<string, EntityHandler.CustomEntityHandler<T>> handler, T message)
             where T : BaseReceiveMessage
         {
             if (handler == null) return null;
-            return handler.Select(handle => handle(message))
+            return handler
+                .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForCustom(message.ToUserName, pair.Key))
+                .Select(handle => handle.Value(message))
                 .FirstOrDefault(entity => entity != null);
         } 
         #endregion

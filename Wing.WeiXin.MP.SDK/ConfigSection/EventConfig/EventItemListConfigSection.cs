@@ -37,30 +37,74 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         } 
         #endregion
 
-        #region 检测基于微信用户事件是否生效 public bool CheckEventForWXUserBase(string OpenID)
+        #region 检测全局事件是否生效 public bool CheckEventForGlobal(string weixinMPID, string eventID)
+        /// <summary>
+        /// 检测全局事件是否生效
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="eventID">全局事件ID</param>
+        /// <returns>是否生效</returns>
+        public bool CheckEventForGlobal(string weixinMPID, string eventID)
+        {
+            return CheckEvent(weixinMPID, "Global:" + eventID);
+        }
+        #endregion
+
+        #region 检测基于微信用户事件是否生效 public bool CheckEventForWXUserBase(string weixinMPID, string OpenID)
         /// <summary>
         /// 检测基于微信用户事件是否生效
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="OpenID">公共账号ID</param>
         /// <returns>是否生效</returns>
-        public bool CheckEventForWXUserBase(string OpenID)
+        public bool CheckEventForWXUserBase(string weixinMPID, string OpenID)
         {
-            return this.OfType<EventItemConfigSection>().
-                All(config => !config.Name.Equals("WXUserBase:" + OpenID) || config.IsAction);
+            return CheckEvent(weixinMPID, "WXUserBase:" + OpenID);
         } 
         #endregion
 
-        #region 检测基于微信用户分组事件是否生效 public bool CheckEventForWXUserGroupBase(int GroupID)
+        #region 检测基于微信用户分组事件是否生效 public bool CheckEventForWXUserGroupBase(string weixinMPID, int GroupID)
         /// <summary>
         /// 检测基于微信用户分组事件是否生效
         /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="GroupID">微信用户分组ID</param>
         /// <returns>是否生效</returns>
-        public bool CheckEventForWXUserGroupBase(int GroupID)
+        public bool CheckEventForWXUserGroupBase(string weixinMPID, int GroupID)
+        {
+            return CheckEvent(weixinMPID, "WXUserGroupBase:" + GroupID);
+        }
+
+        #endregion
+
+        #region 检测自定义事件是否生效 public bool CheckEventForCustom(string weixinMPID, string eventID)
+        /// <summary>
+        /// 检测自定义事件是否生效
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="eventID">自定义事件ID</param>
+        /// <returns>是否生效</returns>
+        public bool CheckEventForCustom(string weixinMPID, string eventID)
+        {
+            return CheckEvent(weixinMPID, "Custom:" + eventID);
+        }
+        #endregion
+
+        #region 检测事件是否生效 private bool CheckEvent(string weixinMPID, string eventKey)
+        /// <summary>
+        /// 检测事件是否生效
+        /// </summary>
+        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="eventKey">事件ID</param>
+        /// <returns>是否生效</returns>
+        private bool CheckEvent(string weixinMPID, string eventKey)
         {
             return this.OfType<EventItemConfigSection>().
-                All(config => !config.Name.Equals("WXUserGroupBase:" + GroupID) || config.IsAction);
-        }
+                All(config =>
+                    !config.Name.Equals(eventKey)
+                    || !config.WeixinMPID.Equals(weixinMPID)
+                    || config.IsAction);
+        } 
         #endregion
     }
 }

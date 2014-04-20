@@ -34,11 +34,11 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         public delegate IReturn CustomEntityHandler<in T>(T message) where T : BaseReceiveMessage;
         #endregion
 
-        #region 全局事件处理 public GlobalEntityHandler[] GlobalHandlerList { get; set; }
+        #region 全局事件处理 public Dictionary<string, GlobalEntityHandler> GlobalHandlerList { get; set; }
         /// <summary>
         /// 全局事件处理
         /// </summary>
-        public GlobalEntityHandler[] GlobalHandlerList { get; set; }  
+        public Dictionary<string, GlobalEntityHandler> GlobalHandlerList { get; set; }  
         #endregion
 
         #region 基于微信用户事件处理 public Dictionary<string, GlobalEntityHandler> WXUserBaseHandlerList { get; set; }
@@ -55,102 +55,102 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         public Dictionary<int, GlobalEntityHandler> WXUserGroupBaseHandlerList { get; set; }
         #endregion
 
-        #region 图片消息实体事件处理列表 public CustomEntityHandler<MessageImage>[] MessageImageHandlerList { get; set; }
+        #region 图片消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageImage>> MessageImageHandlerList { get; set; }
         /// <summary>
         /// 图片消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageImage>[] MessageImageHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageImage>> MessageImageHandlerList { get; set; }
         #endregion
 
-        #region 链接消息实体事件处理列表 public CustomEntityHandler<MessageLink>[] MessageLinkHandlerList { get; set; }
+        #region 链接消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageLink>> MessageLinkHandlerList { get; set; }
         /// <summary>
         /// 链接消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageLink>[] MessageLinkHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageLink>> MessageLinkHandlerList { get; set; }
         #endregion
 
-        #region 地理位置消息实体事件处理列表 public CustomEntityHandler<MessageLocation>[] MessageLocationHandlerList { get; set; }
+        #region 地理位置消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageLocation>> MessageLocationHandlerList { get; set; }
         /// <summary>
         /// 地理位置消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageLocation>[] MessageLocationHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageLocation>> MessageLocationHandlerList { get; set; }
         #endregion
 
-        #region 文本消息实体事件处理列表 public CustomEntityHandler<MessageText>[] MessageTextHandlerList { get; set; }
+        #region 文本消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageText>> MessageTextHandlerList { get; set; }
         /// <summary>
         /// 文本消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageText>[] MessageTextHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageText>> MessageTextHandlerList { get; set; }
         #endregion
 
-        #region 视频消息实体事件处理列表 public CustomEntityHandler<MessageVideo>[] MessageVideoHandlerList { get; set; }
+        #region 视频消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageVideo>> MessageVideoHandlerList { get; set; }
         /// <summary>
         /// 视频消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageVideo>[] MessageVideoHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageVideo>> MessageVideoHandlerList { get; set; }
         #endregion
 
-        #region 语音消息实体事件处理列表 public CustomEntityHandler<MessageVoice>[] MessageVoiceHandlerList { get; set; }
+        #region 语音消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageVoice>> MessageVoiceHandlerList { get; set; }
         /// <summary>
         /// 语音消息实体事件处理列表
         /// </summary>
-        public CustomEntityHandler<MessageVoice>[] MessageVoiceHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<MessageVoice>> MessageVoiceHandlerList { get; set; }
         #endregion
 
-        #region 自定义菜单事件（点击菜单拉取消息时的事件推送）处理列表 public CustomEntityHandler<EventClick>[] EventClickHandlerList { get; set; }
+        #region 自定义菜单事件（点击菜单拉取消息时的事件推送）处理列表 public Dictionary<string, CustomEntityHandler<EventClick>> EventClickHandlerList { get; set; }
         /// <summary>
         /// 自定义菜单事件（点击菜单拉取消息时的事件推送）处理列表
         /// </summary>
-        public CustomEntityHandler<EventClick>[] EventClickHandlerList { get; set; } 
+        public Dictionary<string, CustomEntityHandler<EventClick>> EventClickHandlerList { get; set; } 
         #endregion
 
-        #region 上报地理位置事件处理列表 public CustomEntityHandler<EventLocation>[] EventLocationHandlerList { get; set; }
+        #region 上报地理位置事件处理列表 public Dictionary<string, CustomEntityHandler<EventLocation>> EventLocationHandlerList { get; set; }
         /// <summary>
         /// 上报地理位置事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventLocation>[] EventLocationHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventLocation>> EventLocationHandlerList { get; set; }
         #endregion
 
-        #region 关注事件处理列表 public CustomEntityHandler<EventSubscribe>[] EventSubscribeHandlerList { get; set; }
+        #region 关注事件处理列表 public Dictionary<string, CustomEntityHandler<EventSubscribe>> EventSubscribeHandlerList { get; set; }
         /// <summary>
         /// 关注事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventSubscribe>[] EventSubscribeHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventSubscribe>> EventSubscribeHandlerList { get; set; }
         #endregion
 
-        #region 带参数二维码关注事件处理列表 public CustomEntityHandler<EventSubscribeByQRScene>[] EventSubscribeByQRSceneHandlerList { get; set; }
+        #region 带参数二维码关注事件处理列表 public Dictionary<string, CustomEntityHandler<EventSubscribeByQRScene>> EventSubscribeByQRSceneHandlerList { get; set; }
         /// <summary>
         /// 带参数二维码关注事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventSubscribeByQRScene>[] EventSubscribeByQRSceneHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventSubscribeByQRScene>> EventSubscribeByQRSceneHandlerList { get; set; }
         #endregion
 
-        #region 取消关注事件处理列表 public CustomEntityHandler<EventUnsubscribe>[] EventUnsubscribeHandlerList { get; set; }
+        #region 取消关注事件处理列表 public Dictionary<string, CustomEntityHandler<EventUnsubscribe>> EventUnsubscribeHandlerList { get; set; }
         /// <summary>
         /// 取消关注事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventUnsubscribe>[] EventUnsubscribeHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventUnsubscribe>> EventUnsubscribeHandlerList { get; set; }
         #endregion
 
-        #region 自定义菜单事件（点击菜单跳转链接时的事件推送）处理列表 public CustomEntityHandler<EventView>[] EventViewHandlerList { get; set; }
+        #region 自定义菜单事件（点击菜单跳转链接时的事件推送）处理列表 public Dictionary<string, CustomEntityHandler<EventView>> EventViewHandlerList { get; set; }
         /// <summary>
         /// 自定义菜单事件（点击菜单跳转链接时的事件推送）处理列表
         /// </summary>
-        public CustomEntityHandler<EventView>[] EventViewHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventView>> EventViewHandlerList { get; set; }
         #endregion
 
-        #region 带参数二维码事件处理列表 public CustomEntityHandler<EventWithQRScene>[] EventWithQRSceneHandlerList { get; set; }
+        #region 带参数二维码事件处理列表 public Dictionary<string, CustomEntityHandler<EventWithQRScene>> EventWithQRSceneHandlerList { get; set; }
         /// <summary>
         /// 带参数二维码事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventWithQRScene>[] EventWithQRSceneHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventWithQRScene>> EventWithQRSceneHandlerList { get; set; }
         #endregion
 
-        #region 推送群发结果事件处理列表 public CustomEntityHandler<EventMessageSendAllFinish>[] EventMessageSendAllFinishHandlerList { get; set; }
+        #region 推送群发结果事件处理列表 public Dictionary<string, CustomEntityHandler<EventMessageSendAllFinish>> EventMessageSendAllFinishHandlerList { get; set; }
         /// <summary>
         /// 推送群发结果事件处理列表
         /// </summary>
-        public CustomEntityHandler<EventMessageSendAllFinish>[] EventMessageSendAllFinishHandlerList { get; set; }
+        public Dictionary<string, CustomEntityHandler<EventMessageSendAllFinish>> EventMessageSendAllFinishHandlerList { get; set; }
         #endregion
     }
 }
