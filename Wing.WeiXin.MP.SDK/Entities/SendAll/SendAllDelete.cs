@@ -14,6 +14,17 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
         /// <summary>
         /// 发送出去的消息ID
         /// </summary>
-        public string msgid { get; set; }
+        public int msgid { get; set; }
+
+        #region 根据发送出去的消息ID实例化 public SendAllDelete(int msgid)
+        /// <summary>
+        /// 根据发送出去的消息ID实例化
+        /// </summary>
+        /// <param name="msgid">发送出去的消息ID</param>
+        public SendAllDelete(int msgid)
+        {
+            this.msgid = msgid;
+        } 
+        #endregion
     }
 }
