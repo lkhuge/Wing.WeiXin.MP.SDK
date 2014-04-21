@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -53,10 +54,19 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             string key = String.Format("{0}:{1}", weixinMPID, message.Content);
             List<QuickConfigReturnMessageItemConfigSection> list =
                 this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(key)).ToList();
+            if (list.Count == 1)
+            {
+                return QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(list[0].Path), message);
+            }
+            string keyPath = String.Format("{0}::", weixinMPID);
+            List<QuickConfigReturnMessageItemConfigSection> listPath =
+                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(keyPath)).ToList();
+            if (listPath.Count != 1) return null;
+            string path = String.Format("{0}{1}.wx.txt", listPath[0].Path, message.Content);
 
-            return list.Count != 1 
-                ? null 
-                : QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(list[0].Path), message);
+            return File.Exists(path) 
+                ? QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(path), message) 
+                : null;
         } 
         #endregion
     }
