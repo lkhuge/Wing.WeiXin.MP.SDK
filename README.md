@@ -56,7 +56,7 @@ public void ProcessRequest(HttpContext context)
 ```
 ###事件处理优先级
 ```
-全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 快速配置回复时间 > 自定义事件
+全局事件 > 基于微信用户事件 > 基于微信用户分组事件 > 快速配置回复事件 > 自定义事件
 ```
 ###添加实体处理对象
 ```C#
@@ -68,10 +68,10 @@ EventHandleManager.Init(
             new EntityHandler
             {
                 //添加全局事件
-                GlobalHandlerList = GlobalHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
-				{
-					{"global1", globalEntityEvent}
-				}, 
+                GlobalHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
+                {
+                    {"global1", globalEntityEvent}
+                }, 
 
                 //添加基于微信用户事件
                 WXUserBaseHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
