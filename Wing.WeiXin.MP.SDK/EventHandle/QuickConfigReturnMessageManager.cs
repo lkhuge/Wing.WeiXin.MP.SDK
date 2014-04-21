@@ -91,7 +91,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                 kvList.ContainsKey("Description") ? kvList["Description"] : "",
                 kvList.ContainsKey("MusicURL") ? kvList["MusicURL"] : "",
                 kvList.ContainsKey("HQMusicUrl") ? kvList["HQMusicUrl"] : "",
-                kvList["HQMusicUrl"], entity);
+                kvList["ThumbMediaId"], entity);
         }
         #endregion
 
