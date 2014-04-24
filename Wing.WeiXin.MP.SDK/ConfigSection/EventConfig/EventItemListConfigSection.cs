@@ -100,10 +100,10 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         private bool CheckEvent(string weixinMPID, string eventKey)
         {
             return this.OfType<EventItemConfigSection>().
-                All(config =>
-                    !config.Name.Equals(eventKey)
-                    || !config.WeixinMPID.Equals(weixinMPID)
-                    || config.IsAction);
+                Any(config =>
+                    config.Name.Equals(eventKey)
+                    && config.WeixinMPID.Equals(weixinMPID)
+                    && config.IsAction);
         } 
         #endregion
     }

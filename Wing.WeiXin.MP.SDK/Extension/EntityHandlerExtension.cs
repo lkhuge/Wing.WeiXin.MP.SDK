@@ -45,23 +45,23 @@ namespace Wing.WeiXin.MP.SDK.Extension
         } 
         #endregion
 
-        #region 获取根据Key回复委托 public static EntityHandler.CustomEntityHandler<EventClick> GetEventHandlerReturnByKey(Dictionary<string, EntityHandler.CustomEntityHandler<EventClick>> keyHandlerList, EntityHandler.CustomEntityHandler<EventClick> nullMessageCallBack = null)
+        #region 获取根据Key回复委托 public static EntityHandler.CustomEntityHandler<EventClick> GetEventHandlerReturnByKey(string key, EntityHandler.CustomEntityHandler<EventClick> Handler, EntityHandler.CustomEntityHandler<EventClick> nullMessageCallBack = null)
         /// <summary>
         /// 获取根据Key回复委托
         /// </summary>
-        /// <param name="keyHandlerList">根据Key回复委托列表</param>
+        /// <param name="key">Key</param>
+        /// <param name="Handler">根据Key回复委托</param>
         /// <param name="nullMessageCallBack">没有消息的回调方法</param>
         /// <returns>根据Key回复委托</returns>
         public static EntityHandler.CustomEntityHandler<EventClick> GetEventHandlerReturnByKey(
-            Dictionary<string, EntityHandler.CustomEntityHandler<EventClick>> keyHandlerList,
+            string key, EntityHandler.CustomEntityHandler<EventClick> Handler,
             EntityHandler.CustomEntityHandler<EventClick> nullMessageCallBack = null)
         {
             return message =>
             {
-                string key = message.EventKey;
-                if (keyHandlerList.ContainsKey(key))
+                if (message.EventKey.Equals(key))
                 {
-                    IReturn returnMessage = keyHandlerList[key](message);
+                    IReturn returnMessage = Handler(message);
                     if (returnMessage != null) return returnMessage;
                 }
                 if (nullMessageCallBack == null)
