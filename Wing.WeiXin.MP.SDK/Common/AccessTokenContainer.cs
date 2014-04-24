@@ -19,12 +19,12 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <summary>
         /// 截止日期
         /// </summary>
-        public static DateTime ExpiresDateTime { get; set; }
+        private static readonly Dictionary<string, DateTime> ExpiresDateTime = new Dictionary<string, DateTime>();
 
         /// <summary>
         /// AccessToken
         /// </summary>
-        private static AccessToken AccessToken;
+        private static readonly Dictionary<string, AccessToken> AccessToken = new Dictionary<string, AccessToken>();
 
         #region 获取AccessToken public static AccessToken GetAccessToken(string weixinMPID)
         /// <summary>
@@ -35,10 +35,11 @@ namespace Wing.WeiXin.MP.SDK.Common
         public static AccessToken GetAccessToken(string weixinMPID)
         {
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info("开始获取AccessToken", typeof(AccessTokenContainer));
-            if (AccessToken != null && DateTime.Now < ExpiresDateTime) return AccessToken;
+            if (AccessToken.ContainsKey(weixinMPID) && DateTime.Now < ExpiresDateTime[weixinMPID]) return AccessToken[weixinMPID];
             GetNewAccessToken(weixinMPID);
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info("成功开始获取AccessToken", typeof(AccessTokenContainer));
-            return AccessToken;
+
+            return AccessToken[weixinMPID];
         } 
         #endregion
 
@@ -56,11 +57,11 @@ namespace Wing.WeiXin.MP.SDK.Common
             string result = HTTPHelper.Get(URLManager.GetURLForGetAccessToken(account.AppID, account.AppSecret));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailGetAccessToken(errorMsg.GetIntroduce());
-            AccessToken = JSONHelper.JSONDeserialize<AccessToken>(result);
-            ExpiresDateTime = DateTime.Now + new TimeSpan(0, 0, AccessToken.expires_in);
+            AccessToken[weixinMPID] = JSONHelper.JSONDeserialize<AccessToken>(result);
+            ExpiresDateTime[weixinMPID] = DateTime.Now + new TimeSpan(0, 0, AccessToken[weixinMPID].expires_in);
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info(
                     String.Format("成功获取新的AccessToken（AccessTokenID:{0}, 截止日期：{1}）",
-                    AccessToken.access_token, ExpiresDateTime), typeof(AccessTokenContainer));
+                    AccessToken[weixinMPID].access_token, ExpiresDateTime), typeof(AccessTokenContainer));
         } 
         #endregion
     }
