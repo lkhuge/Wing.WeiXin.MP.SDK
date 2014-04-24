@@ -154,14 +154,24 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         /// <returns>回复实体</returns>
         private static IReturn QuickConfigReturnMessageAction(BaseReceiveMessage message)
         {
-            if (message.entityType != ReceiveEntityType.MessageText) return null;
-            MessageText messageText = message as MessageText;
-            if (messageText == null) return null;
             if (ConfigManager.EventConfig.QuickConfigReturnMessageList == null
-                || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count == 0) return null;
+                    || ConfigManager.EventConfig.QuickConfigReturnMessageList.Count == 0) return null;
+            if (message.entityType == ReceiveEntityType.MessageText)
+            {
+                MessageText messageText = message as MessageText;
+                if (messageText == null) return null;
+                return ConfigManager.EventConfig.QuickConfigReturnMessageList
+                    .GetQuickConfigReturnMessageFromMessageText(messageText.ToUserName, messageText);
+            }
+            if (message.entityType == ReceiveEntityType.EventClick)
+            {
+                EventClick eventClick = message as EventClick;
+                if (eventClick == null) return null;
+                return ConfigManager.EventConfig.QuickConfigReturnMessageList
+                    .GetQuickConfigReturnMessageFromEventClick(eventClick.ToUserName, eventClick);
+            }
 
-            return ConfigManager.EventConfig.QuickConfigReturnMessageList
-                .GetQuickConfigReturnMessage(messageText.ToUserName, messageText);
+            return null;
         } 
         #endregion
 
