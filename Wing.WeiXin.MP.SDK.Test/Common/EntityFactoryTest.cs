@@ -30,9 +30,9 @@ namespace Wing.WeiXin.MP.SDK.Test.Common
                     {"gh_7f215c8b1c91", 
                         new EntityHandler
                         {
-                            MessageTextHandlerList = new EntityHandler.CustomEntityHandler<MessageText>[]
+                            MessageTextHandlerList = new Dictionary<string, EntityHandler.CustomEntityHandler<MessageText>>
                             {
-                                GlobalEntityEvent
+                                {"test1", GlobalEntityEvent}
                             }
                         }}
                 });

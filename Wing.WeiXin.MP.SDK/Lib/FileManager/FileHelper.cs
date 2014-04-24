@@ -32,7 +32,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.FileManager
                             || String.IsNullOrEmpty(strReadLine.Trim())) continue;
                         int index = strReadLine.IndexOf(':');
                         if (index == -1) continue;
-                        kvList[strReadLine.Substring(0, index + 1).Trim()] = strReadLine.Substring(index + 1).Trim();
+                        kvList[strReadLine.Substring(0, index).Trim()] = strReadLine.Substring(index + 1).Trim();
                     }
                 }
                 return kvList;
