@@ -30,9 +30,9 @@ namespace Wing.WeiXin.MP.SDK.Lib.FileManager
                         string strReadLine = srReadFile.ReadLine();
                         if (String.IsNullOrEmpty(strReadLine)
                             || String.IsNullOrEmpty(strReadLine.Trim())) continue;
-                        string[] strList = strReadLine.Split(':');
-                        if (strList.Length != 2) continue;
-                        kvList[strList[0].Trim()] = strList[1].Trim();
+                        int index = strReadLine.IndexOf(':');
+                        if (index == -1) continue;
+                        kvList[strReadLine.Substring(0, index + 1).Trim()] = strReadLine.Substring(index + 1).Trim();
                     }
                 }
                 return kvList;
