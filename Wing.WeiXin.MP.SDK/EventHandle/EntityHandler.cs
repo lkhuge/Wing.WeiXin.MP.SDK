@@ -41,20 +41,6 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         public Dictionary<string, GlobalEntityHandler> GlobalHandlerList { get; set; }  
         #endregion
 
-        #region 基于微信用户事件处理 public Dictionary<string, GlobalEntityHandler> WXUserBaseHandlerList { get; set; }
-        /// <summary>
-        /// 基于微信用户事件处理
-        /// </summary>
-        public Dictionary<string, GlobalEntityHandler> WXUserBaseHandlerList { get; set; }
-        #endregion
-
-        #region 基于微信用户分组事件处理 public Dictionary<int, GlobalEntityHandler> WXUserGroupBaseHandlerList { get; set; }
-        /// <summary>
-        /// 基于微信用户分组事件处理
-        /// </summary>
-        public Dictionary<int, GlobalEntityHandler> WXUserGroupBaseHandlerList { get; set; }
-        #endregion
-
         #region 图片消息实体事件处理列表 public Dictionary<string, CustomEntityHandler<MessageImage>> MessageImageHandlerList { get; set; }
         /// <summary>
         /// 图片消息实体事件处理列表

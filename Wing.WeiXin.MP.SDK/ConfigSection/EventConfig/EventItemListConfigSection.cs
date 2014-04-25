@@ -50,33 +50,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         }
         #endregion
 
-        #region 检测基于微信用户事件是否生效 public bool CheckEventForWXUserBase(string weixinMPID, string OpenID)
-        /// <summary>
-        /// 检测基于微信用户事件是否生效
-        /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
-        /// <param name="OpenID">公共账号ID</param>
-        /// <returns>是否生效</returns>
-        public bool CheckEventForWXUserBase(string weixinMPID, string OpenID)
-        {
-            return CheckEvent(weixinMPID, "WXUserBase:" + OpenID);
-        } 
-        #endregion
-
-        #region 检测基于微信用户分组事件是否生效 public bool CheckEventForWXUserGroupBase(string weixinMPID, int GroupID)
-        /// <summary>
-        /// 检测基于微信用户分组事件是否生效
-        /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
-        /// <param name="GroupID">微信用户分组ID</param>
-        /// <returns>是否生效</returns>
-        public bool CheckEventForWXUserGroupBase(string weixinMPID, int GroupID)
-        {
-            return CheckEvent(weixinMPID, "WXUserGroupBase:" + GroupID);
-        }
-
-        #endregion
-
         #region 检测自定义事件是否生效 public bool CheckEventForCustom(string weixinMPID, string eventID)
         /// <summary>
         /// 检测自定义事件是否生效

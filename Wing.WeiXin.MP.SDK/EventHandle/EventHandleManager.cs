@@ -60,10 +60,6 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
             if (!EntityHandlerList.ContainsKey(message.ToUserName)) throw new NoResponseException("未注册事件处理对象");
             IReturn globalEntity = GlobalAction(message);
             if (globalEntity != null) return globalEntity;
-            IReturn wxUserEntity = WXUserBaseAction(message);
-            if (wxUserEntity != null) return wxUserEntity;
-            IReturn wxUserGroupEntity = WXUserGroupBaseAction(message);
-            if (wxUserGroupEntity != null) return wxUserGroupEntity;
             IReturn quickConfigReturnMessage = QuickConfigReturnMessageAction(message);
             if (quickConfigReturnMessage != null) return quickConfigReturnMessage;
             IReturn customEntity = CustomAction(message);
@@ -86,63 +82,6 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
                     .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForGlobal(message.ToUserName, pair.Key))
                     .Select(handle => handle.Value(message))
                     .FirstOrDefault(globalEntity => globalEntity != null);
-        }
-        #endregion
-
-        #region 基于微信用户事件处理 private static IReturn WXUserBaseAction(BaseReceiveMessage message)
-        /// <summary>
-        /// 基于微信用户事件处理
-        /// </summary>
-        /// <param name="message">接收消息</param>
-        /// <returns>回复实体</returns>
-        private static IReturn WXUserBaseAction(BaseReceiveMessage message)
-        {
-            if (EntityHandlerList[message.ToUserName].WXUserBaseHandlerList == null) return null;
-            if (!EntityHandlerList[message.ToUserName].WXUserBaseHandlerList.ContainsKey(message.FromUserName)) return null;
-            if (!ConfigManager.EventConfig.EventList.CheckEventForWXUserBase(message.ToUserName, message.FromUserName)) return null;
-            IReturn wxUserEntity = EntityHandlerList[message.ToUserName].WXUserBaseHandlerList[message.FromUserName](message);
-
-            return wxUserEntity;
-        }
-        #endregion
-
-        #region 微信用户所属分组信息 private static readonly Dictionary<string, int> WXUserGroupList
-        /// <summary>
-        /// 微信用户所属分组信息
-        /// </summary>
-        private static readonly Dictionary<string, int> WXUserGroupList = new Dictionary<string, int>(); 
-        #endregion
-
-        #region 基于微信用户分组事件处理 private static IReturn WXUserGroupBaseAction(BaseReceiveMessage message)
-        /// <summary>
-        /// 基于微信用户分组事件处理
-        /// </summary>
-        /// <param name="message">接收消息</param>
-        /// <returns>回复实体</returns>
-        private static IReturn WXUserGroupBaseAction(BaseReceiveMessage message)
-        {
-            if (EntityHandlerList[message.ToUserName].WXUserGroupBaseHandlerList == null) return null;
-            try
-            {
-                if (!WXUserGroupList.ContainsKey(message.FromUserName))
-                {
-                    WXUserGroupList[message.FromUserName] = 
-                        WXUserController.GetWXGroupByWXUser(message.ToUserName, 
-                            new WXUser { openid = message.FromUserName }).group.id;
-                }
-                if (!ConfigManager.EventConfig.EventList
-                    .CheckEventForWXUserGroupBase(message.ToUserName, WXUserGroupList[message.FromUserName])) return null;
-                if (!EntityHandlerList[message.ToUserName]
-                    .WXUserGroupBaseHandlerList.ContainsKey(WXUserGroupList[message.FromUserName])) return null;
-                IReturn wxUserGroupEntity = EntityHandlerList[message.ToUserName]
-                    .WXUserGroupBaseHandlerList[WXUserGroupList[message.FromUserName]](message);
-
-                return wxUserGroupEntity;
-            }
-            catch (ErrorMsgException)
-            {
-                return null;
-            }
         }
         #endregion
 
