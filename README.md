@@ -123,8 +123,8 @@ public IReturn MessageTextEntityEvent(MessageText message)
     <Debug IsDebug="True" />
     <Event>
         <EventList>
-            <add Name="Global:Event1" WeixinMPID="xxxxxx" IsAction="True" />
-            <add Name="Custom:Event2" WeixinMPID="xxxxxx" IsAction="True" />
+            <add Name="Global:Event1" IsAction="True" />
+            <add Name="Custom:Event2" IsAction="True" />
         </EventList>
         <QuickConfigReturnMessageList>
             <add Key="xxxxxx:111" Path="C:\" />
@@ -158,7 +158,6 @@ IsDebug     是否启动调试
 ```
 EventList                          事件处理列表
 Name                               事件名称
-WeixinMPID                         事件从属的微信公共平台账号ID
 IsAction                           是否开启该事件
 QuickConfigReturnMessageList       快速配置回复消息列表
 Key                                快速配置回复消息关键字(事件从属的微信公共平台账号ID:关键字)
