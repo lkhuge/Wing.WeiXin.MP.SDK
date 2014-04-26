@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.OAuth
     /// <summary>
     /// OAuth使用的用户
     /// </summary>
-    public class OAuthUser : IJSON
+    public class OAuthUser
     {
         /// <summary>
         /// 用户的标识，对当前公众号唯一

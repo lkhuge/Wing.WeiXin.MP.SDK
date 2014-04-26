@@ -85,7 +85,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         } 
         #endregion
 
-        #region 从XML字符串中反序列化对象 public static T XMLDeserialize<T>(string str, Encoding encoding = null) where T : IXML
+        #region 从XML字符串中反序列化对象 public static T XMLDeserialize<T>(string str, Encoding encoding = null)
         /// <summary>
         /// 从XML字符串中反序列化对象
         /// </summary>
@@ -93,7 +93,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         /// <param name="str">包含对象的XML字符串</param>
         /// <param name="encoding">编码方式</param>
         /// <returns>反序列化得到的对象</returns>
-        public static T XMLDeserialize<T>(string str, Encoding encoding = null) where T : IXML
+        public static T XMLDeserialize<T>(string str, Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
             XmlSerializer mySerializer = new XmlSerializer(typeof(T));

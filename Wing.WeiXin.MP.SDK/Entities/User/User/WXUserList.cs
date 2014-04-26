@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.User.User
     /// <summary>
     /// 获取微信用户列表
     /// </summary>
-    public class WXUserList : IJSON
+    public class WXUserList
     {
         /// <summary>
         /// 关注该公众账号的总用户数

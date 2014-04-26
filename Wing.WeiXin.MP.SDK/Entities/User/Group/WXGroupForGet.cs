@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.User.Group
     /// <summary>
     /// 适配获取分组
     /// </summary>
-    public class WXGroupForGet : IJSON
+    public class WXGroupForGet
     {
         /// <summary>
         /// 用户所属的groupid

@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 群发OpenID列表
     /// </summary>
-    public class SendAllByOpenIDList : IJSON
+    public class SendAllByOpenIDList
     {
         /// <summary>
         /// 填写图文消息的接收者，一串OpenID列表，OpenID最少1个，最多10000个

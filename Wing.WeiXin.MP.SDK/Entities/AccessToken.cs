@@ -7,7 +7,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// <summary>
     /// AccessToken对象
     /// </summary>
-    public class AccessToken : IEntity, IJSON
+    public class AccessToken : IEntity
     {
         /// <summary>
         /// 获取到的凭证

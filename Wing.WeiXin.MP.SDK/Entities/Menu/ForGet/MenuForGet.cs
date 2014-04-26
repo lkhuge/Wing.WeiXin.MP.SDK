@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.Menu.ForGet
     /// <summary>
     /// 目录对象（适配查询目录）
     /// </summary>
-    public class MenuForGet : IJSON
+    public class MenuForGet
     {
         /// <summary>
         /// 目录对象（适配查询目录）

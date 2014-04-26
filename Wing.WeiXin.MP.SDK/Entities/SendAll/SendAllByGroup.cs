@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 群发组
     /// </summary>
-    public class SendAllByGroup : IJSON
+    public class SendAllByGroup
     {
         /// <summary>
         /// 用于设定图文消息的接收者

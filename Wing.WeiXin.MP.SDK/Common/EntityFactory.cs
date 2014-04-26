@@ -108,14 +108,14 @@ namespace Wing.WeiXin.MP.SDK.Common
         } 
         #endregion
 
-        #region 将请求解析为实体 private static T EntityDeserialize<T>(Request request) where T :IXML
+        #region 将请求解析为实体 private static T EntityDeserialize<T>(Request request)
         /// <summary>
         /// 将请求解析为实体
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="request">请求</param>
         /// <returns>实体</returns>
-        private static T EntityDeserialize<T>(Request request) where T :IXML
+        private static T EntityDeserialize<T>(Request request)
         {
             try
             {

@@ -13,7 +13,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// <summary>
     /// 实体
     /// </summary>
-    public abstract class BaseEntity : IEntity, IXML, IEvent
+    public abstract class BaseEntity : IEntity, IEvent
     {
         /// <summary>
         /// 开发者微信号

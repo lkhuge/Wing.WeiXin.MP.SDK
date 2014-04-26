@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.User.Group
     /// <summary>
     /// 组
     /// </summary>
-    public class WXGroup : IJSON
+    public class WXGroup
     {
         /// <summary>
         /// 分组id，由微信分配

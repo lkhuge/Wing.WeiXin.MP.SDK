@@ -10,7 +10,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// <summary>
     /// 错误码
     /// </summary>
-    public class ErrorMsg : IEntity, IJSON
+    public class ErrorMsg : IEntity
     {
         /// <summary>
         /// 错误码

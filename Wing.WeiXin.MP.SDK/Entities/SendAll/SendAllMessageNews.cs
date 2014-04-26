@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 群发图文消息
     /// </summary>
-    public class SendAllMessageNews : IJSON
+    public class SendAllMessageNews
     {
         /// <summary>
         /// 图文消息，一个图文消息支持1到10条图文

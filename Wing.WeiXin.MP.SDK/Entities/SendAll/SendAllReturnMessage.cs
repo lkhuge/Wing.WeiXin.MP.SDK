@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 群发回复消息
     /// </summary>
-    public class SendAllReturnMessage : IJSON
+    public class SendAllReturnMessage
     {
         /// <summary>
         /// 错误码

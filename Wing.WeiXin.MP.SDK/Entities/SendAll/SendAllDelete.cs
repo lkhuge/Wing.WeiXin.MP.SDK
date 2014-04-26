@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 删除群发对象
     /// </summary>
-    public class SendAllDelete : IJSON
+    public class SendAllDelete
     {
         /// <summary>
         /// 发送出去的消息ID

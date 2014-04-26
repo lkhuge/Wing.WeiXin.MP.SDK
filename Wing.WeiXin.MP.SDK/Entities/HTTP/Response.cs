@@ -51,6 +51,18 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         } 
         #endregion
 
+        #region 根据回复消息实例化XML对象 public Response(IReturn iReturn)
+        /// <summary>
+        /// 根据回复消息实例化XML对象
+        /// </summary>
+        /// <param name="iReturn">响应内容</param>
+        public Response(IReturn iReturn)
+        {
+            Text = XMLHelper.XMLSerialize(iReturn);
+            ContentType = XML;
+        }
+        #endregion
+
         #region 根据消息对象实例化文本类型对象 public Response(Note note)
         /// <summary>
         /// 根据消息对象实例化文本类型对象
@@ -85,30 +97,6 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         {
             Text = text;
             ContentType = type;
-        } 
-        #endregion
-
-        #region 根据XML对象实例化 public Response(IXML data)
-        /// <summary>
-        /// 根据XML对象实例化
-        /// </summary>
-        /// <param name="data">XML对象</param>
-        public Response(IXML data)
-        {
-            Text = XMLHelper.XMLSerialize(data);
-            ContentType = XML;
-        } 
-        #endregion
-
-        #region 根据JSON对象实例化 public Response(IJSON data)
-        /// <summary>
-        /// 根据JSON对象实例化
-        /// </summary>
-        /// <param name="data">JSON对象</param>
-        public Response(IJSON data)
-        {
-            Text = JSONHelper.JSONSerialize(data);
-            ContentType = JSON;
         } 
         #endregion
 

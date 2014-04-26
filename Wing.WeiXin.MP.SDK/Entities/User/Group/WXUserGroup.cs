@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.User.Group
     /// <summary>
     /// 微信用户组
     /// </summary>
-    public class WXUserGroup : IJSON
+    public class WXUserGroup
     {
         /// <summary>
         /// 微信用户组
