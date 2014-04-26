@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Exception;
@@ -34,7 +35,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string name = "test.jpg";
             try
             {
-                return MediaController.Upload("gh_7f215c8b1c91", type, path, name).media_id;
+                return MediaController.Upload(AccountContainer.GetWXAccountFirstService(), type, path, name).media_id;
             }
             catch (WXException)
             {
@@ -53,7 +54,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string path = "E:\\Test\\test.jpg";
             try
             {
-                MediaController.DownLoad("gh_7f215c8b1c91", media_id, path);
+                MediaController.DownLoad(AccountContainer.GetWXAccountFirstService(), media_id, path);
             }
             catch (WXException)
             {

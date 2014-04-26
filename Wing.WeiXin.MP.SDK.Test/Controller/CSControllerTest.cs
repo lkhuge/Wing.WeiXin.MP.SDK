@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
@@ -17,7 +18,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void SendCSMessageTest()
         {
-            Assert.AreEqual(CSController.SendCSMessage("gh_7f215c8b1c91", csMessageText).errcode, "0");
+            Assert.AreEqual(CSController.SendCSMessage(AccountContainer.GetWXAccountFirstService(), csMessageText).errcode, "0");
         } 
         #endregion
     }

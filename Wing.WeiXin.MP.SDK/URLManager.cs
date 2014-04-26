@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
+using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
@@ -31,91 +32,91 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
-        #region 获取发送客服消息的URL public static string GetURLForSendCSMessage(string weixinMPID)
+        #region 获取发送客服消息的URL public static string GetURLForSendCSMessage(WXAccount account)
         /// <summary>
         /// 获取发送客服消息的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>获取发送客服消息的URL</returns>
-        public static string GetURLForSendCSMessage(string weixinMPID)
+        public static string GetURLForSendCSMessage(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendCSMessage,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
-        #region 获取上传多媒体的URL public static string GetURLForUploadMedia(string weixinMPID, UploadMediaType type)
+        #region 获取上传多媒体的URL public static string GetURLForUploadMedia(WXAccount account, UploadMediaType type)
         /// <summary>
         /// 获取上传多媒体的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="type">多媒体类型</param>
         /// <returns>获取上传多媒体的URL</returns>
-        public static string GetURLForUploadMedia(string weixinMPID, UploadMediaType type)
+        public static string GetURLForUploadMedia(WXAccount account, UploadMediaType type)
         {
             return String.Format(
                 Properties.Settings.Default.URLForUploadMedia,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token, 
+                AccessTokenContainer.GetAccessToken(account).access_token, 
                 type);
         }
         #endregion
 
-        #region 获取下载多媒体的URL public static string GetURLForDownloadMedia(string weixinMPID, string media_id)
+        #region 获取下载多媒体的URL public static string GetURLForDownloadMedia(WXAccount account, string media_id)
         /// <summary>
         /// 获取下载多媒体的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="media_id">多媒体编号</param>
         /// <returns>获取上传多媒体的URL</returns>
-        public static string GetURLForDownloadMedia(string weixinMPID, string media_id)
+        public static string GetURLForDownloadMedia(WXAccount account, string media_id)
         {
             return String.Format(
                 Properties.Settings.Default.URLForDownloadMedia,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token, 
+                AccessTokenContainer.GetAccessToken(account).access_token, 
                 media_id);
         }
         #endregion
 
-        #region 获取创建菜单的URL public static string GetURLForCreateMenu(string weixinMPID)
+        #region 获取创建菜单的URL public static string GetURLForCreateMenu(WXAccount account)
         /// <summary>
         /// 获取创建菜单的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>创建菜单的URL</returns>
-        public static string GetURLForCreateMenu(string weixinMPID)
+        public static string GetURLForCreateMenu(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateMenu,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取获取菜单的URL public static string GetURLForGetMenu(string weixinMPID)
+        #region 获取获取菜单的URL public static string GetURLForGetMenu(WXAccount account)
         /// <summary>
         /// 获取获取菜单的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>获取菜单的URL</returns>
-        public static string GetURLForGetMenu(string weixinMPID)
+        public static string GetURLForGetMenu(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetMenu,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取删除菜单的URL public static string GetURLForDeleteMenu(string weixinMPID)
+        #region 获取删除菜单的URL public static string GetURLForDeleteMenu(WXAccount account)
         /// <summary>
         /// 获取删除菜单的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>删除菜单的URL</returns>
-        public static string GetURLForDeleteMenu(string weixinMPID)
+        public static string GetURLForDeleteMenu(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForDeleteMenu,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -183,17 +184,17 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
-        #region 获取创建二维码ticket的URL public static string GetURLForCreateQRCodeTicket(string weixinMPID)
+        #region 获取创建二维码ticket的URL public static string GetURLForCreateQRCodeTicket(WXAccount account)
         /// <summary>
         /// 获取创建二维码ticket的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>创建二维码ticket的URL</returns>
-        public static string GetURLForCreateQRCodeTicket(string weixinMPID)
+        public static string GetURLForCreateQRCodeTicket(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateQRCodeTicket,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -211,176 +212,176 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
-        #region 获取获取用户基本信息的URL public static string GetURLForGetWXUser(string weixinMPID, string openID)
+        #region 获取获取用户基本信息的URL public static string GetURLForGetWXUser(WXAccount account, string openID)
         /// <summary>
         /// 获取获取用户基本信息的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="openID">普通用户的标识</param>
         /// <returns>获取用户基本信息的URL</returns>
-        public static string GetURLForGetWXUser(string weixinMPID, string openID)
+        public static string GetURLForGetWXUser(WXAccount account, string openID)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUser,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token,
+                AccessTokenContainer.GetAccessToken(account).access_token,
                 openID,
                 Properties.Settings.Default.Language);
         } 
         #endregion
 
-        #region 获取获取用户列表的URL public static string GetURLForGetWXUserList(string weixinMPID)
+        #region 获取获取用户列表的URL public static string GetURLForGetWXUserList(WXAccount account)
         /// <summary>
         /// 获取获取用户列表的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>获取用户列表的URL</returns>
-        public static string GetURLForGetWXUserList(string weixinMPID)
+        public static string GetURLForGetWXUserList(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserList,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取获取后续用户列表的URL public static string GetURLForGetWXUserListNext(string weixinMPID, WXUserList userList)
+        #region 获取获取后续用户列表的URL public static string GetURLForGetWXUserListNext(WXAccount account, WXUserList userList)
         /// <summary>
         /// 获取获取后续用户列表的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="userList">用户列表</param>
         /// <returns>获取后续用户列表的URL</returns>
-        public static string GetURLForGetWXUserListNext(string weixinMPID, WXUserList userList)
+        public static string GetURLForGetWXUserListNext(WXAccount account, WXUserList userList)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserListNext,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token,
+                AccessTokenContainer.GetAccessToken(account).access_token,
                 userList.next_openid);
         } 
         #endregion
 
-        #region 获取添加组的URL public static string GetURLForCreateWXUserGroup(string weixinMPID)
+        #region 获取添加组的URL public static string GetURLForCreateWXUserGroup(WXAccount account)
         /// <summary>
         /// 获取添加组的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>添加组的URL</returns>
-        public static string GetURLForCreateWXUserGroup(string weixinMPID)
+        public static string GetURLForCreateWXUserGroup(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateWXUserGroup,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取获取用户组列表的URL public static string GetURLForGetWXUserGroupList(string weixinMPID)
+        #region 获取获取用户组列表的URL public static string GetURLForGetWXUserGroupList(WXAccount account)
         /// <summary>
         /// 获取获取用户组列表的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>获取用户组列表的URL</returns>
-        public static string GetURLForGetWXUserGroupList(string weixinMPID)
+        public static string GetURLForGetWXUserGroupList(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserGroupList,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取根据用户获取组的URL public static string GetURLForGetWXUserGroupByWXUser(string weixinMPID)
+        #region 获取根据用户获取组的URL public static string GetURLForGetWXUserGroupByWXUser(WXAccount account)
         /// <summary>
         /// 获取根据用户获取组的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>根据用户获取组的URL</returns>
-        public static string GetURLForGetWXUserGroupByWXUser(string weixinMPID)
+        public static string GetURLForGetWXUserGroupByWXUser(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserGroupByWXUser,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取修改组名的URL public static string GetURLForModityWXUserGroup(string weixinMPID)
+        #region 获取修改组名的URL public static string GetURLForModityWXUserGroup(WXAccount account)
         /// <summary>
         /// 获取修改组名的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>修改组名的URL</returns>
-        public static string GetURLForModityWXUserGroup(string weixinMPID)
+        public static string GetURLForModityWXUserGroup(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForModityWXUserGroup,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取移动用户分组的URL public static string GetURLForMoveWXUserGroup(string weixinMPID)
+        #region 获取移动用户分组的URL public static string GetURLForMoveWXUserGroup(WXAccount account)
         /// <summary>
         /// 获取移动用户分组的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>移动用户分组的URL</returns>
-        public static string GetURLForMoveWXUserGroup(string weixinMPID)
+        public static string GetURLForMoveWXUserGroup(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForMoveWXUserGroup,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
-        #region 获取上传图文消息素材的URL public static string GetURLForSendAllUploadNews(string weixinMPID)
+        #region 获取上传图文消息素材的URL public static string GetURLForSendAllUploadNews(WXAccount account)
         /// <summary>
         /// 获取上传图文消息素材的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>上传图文消息素材的URL</returns>
-        public static string GetURLForSendAllUploadNews(string weixinMPID)
+        public static string GetURLForSendAllUploadNews(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllUploadNews,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
-        #region 获取根据分组进行群发的URL public static string GetURLForSendAllByGroup(string weixinMPID)
+        #region 获取根据分组进行群发的URL public static string GetURLForSendAllByGroup(WXAccount account)
         /// <summary>
         /// 获取根据分组进行群发的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>根据分组进行群发的URL</returns>
-        public static string GetURLForSendAllByGroup(string weixinMPID)
+        public static string GetURLForSendAllByGroup(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllByGroup,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
-        #region 获取根据OpenID列表群发的URL public static string GetURLForSendAllByOpenIDList(string weixinMPID)
+        #region 获取根据OpenID列表群发的URL public static string GetURLForSendAllByOpenIDList(WXAccount account)
         /// <summary>
         /// 获取根据OpenID列表群发的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>根据OpenID列表群发的URL</returns>
-        public static string GetURLForSendAllByOpenIDList(string weixinMPID)
+        public static string GetURLForSendAllByOpenIDList(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllByOpenIDList,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
-        #region 获取删除群发的URL public static string GetURLForSendAllDelete(string weixinMPID)
+        #region 获取删除群发的URL public static string GetURLForSendAllDelete(WXAccount account)
         /// <summary>
         /// 获取删除群发的URL
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>删除群发的URL</returns>
-        public static string GetURLForSendAllDelete(string weixinMPID)
+        public static string GetURLForSendAllDelete(WXAccount account)
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllDelete,
-                AccessTokenContainer.GetAccessToken(weixinMPID).access_token);
+                AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
     }

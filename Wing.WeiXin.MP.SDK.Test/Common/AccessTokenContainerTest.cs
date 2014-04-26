@@ -17,7 +17,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Common
         [TestMethod]
         public void GetAccessTokenTest()
         {
-            Assert.IsNotNull(AccessTokenContainer.GetAccessToken("gh_7f215c8b1c91"));
+            Assert.IsNotNull(AccessTokenContainer.GetAccessToken(AccountContainer.GetWXAccountFirstService()));
         } 
         #endregion
     }

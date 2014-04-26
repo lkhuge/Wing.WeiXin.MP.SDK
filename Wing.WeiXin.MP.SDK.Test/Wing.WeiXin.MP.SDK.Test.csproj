@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
     <Compile Include="Common\AccessTokenContainerTest.cs" />
+    <Compile Include="Common\AccountContainerTests.cs" />
     <Compile Include="Common\AuthenticationTest.cs" />
     <Compile Include="Common\EntityFactoryTest.cs" />
     <Compile Include="Common\MenuHelperTest.cs" />

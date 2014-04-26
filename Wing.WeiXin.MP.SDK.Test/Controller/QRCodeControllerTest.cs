@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Exception;
@@ -34,7 +35,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         {
             try
             {
-                return QRCodeController.GetQRCodeTicket("gh_7f215c8b1c91", qrCodeTemp);
+                return QRCodeController.GetQRCodeTicket(AccountContainer.GetWXAccountFirstService(), qrCodeTemp);
             }
             catch (WXException)
             {

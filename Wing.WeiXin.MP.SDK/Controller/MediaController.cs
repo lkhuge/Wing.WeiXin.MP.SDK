@@ -17,18 +17,18 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class MediaController
     {
-        #region 上传多媒体 public static Media Upload(string weixinMPID, UploadMediaType type, string path)
+        #region 上传多媒体 public static Media Upload(WXAccount account, UploadMediaType type, string path)
         /// <summary>
         /// 上传多媒体
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="type">多媒体类型</param>
         /// <param name="path">文件目录</param>
         /// <param name="name">文件名</param>
         /// <returns>多媒体对象</returns>
-        public static Media Upload(string weixinMPID, UploadMediaType type, string path, string name)
+        public static Media Upload(WXAccount account, UploadMediaType type, string path, string name)
         {
-            string result = HTTPHelper.Upload(URLManager.GetURLForUploadMedia(weixinMPID, type), path, name);
+            string result = HTTPHelper.Upload(URLManager.GetURLForUploadMedia(account, type), path, name);
             ErrorMsg errMsg = Authentication.CheckHaveErrorMsg(result);
             if (errMsg != null) throw new ErrorMsgException(errMsg);
 
@@ -36,16 +36,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 下载多媒体 public static void DownLoad(string weixinMPID, string media_id, string pathName)
+        #region 下载多媒体 public static void DownLoad(WXAccount account, string media_id, string pathName)
         /// <summary>
         /// 下载多媒体
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="media_id">多媒体编号</param>
         /// <param name="pathName">下载路径加文件名</param>
-        public static void DownLoad(string weixinMPID, string media_id, string pathName)
+        public static void DownLoad(WXAccount account, string media_id, string pathName)
         {
-            string result = HTTPHelper.DownloadFile(URLManager.GetURLForDownloadMedia(weixinMPID, media_id), pathName);
+            string result = HTTPHelper.DownloadFile(URLManager.GetURLForDownloadMedia(account, media_id), pathName);
             if (!String.IsNullOrEmpty(result)) throw new ErrorMsgException(
                 JSONHelper.JSONDeserialize<ErrorMsg>(result));
         } 

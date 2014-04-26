@@ -26,42 +26,39 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// </summary>
         private static readonly Dictionary<string, AccessToken> AccessToken = new Dictionary<string, AccessToken>();
 
-        #region 获取AccessToken public static AccessToken GetAccessToken(string weixinMPID)
+        #region 获取AccessToken public static AccessToken GetAccessToken(WXAccount account)
         /// <summary>
         /// 获取AccessToken
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>AccessToken</returns>
-        public static AccessToken GetAccessToken(string weixinMPID)
+        public static AccessToken GetAccessToken(WXAccount account)
         {
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info("开始获取AccessToken", typeof(AccessTokenContainer));
-            if (AccessToken.ContainsKey(weixinMPID) && DateTime.Now < ExpiresDateTime[weixinMPID]) return AccessToken[weixinMPID];
-            GetNewAccessToken(weixinMPID);
+            if (AccessToken.ContainsKey(account.ID) && DateTime.Now < ExpiresDateTime[account.ID]) return AccessToken[account.ID];
+            GetNewAccessToken(account);
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info("成功开始获取AccessToken", typeof(AccessTokenContainer));
 
-            return AccessToken[weixinMPID];
+            return AccessToken[account.ID];
         } 
         #endregion
 
-        #region 获取新的AccessToken private static void GetNewAccessToken(string weixinMPID)
+        #region 获取新的AccessToken private static void GetNewAccessToken(WXAccount account)
         /// <summary>
         /// 获取新的AccessToken
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
-        private static void GetNewAccessToken(string weixinMPID)
+        /// <param name="account">微信公共平台账号</param>
+        private static void GetNewAccessToken(WXAccount account)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info("开始获取新的AccessToken", typeof(AccessTokenContainer));
             string result = HTTPHelper.Get(URLManager.GetURLForGetAccessToken(account.AppID, account.AppSecret));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailGetAccessToken(errorMsg.GetIntroduce());
-            AccessToken[weixinMPID] = JSONHelper.JSONDeserialize<AccessToken>(result);
-            ExpiresDateTime[weixinMPID] = DateTime.Now + new TimeSpan(0, 0, AccessToken[weixinMPID].expires_in);
+            AccessToken[account.ID] = JSONHelper.JSONDeserialize<AccessToken>(result);
+            ExpiresDateTime[account.ID] = DateTime.Now + new TimeSpan(0, 0, AccessToken[account.ID].expires_in);
             if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info(
                     String.Format("成功获取新的AccessToken（AccessTokenID:{0}, 截止日期：{1}）",
-                    AccessToken[weixinMPID].access_token, ExpiresDateTime), typeof(AccessTokenContainer));
+                    AccessToken[account.ID].access_token, ExpiresDateTime), typeof(AccessTokenContainer));
         } 
         #endregion
     }

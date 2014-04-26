@@ -16,29 +16,29 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class MenuController
     {
-        #region 创建菜单 public static ErrorMsg CreateMenu(string weixinMPID, Menu menu)
+        #region 创建菜单 public static ErrorMsg CreateMenu(WXAccount account, Menu menu)
         /// <summary>
         /// 创建菜单
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="menu">菜单对象</param>
         /// <returns>错误码</returns>
-        public static ErrorMsg CreateMenu(string weixinMPID, Menu menu)
+        public static ErrorMsg CreateMenu(WXAccount account, Menu menu)
         {
             return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(URLManager.GetURLForCreateMenu(weixinMPID), JSONHelper.JSONSerialize(menu)));
+                HTTPHelper.Post(URLManager.GetURLForCreateMenu(account), JSONHelper.JSONSerialize(menu)));
         } 
         #endregion
 
-        #region 获取菜单 public static MenuForGet GetMenu(string weixinMPID)
+        #region 获取菜单 public static MenuForGet GetMenu(WXAccount account)
         /// <summary>
         /// 获取菜单
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>菜单</returns>
-        public static Menu GetMenu(string weixinMPID)
+        public static Menu GetMenu(WXAccount account)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForGetMenu(weixinMPID));
+            string result = HTTPHelper.Get(URLManager.GetURLForGetMenu(account));
             ErrorMsg errorMsg = Authentication.CheckHaveErrorMsg(result);
             if (errorMsg != null) throw new FailGetMenuException(errorMsg.GetIntroduce());
 
@@ -46,15 +46,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 删除菜单 public static ErrorMsg DeleteMenu(string weixinMPID)
+        #region 删除菜单 public static ErrorMsg DeleteMenu(WXAccount account)
         /// <summary>
         /// 删除菜单
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <returns>错误码</returns>
-        public static ErrorMsg DeleteMenu(string weixinMPID)
+        public static ErrorMsg DeleteMenu(WXAccount account)
         {
-            return Authentication.CheckHaveErrorMsg(HTTPHelper.Get(URLManager.GetURLForDeleteMenu(weixinMPID)));
+            return Authentication.CheckHaveErrorMsg(HTTPHelper.Get(URLManager.GetURLForDeleteMenu(account)));
         } 
         #endregion
     }

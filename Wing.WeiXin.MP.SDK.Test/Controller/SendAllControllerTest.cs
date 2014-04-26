@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
@@ -30,27 +31,27 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                     }
                 }
             };
-            Media media = UploadNewsTest("gh_7f215c8b1c91", news);
+            Media media = UploadNewsTest( news);
             SendAllReturnMessage re1 =
-                SendAllByGroupTest("gh_7f215c8b1c91", new SendAllByGroup("105", media.media_id));
+                SendAllByGroupTest(new SendAllByGroup("105", media.media_id));
             Assert.AreEqual(re1.errcode, 0);
             SendAllReturnMessage re2 =
-                SendAllByOpenIDListTest("gh_7f215c8b1c91",
+                SendAllByOpenIDListTest(
                 new SendAllByOpenIDList(new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }, media.media_id));
             Assert.AreEqual(re2.errcode, 0);
-            DeleteSendAllTest("gh_7f215c8b1c91", new SendAllDelete(re2.msg_id));
+            DeleteSendAllTest(new SendAllDelete(re2.msg_id));
         } 
         #endregion
 
-        #region 上传图文消息素材测试 public Media UploadNewsTest(string weixinMPID, SendAllMessageNews news)
+        #region 上传图文消息素材测试 public Media UploadNewsTest(SendAllMessageNews news)
         /// <summary>
         /// 上传图文消息素材测试
         /// </summary>
-        public Media UploadNewsTest(string weixinMPID, SendAllMessageNews news)
+        public Media UploadNewsTest(SendAllMessageNews news)
         {
             try
             {
-                return SendAllController.UploadNews(weixinMPID, news);
+                return SendAllController.UploadNews(AccountContainer.GetWXAccountFirstService(), news);
             }
             catch (WXException e)
             {
@@ -60,33 +61,33 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         } 
         #endregion
 
-        #region 根据分组进行群发测试 public SendAllReturnMessage SendAllByGroupTest(string weixinMPID, SendAllByGroup group)
+        #region 根据分组进行群发测试 public SendAllReturnMessage SendAllByGroupTest(SendAllByGroup group)
         /// <summary>
         /// 根据分组进行群发测试
         /// </summary>
-        public SendAllReturnMessage SendAllByGroupTest(string weixinMPID, SendAllByGroup group)
+        public SendAllReturnMessage SendAllByGroupTest(SendAllByGroup group)
         {
-            return SendAllController.SendAllByGroup(weixinMPID, group);
+            return SendAllController.SendAllByGroup(AccountContainer.GetWXAccountFirstService(), group);
         } 
         #endregion
 
-        #region 根据OpenID列表群发测试 public SendAllReturnMessage SendAllByOpenIDListTest(string weixinMPID, SendAllByOpenIDList openIDList)
+        #region 根据OpenID列表群发测试 public SendAllReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         /// <summary>
         /// 根据OpenID列表群发测试
         /// </summary>
-        public SendAllReturnMessage SendAllByOpenIDListTest(string weixinMPID, SendAllByOpenIDList openIDList)
+        public SendAllReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         {
-            return SendAllController.SendAllByOpenIDList(weixinMPID, openIDList);
+            return SendAllController.SendAllByOpenIDList(AccountContainer.GetWXAccountFirstService(), openIDList);
         } 
         #endregion
 
-        #region 删除群发 public void DeleteSendAllTest(string weixinMPID, SendAllDelete delete)
+        #region 删除群发 public void DeleteSendAllTest(SendAllDelete delete)
         /// <summary>
         /// 删除群发
         /// </summary>
-        public void DeleteSendAllTest(string weixinMPID, SendAllDelete delete)
+        public void DeleteSendAllTest(SendAllDelete delete)
         {
-            ErrorMsg msg = SendAllController.DeleteSendAll(weixinMPID, delete);
+            ErrorMsg msg = SendAllController.DeleteSendAll(AccountContainer.GetWXAccountFirstService(), delete);
             Assert.AreEqual(msg.errcode, "0");
         } 
         #endregion

@@ -19,20 +19,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class QRCodeController
     {
-        #region 创建二维码ticket public static QRCodeTicket GetQRCodeTicket(string weixinMPID, QRCodeTicketRequest qrCodeTicketRequest)
+        #region 创建二维码ticket public static QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         /// <summary>
         /// 创建二维码ticket
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="qrCodeTicketRequest">二维码ticket请求</param>
         /// <returns>二维码ticket</returns>
-        public static QRCodeTicket GetQRCodeTicket(string weixinMPID, QRCodeTicketRequest qrCodeTicketRequest)
+        public static QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID); 
-            string result = HTTPHelper.Post(URLManager.GetURLForCreateQRCodeTicket(weixinMPID), 
+            account.CheckIsService();
+            string result = HTTPHelper.Post(URLManager.GetURLForCreateQRCodeTicket(account), 
                 JSONHelper.JSONSerialize(qrCodeTicketRequest));
             ErrorMsg errMsg = Authentication.CheckHaveErrorMsg(result);
             if (errMsg != null) throw new ErrorMsgException(errMsg);

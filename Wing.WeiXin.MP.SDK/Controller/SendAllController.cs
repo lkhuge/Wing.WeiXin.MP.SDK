@@ -18,20 +18,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class SendAllController
     {
-        #region 上传图文消息素材 public static Media UploadNews(string weixinMPID, SendAllMessageNews news)
+        #region 上传图文消息素材 public static Media UploadNews(WXAccount account, SendAllMessageNews news)
         /// <summary>
         /// 上传图文消息素材
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="news">群发图文消息</param>
         /// <returns>多媒体对象</returns>
-        public static Media UploadNews(string weixinMPID, SendAllMessageNews news)
+        public static Media UploadNews(WXAccount account, SendAllMessageNews news)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID);
-            string result = HTTPHelper.Post(URLManager.GetURLForSendAllUploadNews(weixinMPID), JSONHelper.JSONSerialize(news));
+            account.CheckIsService();
+            string result = HTTPHelper.Post(URLManager.GetURLForSendAllUploadNews(account), JSONHelper.JSONSerialize(news));
             ErrorMsg errMsg = Authentication.CheckHaveErrorMsg(result);
             if (errMsg != null) throw new ErrorMsgException(errMsg);
 
@@ -39,57 +36,48 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 根据分组进行群发 public static SendAllReturnMessage SendAllByGroup(string weixinMPID, SendAllByGroup group)
+        #region 根据分组进行群发 public static SendAllReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         /// <summary>
         /// 根据分组进行群发
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="group">群发组</param>
         /// <returns>群发回复消息</returns>
-        public static SendAllReturnMessage SendAllByGroup(string weixinMPID, SendAllByGroup group)
+        public static SendAllReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID);
+            account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(URLManager.GetURLForSendAllByGroup(weixinMPID), JSONHelper.JSONSerialize(group)));
+            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(URLManager.GetURLForSendAllByGroup(account), JSONHelper.JSONSerialize(group)));
         } 
         #endregion
 
-        #region 根据OpenID列表群发 public static SendAllReturnMessage SendAllByOpenIDList(string weixinMPID, SendAllByOpenIDList openIDList)
+        #region 根据OpenID列表群发 public static SendAllReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         /// <summary>
         /// 根据OpenID列表群发
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="openIDList">OpenID列表</param>
         /// <returns>群发回复消息</returns>
-        public static SendAllReturnMessage SendAllByOpenIDList(string weixinMPID, SendAllByOpenIDList openIDList)
+        public static SendAllReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID);
+            account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(URLManager.GetURLForSendAllByOpenIDList(weixinMPID), JSONHelper.JSONSerialize(openIDList)));
+            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(URLManager.GetURLForSendAllByOpenIDList(account), JSONHelper.JSONSerialize(openIDList)));
         }
         #endregion
 
-        #region 删除群发 public static ErrorMsg DeleteSendAll(string weixinMPID, SendAllDelete delete)
+        #region 删除群发 public static ErrorMsg DeleteSendAll(WXAccount account, SendAllDelete delete)
         /// <summary>
         /// 删除群发
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="delete">删除群发对象</param>
         /// <returns>返回码对象</returns>
-        public static ErrorMsg DeleteSendAll(string weixinMPID, SendAllDelete delete)
+        public static ErrorMsg DeleteSendAll(WXAccount account, SendAllDelete delete)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID);
+            account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Post(URLManager.GetURLForSendAllDelete(weixinMPID), JSONHelper.JSONSerialize(delete)));
+            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Post(URLManager.GetURLForSendAllDelete(account), JSONHelper.JSONSerialize(delete)));
         } 
         #endregion
     }

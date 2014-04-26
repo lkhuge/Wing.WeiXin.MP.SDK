@@ -19,21 +19,18 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public static class CSController
     {
-        #region 发送客服信息 public static ErrorMsg SendCSMessage(string weixinMPID, CSMessage csmessage)
+        #region 发送客服信息 public static ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         /// <summary>
         /// 发送客服信息
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="csmessage">客服信息</param>
         /// <returns>错误码</returns>
-        public static ErrorMsg SendCSMessage(string weixinMPID, CSMessage csmessage)
+        public static ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         {
-            AccountItemConfigSection account =
-                ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(weixinMPID);
-            if (account == null) throw new FailGetAccountException(weixinMPID);
-            if (account.WeixinMPType == WeixinMPType.Subscription) throw new OnlyServiceException(weixinMPID); 
+            account.CheckIsService();
             return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(URLManager.GetURLForSendCSMessage(weixinMPID), JSONHelper.JSONSerialize(csmessage)));
+                HTTPHelper.Post(URLManager.GetURLForSendCSMessage(account), JSONHelper.JSONSerialize(csmessage)));
         } 
         #endregion
     }

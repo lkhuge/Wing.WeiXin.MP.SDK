@@ -79,7 +79,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         {
             if (EntityHandlerList[message.ToUserName].GlobalHandlerList == null) return null;
             return EntityHandlerList[message.ToUserName].GlobalHandlerList
-                    .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForGlobal(message.ToUserName, pair.Key))
+                    .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForGlobal(pair.Key))
                     .Select(handle => handle.Value(message))
                     .FirstOrDefault(globalEntity => globalEntity != null);
         }
@@ -165,7 +165,7 @@ namespace Wing.WeiXin.MP.SDK.EventHandle
         {
             if (handler == null) return null;
             return handler
-                .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForCustom(message.ToUserName, pair.Key))
+                .Where(pair => ConfigManager.EventConfig.EventList.CheckEventForCustom(pair.Key))
                 .Select(handle => handle.Value(message))
                 .FirstOrDefault(entity => entity != null);
         } 

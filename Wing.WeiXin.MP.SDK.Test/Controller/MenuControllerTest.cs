@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
@@ -29,7 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void CreateMenuTest()
         {
-            Assert.AreEqual(MenuController.CreateMenu("gh_7f215c8b1c91", menu).errcode, "0");
+            Assert.AreEqual(MenuController.CreateMenu(AccountContainer.GetWXAccountFirstService(), menu).errcode, "0");
         } 
         #endregion
 
@@ -39,7 +40,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void DeleteMenuTest()
         {
-            Assert.AreEqual(MenuController.DeleteMenu("gh_7f215c8b1c91").errcode, "0");
+            Assert.AreEqual(MenuController.DeleteMenu(AccountContainer.GetWXAccountFirstService()).errcode, "0");
         } 
         #endregion
 
@@ -49,7 +50,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void GetMenuTest()
         {
-            Assert.AreEqual(MenuController.GetMenu("gh_7f215c8b1c91").button.Count, menu.button.Count);
+            Assert.AreEqual(MenuController.GetMenu(AccountContainer.GetWXAccountFirstService()).button.Count, menu.button.Count);
         } 
         #endregion
     }
