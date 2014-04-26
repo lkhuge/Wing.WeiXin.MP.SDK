@@ -37,45 +37,41 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         } 
         #endregion
 
-        #region 检测全局事件是否生效 public bool CheckEventForGlobal(string weixinMPID, string eventID)
+        #region 检测全局事件是否生效 public bool CheckEventForGlobal(string eventID)
         /// <summary>
         /// 检测全局事件是否生效
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="eventID">全局事件ID</param>
         /// <returns>是否生效</returns>
-        public bool CheckEventForGlobal(string weixinMPID, string eventID)
+        public bool CheckEventForGlobal(string eventID)
         {
-            return CheckEvent(weixinMPID, "Global:" + eventID);
+            return CheckEvent("Global:" + eventID);
         }
         #endregion
 
-        #region 检测自定义事件是否生效 public bool CheckEventForCustom(string weixinMPID, string eventID)
+        #region 检测自定义事件是否生效 public bool CheckEventForCustom(string eventID)
         /// <summary>
         /// 检测自定义事件是否生效
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="eventID">自定义事件ID</param>
         /// <returns>是否生效</returns>
-        public bool CheckEventForCustom(string weixinMPID, string eventID)
+        public bool CheckEventForCustom(string eventID)
         {
-            return CheckEvent(weixinMPID, "Custom:" + eventID);
+            return CheckEvent("Custom:" + eventID);
         }
         #endregion
 
-        #region 检测事件是否生效 private bool CheckEvent(string weixinMPID, string eventKey)
+        #region 检测事件是否生效 private bool CheckEvent(string eventKey)
         /// <summary>
         /// 检测事件是否生效
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="eventKey">事件ID</param>
         /// <returns>是否生效</returns>
-        private bool CheckEvent(string weixinMPID, string eventKey)
+        private bool CheckEvent(string eventKey)
         {
             return this.OfType<EventItemConfigSection>().
                 Any(config =>
                     config.Name.Equals(eventKey)
-                    && config.WeixinMPID.Equals(weixinMPID)
                     && config.IsAction);
         } 
         #endregion

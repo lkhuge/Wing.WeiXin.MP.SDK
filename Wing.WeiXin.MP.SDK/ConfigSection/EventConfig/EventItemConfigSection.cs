@@ -22,17 +22,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         }
         #endregion
 
-        #region 微信公共平台ID public string WeixinMPID
-        /// <summary>
-        /// 微信公共平台ID
-        /// </summary>
-        [ConfigurationProperty("WeixinMPID", IsRequired = true)]
-        public string WeixinMPID
-        {
-            get { return Convert.ToString(this["WeixinMPID"]); }
-        }
-        #endregion
-
         #region 事件项目是否生效 public bool IsAction
         /// <summary>
         /// 事件项目是否生效

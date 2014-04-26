@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AccessTokenContainer.cs" />
+    <Compile Include="Common\AccountContainer.cs" />
     <Compile Include="Common\Authentication.cs" />
     <Compile Include="Common\EntityFactory.cs" />
     <Compile Include="Common\MenuHelper.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Controller\SendAllController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
+    <Compile Include="Entities\WXAccount.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\CSMessages\CSMessage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageImage.cs" />
@@ -185,8 +187,6 @@
     <Compile Include="Lib\Net\HTTPHelper.cs" />
     <Compile Include="Lib\Net\MailHelper.cs" />
     <Compile Include="Lib\Security\Security.cs" />
-    <Compile Include="Lib\Serialize\IJSON.cs" />
-    <Compile Include="Lib\Serialize\IXML.cs" />
     <Compile Include="Lib\Serialize\JSONHelper.cs" />
     <Compile Include="Lib\Serialize\XMLHelper.cs" />
     <Compile Include="Lib\StringManager\HTMLHelper.cs" />
