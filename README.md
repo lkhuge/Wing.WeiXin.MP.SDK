@@ -8,6 +8,10 @@ Wing.WeiXin.MP.SDK
 QQ群：203230922
 ```
 
+```
+PS: V2 与 V1 不兼容， 请谨慎切换
+```
+
 快速上手
 ----------------
 ###配置文件
@@ -16,12 +20,6 @@ QQ群：203230922
 <sectionGroup name="WeiXinMPSDKConfigGroup">
      <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig.BaseConfigSection, Wing.WeiXin.MP.SDK" />
      <section name="Event" type="Wing.WeiXin.MP.SDK.ConfigSection.EventConfig.EventConfigSection, Wing.WeiXin.MP.SDK" />
-    <section name="Debug" type="Wing.WeiXin.MP.SDK.ConfigSection.DebugConfigSection, Wing.WeiXin.MP.SDK" />
-    <sectionGroup name="Log">
-        <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.LogConfig.LogConfigSection, Wing.WeiXin.MP.SDK" />
-        <section name="RollingFileAppender" type="Wing.WeiXin.MP.SDK.ConfigSection.LogConfig.RollingFileAppenderConfigSection, Wing.WeiXin.MP.SDK" />
-        <section name="AdoNetAppender" type="Wing.WeiXin.MP.SDK.ConfigSection.LogConfig.AdoNetAppenderConfigSection, Wing.WeiXin.MP.SDK" />
-    </sectionGroup>
 </sectionGroup>
 ```
 
@@ -33,22 +31,14 @@ QQ群：203230922
         <add WeixinMPID="xxxxxx" WeixinMPType="Service" AppID="xxxxx" AppSecret="xxxxx" />
       </AccountList>
     </Base>
-    <Debug IsDebug="True" />
     <Event>
     </Event>
-    <Log>
-        <Base IsLog="True" />
-        <RollingFileAppender Path="C:\\" />
-    </Log>
 </WeiXinMPSDKConfigGroup>
 ```
 
-###一般处理程序（.ashx）调用
+###一般处理程序（.ashx）调用 （新的配置信息后续将会更新）
 ```C#
-public void ProcessRequest(HttpContext context)
-{
-    ReceiveController.ActionForHttpContext(context);
-}
+
 ```
 
 事件处理
@@ -60,54 +50,8 @@ public void ProcessRequest(HttpContext context)
 ```
 ###添加实体处理对象
 ```C#
-//初始化实体处理对象
-EventHandleManager.Init(
-    new Dictionary<string, EntityHandler>
-    {
-        {"xxx(微信公共账号ID)", 
-            new EntityHandler
-            {
-                //添加全局事件
-                GlobalHandlerList = new Dictionary<string, EntityHandler.GlobalEntityHandler>
-                {
-                    {"global1", globalEntityEvent}
-                }, 
 
-                //添加自定义事件
-                MessageTextHandlerList = new Dictionary<string, EntityHandler.CustomEntityHandler<MessageText>>
-                {
-                    {"textEvent1", MessageTextEntityEvent}
-                }
-            }}
-    }
-);
-```
 
-```C#
-public IReturn globalEntityEvent(BaseReceiveMessage message)
-{
-    return new ReturnMessageText
-    {
-        FromUserName = message.ToUserName,
-        ToUserName = message.FromUserName,
-        CreateTime = Message.GetLongTimeNow(),
-        content = "Hello World"
-    };
-}
-```
-
-```C#
-public IReturn MessageTextEntityEvent(MessageText message)
-{
-    return new ReturnMessageText
-    {
-        FromUserName = message.ToUserName,
-        ToUserName = message.FromUserName,
-        CreateTime = Message.GetLongTimeNow(),
-        content = "Hello World"
-    };
-}
-```
 
 配置说明
 ----------------
@@ -120,7 +64,6 @@ public IReturn MessageTextEntityEvent(MessageText message)
         <add WeixinMPID="xxxxxx" WeixinMPType="Subscription" AppID="xxxxx" AppSecret="xxxxxx" />
       </AccountList>
     </Base>
-    <Debug IsDebug="True" />
     <Event>
         <EventList>
             <add Name="Global:Event1" IsAction="True" />
@@ -131,15 +74,6 @@ public IReturn MessageTextEntityEvent(MessageText message)
             <add Key="xxxxxx:222" Path="C:\" />
         </QuickConfigReturnMessageList>
     </Event>
-    <Log>
-        <Base IsLog="True" />
-        <RollingFileAppender Pattern="记录时间：%d %n日志级别：%-5level %n类：%logger%n描述：%n%m%n%n" 
-                             Path="C:\\"
-                             MaximumFileSize="50MB" />
-        <AdoNetAppender SQLType="SQLServer"
-                        ConnectionString="xxxxxxxxxxxx"
-                        CommandText="INSERT INTO Log ([Date],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @thread, @log_level, @logger, @message, @exception)" />
-    </Log>
 </WeiXinMPSDKConfigGroup>
 ```
 ###基础配置说明（Base）
@@ -148,11 +82,6 @@ Token        Token
 AccountList  账号列表
 AppID        AppID
 AppSecret    AppSecret
-
-```
-###调试配置说明（Debug）
-```
-IsDebug     是否启动调试
 ```
 ###事件配置说明（Event）
 ```
@@ -162,16 +91,3 @@ IsAction                           是否开启该事件
 QuickConfigReturnMessageList       快速配置回复消息列表
 Key                                快速配置回复消息关键字(事件从属的微信公共平台账号ID:关键字)
 Path                               快速配置回复消息路径
-```
-###日志配置说明（Log）
-```
-IsLog                     是否记录日志
-RollingFileAppender       记录到文件
-Pattern                   记录格式
-Path                      文件路径
-MaximumFileSize           单文件最大容量
-AdoNetAppender            记录到数据库
-SQLType                   数据库类型
-ConnectionString          连接字符串
-CommandText               记录到数据库的执行语句
-```
