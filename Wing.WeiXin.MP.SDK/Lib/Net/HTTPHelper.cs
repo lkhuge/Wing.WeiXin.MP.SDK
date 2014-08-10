@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.SDK.Lib.Net
 {
@@ -133,7 +132,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
                 if (webStream == null) throw new NullReferenceException();
                 if (webResponse.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    throw new WXException("404");
+                    throw new Exception("404");
                 }
                 if (webResponse.ContentType.Equals("text/plain"))
                 {

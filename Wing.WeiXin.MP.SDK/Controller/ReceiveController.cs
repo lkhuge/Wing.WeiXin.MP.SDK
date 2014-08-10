@@ -1,57 +1,109 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
-using log4net;
+using System.Xml.Linq;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.HTTP;
-using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
-using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib.Security;
 using Wing.WeiXin.MP.SDK.Lib.StringManager;
-using BaseException = System.Exception;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
     /// <summary>
     /// 接收消息控制器
     /// </summary>
-    public static class ReceiveController
+    public class ReceiveController
     {
-        #region 执行操作 public static Response Action(Request request)
+        /// <summary>
+        /// 接收开始事件
+        /// </summary>
+        public event Action<Request> ReceiveStart;
+
+        /// <summary>
+        /// 接收结束事件
+        /// </summary>
+        public event Action<Request, Response> ReceiveEnd;
+
+        #region 执行操作 public Response Action(Request request)
         /// <summary>
         /// 执行操作
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <returns>响应对象</returns>
-        public static Response Action(Request request)
+        public Response Action(Request request)
         {
-            if(ConfigManager.DebugConfig.IsDebug) LogHelper.Info(request.ToString(), typeof(ReceiveController));
-            Response response;
+            if (ReceiveStart != null) ReceiveStart(request);
             try
             {
-                response = EntityFactory.RequestHandle(request);
-                if (ConfigManager.DebugConfig.IsDebug) LogHelper.Info(response.ToString(), typeof(ReceiveController));
+                GlobalManager.CheckInit();
+                AuthenticationRequest(request);
+                request.ParsePostData();
+                Response response = GlobalManager.EventManager.ActionEvent(request);
+                if (ReceiveEnd != null) ReceiveEnd(request, response);
+                return response;
             }
-            catch (WXException e)
+            catch (Exception e)
             {
-                response = new Response(e);
+                return new Response(e);
             }
-            catch (BaseException e)
-            {
-                throw new WXException("接收消息", e);
-            }
-            return response;
-        } 
+        }
         #endregion
 
-        #region 为HttpContext简化代码执行方法 public static void ActionForHttpContext(HttpContext context)
+        #region 验证请求 private void AuthenticationRequest(Request request)
         /// <summary>
-        /// 为HttpContext简化代码执行方法
+        /// 验证请求
         /// </summary>
-        /// <param name="context">HTTP上下文</param>
-        public static void ActionForHttpContext(HttpContext context)
+        /// <param name="request">请求对象</param>
+        private void AuthenticationRequest(Request request)
         {
-            Action(new HttpContextRequest(context)).ResponseOutput(context.Response);
+            if (request == null) throw new Exception("无请求");
+            //首次验证
+            if (!String.IsNullOrEmpty(request.Echostr))
+            {
+                if (CheckSignature(request))
+                {
+                    throw new Exception(request.Echostr);
+                }
+                throw new Exception("首次验证未通过\nRequest:" + request);
+            }
+            //消息验证
+            if (!CheckMessage(request))
+                throw new Exception("消息验证未通过\nRequest:" + request);
+        }
+        #endregion
+
+        #region 验证signature是否有效 private bool CheckSignature(Request request)
+        /// <summary>
+        /// 验证signature是否有效
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>是否有效</returns>
+        private bool CheckSignature(Request request)
+        {
+            string[] arr = new[] 
+            { 
+                GlobalManager.ConfigManager.BaseConfig.Token, 
+                request.Timestamp, 
+                request.Nonce
+            }.OrderBy(z => z).ToArray();
+
+            return Security.SHA1_Encrypt(string.Join("", arr)).Equals(request.Signature);
+        }
+        #endregion
+
+        #region 验证消息真实性 private bool CheckMessage(Request request)
+        /// <summary>
+        /// 验证消息真实性
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>是否有效</returns>
+        private bool CheckMessage(Request request)
+        {
+            return CheckSignature(request);
         }
         #endregion
     }

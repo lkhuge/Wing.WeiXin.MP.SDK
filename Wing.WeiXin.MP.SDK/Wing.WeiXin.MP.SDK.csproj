@@ -35,20 +35,16 @@
     <DocumentationFile>bin\Release\Wing.WeiXin.MP.SDK.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gma.QrCodeNet.Encoding">
-      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -58,23 +54,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AccessTokenContainer.cs" />
-    <Compile Include="Common\AccountContainer.cs" />
-    <Compile Include="Common\Authentication.cs" />
-    <Compile Include="Common\EntityFactory.cs" />
-    <Compile Include="Common\MenuHelper.cs" />
+    <Compile Include="Common\EntityBuilder.cs" />
+    <Compile Include="Common\MenuHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigSection\BaseConfig\AccountItemConfigSection.cs" />
     <Compile Include="ConfigSection\BaseConfig\AccountItemListConfigSection.cs" />
     <Compile Include="ConfigSection\BaseConfig\BaseConfigSection.cs" />
-    <Compile Include="ConfigSection\DebugConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemListConfigSection.cs" />
-    <Compile Include="ConfigSection\LogConfig\AdoNetAppenderConfigSection.cs" />
-    <Compile Include="ConfigSection\LogConfig\LogConfigSection.cs" />
-    <Compile Include="ConfigSection\LogConfig\RollingFileAppenderConfigSection.cs" />
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\MediaController.cs" />
     <Compile Include="Controller\MenuController.cs" />
@@ -84,8 +76,9 @@
     <Compile Include="Controller\SendAllController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
+    <Compile Include="Entities\Request.cs" />
+    <Compile Include="Entities\Response.cs" />
     <Compile Include="Entities\WXAccount.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\CSMessages\CSMessage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageImage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageMusic.cs" />
@@ -94,51 +87,20 @@
     <Compile Include="Entities\CSMessages\CSMessageVideo.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVoice.cs" />
     <Compile Include="Entities\ErrorMsg.cs" />
-    <Compile Include="Entities\HTTP\Request\HttpContextRequest.cs" />
-    <Compile Include="Entities\HTTP\Request\Request.cs" />
-    <Compile Include="Entities\HTTP\Response.cs" />
-    <Compile Include="Entities\IEntity.cs" />
-    <Compile Include="Entities\IReceive.cs" />
-    <Compile Include="Entities\IReturn.cs" />
     <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\Menu\AMenuButton.cs" />
     <Compile Include="Entities\Menu\AMenuItem.cs" />
     <Compile Include="Entities\Menu\ForGet\MenuButtonForGet.cs" />
     <Compile Include="Entities\Menu\ForGet\MenuForGet.cs" />
     <Compile Include="Entities\Menu\ForGet\MenuMainForGet.cs" />
-    <Compile Include="Entities\Menu\IMenu.cs" />
     <Compile Include="Entities\Menu\Menu.cs" />
     <Compile Include="Entities\Menu\MenuButtonClick.cs" />
     <Compile Include="Entities\Menu\MenuButtonView.cs" />
     <Compile Include="Entities\Menu\MenuList.cs" />
-    <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\OAuth\OAuthAccessToken.cs" />
     <Compile Include="Entities\OAuth\OAuthUser.cs" />
     <Compile Include="Entities\QRCode\QRCodeTicket.cs" />
     <Compile Include="Entities\QRCode\QRCodeTicketRequest.cs" />
-    <Compile Include="Entities\ReceiveMessages\BaseReceiveMessage.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\BaseEvent.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventClick.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventLocation.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventMessageSendAllFinish.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribe.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventSubscribeByQRScene.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventUnsubscribe.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventView.cs" />
-    <Compile Include="Entities\ReceiveMessages\Events\EventWithQRScene.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageImage.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageLink.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageLocation.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageText.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageVideo.cs" />
-    <Compile Include="Entities\ReceiveMessages\Messages\MessageVoice.cs" />
-    <Compile Include="Entities\ReturnMessages\BaseReturnMessage.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageImage.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageMusic.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageNews.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageText.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageVideo.cs" />
-    <Compile Include="Entities\ReturnMessages\ReturnMessageVoice.cs" />
     <Compile Include="Entities\SendAll\SendAllByGroup.cs" />
     <Compile Include="Entities\SendAll\SendAllByOpenIDList.cs" />
     <Compile Include="Entities\SendAll\SendAllDelete.cs" />
@@ -155,53 +117,23 @@
     <Compile Include="Enumeration\ReceiveEntityType.cs" />
     <Compile Include="Enumeration\ReturnCode.cs" />
     <Compile Include="Enumeration\ReturnEntityType.cs" />
-    <Compile Include="Enumeration\SQLType.cs" />
     <Compile Include="Enumeration\UDStringType.cs" />
     <Compile Include="Enumeration\UploadMediaType.cs" />
     <Compile Include="Enumeration\WeixinMPType.cs" />
-    <Compile Include="EventHandle\EntityHandler.cs" />
-    <Compile Include="EventHandle\EventHandleManager.cs" />
-    <Compile Include="EventHandle\IEvent.cs" />
-    <Compile Include="EventHandle\QuickConfigReturnMessageManager.cs" />
-    <Compile Include="Exception\ConfigNotFoundException.cs" />
-    <Compile Include="Exception\ConvertToEntityException.cs" />
-    <Compile Include="Exception\ErrorMsgException.cs" />
-    <Compile Include="Exception\EventHandlerException.cs" />
-    <Compile Include="Exception\FailGetAccessToken.cs" />
-    <Compile Include="Exception\FailGetAccountException.cs" />
-    <Compile Include="Exception\FailGetGetAccessTokenByCode.cs" />
-    <Compile Include="Exception\FailGetMenuException.cs" />
-    <Compile Include="Exception\FailGetOAuthUser.cs" />
-    <Compile Include="Exception\FailRefreshAccessToken.cs" />
-    <Compile Include="Exception\FirstInvalidMessageException.cs" />
-    <Compile Include="Exception\InvalidMessageException.cs" />
-    <Compile Include="Exception\LoadConfigException.cs" />
-    <Compile Include="Exception\NoResponseException.cs" />
-    <Compile Include="Exception\OnlyServiceException.cs" />
-    <Compile Include="Exception\WXException.cs" />
-    <Compile Include="Exception\WXFormationException.cs" />
-    <Compile Include="Extension\EntityHandlerExtension.cs" />
-    <Compile Include="HaveFun\Captcha.cs" />
-    <Compile Include="HaveFun\Screenshot.cs" />
+    <Compile Include="Common\QuickConfigReturnMessageManager.cs" />
+    <Compile Include="EventManager.cs" />
+    <Compile Include="GlobalManager.cs" />
     <Compile Include="Lib\FileManager\FileHelper.cs" />
     <Compile Include="Lib\Net\HTTPHelper.cs" />
-    <Compile Include="Lib\Net\MailHelper.cs" />
     <Compile Include="Lib\Security\Security.cs" />
     <Compile Include="Lib\Serialize\JSONHelper.cs" />
-    <Compile Include="Lib\Serialize\XMLHelper.cs" />
-    <Compile Include="Lib\StringManager\HTMLHelper.cs" />
-    <Compile Include="Lib\StringManager\LogHelper.cs" />
     <Compile Include="Lib\StringManager\Message.cs" />
-    <Compile Include="Lib\StringManager\QRCodeHelper.cs" />
-    <Compile Include="Lib\StringManager\StringMaker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ServerDataContainer\IServerDataContainer.cs" />
-    <Compile Include="ServerDataContainer\StaticServerDataContainer.cs" />
     <Compile Include="URLManager.cs" />
   </ItemGroup>
   <ItemGroup>

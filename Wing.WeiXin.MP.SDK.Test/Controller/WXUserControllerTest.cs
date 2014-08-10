@@ -59,9 +59,11 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// <summary>
         /// GetWXUserList 的测试
         ///</summary>
+        [TestMethod]
         public WXUserList GetWXUserListTest()
         {
-            return WXUserController.GetWXUserList(AccountContainer.GetWXAccountFirstService());
+            WXUserList l = new WXUserController().GetWXUserList(account);
+            return l;
         } 
         #endregion
 
@@ -71,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void GetWXUserTest(string openID)
         {
-            Assert.AreEqual(WXUserController.GetWXUser(AccountContainer.GetWXAccountFirstService(), openID).openid, openID);
+            Assert.AreEqual(new WXUserController().GetWXUser(account, openID).openid, openID);
         }
         #endregion
 
@@ -81,7 +83,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void AddWXGroupTest(WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.AddWXGroup(AccountContainer.GetWXAccountFirstService(), group).group.name, group.group.name);
+            Assert.AreEqual(new WXUserController().AddWXGroup(account, group).group.name, group.group.name);
         }
         #endregion
 
@@ -89,9 +91,10 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// <summary>
         /// GetWXUserGroupList 的测试
         ///</summary>
+        [TestMethod]
         public WXUserGroupList GetWXUserGroupListTest()
         {
-            return WXUserController.GetWXUserGroupList(AccountContainer.GetWXAccountFirstService());
+            return new WXUserController().GetWXUserGroupList(account);
         } 
         #endregion
 
@@ -101,7 +104,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void ModityGroupNameTest(WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.ModityGroupName(AccountContainer.GetWXAccountFirstService(), group).errcode, "0");
+            Assert.AreEqual(new WXUserController().ModityGroupName(account, group).errcode, "0");
         } 
         #endregion
 
@@ -111,7 +114,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void MoveGroupTest(WXUser user, WXUserGroup group)
         {
-            Assert.AreEqual(WXUserController.MoveGroup(AccountContainer.GetWXAccountFirstService(), user, group).errcode, "0");
+            Assert.AreEqual(new WXUserController().MoveGroup(account, user, group).errcode, "0");
         } 
         #endregion
 
@@ -121,7 +124,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public WXUserGroup GetWXGroupByWXUserTest(WXUser user)
         {
-            return WXUserController.GetWXGroupByWXUser(AccountContainer.GetWXAccountFirstService(), user);
+            return new WXUserController().GetWXGroupByWXUser(account, user);
         } 
         #endregion
 
@@ -131,8 +134,22 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public WXUser GetWXUserListFromListTest(WXUserList userList)
         {
-            return WXUserController.GetWXUserListFromList(AccountContainer.GetWXAccountFirstService(), userList, 1)[0];
+            return new WXUserController().GetWXUserListFromList(account, userList, 1)[0];
         } 
+        #endregion
+
+        #region GetWXGroupByWXUser 的测试 public void GetWXGroupByWXUserTest()
+        /// <summary>
+        /// GetWXGroupByWXUser 的测试
+        ///</summary>
+        [TestMethod]
+        public void GetWXGroupByWXUserTest()
+        {
+            WXUserGroup g = new WXUserController().GetWXGroupByWXUser(account, new WXUser
+            {
+                openid = "orImOuC33jQiJFrVelQGGTmwPSFE"
+            });
+        }
         #endregion
     }
 }

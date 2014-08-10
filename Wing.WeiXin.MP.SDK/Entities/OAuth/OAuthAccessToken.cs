@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.OAuth
     /// <summary>
     /// OAuth使用的AccessToken
     /// </summary>
-    public class OAuthAccessToken : IEntity
+    public class OAuthAccessToken
     {
         /// <summary>
         /// 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同

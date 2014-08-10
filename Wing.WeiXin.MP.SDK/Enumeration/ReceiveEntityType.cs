@@ -13,71 +13,76 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// <summary>
         /// 图片消息
         /// </summary>
-        MessageImage,
+        image,
 
         /// <summary>
         /// 链接消息
         /// </summary>
-        MessageLink,
+        link,
 
         /// <summary>
         /// 地理位置
         /// </summary>
-        MessageLocation,
+        location,
 
         /// <summary>
         /// 文本消息
         /// </summary>
-        MessageText,
+        text,
 
         /// <summary>
         /// 视频消息
         /// </summary>
-        MessageVideo,
+        video,
 
         /// <summary>
         /// 语音消息
         /// </summary>
-        MessageVoice,
+        voice,
+
+        /// <summary>
+        /// 将消息转发到多客服
+        /// </summary>
+        transfer_customer_service,
 
         /// <summary>
         /// 点击菜单拉取消息时的事件
         /// </summary>
-        EventClick,
+        CLICK,
 
         /// <summary>
         /// 上报地理位置事件
         /// </summary>
-        EventLocation,
+        LOCATION,
 
         /// <summary>
         /// 带参数二维码关注事件
         /// </summary>
-        EventSubscribeByQRScene,
+        subscribeByQRScene,
 
         /// <summary>
         /// 关注事件
         /// </summary>
-        EventSubscribe,
+        subscribe,
 
         /// <summary>
         /// 取消关注事件
         /// </summary>
-        EventUnsubscribe,
+        unsubscribe,
 
         /// <summary>
         /// 点击菜单跳转链接时的事件
         /// </summary>
-        EventView,
+        VIEW,
 
         /// <summary>
         /// 带参数二维码事件
         /// </summary>
-        EventWithQRScene,
+        SCAN,
 
         /// <summary>
         /// 推送群发结果事件
         /// </summary>
-        EventMessageSendAllFinish
+        MASSSENDJOBFINISH
     }
 }

@@ -5,12 +5,13 @@ using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
-using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.SDK.Lib.Net;
+using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
     [TestClass]
-    public class SendAllControllerTest
+    public class SendAllControllerTest : BaseTest
     {
         #region 群发全部测试 public void SendAllTest()
         /// <summary>
@@ -18,6 +19,25 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// </summary>
         [TestMethod]
         public void SendAllTest()
+        {
+            Media media = UploadNewsTest();
+            SendAllReturnMessage re1 =
+                SendAllByGroupTest(media);
+            Assert.AreEqual(re1.errcode, 0);
+            SendAllReturnMessage re2 =
+                SendAllByOpenIDListTest(
+                new SendAllByOpenIDList(new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }, media.media_id));
+            Assert.AreEqual(re2.errcode, 0);
+            DeleteSendAllTest(new SendAllDelete(re2.msg_id));
+        } 
+        #endregion
+
+        #region 上传图文消息素材测试 public Media UploadNewsTest()
+        /// <summary>
+        /// 上传图文消息素材测试
+        /// </summary>
+        [TestMethod]
+        public Media UploadNewsTest()
         {
             SendAllMessageNews news = new SendAllMessageNews
             {
@@ -30,30 +50,13 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                         content = "asdfasdfwefe"
                     }
                 }
-            };
-            Media media = UploadNewsTest( news);
-            SendAllReturnMessage re1 =
-                SendAllByGroupTest(new SendAllByGroup("105", media.media_id));
-            Assert.AreEqual(re1.errcode, 0);
-            SendAllReturnMessage re2 =
-                SendAllByOpenIDListTest(
-                new SendAllByOpenIDList(new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }, media.media_id));
-            Assert.AreEqual(re2.errcode, 0);
-            DeleteSendAllTest(new SendAllDelete(re2.msg_id));
-        } 
-        #endregion
-
-        #region 上传图文消息素材测试 public Media UploadNewsTest(SendAllMessageNews news)
-        /// <summary>
-        /// 上传图文消息素材测试
-        /// </summary>
-        public Media UploadNewsTest(SendAllMessageNews news)
-        {
+            }; 
             try
             {
-                return SendAllController.UploadNews(AccountContainer.GetWXAccountFirstService(), news);
+                Media m = new SendAllController().UploadNews(account, news);
+                return m;
             }
-            catch (WXException e)
+            catch (Exception e)
             {
                 Assert.Fail(e.Message);
             }
@@ -61,13 +64,15 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         } 
         #endregion
 
-        #region 根据分组进行群发测试 public SendAllReturnMessage SendAllByGroupTest(SendAllByGroup group)
+        #region 根据分组进行群发测试 public SendAllReturnMessage SendAllByGroupTest()
         /// <summary>
         /// 根据分组进行群发测试
         /// </summary>
-        public SendAllReturnMessage SendAllByGroupTest(SendAllByGroup group)
+        [TestMethod]
+        public SendAllReturnMessage SendAllByGroupTest(Media m)
         {
-            return SendAllController.SendAllByGroup(AccountContainer.GetWXAccountFirstService(), group);
+            SendAllByGroup group = new SendAllByGroup("106", m.media_id);
+            return new SendAllController().SendAllByGroup(account, group);
         } 
         #endregion
 
@@ -77,7 +82,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// </summary>
         public SendAllReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         {
-            return SendAllController.SendAllByOpenIDList(AccountContainer.GetWXAccountFirstService(), openIDList);
+            return new SendAllController().SendAllByOpenIDList(account, openIDList);
         } 
         #endregion
 
@@ -87,7 +92,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// </summary>
         public void DeleteSendAllTest(SendAllDelete delete)
         {
-            ErrorMsg msg = SendAllController.DeleteSendAll(AccountContainer.GetWXAccountFirstService(), delete);
+            ErrorMsg msg = new SendAllController().DeleteSendAll(account, delete);
             Assert.AreEqual(msg.errcode, "0");
         } 
         #endregion

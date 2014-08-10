@@ -24,6 +24,6 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
         /// <summary>
         /// 消息ID
         /// </summary>
-        public int msg_id { get; set; }
+        public long msg_id { get; set; }
     }
 }

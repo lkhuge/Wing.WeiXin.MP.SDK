@@ -1,6 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.Menu;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -28,9 +31,10 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// <summary>
         /// CreateMenu 的测试
         ///</summary>
+        [TestMethod]
         public void CreateMenuTest()
         {
-            Assert.AreEqual(MenuController.CreateMenu(AccountContainer.GetWXAccountFirstService(), menu).errcode, "0");
+            Assert.AreEqual(new MenuController().CreateMenu(account, menu).errcode, "0");
         } 
         #endregion
 
@@ -38,9 +42,10 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// <summary>
         /// DeleteMenu 的测试
         ///</summary>
+        [TestMethod]
         public void DeleteMenuTest()
         {
-            Assert.AreEqual(MenuController.DeleteMenu(AccountContainer.GetWXAccountFirstService()).errcode, "0");
+            Assert.AreEqual(new MenuController().DeleteMenu(account).errcode, "0");
         } 
         #endregion
 
@@ -48,9 +53,11 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         /// <summary>
         /// GetMenu 的测试
         ///</summary>
+        [TestMethod]
         public void GetMenuTest()
         {
-            Assert.AreEqual(MenuController.GetMenu(AccountContainer.GetWXAccountFirstService()).button.Count, menu.button.Count);
+            Menu m = new MenuController().GetMenu(account);
+            Assert.AreEqual(m.button.Count, menu.button.Count);
         } 
         #endregion
     }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Exception;
-using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
-namespace Wing.WeiXin.MP.SDK.Entities.HTTP
+namespace Wing.WeiXin.MP.SDK.Entities
 {
     /// <summary>
     /// 响应对象
@@ -24,7 +25,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         /// <summary>
         /// 文本类型
         /// </summary>
-        public static string TEXT = "text/plain"; 
+        public static string TEXT = "text/plain";
         #endregion
 
         #region 成员变量
@@ -36,7 +37,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         /// <summary>
         /// 响应内容
         /// </summary>
-        public string Text { get; private set; } 
+        public string Text { get; private set; }
         #endregion
 
         #region 根据响应内容实例化文本类型对象 public Response(string text)
@@ -48,30 +49,6 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         {
             Text = text;
             ContentType = TEXT;
-        } 
-        #endregion
-
-        #region 根据回复消息实例化XML对象 public Response(IReturn iReturn)
-        /// <summary>
-        /// 根据回复消息实例化XML对象
-        /// </summary>
-        /// <param name="iReturn">响应内容</param>
-        public Response(IReturn iReturn)
-        {
-            Text = XMLHelper.XMLSerialize(iReturn);
-            ContentType = XML;
-        }
-        #endregion
-
-        #region 根据消息对象实例化文本类型对象 public Response(Note note)
-        /// <summary>
-        /// 根据消息对象实例化文本类型对象
-        /// </summary>
-        /// <param name="note">消息对象</param>
-        public Response(Note note)
-        {
-            Text = note.Message;
-            ContentType = TEXT;
         }
         #endregion
 
@@ -80,9 +57,9 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         /// 根据微信异常实例化文本类型对象
         /// </summary>
         /// <param name="e">消息对象</param>
-        public Response(WXException e)
+        public Response(Exception e)
         {
-            Text = e.GetNote().Message;
+            Text = e.Message;
             ContentType = TEXT;
         }
         #endregion
@@ -97,7 +74,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         {
             Text = text;
             ContentType = type;
-        } 
+        }
         #endregion
 
         #region 输出响应 public void ResponseOutput(HttpResponse response)
@@ -109,7 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         {
             response.ContentType = ContentType;
             response.Write(Text);
-        } 
+        }
         #endregion
 
         #region 获取完整响应信息 public override string ToString()
@@ -121,7 +98,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.HTTP
         {
             return String.Format("[ContentType]:{0}[Text]:{1}",
                 ContentType, Text);
-        } 
+        }
         #endregion
     }
 }

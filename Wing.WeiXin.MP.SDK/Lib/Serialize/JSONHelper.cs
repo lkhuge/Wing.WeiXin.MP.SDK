@@ -1,5 +1,6 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Wing.WeiXin.MP.SDK.Lib.Serialize
 {
@@ -8,6 +9,12 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
     /// </summary>
     public static class JSONHelper
     {
+        /// <summary>
+        /// 序列化工具类
+        /// </summary>
+        private static readonly JavaScriptSerializer javaScriptSerializer
+            = new JavaScriptSerializer();
+
         #region 将对象转换为Json字符串 public static string JSONSerialize(object obj)
         /// <summary>
         /// 将对象转换为Json字符串
@@ -16,7 +23,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         /// <returns>Json字符串</returns>
         public static string JSONSerialize(object obj)
         {
-            return JsonConvert.SerializeObject(obj, Formatting.Indented);
+            return javaScriptSerializer.Serialize(obj);
         }
         #endregion
 
@@ -29,8 +36,21 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         /// <returns>对象</returns>
         public static T JSONDeserialize<T>(string jsonString)
         {
-            return JsonConvert.DeserializeObject<T>(jsonString);
+            return javaScriptSerializer.Deserialize<T>(jsonString);
         }
+        #endregion
+
+        #region 是否存在该Key public static bool HasKey(string jsonString, string key)
+        /// <summary>
+        /// 是否存在该Key
+        /// </summary>
+        /// <param name="jsonString">Json字符串</param>
+        /// <param name="key">Key</param>
+        /// <returns>是否存在</returns>
+        public static bool HasKey(string jsonString, string key)
+        {
+            return JObject.Parse(jsonString).Property(key) != null;
+        } 
         #endregion
     }
 }

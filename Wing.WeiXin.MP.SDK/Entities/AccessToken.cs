@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Wing.WeiXin.MP.SDK.Enumeration;
+﻿using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities
@@ -7,7 +6,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// <summary>
     /// AccessToken对象
     /// </summary>
-    public class AccessToken : IEntity
+    public class AccessToken
     {
         /// <summary>
         /// 获取到的凭证

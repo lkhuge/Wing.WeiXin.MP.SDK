@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -46,13 +45,28 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount(string id)
         {
             ID = id;
-            Token = ConfigManager.BaseConfig.Token;
-            AccountItemConfigSection config = ConfigManager.BaseConfig.AccountList.GetAccountItemConfigSection(ID);
+            Token = GlobalManager.ConfigManager.BaseConfig.Token;
+            AccountItemConfigSection config = GlobalManager.ConfigManager.BaseConfig
+                .AccountList.GetAccountItemConfigSection(ID);
             Type = config.WeixinMPType;
             AppID = config.AppID;
             AppSecret = config.AppSecret;
-
         } 
+        #endregion
+
+        #region 根据配置节点实例化 public WXAccount(AccountItemConfigSection config)
+        /// <summary>
+        /// 根据配置节点实例化
+        /// </summary>
+        /// <param name="config">配置节点</param>
+        public WXAccount(AccountItemConfigSection config)
+        {
+            ID = config.WeixinMPID;
+            Token = GlobalManager.ConfigManager.BaseConfig.Token;
+            Type = config.WeixinMPType;
+            AppID = config.AppID;
+            AppSecret = config.AppSecret;
+        }
         #endregion
 
         #region 检测是否为服务号 public void CheckIsService()
@@ -61,8 +75,8 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public void CheckIsService()
         {
-            if (Type != WeixinMPType.Service)
-                throw new OnlyServiceException(ID); 
+            if (Type == WeixinMPType.Service) return;
+            throw new Exception("只有服务号支持此操作");
         } 
         #endregion
     }

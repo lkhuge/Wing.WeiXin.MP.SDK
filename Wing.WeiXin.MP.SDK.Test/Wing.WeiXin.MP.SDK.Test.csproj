@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,11 +52,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
-    <Compile Include="Common\AccessTokenContainerTest.cs" />
-    <Compile Include="Common\AccountContainerTests.cs" />
-    <Compile Include="Common\AuthenticationTest.cs" />
-    <Compile Include="Common\EntityFactoryTest.cs" />
-    <Compile Include="Common\MenuHelperTest.cs" />
     <Compile Include="Controller\CSControllerTest.cs" />
     <Compile Include="Controller\MediaControllerTest.cs" />
     <Compile Include="Controller\MenuControllerTest.cs" />
@@ -63,7 +59,6 @@
     <Compile Include="Controller\ReceiveControllerTest.cs" />
     <Compile Include="Controller\SendAllControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
-    <Compile Include="EventHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

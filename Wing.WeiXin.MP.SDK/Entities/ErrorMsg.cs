@@ -10,7 +10,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// <summary>
     /// 错误码
     /// </summary>
-    public class ErrorMsg : IEntity
+    public class ErrorMsg
     {
         /// <summary>
         /// 错误码
@@ -22,11 +22,14 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public string errmsg { get; set; }
 
+        #region 获取错误说明 public string GetIntroduce()
         /// <summary>
         /// 获取错误说明
         /// </summary>
-        public string GetIntroduce() {
+        public string GetIntroduce()
+        {
             return Enum.GetName(typeof(ReturnCode), Convert.ToInt32(errcode));
-        }
+        } 
+        #endregion
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// 目录项目抽象类
     /// </summary>
-    public class AMenuItem : IMenu
+    public class AMenuItem 
     {
         /// <summary>
         /// 菜单标题，不超过16个字节，子菜单不超过40个字节

@@ -1,9 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
-using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -35,9 +35,9 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         {
             try
             {
-                return QRCodeController.GetQRCodeTicket(AccountContainer.GetWXAccountFirstService(), qrCodeTemp);
+                return new QRCodeController().GetQRCodeTicket(account, qrCodeTemp);
             }
-            catch (WXException)
+            catch (Exception)
             {
                 Assert.Fail("创建二维码错误");
             }
@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         public void GetQRCodeTest(QRCodeTicket qrCodeTicket)
         {
             const string pathName = "E:\\Test\\test.jpg";
-            QRCodeController.GetQRCode(qrCodeTicket, pathName);
+            new QRCodeController().GetQRCode(qrCodeTicket, pathName);
             Assert.IsTrue(File.Exists(pathName));
         } 
         #endregion

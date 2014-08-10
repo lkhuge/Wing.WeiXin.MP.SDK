@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Wing.WeiXin.MP.SDK.Enumeration;
+﻿using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities.QRCode
@@ -7,7 +6,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.QRCode
     /// <summary>
     /// 二维码ticket
     /// </summary>
-    public class QRCodeTicket : IEntity
+    public class QRCodeTicket
     {
         /// <summary>
         /// 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。

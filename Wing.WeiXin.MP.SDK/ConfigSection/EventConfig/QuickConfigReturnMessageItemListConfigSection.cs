@@ -4,11 +4,9 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Events;
-using Wing.WeiXin.MP.SDK.Entities.ReceiveMessages.Messages;
-using Wing.WeiXin.MP.SDK.EventHandle;
-using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib.FileManager;
 
 namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
@@ -44,85 +42,57 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         } 
         #endregion
 
-        #region 根据文本消息获取快速配置回复消息配置对象 public IReturn GetQuickConfigReturnMessageFromMessageText(string weixinMPID, MessageText message)
+        #region 获取快速配置回复消息配置对象 public Response GetQuickConfigReturnMessage(Request request)
         /// <summary>
-        /// 根据文本消息获取快速配置回复消息配置对象
+        /// 获取快速配置回复消息配置对象
         /// </summary>
-        /// <param name="weixinMPID">微信公共平台ID</param>
-        /// <param name="message">文本消息对象</param>
-        /// <returns>回复消息</returns>
-        public IReturn GetQuickConfigReturnMessageFromMessageText(string weixinMPID, MessageText message)
+        /// <param name="request">请求对象</param>
+        /// <returns>响应对象</returns>
+        public Response GetQuickConfigReturnMessage(Request request)
         {
-            string key = String.Format("{0}:Text:{1}", weixinMPID, message.Content);
-            List<QuickConfigReturnMessageItemConfigSection> list =
-                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(key)).ToList();
-            if (list.Count == 1)
-            {
-                try
-                {
-                    return QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(list[0].Path), message);
-                }
-                catch (WXException)
-                {
-                    return null;
-                }
-            }
-            string keyPath = String.Format("{0}:Text:", weixinMPID);
-            List<QuickConfigReturnMessageItemConfigSection> listPath =
-                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(keyPath)).ToList();
-            if (listPath.Count != 1) return null;
-            string path = String.Format("{0}{1}.wx.txt", listPath[0].Path, message.Content);
-            try
-            {
-                return File.Exists(path)
-                ? QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(path), message)
-                : null;
-            }
-            catch (WXException)
-            {
-                return null;
-            }
-        } 
+            if (request.MsgType == ReceiveEntityType.text) return GetQuickConfigReturnMessage(
+                "Text",
+                request.ToUserName,
+                request.GetPostData("Content"),
+                request);
+            if (request.MsgType == ReceiveEntityType.CLICK) return GetQuickConfigReturnMessage(
+                "Click",
+                request.ToUserName,
+                request.GetPostData("EventKey"),
+                request);
+
+            return null;
+        }
         #endregion
 
-        #region 根据菜单点击事件获取快速配置回复消息配置对象 public IReturn GetQuickConfigReturnMessageFromEventClick(string weixinMPID, EventClick click)
+        #region 获取快速配置回复消息配置对象 private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request)
         /// <summary>
-        /// 根据菜单点击事件获取快速配置回复消息配置对象
+        /// 获取快速配置回复消息配置对象
         /// </summary>
+        /// <param name="type">消息类型</param>
         /// <param name="weixinMPID">微信公共平台ID</param>
-        /// <param name="click">菜单点击事件</param>
-        /// <returns>回复消息</returns>
-        public IReturn GetQuickConfigReturnMessageFromEventClick(string weixinMPID, EventClick click)
+        /// <param name="key">菜单点击事件</param>
+        /// <param name="request">请求对象</param>
+        /// <returns>响应对象</returns>
+        private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request)
         {
-            string key = String.Format("{0}:Click:{1}", weixinMPID, click.EventKey);
-            List<QuickConfigReturnMessageItemConfigSection> list =
-                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(key)).ToList();
-            if (list.Count == 1)
-            {
-                try
-                {
-                    return QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(list[0].Path), click);
-                }
-                catch (WXException)
-                {
-                    return null;
-                }
-            }
-            string keyPath = String.Format("{0}:Click:", weixinMPID);
-            List<QuickConfigReturnMessageItemConfigSection> listPath =
-                this.OfType<QuickConfigReturnMessageItemConfigSection>().Where(q => q.Key.Equals(keyPath)).ToList();
-            if (listPath.Count != 1) return null;
-            string path = String.Format("{0}{1}.wx.txt", listPath[0].Path, click.EventKey);
-            try
-            {
-                return File.Exists(path)
-                    ? QuickConfigReturnMessageManager.GetReturnMessage(FileHelper.ReadOfKeyValueData(path), click)
-                    : null;
-            }
-            catch (WXException)
-            {
-                return null;
-            }
+            QuickConfigReturnMessageItemConfigSection[] list = this
+                .Cast<QuickConfigReturnMessageItemConfigSection>().ToArray();
+            string name = String.Format("{0}:{1}:{2}", weixinMPID, type, key);
+            QuickConfigReturnMessageItemConfigSection item = list
+                .FirstOrDefault(q => q.Key.Equals(name));
+            if (item != null) return QuickConfigReturnMessageManager.GetReturnMessage(
+                    FileHelper.ReadOfKeyValueData(item.Path),
+                    request);
+            string keyPath = String.Format("{0}:{1}:", weixinMPID, type);
+            QuickConfigReturnMessageItemConfigSection listItem = list
+                .FirstOrDefault(q => q.Key.Equals(keyPath));
+            if (listItem == null) return null;
+            string path = String.Format("{0}{1}.wx.txt", listItem.Path, key);
+            return File.Exists(path)
+                ? QuickConfigReturnMessageManager.GetReturnMessage(
+                    FileHelper.ReadOfKeyValueData(path), request)
+                : null;
         }
         #endregion
     }

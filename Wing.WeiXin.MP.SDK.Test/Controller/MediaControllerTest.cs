@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Exception;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     ///包含所有 MediaControllerTest 单元测试
     ///</summary>
     [TestClass]
-    public class MediaControllerTest
+    public class MediaControllerTest : BaseTest
     {
         #region 上传下载同步测试 public void UploadAndDownLoadTest()
         /// <summary>
@@ -35,9 +35,9 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string name = "test.jpg";
             try
             {
-                return MediaController.Upload(AccountContainer.GetWXAccountFirstService(), type, path, name).media_id;
+                return new MediaController().Upload(account, type, path, name).media_id;
             }
-            catch (WXException)
+            catch (Exception)
             {
                 Assert.Fail("上传多媒体发送错误" + path + name);
             }
@@ -54,9 +54,9 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string path = "E:\\Test\\test.jpg";
             try
             {
-                MediaController.DownLoad(AccountContainer.GetWXAccountFirstService(), media_id, path);
+                new MediaController().DownLoad(account, media_id, path);
             }
-            catch (WXException)
+            catch (Exception)
             {
                 Assert.Fail("下载多媒体发送错误" + media_id);
             }

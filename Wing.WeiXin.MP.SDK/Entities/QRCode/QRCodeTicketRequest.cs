@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.QRCode
     /// <summary>
     /// 临时二维码ticket请求
     /// </summary>
-    public class QRCodeTicketRequest : IEntity
+    public class QRCodeTicketRequest
     {
         /// <summary>
         /// 该二维码有效时间，以秒为单位。 最大不超过1800。

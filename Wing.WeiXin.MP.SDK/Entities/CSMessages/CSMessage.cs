@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.CSMessages
     /// <summary>
     /// 客服消息类
     /// </summary>
-    public class CSMessage :IEntity
+    public class CSMessage
     {
         /// <summary>
         /// 普通用户openid

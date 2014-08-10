@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
-using Wing.WeiXin.MP.SDK.Entities.HTTP.Request;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
+using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Test.Controller;
 
 namespace Wing.WeiXin.MP.SDK.Test
 {
@@ -25,23 +27,32 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// 正确请求头部
         /// </summary>
         protected Request requestRight = new Request
-        {
-            signature = "d054e317b56cc26c457981cc3d615f96c72ec230",
-            timestamp = "1395058361",
-            nonce = "929810330",
-            echostr = "echostr"
-        };
+        (
+            "d054e317b56cc26c457981cc3d615f96c72ec230",
+            "1395058361",
+            "929810330",
+            "",
+            "echostr"
+        );
 
         /// <summary>
         /// 错误请求头部
         /// </summary>
         protected Request requestError = new Request
-        {
-            signature = "d054e317b56cc26c457981cc3d615f96c72ec230Error",
-            timestamp = "1395058361",
-            nonce = "929810330",
-            echostr = "echostr"
-        }; 
+        (
+            "d054e317b56cc26c457981cc3d615f96c72ec230Error",
+            "1395058361",
+            "929810330",
+            "",
+            "echostr"
+        ); 
+        #endregion
+
+        #region 服务号账号
+        /// <summary>
+        /// 服务号账号
+        /// </summary>
+        protected WXAccount account; 
         #endregion
 
         #region 被动接受消息
@@ -49,11 +60,12 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// 文本消息
         /// </summary>
         protected Request messageText = new Request
-        {
-            signature = "d054e317b56cc26c457981cc3d615f96c72ec230",
-            timestamp = "1395058361",
-            nonce = "929810330",
-            postData = @"<?xml version=""1.0"" encoding=""utf-8""?>
+        (
+            "d054e317b56cc26c457981cc3d615f96c72ec230",
+            "1395058361",
+            "929810330",
+            "",
+             @"<?xml version=""1.0"" encoding=""utf-8""?>
                         <xml>
                             <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
                             <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
@@ -62,8 +74,8 @@ namespace Wing.WeiXin.MP.SDK.Test
                             <Content><![CDATA[test]]></Content>
                             <MsgId>5832509444155992350</MsgId>
                         </xml>
-                        "
-        }; 
+                        ")
+        ; 
         #endregion
 
         #region 客服文本消息
@@ -90,7 +102,7 @@ namespace Wing.WeiXin.MP.SDK.Test
                             new MenuButtonView {name = "sxd", url = "http://sxd.xd.com/"},
                         }
                     },
-                    new MenuButtonClick {name = "tb", key = "test1"}
+                    new MenuButtonClick {name = "tbtttt", key = "test1"}
                 }
         };
 
@@ -161,13 +173,15 @@ namespace Wing.WeiXin.MP.SDK.Test
         } 
         #endregion
 
-        #region 加载配置 private static void LoadConfig()
+        #region 载入配置 private void LoadConfig()
         /// <summary>
-        /// 加载配置
+        /// 载入配置
         /// </summary>
-        private static void LoadConfig()
+        private void LoadConfig()
         {
-        }
+            GlobalManager.InitConfig(new ConfigManager());
+            account = GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service); 
+        } 
         #endregion
     }
 }

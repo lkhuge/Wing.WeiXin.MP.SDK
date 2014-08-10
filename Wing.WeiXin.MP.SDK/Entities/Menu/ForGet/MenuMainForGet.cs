@@ -5,7 +5,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.Menu.ForGet
     /// <summary>
     /// 目录主要内容（适配查询目录）
     /// </summary>
-    public class MenuMainForGet : IMenu
+    public class MenuMainForGet
     {
         /// <summary>
         /// 一级菜单数组，个数应为1~3个

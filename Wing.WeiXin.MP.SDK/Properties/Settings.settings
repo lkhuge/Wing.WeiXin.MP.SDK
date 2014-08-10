@@ -80,5 +80,8 @@
     <Setting Name="URLForSendAllDelete" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token={0}</Value>
     </Setting>
+    <Setting Name="ConfigRootNameGroup" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">WeiXinMPSDKConfigGroup</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

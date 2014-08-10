@@ -5,7 +5,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.Menu.ForGet
     /// <summary>
     /// 目录项目（适配查询目录）
     /// </summary>
-    public class MenuButtonForGet : IMenu
+    public class MenuButtonForGet
     {
         /// <summary>
         /// 菜单标题，不超过16个字节，子菜单不超过40个字节

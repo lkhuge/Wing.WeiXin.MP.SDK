@@ -1,6 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
-using Wing.WeiXin.MP.SDK.Exception;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -18,14 +21,18 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void ActionTest()
         {
-            try
+            EventManager em = new EventManager();
+            em.AddReceiveEvent("Event1", false, "gh_7f215c8b1c91", ReceiveEntityType.text, r => new Response("textq"));
+            GlobalManager.InitEvent(em);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 10000; i ++)
             {
-                ReceiveController.Action(messageText);
+                Response result = new ReceiveController().Action(messageText);
             }
-            catch (WXException e)
-            {
-                Assert.Fail("接收消息错误" + e.GetNote().Message);
-            }
+            sw.Stop();
+            Debug.WriteLine(sw.ElapsedMilliseconds);
         } 
         #endregion
     }

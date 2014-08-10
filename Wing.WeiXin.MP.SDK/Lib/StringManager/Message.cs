@@ -97,34 +97,5 @@ namespace Wing.WeiXin.MP.SDK.Lib.StringManager
             return new DateTime(1970, 1, 1).AddTicks((longTime + 8 * 60 * 60) * 10000000);
         }
         #endregion
-
-        #region 获取两个字符串的相似度（Levenshtein算法） public static float SimilarityByLevenshtein(string str1, string str2)
-        /// <summary>
-        /// 获取两个字符串的相似度（Levenshtein算法）
-        /// </summary>
-        /// <param name="str1">字符串1</param>
-        /// <param name="str2">字符串2</param>
-        /// <returns>相似度</returns>
-        public static float SimilarityByLevenshtein(string str1, string str2)
-        {
-            int len1 = str1.Length;
-            int len2 = str2.Length;
-            int[,] dif = new int[len1 + 1, len2 + 1];
-            for (int a = 0; a <= len1; a++) dif[a, 0] = a;
-            for (int a = 0; a <= len2; a++) dif[0, a] = a;
-            for (int i = 1; i <= len1; i++)
-            {
-                for (int j = 1; j <= len2; j++)
-                {
-                    int temp = str1[i - 1] == str2[j - 1] ? 0 : 1;
-                    dif[i, j] = new[] {
-                        dif[i - 1, j - 1] + temp, 
-                        dif[i, j - 1] + 1,
-                        dif[i - 1, j] + 1}.Min();
-                }
-            }
-            return 1 - (float)dif[len1, len2] / Math.Max(str1.Length, str2.Length);
-        }  
-        #endregion 
     }
 }
