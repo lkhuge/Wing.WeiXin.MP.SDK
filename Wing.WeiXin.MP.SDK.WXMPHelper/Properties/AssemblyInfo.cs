@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Wing.WeiXin.MP.SDK")]
-[assembly: AssemblyDescription("微信公共平台SDK")]
+[assembly: AssemblyTitle("Wing.WeiXin.MP.SDK.WXMPHelper")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Wing")]
-[assembly: AssemblyProduct("Wing.WeiXin.MP.SDK")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Wing.WeiXin.MP.SDK.WXMPHelper")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("d9af5329-c3d8-4f01-b356-bea758e3e60b")]
+[assembly: Guid("58bae214-89ff-490b-a0e2-552bad85ea7d")]
 
 // 程序集的版本信息由下面四个值组成: 
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”: 
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.2")]
-[assembly: AssemblyFileVersion("0.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
