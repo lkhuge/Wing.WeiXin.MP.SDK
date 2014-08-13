@@ -34,7 +34,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <returns>菜单</returns>
-        public Menu GetMenu(WXAccount account)
+        public MenuForGet GetMenu(WXAccount account)
         {
             string result = HTTPHelper.Get(URLManager.GetURLForGetMenu(account));
             if (JSONHelper.HasKey(result, "errcode"))
@@ -42,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return MenuHelper.GetMenu(JSONHelper.JSONDeserialize<MenuForGet>(result));
+            return JSONHelper.JSONDeserialize<MenuForGet>(result);
         } 
         #endregion
 

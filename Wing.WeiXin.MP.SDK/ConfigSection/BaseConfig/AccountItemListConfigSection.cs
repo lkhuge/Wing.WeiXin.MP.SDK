@@ -55,6 +55,19 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
+        #region 获取账号列表 public List<WXAccount> GetWXAccountList()
+        /// <summary>
+        /// 获取账号列表
+        /// </summary>
+        /// <returns>账号列表</returns>
+        public List<WXAccount> GetWXAccountList()
+        {
+            return this.Cast<AccountItemConfigSection>()
+                .Select(a => new WXAccount(a))
+                .ToList();
+        }
+        #endregion
+
         #region 根据账号类型获取账号列表 public List<WXAccount> GetWXAccountList(WeixinMPType type)
         /// <summary>
         /// 根据账号类型获取账号列表
