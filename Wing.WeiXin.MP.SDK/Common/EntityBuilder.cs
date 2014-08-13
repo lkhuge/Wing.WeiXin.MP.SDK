@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
 namespace Wing.WeiXin.MP.SDK.Common
 {
@@ -244,7 +244,7 @@ namespace Wing.WeiXin.MP.SDK.Common
             return new Response(String.Format(content
                     .Replace("{ToUserName}", request.FromUserName)
                     .Replace("{FromUserName}", request.ToUserName)
-                    .Replace("{CreateTime}", Message.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)), 
+                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)), 
                 paramList), Response.XML);
         } 
         #endregion

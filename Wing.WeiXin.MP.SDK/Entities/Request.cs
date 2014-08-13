@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -103,7 +103,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (RootElement == null) throw new Exception("XML格式错误（未发现xml根节点）");
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
-            CreateTime = Message.GetTime(GetPostData("CreateTime"));
+            CreateTime = DateTimeHelper.GetTime(GetPostData("CreateTime"));
             MsgTypeName = GetPostData("MsgType");
             ReceiveEntityType Temp;
             if ("event".Equals(MsgTypeName))

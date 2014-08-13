@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
+using Wing.CL.Net;
+using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
-using Wing.WeiXin.MP.SDK.Lib.Net;
-using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {

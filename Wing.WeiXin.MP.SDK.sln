@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK", "Wing.WeiXin.MP.SDK\Wing.WeiXin.MP.SDK.csproj", "{D0A26739-B4D2-447A-89F8-0B4875D1ED9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK.Test", "Wing.WeiXin.MP.SDK.Test\Wing.WeiXin.MP.SDK.Test.csproj", "{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wing.WeiXin.MP.SDK.WXMPHelper", "Wing.WeiXin.MP.SDK.WXMPHelper\Wing.WeiXin.MP.SDK.WXMPHelper.csproj", "{18C995FE-3A4B-43BD-B3DE-1725BDFE48BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4DAE2F2-2030-4CAF-A506-3BD2153CEF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C995FE-3A4B-43BD-B3DE-1725BDFE48BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C995FE-3A4B-43BD-B3DE-1725BDFE48BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C995FE-3A4B-43BD-B3DE-1725BDFE48BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C995FE-3A4B-43BD-B3DE-1725BDFE48BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

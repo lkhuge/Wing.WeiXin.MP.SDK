@@ -1,5 +1,4 @@
 ﻿using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib.Serialize;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {

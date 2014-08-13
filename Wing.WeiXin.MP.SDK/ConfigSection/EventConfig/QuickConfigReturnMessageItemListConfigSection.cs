@@ -4,10 +4,10 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Wing.CL.FileManager;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib.FileManager;
 
 namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
 {
@@ -82,7 +82,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             QuickConfigReturnMessageItemConfigSection item = list
                 .FirstOrDefault(q => q.Key.Equals(name));
             if (item != null) return QuickConfigReturnMessageManager.GetReturnMessage(
-                    FileHelper.ReadOfKeyValueData(item.Path),
+                    ReadOfKeyValueData(item.Path),
                     request);
             string keyPath = String.Format("{0}:{1}:", weixinMPID, type);
             QuickConfigReturnMessageItemConfigSection listItem = list
@@ -91,8 +91,27 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             string path = String.Format("{0}{1}.wx.txt", listItem.Path, key);
             return File.Exists(path)
                 ? QuickConfigReturnMessageManager.GetReturnMessage(
-                    FileHelper.ReadOfKeyValueData(path), request)
+                    ReadOfKeyValueData(path), request)
                 : null;
+        }
+        #endregion
+
+        #region 从文件中读取KeyValue数据 public static Dictionary<string, string> ReadOfKeyValueData(string fileName)
+        /// <summary>
+        /// 从文件中读取KeyValue数据
+        /// </summary>
+        /// <param name="fileName">文件名称</param>
+        /// <returns>KeyValue数据</returns>
+        public static Dictionary<string, string> ReadOfKeyValueData(string fileName)
+        {
+            return FileHelper.ReadLine(fileName)
+                .Where(r => !String.IsNullOrEmpty(r) && !String.IsNullOrEmpty(r.Trim()) && r.IndexOf(':') != -1)
+                .ToDictionary(
+                    k => k.Substring(0, k.IndexOf(':')).Trim(), 
+                    v => v.Substring(v.IndexOf(':') + 1).Trim()
+                            .Replace("{LF}", "\n")
+                            .Replace("{NowDate}", DateTime.Now.ToString("yyyy年MM月dd日"))
+                            .Replace("{NowTime}", DateTime.Now.ToString("hh:mm:ss")));
         }
         #endregion
     }

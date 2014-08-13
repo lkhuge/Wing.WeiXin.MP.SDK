@@ -4,7 +4,6 @@ using System.Configuration;
 using Wing.WeiXin.MP.SDK.ConfigSection;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
-using Wing.WeiXin.MP.SDK.Lib.StringManager;
 
 namespace Wing.WeiXin.MP.SDK
 {
