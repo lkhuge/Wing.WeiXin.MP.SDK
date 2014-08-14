@@ -74,7 +74,7 @@ namespace Wing.WeiXin.MP.SDK
                 return
                     GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(l[0]) &&
                     String.IsNullOrEmpty(l[1]) &&
-                    l[2].Equals(request.MsgTypeName) &&
+                    (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
                     l[3].Equals("G");
             }).Select(e => e.Value(request)).FirstOrDefault();
         }
@@ -94,7 +94,7 @@ namespace Wing.WeiXin.MP.SDK
                 return
                     GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(l[0]) &&
                     l[1].Equals(request.ToUserName) &&
-                    l[2].Equals(request.MsgTypeName) &&
+                    (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
                     l[3].Equals("G");
             }).Select(e => e.Value(request)).FirstOrDefault();
         }

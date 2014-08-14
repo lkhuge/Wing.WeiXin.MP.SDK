@@ -11,6 +11,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
     public enum ReceiveEntityType
     {
         /// <summary>
+        /// 任意消息
+        /// </summary>
+        Any,
+
+        /// <summary>
         /// 图片消息
         /// </summary>
         image,
