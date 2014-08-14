@@ -34,13 +34,44 @@ PS: V2 与 V1 不兼容， 请谨慎切换
       </AccountList>
     </Base>
     <Event>
+        <EventList>
+            <add Name="Event1" IsAction="True" />
+            <add Name="Event2" IsAction="True" />
+        </EventList>
+        <QuickConfigReturnMessageList>
+            <add Key="gh_7f215c8b1c91:Text:" Path="C:\"/>
+        </QuickConfigReturnMessageList>
     </Event>
 </WeiXinMPSDKConfigGroup>
 ```
 
-###一般处理程序（.ashx）调用 （新的配置信息后续将会更新）
-```C#
+3.添加接收事件处理配置
+IIS 6.0
+```
+<system.web>
+    <httpHandlers>
+      <add verb="*" path="Receive"  type="Wing.WeiXin.MP.SDK.Extension.AshxReceiveHandler" />
+    </httpHandlers>
+<system.web>
+```
 
+IIS 7.0 （集成模式）
+```
+<system.webServer>
+  <handlers>
+    <add name="Receive" verb="*"  path="Receive"  type="Wing.WeiXin.MP.SDK.Extension.AshxReceiveHandler"  resourceType="Unspecified" />
+  </handlers>
+</system.webServer>
+```
+
+4.添加接收事件
+（建议放在Global.asax）
+```
+GlobalManager.InitConfig(new ConfigManager());
+EventManager em = new EventManager();
+em.AddReceiveEvent("Event1", true, "gh_7f215c8b1c91", ReceiveEntityType.Any, AddMessage);
+em.AddReceiveEvent("Event2", false, "gh_7f215c8b1c91", ReceiveEntityType.text, AddMessage);
+GlobalManager.InitEvent(em);
 ```
 
 事件处理
@@ -50,10 +81,6 @@ PS: V2 与 V1 不兼容， 请谨慎切换
 ```
 全局事件 > 快速配置回复事件 > 自定义事件
 ```
-###添加实体处理对象
-```C#
-
-
 
 配置说明
 ----------------

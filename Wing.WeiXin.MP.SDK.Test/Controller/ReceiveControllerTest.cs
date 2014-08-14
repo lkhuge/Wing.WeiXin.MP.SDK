@@ -34,6 +34,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             }
             sw.Stop();
             Debug.WriteLine(sw.ElapsedMilliseconds);
+//            Response result = new ReceiveController().Action(messageText);
         } 
         #endregion
     }
