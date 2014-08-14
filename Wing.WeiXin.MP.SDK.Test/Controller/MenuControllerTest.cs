@@ -3,6 +3,7 @@ using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
+using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
@@ -56,8 +57,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void GetMenuTest()
         {
-            Menu m = new MenuController().GetMenu(account);
-            Assert.AreEqual(m.button.Count, menu.button.Count);
+            MenuForGet m = new MenuController().GetMenu(account);
+            Assert.AreEqual(m.menu.button.Count, menu.button.Count);
         } 
         #endregion
     }

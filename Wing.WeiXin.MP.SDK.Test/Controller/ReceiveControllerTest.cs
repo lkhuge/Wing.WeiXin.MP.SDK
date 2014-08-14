@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
@@ -22,7 +23,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         public void ActionTest()
         {
             EventManager em = new EventManager();
-            em.AddReceiveEvent("Event1", false, "gh_7f215c8b1c91", ReceiveEntityType.text, r => new Response("textq"));
+            em.AddReceiveEvent("Event1", false, "gh_7f215c8b1c91", ReceiveEntityType.text, r => EntityBuilder.GetMessageText(r, "asdf"));
             GlobalManager.InitEvent(em);
 
             Stopwatch sw = new Stopwatch();
