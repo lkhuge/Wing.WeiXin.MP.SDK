@@ -52,12 +52,14 @@ namespace Wing.WeiXin.MP.SDK.Extension
         /// <returns>响应结果</returns>
         protected override object Action(HttpContextExtension context)
         {
-            return receiveController.Action(new Request(
+            Response response = receiveController.Action(new Request(
                 context.GetString("signature"),
                 context.GetString("timestamp"),
                 context.GetString("nonce"),
                 context.GetString("echostr"),
-                context.GetPostStream())).Text;
+                context.GetPostStream()));
+
+            return response == null ? "" : response.Text;
         } 
         #endregion
     }
