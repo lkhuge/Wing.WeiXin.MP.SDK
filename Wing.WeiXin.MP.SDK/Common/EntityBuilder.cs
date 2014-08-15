@@ -127,6 +127,19 @@ namespace Wing.WeiXin.MP.SDK.Common
             </xml>"; 
         #endregion
 
+        #region 转发多客服响应内容
+        /// <summary>
+        /// 转发多客服响应内容
+        /// </summary>
+        private const string MessageTCS = @"
+            <xml>
+                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+                <CreateTime>{CreateTime}</CreateTime>
+                <MsgType><![CDATA[transfer_customer_service]]></MsgType>
+            </xml>";
+        #endregion
+
         #region 获取图片消息 public static Response GetMessageImage(Request request, string mediaId)
         /// <summary>
         /// 获取图片消息
@@ -229,6 +242,18 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             return GetResponse(MessageVoice, request, mediaId);
         } 
+        #endregion
+
+        #region 获取转发多客服消息 public static Response GetMessageTCS(Request request)
+        /// <summary> 
+        /// 获取转发多客服消息
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>响应对象</returns>
+        public static Response GetMessageTCS(Request request)
+        {
+            return GetResponse(MessageTCS, request);
+        }
         #endregion
 
         #region 获取响应 private static Response GetResponse(string content, Request request, params object[] paramList)

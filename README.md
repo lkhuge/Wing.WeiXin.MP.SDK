@@ -76,7 +76,6 @@ GlobalManager.InitEvent(em);
 
 事件处理
 ----------------
-```
 ###事件处理优先级
 ```
 全局事件 > 快速配置回复事件 > 自定义事件
@@ -105,6 +104,7 @@ GlobalManager.InitEvent(em);
     </Event>
 </WeiXinMPSDKConfigGroup>
 ```
+
 ###基础配置说明（Base）
 ```
 Token        Token
@@ -112,6 +112,7 @@ AccountList  账号列表
 AppID        AppID
 AppSecret    AppSecret
 ```
+
 ###事件配置说明（Event）
 ```
 EventList                          事件处理列表
@@ -120,3 +121,4 @@ IsAction                           是否开启该事件
 QuickConfigReturnMessageList       快速配置回复消息列表
 Key                                快速配置回复消息关键字(事件从属的微信公共平台账号ID:关键字)
 Path                               快速配置回复消息路径
+```

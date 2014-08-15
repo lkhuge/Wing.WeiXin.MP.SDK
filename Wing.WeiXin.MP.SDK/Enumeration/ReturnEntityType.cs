@@ -38,6 +38,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// <summary>
         /// 回复语音消息
         /// </summary>
-        ReturnMessageVoice
+        ReturnMessageVoice,
+
+        /// <summary>
+        /// 回复转发多客服消息
+        /// </summary>
+        ReturnMessageTCS
     }
 }

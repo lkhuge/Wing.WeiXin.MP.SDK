@@ -76,7 +76,7 @@ namespace Wing.WeiXin.MP.SDK
                     String.IsNullOrEmpty(l[1]) &&
                     (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
                     l[3].Equals("G");
-            }).Select(e => e.Value(request)).FirstOrDefault();
+            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
 
@@ -96,7 +96,7 @@ namespace Wing.WeiXin.MP.SDK
                     l[1].Equals(request.ToUserName) &&
                     (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
                     l[3].Equals("G");
-            }).Select(e => e.Value(request)).FirstOrDefault();
+            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
 
@@ -116,7 +116,7 @@ namespace Wing.WeiXin.MP.SDK
                     l[1].Equals(request.ToUserName) &&
                     l[2].Equals(request.MsgTypeName) &&
                     l[3].Equals("S");
-            }).Select(e => e.Value(request)).FirstOrDefault();
+            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
     }

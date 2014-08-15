@@ -35,7 +35,8 @@ namespace Wing.WeiXin.MP.SDK.Common
             {ReturnEntityType.ReturnMessageNews, GetReturnMessageNews},
             {ReturnEntityType.ReturnMessageText, GetReturnMessageText},
             {ReturnEntityType.ReturnMessageVideo, GetReturnMessageVideo},
-            {ReturnEntityType.ReturnMessageVoice, GetReturnMessageVoice}
+            {ReturnEntityType.ReturnMessageVoice, GetReturnMessageVoice},
+            {ReturnEntityType.ReturnMessageTCS, GetReturnMessageTCS}
         };
         #endregion
 
@@ -171,6 +172,19 @@ namespace Wing.WeiXin.MP.SDK.Common
             if (!kvList.ContainsKey("MediaId")) throw new Exception("回复语音消息格式错误（缺少‘MediaId’）");
 
             return EntityBuilder.GetMessageVoice(request, kvList["MediaId"]);
+        }
+        #endregion
+
+        #region 获取回复转发多客服消息 private static Response GetReturnMessageTCS(Dictionary<string, string> kvList, Request request)
+        /// <summary>
+        /// 获取回复转发多客服消息
+        /// </summary>
+        /// <param name="kvList">Key-Value数据</param>
+        /// <param name="request">响应对象</param>
+        /// <returns>回复转发多客服消息</returns>
+        private static Response GetReturnMessageTCS(Dictionary<string, string> kvList, Request request)
+        {
+            return EntityBuilder.GetMessageTCS(request);
         }
         #endregion
     }
