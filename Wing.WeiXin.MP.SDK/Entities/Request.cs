@@ -25,16 +25,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string Timestamp { get; private set; }
 
         /// <summary>
-        /// 随机数
-        /// </summary>
-        public string Nonce { get; private set; }
-
-        /// <summary>
-        /// 随机字符串
-        /// </summary>
-        public string Echostr { get; private set; }
-
-        /// <summary>
         /// POST数据
         /// </summary>
         public string PostData { get; private set; }
@@ -110,10 +100,32 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             Signature = signature;
             Timestamp = timestamp;
-            Nonce = nonce;
-            Echostr = echostr;
+            if (!CheckSignature(nonce)) throw new Exception("验证未通过\nRequest:" + 
+                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
+                    Signature, Timestamp, nonce, echostr, PostData));
+            //首次验证
+            if (!String.IsNullOrEmpty(echostr)) throw new Exception(echostr);
             PostData = postData;
         } 
+        #endregion
+
+        #region 验证signature是否有效 private bool CheckSignature(string nonce)
+        /// <summary>
+        /// 验证signature是否有效
+        /// </summary>
+        /// <param name="nonce">随机数</param>
+        /// <returns>是否有效</returns>
+        private bool CheckSignature(string nonce)
+        {
+            string[] arr = new[] 
+            { 
+                GlobalManager.ConfigManager.BaseConfig.Token, 
+                Timestamp, 
+                nonce
+            }.OrderBy(z => z).ToArray();
+
+            return Security.SHA1_Encrypt(string.Join("", arr)).Equals(Signature);
+        }
         #endregion
 
         #region 解析POST数据 public void ParsePostData()
@@ -165,18 +177,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
 
             return element != null;
         } 
-        #endregion
-
-        #region 获取请求全部信息 public override string ToString()
-        /// <summary>
-        /// 获取请求全部信息
-        /// </summary>
-        /// <returns>请求全部信息</returns>
-        public override string ToString()
-        {
-            return string.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                Signature, Timestamp, Nonce, Echostr, PostData);
-        }
         #endregion
 
         #region 获取消息id，64位整型 public string GetMsgId()
