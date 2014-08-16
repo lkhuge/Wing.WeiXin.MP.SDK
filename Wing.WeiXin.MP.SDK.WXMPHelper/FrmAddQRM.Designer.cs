@@ -66,6 +66,9 @@
             this.tbText = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tbVideoDescription = new System.Windows.Forms.TextBox();
+            this.tbVideoPath = new System.Windows.Forms.TextBox();
+            this.tbVideoMediaID = new System.Windows.Forms.TextBox();
             this.tbVideoTitle = new System.Windows.Forms.TextBox();
             this.btPlayVideo = new System.Windows.Forms.Button();
             this.btUploadVideo = new System.Windows.Forms.Button();
@@ -75,23 +78,22 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.btUploadVoice = new System.Windows.Forms.Button();
+            this.btOpenVoice = new System.Windows.Forms.Button();
+            this.tbVoiceMediaID = new System.Windows.Forms.TextBox();
+            this.tbVoicePath = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btSave = new System.Windows.Forms.Button();
             this.tbKey = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.bgwUploadImage = new System.ComponentModel.BackgroundWorker();
             this.bgwUploadThumb = new System.ComponentModel.BackgroundWorker();
-            this.tbVideoDescription = new System.Windows.Forms.TextBox();
-            this.tbVideoPath = new System.Windows.Forms.TextBox();
-            this.tbVideoMediaID = new System.Windows.Forms.TextBox();
             this.bgwUploadVideo = new System.ComponentModel.BackgroundWorker();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.tbVoicePath = new System.Windows.Forms.TextBox();
-            this.tbVoiceMediaID = new System.Windows.Forms.TextBox();
-            this.btOpenVoice = new System.Windows.Forms.Button();
-            this.btUploadVoice = new System.Windows.Forms.Button();
             this.bgwUploadVoice = new System.ComponentModel.BackgroundWorker();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label17 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -104,6 +106,7 @@
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -129,6 +132,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
@@ -484,6 +488,28 @@
             this.tabPage5.Text = "视频消息";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // tbVideoDescription
+            // 
+            this.tbVideoDescription.Location = new System.Drawing.Point(311, 20);
+            this.tbVideoDescription.Name = "tbVideoDescription";
+            this.tbVideoDescription.Size = new System.Drawing.Size(242, 21);
+            this.tbVideoDescription.TabIndex = 2;
+            // 
+            // tbVideoPath
+            // 
+            this.tbVideoPath.Location = new System.Drawing.Point(96, 59);
+            this.tbVideoPath.Name = "tbVideoPath";
+            this.tbVideoPath.ReadOnly = true;
+            this.tbVideoPath.Size = new System.Drawing.Size(355, 21);
+            this.tbVideoPath.TabIndex = 2;
+            // 
+            // tbVideoMediaID
+            // 
+            this.tbVideoMediaID.Location = new System.Drawing.Point(132, 96);
+            this.tbVideoMediaID.Name = "tbVideoMediaID";
+            this.tbVideoMediaID.Size = new System.Drawing.Size(421, 21);
+            this.tbVideoMediaID.TabIndex = 2;
+            // 
             // tbVideoTitle
             // 
             this.tbVideoTitle.Location = new System.Drawing.Point(72, 20);
@@ -572,6 +598,59 @@
             this.tabPage6.Text = "语音消息";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // btUploadVoice
+            // 
+            this.btUploadVoice.Location = new System.Drawing.Point(359, 129);
+            this.btUploadVoice.Name = "btUploadVoice";
+            this.btUploadVoice.Size = new System.Drawing.Size(75, 23);
+            this.btUploadVoice.TabIndex = 2;
+            this.btUploadVoice.Text = "上传语音";
+            this.btUploadVoice.UseVisualStyleBackColor = true;
+            this.btUploadVoice.Click += new System.EventHandler(this.btUploadVoice_Click);
+            // 
+            // btOpenVoice
+            // 
+            this.btOpenVoice.Location = new System.Drawing.Point(103, 129);
+            this.btOpenVoice.Name = "btOpenVoice";
+            this.btOpenVoice.Size = new System.Drawing.Size(75, 23);
+            this.btOpenVoice.TabIndex = 2;
+            this.btOpenVoice.Text = "打开语音";
+            this.btOpenVoice.UseVisualStyleBackColor = true;
+            this.btOpenVoice.Click += new System.EventHandler(this.btOpenVoice_Click);
+            // 
+            // tbVoiceMediaID
+            // 
+            this.tbVoiceMediaID.Location = new System.Drawing.Point(133, 75);
+            this.tbVoiceMediaID.Name = "tbVoiceMediaID";
+            this.tbVoiceMediaID.Size = new System.Drawing.Size(399, 21);
+            this.tbVoiceMediaID.TabIndex = 1;
+            // 
+            // tbVoicePath
+            // 
+            this.tbVoicePath.Location = new System.Drawing.Point(103, 25);
+            this.tbVoicePath.Name = "tbVoicePath";
+            this.tbVoicePath.ReadOnly = true;
+            this.tbVoicePath.Size = new System.Drawing.Size(429, 21);
+            this.tbVoicePath.TabIndex = 1;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(32, 78);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(101, 12);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "语音多媒体编号：";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(32, 28);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(65, 12);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "语音路径：";
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btSave);
@@ -620,90 +699,34 @@
             this.bgwUploadThumb.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwUploadThumb_DoWork);
             this.bgwUploadThumb.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwUploadThumb_RunWorkerCompleted);
             // 
-            // tbVideoDescription
-            // 
-            this.tbVideoDescription.Location = new System.Drawing.Point(311, 20);
-            this.tbVideoDescription.Name = "tbVideoDescription";
-            this.tbVideoDescription.Size = new System.Drawing.Size(242, 21);
-            this.tbVideoDescription.TabIndex = 2;
-            // 
-            // tbVideoPath
-            // 
-            this.tbVideoPath.Location = new System.Drawing.Point(96, 59);
-            this.tbVideoPath.Name = "tbVideoPath";
-            this.tbVideoPath.ReadOnly = true;
-            this.tbVideoPath.Size = new System.Drawing.Size(355, 21);
-            this.tbVideoPath.TabIndex = 2;
-            // 
-            // tbVideoMediaID
-            // 
-            this.tbVideoMediaID.Location = new System.Drawing.Point(132, 96);
-            this.tbVideoMediaID.Name = "tbVideoMediaID";
-            this.tbVideoMediaID.Size = new System.Drawing.Size(421, 21);
-            this.tbVideoMediaID.TabIndex = 2;
-            // 
             // bgwUploadVideo
             // 
             this.bgwUploadVideo.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwUploadVideo_DoWork);
             this.bgwUploadVideo.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwUploadVideo_RunWorkerCompleted);
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(32, 28);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(65, 12);
-            this.label15.TabIndex = 0;
-            this.label15.Text = "语音路径：";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(32, 78);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(101, 12);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "语音多媒体编号：";
-            // 
-            // tbVoicePath
-            // 
-            this.tbVoicePath.Location = new System.Drawing.Point(103, 25);
-            this.tbVoicePath.Name = "tbVoicePath";
-            this.tbVoicePath.ReadOnly = true;
-            this.tbVoicePath.Size = new System.Drawing.Size(429, 21);
-            this.tbVoicePath.TabIndex = 1;
-            // 
-            // tbVoiceMediaID
-            // 
-            this.tbVoiceMediaID.Location = new System.Drawing.Point(133, 75);
-            this.tbVoiceMediaID.Name = "tbVoiceMediaID";
-            this.tbVoiceMediaID.Size = new System.Drawing.Size(399, 21);
-            this.tbVoiceMediaID.TabIndex = 1;
-            // 
-            // btOpenVoice
-            // 
-            this.btOpenVoice.Location = new System.Drawing.Point(103, 129);
-            this.btOpenVoice.Name = "btOpenVoice";
-            this.btOpenVoice.Size = new System.Drawing.Size(75, 23);
-            this.btOpenVoice.TabIndex = 2;
-            this.btOpenVoice.Text = "打开语音";
-            this.btOpenVoice.UseVisualStyleBackColor = true;
-            this.btOpenVoice.Click += new System.EventHandler(this.btOpenVoice_Click);
-            // 
-            // btUploadVoice
-            // 
-            this.btUploadVoice.Location = new System.Drawing.Point(359, 129);
-            this.btUploadVoice.Name = "btUploadVoice";
-            this.btUploadVoice.Size = new System.Drawing.Size(75, 23);
-            this.btUploadVoice.TabIndex = 2;
-            this.btUploadVoice.Text = "上传语音";
-            this.btUploadVoice.UseVisualStyleBackColor = true;
-            this.btUploadVoice.Click += new System.EventHandler(this.btUploadVoice_Click);
-            // 
             // bgwUploadVoice
             // 
             this.bgwUploadVoice.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwUploadVoice_DoWork);
             this.bgwUploadVoice.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwUploadVoice_RunWorkerCompleted);
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.label17);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(570, 177);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "转发多客服";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(216, 68);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(65, 12);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "无额外设置";
             // 
             // FrmAddQRM
             // 
@@ -732,6 +755,8 @@
             this.tabPage6.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -802,5 +827,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.ComponentModel.BackgroundWorker bgwUploadVoice;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.Label label17;
     }
 }

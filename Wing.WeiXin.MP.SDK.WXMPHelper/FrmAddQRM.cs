@@ -53,7 +53,8 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 ReturnMessageNews,
                 ReturnMessageText,
                 ReturnMessageVideo,
-                ReturnMessageVoice
+                ReturnMessageVoice,
+                ReturnMessageTCS
             };
         } 
         #endregion
@@ -584,6 +585,20 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             btUploadVoice.Enabled = true;
             btUploadVoice.Text = "语音上传";
         } 
+        #endregion
+
+        #region 回复转发多客服消息事件 private string[] ReturnMessageTCS()
+        /// <summary>
+        /// 回复转发多客服消息事件
+        /// </summary>
+        /// <returns>语音信息</returns>
+        private string[] ReturnMessageTCS()
+        {
+            return new[]
+            {
+                "Type:ReturnMessageTCS"
+            };
+        }
         #endregion
     }
 }
