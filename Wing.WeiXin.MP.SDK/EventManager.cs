@@ -65,12 +65,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             ReceiveEvent[toUserName][typeName].Add(
                 eventName,
-                r =>
-                {
-                    T t = new T();
-                    t.SetNewRequest(r);
-                    return receiveEvent(t);
-                });
+                r => receiveEvent(RequestAMessage.GetRequestAMessage<T>(r)));
         }
         #endregion
 

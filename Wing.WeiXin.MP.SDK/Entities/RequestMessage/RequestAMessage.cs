@@ -9,53 +9,55 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
     /// <summary>
     /// 请求对象抽象对象
     /// </summary>
-    public abstract class RequestAMessage : Request
+    public abstract class RequestAMessage 
     {
         /// <summary>
         /// 新的对象
         /// </summary>
-        public Request newRequest { get; private set; }
+        public Request Request { get; private set; }
 
         /// <summary>
         /// 类型
         /// </summary>
         public abstract ReceiveEntityType ReceiveEntityType { get; }
 
-        #region 实例化空对象 protected RequestAMessage()
+        #region 获取XML数据 public string GetPostData(string key)
         /// <summary>
-        /// 实例化空对象
+        /// 获取XML数据
         /// </summary>
-        protected RequestAMessage()
-            : base(null, null, null, null, null)
+        /// <param name="key">数据名称</param>
+        /// <returns>XML数据</returns>
+        public string GetPostData(string key)
         {
-        } 
-        #endregion
-
-        #region 实例化请求对象 public RequestAMessage(string signature, string timestamp, string nonce, string echostr, string postData)
-        /// <summary>
-        /// 实例化请求对象
-        /// </summary>
-        /// <param name="signature">微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。</param>
-        /// <param name="timestamp">时间戳</param>
-        /// <param name="nonce">随机数</param>
-        /// <param name="echostr">随机字符串</param>
-        /// <param name="postData">POST数据</param>
-        protected RequestAMessage(string signature, string timestamp, string nonce, string echostr, string postData)
-            : base(signature, timestamp, nonce, echostr, postData)
-        {
+            return Request.GetPostData(key);
         }
         #endregion
 
-        #region 设置新的请求对象 public void SetNewRequest(Request request)
+        #region 获取请求对象 public static T GetRequestAMessage<T>(Request newRequest)
+        /// <summary>
+        /// 获取请求对象
+        /// </summary>
+        /// <typeparam name="T">请求对象类型</typeparam>
+        /// <param name="newRequest">新的请求对象</param>
+        /// <returns>请求对象</returns>
+        public static T GetRequestAMessage<T>(Request newRequest) where T : RequestAMessage, new()
+        {
+            T t = new T();
+            t.SetNewRequest(newRequest);
+
+            return t;
+        } 
+        #endregion
+
+        #region 设置新的请求对象 public void SetNewRequest(Request newRequest)
         /// <summary>
         /// 设置新的请求对象
         /// </summary>
-        /// <param name="request">新的请求对象</param>
-        public void SetNewRequest(Request request)
+        /// <param name="newRequest">新的请求对象</param>
+        public void SetNewRequest(Request newRequest)
         {
-            RootElement = request.RootElement;
-            newRequest = request;
-        } 
+            Request = newRequest;
+        }
         #endregion
     }
 }

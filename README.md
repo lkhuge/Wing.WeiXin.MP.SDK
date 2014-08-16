@@ -67,18 +67,32 @@ IIS 7.0 （集成模式）
 4.添加接收事件
 （建议放在Global.asax）
 ```
-GlobalManager.InitConfig(new ConfigManager());
-EventManager em = new EventManager();
-em.AddReceiveEvent("Event1", true, "gh_7f215c8b1c91", ReceiveEntityType.Any, AddMessage);
-em.AddReceiveEvent("Event2", false, "gh_7f215c8b1c91", ReceiveEntityType.text, AddMessage);
-GlobalManager.InitEvent(em);
+GlobalManager.Init();
+GlobalManager.EventManager.AddGloablReceiveEvent("Event0", E0);
+GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", E1);
+GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
+
+private Response E0(Request request)
+{
+    //......
+}
+
+private Response E1(RequestText request)
+{
+    //......
+}
+
+private Response E2(RequestEventClick request)
+{
+    //......
+}
 ```
 
 事件处理
 ----------------
 ###事件处理优先级
 ```
-全局事件 > 快速配置回复事件 > 自定义事件
+全局事件 > 自定义事件 > 快速配置回复事件
 ```
 
 配置说明
