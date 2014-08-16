@@ -179,7 +179,7 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// </summary>
         private void LoadConfig()
         {
-            GlobalManager.InitConfig(new ConfigManager());
+            GlobalManager.Init();
             account = GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service); 
         } 
         #endregion

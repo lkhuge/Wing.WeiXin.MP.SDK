@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Wing.CL.Serialize;
 using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
@@ -41,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 请求XML数据
         /// </summary>
-        public XElement RootElement { get; private set; }
+        public XElement RootElement { get; protected set; }
 
         /// <summary>
         /// 开发者微信号
@@ -56,7 +57,22 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 消息创建时间 （整型）
         /// </summary>
-        public DateTime CreateTime { get; private set; }
+        private DateTime createTime;
+
+        /// <summary>
+        /// 消息创建时间 （整型）
+        /// </summary>
+        public DateTime CreateTime 
+        {
+            get
+            {
+                if (createTime == default(DateTime))
+                {
+                    createTime = DateTimeHelper.GetTime(GetPostData("CreateTime"));
+                }
+                return createTime;
+            } 
+        }
 
         /// <summary>
         /// 消息类型名称
@@ -71,7 +87,15 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 账号对象
         /// </summary>
-        public WXAccount WXAccount { get; private set; }
+        private WXAccount wxAccount;
+
+        /// <summary>
+        /// 账号对象
+        /// </summary>
+        public WXAccount WXAccount 
+        {
+            get { return wxAccount ?? (wxAccount = new WXAccount(ToUserName)); }
+        }
 
         #region 实例化请求对象 public Request(string signature, string timestamp, string nonce, string echostr, string postData)
         /// <summary>
@@ -103,16 +127,14 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (RootElement == null) throw new Exception("XML格式错误（未发现xml根节点）");
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
-            CreateTime = DateTimeHelper.GetTime(GetPostData("CreateTime"));
-            MsgTypeName = GetPostData("MsgType");
-            ReceiveEntityType Temp;
-            if ("event".Equals(MsgTypeName))
+            MsgTypeName = GetPostData("event".Equals(MsgTypeName) ? "Event" : "MsgType");
+            if ("subscribe".Equals(MsgTypeName) || HasPostData("EventKey"))
             {
-                MsgTypeName = GetPostData("Event");
+                MsgTypeName = "subscribeByQRScene";
             }
+            ReceiveEntityType Temp;
             if (!Enum.TryParse(MsgTypeName, out Temp)) throw new Exception("XML格式错误（未知消息类型）");
             MsgType = Temp;
-            WXAccount = new WXAccount(ToUserName);
         } 
         #endregion
 
@@ -131,6 +153,20 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
+        #region 是否存在XML数据 public bool HasPostData(string key)
+        /// <summary>
+        /// 是否存在XML数据
+        /// </summary>
+        /// <param name="key">数据名称</param>
+        /// <returns>是否存在XML数据</returns>
+        public bool HasPostData(string key)
+        {
+            XElement element = RootElement.Element(key);
+
+            return element != null;
+        } 
+        #endregion
+
         #region 获取请求全部信息 public override string ToString()
         /// <summary>
         /// 获取请求全部信息
@@ -141,6 +177,17 @@ namespace Wing.WeiXin.MP.SDK.Entities
             return string.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
                 Signature, Timestamp, Nonce, Echostr, PostData);
         }
+        #endregion
+
+        #region 获取消息id，64位整型 public string GetMsgId()
+        /// <summary>
+        /// 获取消息id，64位整型
+        /// </summary>
+        /// <returns>消息id，64位整型</returns>
+        public string GetMsgId()
+        {
+            return GetPostData("MsgId");
+        } 
         #endregion
     }
 }

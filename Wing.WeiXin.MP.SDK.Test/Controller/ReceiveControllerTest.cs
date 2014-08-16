@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
@@ -22,10 +23,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void ActionTest()
         {
-            EventManager em = new EventManager();
-            em.AddReceiveEvent("Event1", false, "gh_7f215c8b1c91", ReceiveEntityType.text, r => EntityBuilder.GetMessageText(r, "asdf"));
-            GlobalManager.InitEvent(em);
-
+            GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r, "asdf"));
+            GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
             Stopwatch sw = new Stopwatch();
             sw.Start();
             for (int i = 0; i < 10000; i ++)
@@ -35,7 +34,13 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             sw.Stop();
             Debug.WriteLine(sw.ElapsedMilliseconds);
 //            Response result = new ReceiveController().Action(messageText);
+//            Assert.IsNotNull(result);
         } 
         #endregion
+
+        public Response E2(RequestEventClick r)
+        {
+            return EntityBuilder.GetMessageText(r, "qwe");
+        }
     }
 }

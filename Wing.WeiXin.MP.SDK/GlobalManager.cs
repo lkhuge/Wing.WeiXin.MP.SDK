@@ -30,6 +30,17 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static EventManager EventManager { get; private set; }
 
+        #region 初始化 public static void Init()
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public static void Init()
+        {
+            InitConfig(new ConfigManager());
+            InitEvent(new EventManager());
+        } 
+        #endregion
+
         #region 初始化配置 public static void InitConfig(ConfigManager configManager)
         /// <summary>
         /// 初始化配置

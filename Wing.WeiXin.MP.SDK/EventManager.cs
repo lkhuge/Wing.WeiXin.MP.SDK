@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK
@@ -13,31 +14,63 @@ namespace Wing.WeiXin.MP.SDK
     public class EventManager
     {
         /// <summary>
-        /// 接收事件
+        /// 全局接收事件列表
         /// </summary>
-        private readonly Dictionary<string, Func<Request, Response>> ReceiveEvent =
+        private readonly Dictionary<string, Func<Request, Response>> GloablReceiveEvent =
             new Dictionary<string, Func<Request, Response>>();
 
-        #region 添加接收事件 public void AddReceiveEvent(string eventName, bool isGlobal, string toUserName, ReceiveEntityType type, Func<Request, Response> receiveEvent)
+        /// <summary>
+        /// 非全局接收事件列表
+        /// </summary>
+        private readonly Dictionary<string, Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>> ReceiveEvent =
+            new Dictionary<string, Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>>();
+
+        #region 添加全局接收事件 public void AddGloablReceiveEvent(string eventName, Func<Request, Response> receiveEvent)
+        /// <summary>
+        /// 添加全局接收事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="receiveEvent">事件</param>
+        public void AddGloablReceiveEvent(string eventName, Func<Request, Response> receiveEvent)
+        {
+            if (GloablReceiveEvent.ContainsKey(eventName))
+            {
+                throw new Exception(String.Format("事件名（{0}）重复", eventName));
+            }
+            GloablReceiveEvent.Add(eventName, receiveEvent);
+        } 
+        #endregion
+
+        #region 添加接收事件 public void AddReceiveEvent<T>(string eventName, string toUserName, Func<Request, T> receiveEvent)
         /// <summary>
         /// 添加接收事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        /// <param name="isGlobal">是否为全局事件</param>
         /// <param name="toUserName">开发者微信号</param>
-        /// <param name="type">事件类型</param>
         /// <param name="receiveEvent">事件</param>
-        public void AddReceiveEvent(string eventName, bool isGlobal, string toUserName, ReceiveEntityType type, Func<Request, Response> receiveEvent)
+        public void AddReceiveEvent<T>(string eventName, string toUserName, Func<T, Response> receiveEvent) where T : RequestAMessage, new()
         {
-            if (ReceiveEvent.ContainsKey(eventName))
+            if (!ReceiveEvent.ContainsKey(toUserName))
+            {
+                ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
+            }
+            ReceiveEntityType typeName = new T().ReceiveEntityType;
+            if (!ReceiveEvent[toUserName].ContainsKey(typeName))
+            {
+                ReceiveEvent[toUserName].Add(typeName, new Dictionary<string, Func<Request, Response>>());
+            }
+            if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
             {
                 throw new Exception(String.Format("事件名（{0}）重复", eventName));
             }
-            ReceiveEvent.Add(String.Format("{0}:{1}:{2}:{3}",
+            ReceiveEvent[toUserName][typeName].Add(
                 eventName,
-                toUserName,
-                Enum.GetName(typeof(ReceiveEntityType), type),
-                isGlobal ? "G" : "S"), receiveEvent);
+                r =>
+                {
+                    T t = new T();
+                    t.SetNewRequest(r);
+                    return receiveEvent(t);
+                });
         }
         #endregion
 
@@ -51,12 +84,11 @@ namespace Wing.WeiXin.MP.SDK
         {
             Response result = ActionGlobalEvent(request);
             if (result != null) return result;
-            result = ActionOneGlobalEvent(request);
-            if (result != null) return result;
-            result = GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList.GetQuickConfigReturnMessage(request);
+            result = ActionOneEvent(request);
             if (result != null) return result;
 
-            return ActionReceiveEvent(request);
+            return GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
+                .GetQuickConfigReturnMessage(request);
         }
         #endregion
 
@@ -68,55 +100,25 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionGlobalEvent(Request request)
         {
-            return ReceiveEvent.Where(e =>
-            {
-                string[] l = e.Key.Split(':');
-                return
-                    GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(l[0]) &&
-                    String.IsNullOrEmpty(l[1]) &&
-                    (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
-                    l[3].Equals("G");
-            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+            return GloablReceiveEvent
+                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
 
-        #region 执行单账号全局事件 private Response ActionOneGlobalEvent(Request request)
+        #region 执行单账号事件 private Response ActionOneEvent(Request request)
         /// <summary>
-        /// 执行单账号全局事件
+        /// 执行单账号事件
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <returns>响应对象</returns>
-        private Response ActionOneGlobalEvent(Request request)
+        private Response ActionOneEvent(Request request)
         {
-            return ReceiveEvent.Where(e =>
-            {
-                string[] l = e.Key.Split(':');
-                return
-                    GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(l[0]) &&
-                    l[1].Equals(request.ToUserName) &&
-                    (l[2].Equals(request.MsgTypeName) || "Any".Equals(l[2])) &&
-                    l[3].Equals("G");
-            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
-        }
-        #endregion
-
-        #region 执行接收事件 private Response ActionReceiveEvent(Request request)
-        /// <summary>
-        /// 执行接收事件
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <returns>响应对象</returns>
-        private Response ActionReceiveEvent(Request request)
-        {
-            return ReceiveEvent.Where(e =>
-            {
-                string[] l = e.Key.Split(':');
-                return
-                    GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(l[0]) &&
-                    l[1].Equals(request.ToUserName) &&
-                    l[2].Equals(request.MsgTypeName) &&
-                    l[3].Equals("S");
-            }).Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+            if (!ReceiveEvent.ContainsKey(request.ToUserName)) return null;
+            if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
+            return ReceiveEvent[request.ToUserName][request.MsgType]
+                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
     }

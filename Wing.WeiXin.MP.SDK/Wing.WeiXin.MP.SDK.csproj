@@ -108,6 +108,22 @@
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
     <Compile Include="Entities\Request.cs" />
+    <Compile Include="Entities\RequestMessage\RequestAMessage.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventClick.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventLocation.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventMasssEndJobFinish.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventScan.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventSubscribe.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventSubscribeByQRScene.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventUnsubscribe.cs" />
+    <Compile Include="Entities\RequestMessage\RequestEventView.cs" />
+    <Compile Include="Entities\RequestMessage\RequestImage.cs" />
+    <Compile Include="Entities\RequestMessage\RequestLink.cs" />
+    <Compile Include="Entities\RequestMessage\RequestLocation.cs" />
+    <Compile Include="Entities\RequestMessage\RequestText.cs" />
+    <Compile Include="Entities\RequestMessage\RequestTransferCustomerService.cs" />
+    <Compile Include="Entities\RequestMessage\RequestVideo.cs" />
+    <Compile Include="Entities\RequestMessage\RequestVoice.cs" />
     <Compile Include="Entities\Response.cs" />
     <Compile Include="Entities\WXAccount.cs" />
     <Compile Include="Entities\CSMessages\CSMessage.cs" />
@@ -171,6 +187,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

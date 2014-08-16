@@ -20,12 +20,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 接收开始事件
         /// </summary>
-        public event Action<Request> ReceiveStart;
+        public static event Action<Request> ReceiveStart;
 
         /// <summary>
         /// 接收结束事件
         /// </summary>
-        public event Action<Request, Response> ReceiveEnd;
+        public static event Action<Request, Response> ReceiveEnd;
 
         #region 执行操作 public Response Action(Request request)
         /// <summary>
