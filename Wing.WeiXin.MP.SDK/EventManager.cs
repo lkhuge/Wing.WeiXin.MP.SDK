@@ -16,8 +16,8 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 全局接收事件列表
         /// </summary>
-        private readonly Dictionary<string, Func<Request, Response>> GloablReceiveEvent =
-            new Dictionary<string, Func<Request, Response>>();
+        private readonly Dictionary<string, Dictionary<string, Func<Request, Response>>> GloablReceiveEvent =
+            new Dictionary<string, Dictionary<string, Func<Request, Response>>>();
 
         /// <summary>
         /// 非全局接收事件列表
@@ -25,19 +25,25 @@ namespace Wing.WeiXin.MP.SDK
         private readonly Dictionary<string, Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>> ReceiveEvent =
             new Dictionary<string, Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>>();
 
-        #region 添加全局接收事件 public void AddGloablReceiveEvent(string eventName, Func<Request, Response> receiveEvent)
+        #region 添加全局接收事件 public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent)
         /// <summary>
         /// 添加全局接收事件
         /// </summary>
         /// <param name="eventName">事件名</param>
+        /// <param name="toUserName">开发者微信号</param>
         /// <param name="receiveEvent">事件</param>
-        public void AddGloablReceiveEvent(string eventName, Func<Request, Response> receiveEvent)
+        public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent)
         {
-            if (GloablReceiveEvent.ContainsKey(eventName))
+            if (String.IsNullOrEmpty(toUserName)) toUserName = "";
+            if (!GloablReceiveEvent.ContainsKey(toUserName))
+            {
+                GloablReceiveEvent.Add(toUserName, new Dictionary<string, Func<Request, Response>>());
+            }
+            if (GloablReceiveEvent[toUserName].ContainsKey(eventName))
             {
                 throw new Exception(String.Format("事件名（{0}）重复", eventName));
             }
-            GloablReceiveEvent.Add(eventName, receiveEvent);
+            GloablReceiveEvent[toUserName].Add(eventName, receiveEvent);
         } 
         #endregion
 
@@ -79,6 +85,8 @@ namespace Wing.WeiXin.MP.SDK
         {
             Response result = ActionGlobalEvent(request);
             if (result != null) return result;
+            result = ActionGlobalOneEvent(request);
+            if (result != null) return result;
             result = ActionOneEvent(request);
             if (result != null) return result;
 
@@ -95,7 +103,23 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionGlobalEvent(Request request)
         {
-            return GloablReceiveEvent
+            if (!GloablReceiveEvent.ContainsKey("")) return null;
+            return GloablReceiveEvent[""]
+                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+        }
+        #endregion
+
+        #region 执行全局单账号事件 private Response ActionGlobalOneEvent(Request request)
+        /// <summary>
+        /// 执行全局单账号事件
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>响应对象</returns>
+        private Response ActionGlobalOneEvent(Request request)
+        {
+            if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
+            return GloablReceiveEvent[request.ToUserName]
                 .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
