@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// </summary>
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            GlobalManager.InitConfig(new ConfigManager());
+            GlobalManager.Init();
             lbList = new Dictionary<string, Label>
             {
                 {"1",  lb1},  {"2",  lb2},  {"3",  lb3},
