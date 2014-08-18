@@ -23,7 +23,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void ActionTest()
         {
-            GlobalManager.EventManager.AddGloablReceiveEvent("Event1", r =>
+            GlobalManager.EventManager.AddGloablReceiveEvent("Event1",null, r =>
             {
                 if (r.MsgType == ReceiveEntityType.text &&
                     RequestAMessage.GetRequestAMessage<RequestText>(r).Content.Equals("test1"))
@@ -32,7 +32,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                 }
                 return null;
             });
-            GlobalManager.EventManager.AddGloablReceiveEvent("Event2", EntityBuilder.GetMessageTCS);
+            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, EntityBuilder.GetMessageTCS);
             GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
             GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
             Stopwatch sw = new Stopwatch();

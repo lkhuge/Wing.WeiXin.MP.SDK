@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -29,6 +30,11 @@ namespace Wing.WeiXin.MP.SDK
         /// 事件管理类
         /// </summary>
         public static EventManager EventManager { get; private set; }
+
+        /// <summary>
+        /// AccessToken容器
+        /// </summary>
+        public static AccessTokenContainer AccessTokenContainer { get; private set; }
 
         #region 初始化 public static void Init()
         /// <summary>
@@ -64,6 +70,17 @@ namespace Wing.WeiXin.MP.SDK
             if (ConfigManager == null) throw new Exception("配置未加载");
             EventManager = eventManager;
         } 
+        #endregion
+
+        #region 初始化AccessToken容器 public static void InitAccessTokenContainer(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 初始化AccessToken容器
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public static void InitAccessTokenContainer(AccessTokenContainer accessTokenContainer)
+        {
+            AccessTokenContainer = accessTokenContainer;
+        }
         #endregion
 
         #region 检测是否已经加装 public static void CheckInit()

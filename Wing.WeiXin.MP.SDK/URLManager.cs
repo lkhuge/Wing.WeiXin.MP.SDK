@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
+using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
@@ -42,7 +43,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendCSMessage,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
@@ -57,7 +58,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForUploadMedia,
-                AccessTokenContainer.GetAccessToken(account).access_token, 
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, 
                 type);
         }
         #endregion
@@ -73,7 +74,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForDownloadMedia,
-                AccessTokenContainer.GetAccessToken(account).access_token, 
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, 
                 media_id);
         }
         #endregion
@@ -88,7 +89,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateMenu,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -102,7 +103,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetMenu,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -116,7 +117,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForDeleteMenu,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -194,7 +195,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateQRCodeTicket,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -223,7 +224,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUser,
-                AccessTokenContainer.GetAccessToken(account).access_token,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 openID,
                 Properties.Settings.Default.Language);
         } 
@@ -239,7 +240,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserList,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -254,7 +255,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserListNext,
-                AccessTokenContainer.GetAccessToken(account).access_token,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 userList.next_openid);
         } 
         #endregion
@@ -269,7 +270,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForCreateWXUserGroup,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -283,7 +284,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserGroupList,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -297,7 +298,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForGetWXUserGroupByWXUser,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -311,7 +312,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForModityWXUserGroup,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -325,7 +326,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForMoveWXUserGroup,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         } 
         #endregion
 
@@ -339,7 +340,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllUploadNews,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
@@ -353,7 +354,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllByGroup,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
@@ -367,7 +368,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllByOpenIDList,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
 
@@ -381,7 +382,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return String.Format(
                 Properties.Settings.Default.URLForSendAllDelete,
-                AccessTokenContainer.GetAccessToken(account).access_token);
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token);
         }
         #endregion
     }

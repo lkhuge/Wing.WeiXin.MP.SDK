@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
@@ -26,26 +27,12 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// <summary>
         /// 正确请求头部
         /// </summary>
-        protected Request requestRight = new Request
-        (
-            "d054e317b56cc26c457981cc3d615f96c72ec230",
-            "1395058361",
-            "929810330",
-            "",
-            "echostr"
-        );
+        protected Request requestRight;
 
         /// <summary>
         /// 错误请求头部
         /// </summary>
-        protected Request requestError = new Request
-        (
-            "d054e317b56cc26c457981cc3d615f96c72ec230Error",
-            "1395058361",
-            "929810330",
-            "",
-            "echostr"
-        ); 
+        protected Request requestError; 
         #endregion
 
         #region 服务号账号
@@ -59,23 +46,7 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// <summary>
         /// 文本消息
         /// </summary>
-        protected Request messageText = new Request
-        (
-            "d054e317b56cc26c457981cc3d615f96c72ec230",
-            "1395058361",
-            "929810330",
-            "",
-             @"<?xml version=""1.0"" encoding=""utf-8""?>
-                        <xml>
-                            <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
-                            <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
-                            <CreateTime>1357986928</CreateTime>
-                            <MsgType><![CDATA[text]]></MsgType>
-                            <Content><![CDATA[test]]></Content>
-                            <MsgId>5832509444155992350</MsgId>
-                        </xml>
-                        ")
-        ; 
+        protected Request messageText; 
         #endregion
 
         #region 客服文本消息
@@ -170,6 +141,7 @@ namespace Wing.WeiXin.MP.SDK.Test
         protected BaseTest()
         {
             LoadConfig();
+            InitData();
         } 
         #endregion
 
@@ -180,7 +152,52 @@ namespace Wing.WeiXin.MP.SDK.Test
         private void LoadConfig()
         {
             GlobalManager.Init();
+            GlobalManager.InitAccessTokenContainer(new AccessTokenContainer());
             account = GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service); 
+        } 
+        #endregion
+
+        #region 初始化数据 private void InitData()
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        private void InitData()
+        {
+            requestRight = new Request
+            (
+                "d054e317b56cc26c457981cc3d615f96c72ec230",
+                "1395058361",
+                "929810330",
+                "",
+                "echostr"
+            );
+
+            requestError = new Request
+            (
+                "d054e317b56cc26c457981cc3d615f96c72ec230Error",
+                "1395058361",
+                "929810330",
+                "",
+                "echostr"
+            );
+
+            messageText = new Request
+            (
+                "d054e317b56cc26c457981cc3d615f96c72ec230",
+                "1395058361",
+                "929810330",
+                "",
+                 @"<?xml version=""1.0"" encoding=""utf-8""?>
+                            <xml>
+                                <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
+                                <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
+                                <CreateTime>1357986928</CreateTime>
+                                <MsgType><![CDATA[text]]></MsgType>
+                                <Content><![CDATA[test]]></Content>
+                                <MsgId>5832509444155992350</MsgId>
+                            </xml>
+                            ")
+            ; 
         } 
         #endregion
     }

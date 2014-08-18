@@ -30,7 +30,7 @@ namespace Wing.WeiXin.MP.SDK
         /// 添加全局接收事件
         /// </summary>
         /// <param name="eventName">事件名</param>
-        /// <param name="toUserName">开发者微信号</param>
+        /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
         /// <param name="receiveEvent">事件</param>
         public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent)
         {
