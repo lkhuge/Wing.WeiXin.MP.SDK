@@ -25,6 +25,16 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string Timestamp { get; private set; }
 
         /// <summary>
+        /// 随机数
+        /// </summary>
+        public string Nonce { get; private set; }
+
+        /// <summary>
+        /// 随机字符串
+        /// </summary>
+        public string Echostr { get; private set; }
+
+        /// <summary>
         /// POST数据
         /// </summary>
         public string PostData { get; private set; }
@@ -100,11 +110,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             Signature = signature;
             Timestamp = timestamp;
-//            if (!CheckSignature(nonce)) throw new Exception("验证未通过\nRequest:" + 
-//                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-//                    Signature, Timestamp, nonce, echostr, PostData));
+            if (!CheckSignature(nonce)) throw new Exception("验证未通过\nRequest:" + 
+                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
+                    Signature, Timestamp, nonce, echostr, PostData));
+            Nonce = nonce;
             //首次验证
             if (!String.IsNullOrEmpty(echostr)) throw new Exception(echostr);
+            Echostr = echostr;
             PostData = postData;
         } 
         #endregion

@@ -44,6 +44,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             InitConfig(new ConfigManager());
             InitEvent(new EventManager());
+            InitAccessTokenContainer(new AccessTokenContainer());
         } 
         #endregion
 
@@ -67,7 +68,6 @@ namespace Wing.WeiXin.MP.SDK
         public static void InitEvent(EventManager eventManager)
         {
             if (EventLoad != null) EventLoad();
-            if (ConfigManager == null) throw new Exception("配置未加载");
             EventManager = eventManager;
         } 
         #endregion
@@ -81,17 +81,6 @@ namespace Wing.WeiXin.MP.SDK
         {
             AccessTokenContainer = accessTokenContainer;
         }
-        #endregion
-
-        #region 检测是否已经加装 public static void CheckInit()
-        /// <summary>
-        /// 检测是否已经加装
-        /// </summary>
-        public static void CheckInit()
-        {
-            if (EventManager != null) return;
-            throw new Exception("应用未加载");
-        } 
         #endregion
     }
 }

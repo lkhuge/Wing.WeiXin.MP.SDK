@@ -32,19 +32,19 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                 }
                 return null;
             });
-            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, EntityBuilder.GetMessageTCS);
+            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, r => EntityBuilder.GetMessageFromFriend(r, "http://huwing.vicp.cc/Receive"));
             GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
             GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (int i = 0; i < 10000; i ++)
-            {
-                Response result = new ReceiveController().Action(messageText);
-            }
-            sw.Stop();
-            Debug.WriteLine(sw.ElapsedMilliseconds);
-//            Response result = new ReceiveController().Action(messageText);
-//            Assert.IsNotNull(result);
+//            Stopwatch sw = new Stopwatch();
+//            sw.Start();
+//            for (int i = 0; i < 10000; i ++)
+//            {
+//                Response result = new ReceiveController().Action(messageText);
+//            }
+//            sw.Stop();
+//            Debug.WriteLine(sw.ElapsedMilliseconds);
+            Response result = new ReceiveController().Action(messageText);
+            Assert.IsNotNull(result);
         } 
         #endregion
 

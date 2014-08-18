@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Wing.CL.Net;
 using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Entities;
 
@@ -271,6 +272,23 @@ namespace Wing.WeiXin.MP.SDK.Common
                     .Replace("{FromUserName}", request.ToUserName)
                     .Replace("{CreateTime}", DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)), 
                 paramList), Response.XML);
+        } 
+        #endregion
+
+        #region 从其他服务器上获取消息 public static Response GetMessageFromFriend(Request request, string apiUrl)
+        /// <summary>
+        /// 从其他服务器上获取消息
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="apiUrl">接口名称</param>
+        /// <returns>响应对象</returns>
+        public static Response GetMessageFromFriend(Request request, string apiUrl)
+        {
+            return new Response(HTTPHelper.Post(String.Format("{0}?signature={1}&timestamp={2}&nonce={3}", 
+                apiUrl,
+                request.Signature,
+                request.Timestamp,
+                request.Nonce), request.PostData));
         } 
         #endregion
     }

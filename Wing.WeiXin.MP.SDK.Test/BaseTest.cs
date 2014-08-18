@@ -28,11 +28,6 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// 正确请求头部
         /// </summary>
         protected Request requestRight;
-
-        /// <summary>
-        /// 错误请求头部
-        /// </summary>
-        protected Request requestError; 
         #endregion
 
         #region 服务号账号
@@ -172,20 +167,11 @@ namespace Wing.WeiXin.MP.SDK.Test
                 "echostr"
             );
 
-            requestError = new Request
-            (
-                "d054e317b56cc26c457981cc3d615f96c72ec230Error",
-                "1395058361",
-                "929810330",
-                "",
-                "echostr"
-            );
-
             messageText = new Request
             (
-                "d054e317b56cc26c457981cc3d615f96c72ec230",
-                "1395058361",
-                "929810330",
+                "743fd2fb0388125a8bdddef91ac25ef13095b33a",
+                "1408023801",
+                "1395465999",
                 "",
                  @"<?xml version=""1.0"" encoding=""utf-8""?>
                             <xml>
