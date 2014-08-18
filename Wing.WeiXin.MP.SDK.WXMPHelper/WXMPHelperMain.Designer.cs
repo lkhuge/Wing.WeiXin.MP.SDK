@@ -1,6 +1,6 @@
 ﻿namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    partial class FrmMain
+    partial class WXMPHelperMain
     {
         /// <summary>
         /// Required designer variable.

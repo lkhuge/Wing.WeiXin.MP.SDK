@@ -18,7 +18,10 @@ using WXMenu = Wing.WeiXin.MP.SDK.Entities.Menu.Menu;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    public partial class FrmMain : Form
+    /// <summary>
+    /// 微信公共平台简易助手主界面
+    /// </summary>
+    public partial class WXMPHelperMain : Form
     {
         /// <summary>
         /// 最大主菜单数量
@@ -44,7 +47,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <summary>
         /// 实例化
         /// </summary>
-        public FrmMain()
+        public WXMPHelperMain()
         {
             InitializeComponent();
         } 
@@ -80,7 +83,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void lb_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Label lb = (Label) sender;
-            if (CheckCreate(lb)) new FrmSelect(lb, lbList).ShowDialog();
+            if (CheckCreate(lb)) new WXMPHelperSelect(lb, lbList).ShowDialog();
         } 
         #endregion
 
@@ -126,7 +129,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             {
                 AddMenuSub(menu.button, index);
             }
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btSave.Enabled = false;
                 btSave.Text = "正在创建中";
@@ -250,7 +253,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 kv.Value.Text = LabelNullText;
                 kv.Value.Tag = null;
             }
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btView.Enabled = false;
                 btView.Text = "正在查询中";
@@ -312,7 +315,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// </summary>
         private void btDelete_Click(object sender, EventArgs e)
         {
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 if (MessageBox.Show("确认删除？", "警告！！", MessageBoxButtons.YesNo) 
                     == DialogResult.No) return;
@@ -419,7 +422,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                     Key = item.url
                 };
             }
-            FrmSelect.SetLableText(lbList[id]);
+            WXMPHelperSelect.SetLableText(lbList[id]);
         } 
         #endregion
 
@@ -436,7 +439,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 Index = -1,
                 Name = item.name,
             };
-            FrmSelect.SetLableText(lbList[index.ToString(CultureInfo.InvariantCulture)]);
+            WXMPHelperSelect.SetLableText(lbList[index.ToString(CultureInfo.InvariantCulture)]);
             int index2 = 1;
             foreach (MenuButtonForGet itemSub in item.sub_button)
             {

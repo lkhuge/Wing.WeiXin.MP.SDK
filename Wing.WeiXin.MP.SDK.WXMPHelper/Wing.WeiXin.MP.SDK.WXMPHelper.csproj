@@ -82,45 +82,45 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FrmAddQRM.cs">
+    <Compile Include="WXMPHelperAddQRM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmAddQRM.Designer.cs">
-      <DependentUpon>FrmAddQRM.cs</DependentUpon>
+    <Compile Include="WXMPHelperAddQRM.Designer.cs">
+      <DependentUpon>WXMPHelperAddQRM.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMain.cs">
+    <Compile Include="WXMPHelperMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMain.Designer.cs">
-      <DependentUpon>FrmMain.cs</DependentUpon>
+    <Compile Include="WXMPHelperMain.Designer.cs">
+      <DependentUpon>WXMPHelperMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSelect.cs">
+    <Compile Include="WXMPHelperSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSelect.Designer.cs">
-      <DependentUpon>FrmSelect.cs</DependentUpon>
+    <Compile Include="WXMPHelperSelect.Designer.cs">
+      <DependentUpon>WXMPHelperSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmSelectAccount.cs">
+    <Compile Include="WXMPHelperSelectAccount.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmSelectAccount.Designer.cs">
-      <DependentUpon>FrmSelectAccount.cs</DependentUpon>
+    <Compile Include="WXMPHelperSelectAccount.Designer.cs">
+      <DependentUpon>WXMPHelperSelectAccount.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FrmAddQRM.resx">
-      <DependentUpon>FrmAddQRM.cs</DependentUpon>
+    <EmbeddedResource Include="WXMPHelperAddQRM.resx">
+      <DependentUpon>WXMPHelperAddQRM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMain.resx">
-      <DependentUpon>FrmMain.cs</DependentUpon>
+    <EmbeddedResource Include="WXMPHelperMain.resx">
+      <DependentUpon>WXMPHelperMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSelect.resx">
-      <DependentUpon>FrmSelect.cs</DependentUpon>
+    <EmbeddedResource Include="WXMPHelperSelect.resx">
+      <DependentUpon>WXMPHelperSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmSelectAccount.resx">
-      <DependentUpon>FrmSelectAccount.cs</DependentUpon>
+    <EmbeddedResource Include="WXMPHelperSelectAccount.resx">
+      <DependentUpon>WXMPHelperSelectAccount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

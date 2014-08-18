@@ -13,7 +13,10 @@ using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    public partial class FrmSelectAccount : Form
+    /// <summary>
+    /// 微信公共平台简易助手选择账号界面
+    /// </summary>
+    public partial class WXMPHelperSelectAccount : Form
     {
         /// <summary>
         /// 回调方法
@@ -25,7 +28,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// 根据回调方法实例化
         /// </summary>
         /// <param name="callback">回调方法</param>
-        public FrmSelectAccount(Action<WXAccount> callback)
+        public WXMPHelperSelectAccount(Action<WXAccount> callback)
         {
             this.callback = callback;
             InitializeComponent();

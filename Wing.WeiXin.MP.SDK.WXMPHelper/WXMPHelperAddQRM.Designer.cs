@@ -1,6 +1,6 @@
 ﻿namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    partial class FrmAddQRM
+    partial class WXMPHelperAddQRM
     {
         /// <summary>
         /// Required designer variable.

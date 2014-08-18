@@ -10,7 +10,10 @@ using System.Windows.Forms;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    public partial class FrmSelect : Form
+    /// <summary>
+    /// 微信公共平台简易助手设置菜单界面
+    /// </summary>
+    public partial class WXMPHelperSelect : Form
     {
         /// <summary>
         /// 标签
@@ -28,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// </summary>
         /// <param name="lb">标签</param>
         /// <param name="lbList">标签列表</param>
-        public FrmSelect(Label lb, Dictionary<string, Label> lbList)
+        public WXMPHelperSelect(Label lb, Dictionary<string, Label> lbList)
         {
             this.lb = lb;
             this.lbList = lbList;
@@ -96,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             int index = Int32.Parse(lb.Name.Substring(2, 1));
             if (lb.Name.Length == 3)
             {
-                if (index == FrmMain.MaxMainMenu || lbList[(index + 1).ToString(CultureInfo.InvariantCulture)].Tag == null)
+                if (index == WXMPHelperMain.MaxMainMenu || lbList[(index + 1).ToString(CultureInfo.InvariantCulture)].Tag == null)
                 {
                     ClearMenu(index);
                 }
@@ -108,7 +111,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             if (lb.Name.Length == 4)
             {
                 int index2 = Int32.Parse(lb.Name.Substring(3, 1));
-                if (index2 == FrmMain.MaxSubMenu || lbList[index + "" + (index2 + 1)].Tag == null)
+                if (index2 == WXMPHelperMain.MaxSubMenu || lbList[index + "" + (index2 + 1)].Tag == null)
                 {
                     ClearMenu(index, index2);
                 }
@@ -131,17 +134,17 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         {
             if (index2 == 0)
             {
-                for (int i = 1; i <= FrmMain.MaxSubMenu; i++)
+                for (int i = 1; i <= WXMPHelperMain.MaxSubMenu; i++)
                 {
-                    lbList[index + "" + i].Text = FrmMain.LabelNullText;
+                    lbList[index + "" + i].Text = WXMPHelperMain.LabelNullText;
                     lbList[index + "" + i].Tag = null;
                 }
-                lbList[index.ToString(CultureInfo.InvariantCulture)].Text = FrmMain.LabelNullText;
+                lbList[index.ToString(CultureInfo.InvariantCulture)].Text = WXMPHelperMain.LabelNullText;
                 lbList[index.ToString(CultureInfo.InvariantCulture)].Tag = null;
             }
             else
             {
-                lbList[index + "" + index2].Text = FrmMain.LabelNullText;
+                lbList[index + "" + index2].Text = WXMPHelperMain.LabelNullText;
                 lbList[index + "" + index2].Tag = null;
             }
         } 
@@ -154,21 +157,21 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <param name="index">主菜单索引</param>
         private void PushMenuMain(int index)
         {
-            for (int i = index; i < FrmMain.MaxMainMenu; i++)
+            for (int i = index; i < WXMPHelperMain.MaxMainMenu; i++)
             {
                 lbList[i.ToString(CultureInfo.InvariantCulture)].Text = lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Text;
                 lbList[i.ToString(CultureInfo.InvariantCulture)].Tag = lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Tag;
-                for (int j = 1; j <= FrmMain.MaxSubMenu; j++)
+                for (int j = 1; j <= WXMPHelperMain.MaxSubMenu; j++)
                 {
                     lbList[i + "" + j].Text = lbList[(i + 1) + "" + j].Text;
                     lbList[i + "" + j].Tag = lbList[(i + 1) + "" + j].Tag;
                 }
                 if (lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Tag == null) break;
-                if (i != FrmMain.MaxMainMenu - 1) continue;
-                ClearMenu(FrmMain.MaxMainMenu);
-                for (int j = 1; j <= FrmMain.MaxSubMenu; j++)
+                if (i != WXMPHelperMain.MaxMainMenu - 1) continue;
+                ClearMenu(WXMPHelperMain.MaxMainMenu);
+                for (int j = 1; j <= WXMPHelperMain.MaxSubMenu; j++)
                 {
-                    ClearMenu(FrmMain.MaxMainMenu, j);
+                    ClearMenu(WXMPHelperMain.MaxMainMenu, j);
                 }
             }
         } 
@@ -182,13 +185,13 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <param name="index2">子菜单索引</param>
         private void PushMenuSub(int index, int index2)
         {
-            for (int i = index2; i < FrmMain.MaxSubMenu; i++)
+            for (int i = index2; i < WXMPHelperMain.MaxSubMenu; i++)
             {
                 lbList[index + "" + i].Text = lbList[index + "" + (i + 1)].Text;
                 lbList[index + "" + i].Tag = lbList[index + "" + (i + 1)].Tag;
                 if (lbList[index + "" + (i + 1)].Tag == null) break;
-                if (i != FrmMain.MaxSubMenu - 1) continue;
-                ClearMenu(index, FrmMain.MaxSubMenu);
+                if (i != WXMPHelperMain.MaxSubMenu - 1) continue;
+                ClearMenu(index, WXMPHelperMain.MaxSubMenu);
             }
         } 
         #endregion
@@ -310,7 +313,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void btSave_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(tbClick.Text)) return;
-            new FrmAddQRM(tbClick.Text).Show();
+            new WXMPHelperAddQRM(tbClick.Text).Show();
         } 
         #endregion
     }

@@ -1,6 +1,6 @@
 ﻿namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    partial class FrmSelectAccount
+    partial class WXMPHelperSelectAccount
     {
         /// <summary>
         /// Required designer variable.

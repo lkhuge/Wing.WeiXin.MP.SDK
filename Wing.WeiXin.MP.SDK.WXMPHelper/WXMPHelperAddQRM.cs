@@ -15,14 +15,17 @@ using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper
 {
-    public partial class FrmAddQRM : Form
+    /// <summary>
+    /// 微信公共平台简易助手添加回复规则界面
+    /// </summary>
+    public partial class WXMPHelperAddQRM : Form
     {
         /// <summary>
         /// 功能列表
         /// </summary>
         private Func<string[]>[] FuncList;
 
-        public FrmAddQRM()
+        public WXMPHelperAddQRM()
         {
             InitializeComponent();
         }
@@ -32,7 +35,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// 根据事件Key实例化
         /// </summary>
         /// <param name="key">事件Key</param>
-        public FrmAddQRM(string key)
+        public WXMPHelperAddQRM(string key)
         {
             InitializeComponent();
             tbKey.Text = key;
@@ -131,7 +134,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void btUpload_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(tbImagePath.Text)) return;
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btUpload.Enabled = false;
                 btUpload.Text = "正在上传中";
@@ -261,7 +264,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void btUploadPic_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(tbMusicThumbPath.Text)) return;
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btUploadPic.Enabled = false;
                 btUploadPic.Text = "正在上传中";
@@ -430,7 +433,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void btUploadVideo_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(tbVideoPath.Text)) return;
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btUploadVideo.Enabled = false;
                 btUploadVideo.Text = "正在上传中";
@@ -534,7 +537,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void btUploadVoice_Click(object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(tbVoicePath.Text)) return;
-            new FrmSelectAccount(a =>
+            new WXMPHelperSelectAccount(a =>
             {
                 btUploadVoice.Enabled = false;
                 btUploadVoice.Text = "正在上传中";
