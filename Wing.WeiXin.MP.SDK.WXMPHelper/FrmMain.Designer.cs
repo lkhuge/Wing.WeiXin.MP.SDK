@@ -685,6 +685,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FrmMain";
             this.Text = "微信菜单";
+            this.Load += new System.EventHandler(this.FrmMain_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.gb1.ResumeLayout(false);

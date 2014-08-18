@@ -38,7 +38,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <summary>
         /// 标签列表
         /// </summary>
-        private readonly Dictionary<string, Label> lbList;
+        private Dictionary<string, Label> lbList;
 
         #region 实例化 public FrmMain()
         /// <summary>
@@ -47,6 +47,16 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         public FrmMain()
         {
             InitializeComponent();
+        } 
+        #endregion
+
+        #region 初始化 private void FrmMain_Load(object sender, EventArgs e)
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            GlobalManager.InitConfig(new ConfigManager());
             lbList = new Dictionary<string, Label>
             {
                 {"1",  lb1},  {"2",  lb2},  {"3",  lb3},
