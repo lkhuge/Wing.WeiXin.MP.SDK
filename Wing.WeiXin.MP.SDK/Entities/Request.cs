@@ -110,14 +110,27 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             Signature = signature;
             Timestamp = timestamp;
-            if (!CheckSignature(nonce)) throw new Exception("验证未通过\nRequest:" + 
-                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                    Signature, Timestamp, nonce, echostr, PostData));
             Nonce = nonce;
-            //首次验证
-            if (!String.IsNullOrEmpty(echostr)) throw new Exception(echostr);
             Echostr = echostr;
             PostData = postData;
+        } 
+        #endregion
+
+        #region 验证数据 public string Check()
+        /// <summary>
+        /// 验证数据
+        /// </summary>
+        /// <returns>结果（空则验证通过）</returns>
+        public string Check()
+        {
+            if (!CheckSignature(Nonce)) return "验证未通过\nRequest:" +
+                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
+                    Signature, Timestamp, Nonce, Echostr, PostData);
+
+            //首次验证
+            if (!String.IsNullOrEmpty(Echostr)) return Echostr;
+
+            return null;
         } 
         #endregion
 
