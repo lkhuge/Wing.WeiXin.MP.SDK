@@ -207,7 +207,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 "{0};{1};{2}", 
                 kv.Key, 
                 kv.Value.Text.Replace("\n", "{LF}"),
-                JSONHelper.JSONSerialize(kv.Value.Tag))));
+                JSONHelper.JSONSerializeN(kv.Value.Tag))));
             MessageBox.Show("导出完成");
         } 
         #endregion
@@ -236,7 +236,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             {
                 string[] info = l.Split(';');
                 lbList[info[0]].Text = info[1].Replace("{LF}", "\n");
-                lbList[info[0]].Tag = JSONHelper.JSONDeserialize(info[2]);
+                lbList[info[0]].Tag = JSONHelper.JSONDeserializeN(info[2]);
             }
             MessageBox.Show("导入完成");
         } 
