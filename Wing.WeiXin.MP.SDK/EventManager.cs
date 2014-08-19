@@ -75,6 +75,38 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
+        #region 添加接收事件 public void AddReceiveEvent<T>(string toUserName, Dictionary<string, Func<T, Response>> receiveEventList)
+        /// <summary>
+        /// 添加接收事件
+        /// </summary>
+        /// <param name="toUserName">开发者微信号</param>
+        /// <param name="receiveEventList">事件列表</param>
+        public void AddReceiveEvent<T>(string toUserName, Dictionary<string, Func<T, Response>> receiveEventList) where T : RequestAMessage, new()
+        {
+            if (!ReceiveEvent.ContainsKey(toUserName))
+            {
+                ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
+            }
+            ReceiveEntityType typeName = new T().ReceiveEntityType;
+            if (!ReceiveEvent[toUserName].ContainsKey(typeName))
+            {
+                ReceiveEvent[toUserName].Add(typeName, new Dictionary<string, Func<Request, Response>>());
+            }
+            foreach (KeyValuePair<string, Func<T, Response>> eve in receiveEventList)
+            {
+                if (ReceiveEvent[toUserName][typeName].ContainsKey(eve.Key))
+                {
+                    throw new Exception(String.Format("事件名（{0}）重复", eve.Key));
+                }
+                Func<T, Response> eveT = eve.Value;
+                ReceiveEvent[toUserName][typeName].Add(
+                    eve.Key,
+                    r => eveT(RequestAMessage.GetRequestAMessage<T>(r)));
+            }
+            
+        }
+        #endregion
+
         #region 执行事件 public Response ActionEvent(Request request)
         /// <summary>
         /// 执行事件
