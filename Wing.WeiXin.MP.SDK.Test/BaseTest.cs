@@ -41,7 +41,12 @@ namespace Wing.WeiXin.MP.SDK.Test
         /// <summary>
         /// 文本消息
         /// </summary>
-        protected Request messageText; 
+        protected Request messageText;
+
+        /// <summary>
+        /// CLick消息
+        /// </summary>
+        protected Request messageClick; 
         #endregion
 
         #region 客服文本消息
@@ -183,7 +188,24 @@ namespace Wing.WeiXin.MP.SDK.Test
                                 <MsgId>5832509444155992350</MsgId>
                             </xml>
                             ")
-            ; 
+            ;
+
+            messageClick = new Request 
+            (
+                "743fd2fb0388125a8bdddef91ac25ef13095b33a",
+                "1408023801",
+                "1395465999",
+                "",
+                 @"<?xml version=""1.0"" encoding=""utf-8""?>
+                   <xml><ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
+                    <FromUserName><![CDATA[orImOuC33jQiJFrVelQGGTmwPSFE]]></FromUserName>
+                    <CreateTime>1395058356</CreateTime>
+                    <MsgType><![CDATA[event]]></MsgType>
+                    <Event><![CDATA[CLICK]]></Event>
+                    <EventKey><![CDATA[t11]]></EventKey>
+                    </xml>
+                            "
+            );
         } 
         #endregion
     }

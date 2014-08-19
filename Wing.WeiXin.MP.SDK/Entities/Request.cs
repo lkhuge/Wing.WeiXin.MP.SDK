@@ -162,7 +162,8 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (RootElement == null) throw new Exception("XML格式错误（未发现xml根节点）");
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
-            MsgTypeName = GetPostData("event".Equals(MsgTypeName) ? "Event" : "MsgType");
+            MsgTypeName = GetPostData("MsgType");
+            MsgTypeName = "event".Equals(MsgTypeName) ? GetPostData("Event") : MsgTypeName;
             if ("subscribe".Equals(MsgTypeName) && HasPostData("EventKey"))
             {
                 MsgTypeName = "subscribeByQRScene";
