@@ -18,127 +18,64 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <summary>
         /// 图片响应内容
         /// </summary>
-        private const string MessageImage = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[image]]></MsgType>
-                <Image>
-                    <MediaId><![CDATA[{0}]]></MediaId>
-                </Image>
-            </xml>"; 
+        private const string MessageImage = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>image</MsgType><Image><MediaId>{0}</MediaId></Image></xml>"; 
         #endregion
 
         #region 音乐响应内容
         /// <summary>
         /// 音乐响应内容
         /// </summary>
-        private const string MessageMusic = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[music]]></MsgType>
-                <Music>
-                    <Title><![CDATA[{0}]]></Title>
-                    <Description><![CDATA[{1}]]></Description>
-                    <MusicUrl><![CDATA[{2}]]></MusicUrl>
-                    <HQMusicUrl><![CDATA[{3}]]></HQMusicUrl>
-                    <ThumbMediaId><![CDATA[{4}]]></ThumbMediaId>
-                </Music>
-            </xml>"; 
+        private const string MessageMusic = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>music</MsgType><Music><Title>{0}</Title><Description>{1}</Description><MusicUrl>{2}</MusicUrl><HQMusicUrl>{3}</HQMusicUrl><ThumbMediaId>{4}</ThumbMediaId></Music></xml>"; 
         #endregion
 
         #region 图文响应内容
         /// <summary>
         /// 图文响应内容
         /// </summary>
-        private const string MessageNews = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[news]]></MsgType>
-                <ArticleCount>{0}</ArticleCount>
-                <Articles>
-                    {1}
-                </Articles>
-            </xml> "; 
+        private const string MessageNews = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>news</MsgType><ArticleCount>{0}</ArticleCount><Articles>{1}</Articles></xml> "; 
         #endregion
 
         #region 图文内容响应内容
         /// <summary>
         /// 图文内容响应内容
         /// </summary>
-        private const string MessageNewsOne = @"
-            <item>
-                <Title><![CDATA[{0}]]></Title> 
-                <Description><![CDATA[{1}]]></Description>
-                <PicUrl><![CDATA[{2}]]></PicUrl>
-                <Url><![CDATA[{3}]]></Url>
-            </item>"; 
+        private const string MessageNewsOne = 
+            "<item><Title>{0}</Title> <Description>{1}</Description><PicUrl>{2}</PicUrl><Url>{3}</Url></item>"; 
         #endregion
 
         #region 文本响应内容
         /// <summary>
         /// 文本响应内容
         /// </summary>
-        private const string MessageText = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[text]]></MsgType>
-                <Content><![CDATA[{0}]]></Content>
-            </xml>"; 
+        private const string MessageText = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>text</MsgType><Content>{0}</Content></xml>"; 
         #endregion
 
         #region 视频响应内容
         /// <summary>
         /// 视频响应内容
         /// </summary>
-        private const string MessageVideo = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[video]]></MsgType>
-                <Video>
-                    <MediaId><![CDATA[{0}]]></MediaId>
-                    <Title><![CDATA[{1}]]></Title>
-                    <Description><![CDATA[{2}]]></Description>
-                </Video> 
-            </xml>"; 
+        private const string MessageVideo = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>video</MsgType><Video><MediaId>{0}</MediaId><Title>{1}</Title><Description>{2}</Description></Video> </xml>"; 
         #endregion
 
         #region 语音响应内容
         /// <summary>
         /// 语音响应内容
         /// </summary>
-        private const string MessageVoice = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[voice]]></MsgType>
-                <Voice>
-                    <MediaId><![CDATA[{0}]]></MediaId>
-                </Voice>
-            </xml>"; 
+        private const string MessageVoice = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>voice</MsgType><Voice><MediaId>{0}</MediaId></Voice></xml>"; 
         #endregion
 
         #region 转发多客服响应内容
         /// <summary>
         /// 转发多客服响应内容
         /// </summary>
-        private const string MessageTCS = @"
-            <xml>
-                <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-                <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-                <CreateTime>{CreateTime}</CreateTime>
-                <MsgType><![CDATA[transfer_customer_service]]></MsgType>
-            </xml>";
+        private const string MessageTCS = 
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>transfer_customer_service</MsgType></xml>";
         #endregion
 
         #region 获取图片消息 public static Response GetMessageImage(Request request, string mediaId)
