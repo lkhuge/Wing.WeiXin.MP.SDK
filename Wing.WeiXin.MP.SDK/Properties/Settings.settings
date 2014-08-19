@@ -83,5 +83,8 @@
     <Setting Name="ConfigRootNameGroup" Type="System.String" Scope="Application">
       <Value Profile="(Default)">WeiXinMPSDKConfigGroup</Value>
     </Setting>
+    <Setting Name="NoResponseMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">无消息</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

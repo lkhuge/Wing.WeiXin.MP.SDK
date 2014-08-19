@@ -269,5 +269,14 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["ConfigRootNameGroup"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("无消息")]
+        public string NoResponseMessage {
+            get {
+                return ((string)(this["NoResponseMessage"]));
+            }
+        }
     }
 }

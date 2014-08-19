@@ -38,6 +38,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             if (ReceiveStart != null) ReceiveStart(request);
             try
             {
+                request.Check();
                 request.ParsePostData();
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null) ReceiveEnd(request, response);

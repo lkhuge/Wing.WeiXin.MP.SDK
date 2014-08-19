@@ -5,6 +5,7 @@ using System.Text;
 using Wing.CL.WebManager;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Extension
 {
@@ -34,6 +35,11 @@ namespace Wing.WeiXin.MP.SDK.Extension
             get { return ResponseContentType.TEXT; }
         }
 
+        /// <summary>
+        /// 无消息提示文字
+        /// </summary>
+        public static string NoResponseMessage = Settings.Default.NoResponseMessage;
+
         #region 初始化 public AshxReceiveHandler()
         /// <summary>
         /// 初始化
@@ -52,17 +58,14 @@ namespace Wing.WeiXin.MP.SDK.Extension
         /// <returns>响应结果</returns>
         protected override object Action(HttpContextExtension context)
         {
-            Request request = new Request(
+            Response response = receiveController.Action(new Request(
                     context.GetString("signature"),
                     context.GetString("timestamp"),
                     context.GetString("nonce"),
                     context.GetString("echostr"),
-                    context.GetPostStream());
-            string vaild = request.Check();
-            if (!String.IsNullOrEmpty(vaild)) return vaild;
-            Response response = receiveController.Action(request);
+                    context.GetPostStream()));
 
-            return response == null ? "" : response.Text;
+            return response == null ? NoResponseMessage : response.Text;
         } 
         #endregion
     }

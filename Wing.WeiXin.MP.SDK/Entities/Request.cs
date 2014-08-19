@@ -116,21 +116,19 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
-        #region 验证数据 public string Check()
+        #region 验证数据 public void Check()
         /// <summary>
         /// 验证数据
         /// </summary>
         /// <returns>结果（空则验证通过）</returns>
-        public string Check()
+        public void Check()
         {
-            if (!CheckSignature(Nonce)) return "验证未通过\nRequest:" +
+            if (!CheckSignature(Nonce)) throw new Exception( "验证未通过\nRequest:" +
                 String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                    Signature, Timestamp, Nonce, Echostr, PostData);
+                    Signature, Timestamp, Nonce, Echostr, PostData));
 
             //首次验证
-            if (!String.IsNullOrEmpty(Echostr)) return Echostr;
-
-            return null;
+            if (!String.IsNullOrEmpty(Echostr)) throw new Exception(Echostr);
         } 
         #endregion
 
