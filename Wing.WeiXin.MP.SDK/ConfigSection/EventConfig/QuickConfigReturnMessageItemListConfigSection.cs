@@ -50,22 +50,26 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <returns>响应对象</returns>
         public Response GetQuickConfigReturnMessage(Request request)
         {
+            QuickConfigReturnMessageItemConfigSection[] list = this
+                .Cast<QuickConfigReturnMessageItemConfigSection>().ToArray();
             if (request.MsgType == ReceiveEntityType.text) return GetQuickConfigReturnMessage(
                 "Text",
                 request.ToUserName,
                 request.GetPostData("Content"),
-                request);
+                request,
+                list);
             if (request.MsgType == ReceiveEntityType.CLICK) return GetQuickConfigReturnMessage(
                 "Click",
                 request.ToUserName,
                 request.GetPostData("EventKey"),
-                request);
+                request,
+                list);
 
             return null;
         }
         #endregion
 
-        #region 获取快速配置回复消息配置对象 private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request)
+        #region 获取快速配置回复消息配置对象 private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request, QuickConfigReturnMessageItemConfigSection[] list)
         /// <summary>
         /// 获取快速配置回复消息配置对象
         /// </summary>
@@ -73,11 +77,10 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <param name="weixinMPID">微信公共平台ID</param>
         /// <param name="key">菜单点击事件</param>
         /// <param name="request">请求对象</param>
+        /// <param name="list">配置列表</param>
         /// <returns>响应对象</returns>
-        private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request)
+        private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request, QuickConfigReturnMessageItemConfigSection[] list)
         {
-            QuickConfigReturnMessageItemConfigSection[] list = this
-                .Cast<QuickConfigReturnMessageItemConfigSection>().ToArray();
             string name = String.Format("{0}:{1}:{2}", weixinMPID, type, key);
             QuickConfigReturnMessageItemConfigSection item = list
                 .FirstOrDefault(q => q.Key.Equals(name));

@@ -50,8 +50,8 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <summary>
         /// 文本响应内容
         /// </summary>
-        private const string MessageText = 
-            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>text</MsgType><Content>{0}</Content></xml>"; 
+        private const string MessageText =
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>text</MsgType><Content><![CDATA[{0}]]></Content></xml>"; 
         #endregion
 
         #region 视频响应内容
