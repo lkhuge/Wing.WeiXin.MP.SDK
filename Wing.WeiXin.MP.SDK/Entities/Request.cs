@@ -165,7 +165,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
             MsgTypeName = GetPostData("event".Equals(MsgTypeName) ? "Event" : "MsgType");
-            if ("subscribe".Equals(MsgTypeName) || HasPostData("EventKey"))
+            if ("subscribe".Equals(MsgTypeName) && HasPostData("EventKey"))
             {
                 MsgTypeName = "subscribeByQRScene";
             }
