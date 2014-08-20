@@ -78,9 +78,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wing.CL, Version=0.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wing.CL, Version=0.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.CL.0.0.0.5\lib\net40\Wing.CL.dll</HintPath>
+      <HintPath>..\packages\Wing.CL.0.0.0.6\lib\net40\Wing.CL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +91,9 @@
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\WXSession\IWXSession.cs" />
+    <Compile Include="Common\WXSession\StaticWXSession.cs" />
+    <Compile Include="Common\WXSession\WXSessionManager.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigSection\BaseConfig\AccountItemConfigSection.cs" />
     <Compile Include="ConfigSection\BaseConfig\AccountItemListConfigSection.cs" />
@@ -166,7 +169,6 @@
     <Compile Include="Enumeration\ReceiveEntityType.cs" />
     <Compile Include="Enumeration\ReturnCode.cs" />
     <Compile Include="Enumeration\ReturnEntityType.cs" />
-    <Compile Include="Enumeration\UDStringType.cs" />
     <Compile Include="Enumeration\UploadMediaType.cs" />
     <Compile Include="Enumeration\WeixinMPType.cs" />
     <Compile Include="Common\QuickConfigReturnMessageManager.cs" />

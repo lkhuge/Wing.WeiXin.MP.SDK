@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
+using Wing.WeiXin.MP.SDK.Common.WXSession;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -35,6 +36,11 @@ namespace Wing.WeiXin.MP.SDK
         /// AccessToken容器
         /// </summary>
         public static AccessTokenContainer AccessTokenContainer { get; private set; }
+
+        /// <summary>
+        /// 微信用户会话管理类
+        /// </summary>
+        public static WXSessionManager WXSessionManager { get; private set; }
 
         #region 初始化 public static void Init()
         /// <summary>
@@ -80,6 +86,17 @@ namespace Wing.WeiXin.MP.SDK
         public static void InitAccessTokenContainer(AccessTokenContainer accessTokenContainer)
         {
             AccessTokenContainer = accessTokenContainer;
+        }
+        #endregion
+
+        #region 初始化微信用户会话管理类 public static void InitWXSessionManager(WXSessionManager wxSessionManager)
+        /// <summary>
+        /// 初始化微信用户会话管理类
+        /// </summary>
+        /// <param name="wxSessionManager">微信用户会话管理类</param>
+        public static void InitWXSessionManager(WXSessionManager wxSessionManager)
+        {
+            WXSessionManager = wxSessionManager;
         }
         #endregion
     }
