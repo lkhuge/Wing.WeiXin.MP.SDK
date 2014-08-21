@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Forms;
 using Wing.CL.Net;
 using Wing.CL.Serialize;
+using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
@@ -36,7 +37,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <summary>
         /// 标签为空时的内容
         /// </summary>
-        public const string LabelNullText = "无";
+        public static string LabelNullText = "无";
 
         /// <summary>
         /// 标签列表
@@ -60,6 +61,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void FrmMain_Load(object sender, EventArgs e)
         {
             GlobalManager.Init();
+            GlobalManager.InitAccessTokenContainer(new StaticAccessTokenManager());
             lbList = new Dictionary<string, Label>
             {
                 {"1",  lb1},  {"2",  lb2},  {"3",  lb3},
