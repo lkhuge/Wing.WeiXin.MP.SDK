@@ -24,16 +24,6 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// </summary>
         private readonly IAccessTokenManager accessTokenManager;
 
-        #region 使用StaticAccessToken管理类实例化 public AccessTokenContainer()
-        /// <summary>
-        /// 使用StaticAccessToken管理类实例化
-        /// </summary>
-        public AccessTokenContainer()
-        {
-            accessTokenManager = new StaticAccessTokenManager();
-        }
-        #endregion
-
         #region 根据AccessToken管理类实例化 public AccessTokenContainer(IAccessTokenManager accessTokenManager)
         /// <summary>
         /// 根据AccessToken管理类实例化

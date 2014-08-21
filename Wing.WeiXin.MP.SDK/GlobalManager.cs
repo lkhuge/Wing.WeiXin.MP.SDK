@@ -78,25 +78,25 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
-        #region 初始化AccessToken容器 public static void InitAccessTokenContainer(AccessTokenContainer accessTokenContainer)
+        #region 初始化AccessToken容器 public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
         /// <summary>
         /// 初始化AccessToken容器
         /// </summary>
-        /// <param name="accessTokenContainer">AccessToken容器</param>
-        public static void InitAccessTokenContainer(AccessTokenContainer accessTokenContainer)
+        /// <param name="accessTokenManager">AccessToken管理类</param>
+        public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
         {
-            AccessTokenContainer = accessTokenContainer;
+            AccessTokenContainer = new AccessTokenContainer(accessTokenManager);
         }
         #endregion
 
-        #region 初始化微信用户会话管理类 public static void InitWXSessionManager(WXSessionManager wxSessionManager)
+        #region 初始化微信用户会话管理类 public static void InitWXSessionManager(IWXSession wxSession)
         /// <summary>
         /// 初始化微信用户会话管理类
         /// </summary>
-        /// <param name="wxSessionManager">微信用户会话管理类</param>
-        public static void InitWXSessionManager(WXSessionManager wxSessionManager)
+        /// <param name="wxSession">微信用户会话管理类</param>
+        public static void InitWXSessionManager(IWXSession wxSession)
         {
-            WXSessionManager = wxSessionManager;
+            WXSessionManager = new WXSessionManager(wxSession);
         }
         #endregion
     }
