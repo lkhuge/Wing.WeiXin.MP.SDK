@@ -50,7 +50,6 @@ namespace Wing.WeiXin.MP.SDK
         {
             InitConfig(new ConfigManager());
             InitEvent(new EventManager());
-            InitAccessTokenContainer(new AccessTokenContainer());
         } 
         #endregion
 
