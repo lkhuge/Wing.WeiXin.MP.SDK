@@ -35,7 +35,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <returns>数据</returns>
         public object Get(string user, string key)
         {
-            return !HasKey(user, key) ? null : session[user][key];
+            return !HasKey(user, key) ? null : session.GetOrAdd(user, new Dictionary<string,object>())[key];
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <param name="value">数据</param>
         public void Set(string user, string key, object value)
         {
-            session[user][key] = value;
+            session.GetOrAdd(user, new Dictionary<string, object>())[key] = value;
         }
         #endregion
 
@@ -62,7 +62,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public void Delete(string user, string key)
         {
             if (!HasKey(user, key)) return;
-            session[user].Remove(key);
+            session.GetOrAdd(user, new Dictionary<string, object>()).Remove(key);
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <returns>是否存在Key值</returns>
         public bool HasKey(string user, string key)
         {
-            return session[user].ContainsKey(key);
+            return session.GetOrAdd(user, new Dictionary<string, object>()).ContainsKey(key);
         }
         #endregion
 
@@ -88,7 +88,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <returns>是否存在数据</returns>
         public bool HasValue(string user, object value)
         {
-            return session[user].ContainsValue(value);
+            return session.GetOrAdd(user, new Dictionary<string, object>()).ContainsValue(value);
         }
         #endregion
     }
