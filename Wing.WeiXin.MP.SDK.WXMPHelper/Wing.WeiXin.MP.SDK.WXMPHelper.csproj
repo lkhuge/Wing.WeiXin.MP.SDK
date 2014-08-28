@@ -94,6 +94,12 @@
     <Compile Include="WXMPHelperMain.Designer.cs">
       <DependentUpon>WXMPHelperMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="WXMPHelperMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WXMPHelperMenu.Designer.cs">
+      <DependentUpon>WXMPHelperMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="WXMPHelperSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WXMPHelperMain.resx">
       <DependentUpon>WXMPHelperMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WXMPHelperMenu.resx">
+      <DependentUpon>WXMPHelperMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WXMPHelperSelect.resx">
       <DependentUpon>WXMPHelperSelect.cs</DependentUpon>

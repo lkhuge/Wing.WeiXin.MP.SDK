@@ -99,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             int index = Int32.Parse(lb.Name.Substring(2, 1));
             if (lb.Name.Length == 3)
             {
-                if (index == WXMPHelperMain.MaxMainMenu || lbList[(index + 1).ToString(CultureInfo.InvariantCulture)].Tag == null)
+                if (index == WXMPHelperMenu.MaxMainMenu || lbList[(index + 1).ToString(CultureInfo.InvariantCulture)].Tag == null)
                 {
                     ClearMenu(index);
                 }
@@ -111,7 +111,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             if (lb.Name.Length == 4)
             {
                 int index2 = Int32.Parse(lb.Name.Substring(3, 1));
-                if (index2 == WXMPHelperMain.MaxSubMenu || lbList[index + "" + (index2 + 1)].Tag == null)
+                if (index2 == WXMPHelperMenu.MaxSubMenu || lbList[index + "" + (index2 + 1)].Tag == null)
                 {
                     ClearMenu(index, index2);
                 }
@@ -134,17 +134,17 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         {
             if (index2 == 0)
             {
-                for (int i = 1; i <= WXMPHelperMain.MaxSubMenu; i++)
+                for (int i = 1; i <= WXMPHelperMenu.MaxSubMenu; i++)
                 {
-                    lbList[index + "" + i].Text = WXMPHelperMain.LabelNullText;
+                    lbList[index + "" + i].Text = WXMPHelperMenu.LabelNullText;
                     lbList[index + "" + i].Tag = null;
                 }
-                lbList[index.ToString(CultureInfo.InvariantCulture)].Text = WXMPHelperMain.LabelNullText;
+                lbList[index.ToString(CultureInfo.InvariantCulture)].Text = WXMPHelperMenu.LabelNullText;
                 lbList[index.ToString(CultureInfo.InvariantCulture)].Tag = null;
             }
             else
             {
-                lbList[index + "" + index2].Text = WXMPHelperMain.LabelNullText;
+                lbList[index + "" + index2].Text = WXMPHelperMenu.LabelNullText;
                 lbList[index + "" + index2].Tag = null;
             }
         } 
@@ -157,21 +157,21 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <param name="index">主菜单索引</param>
         private void PushMenuMain(int index)
         {
-            for (int i = index; i < WXMPHelperMain.MaxMainMenu; i++)
+            for (int i = index; i < WXMPHelperMenu.MaxMainMenu; i++)
             {
                 lbList[i.ToString(CultureInfo.InvariantCulture)].Text = lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Text;
                 lbList[i.ToString(CultureInfo.InvariantCulture)].Tag = lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Tag;
-                for (int j = 1; j <= WXMPHelperMain.MaxSubMenu; j++)
+                for (int j = 1; j <= WXMPHelperMenu.MaxSubMenu; j++)
                 {
                     lbList[i + "" + j].Text = lbList[(i + 1) + "" + j].Text;
                     lbList[i + "" + j].Tag = lbList[(i + 1) + "" + j].Tag;
                 }
                 if (lbList[(i + 1).ToString(CultureInfo.InvariantCulture)].Tag == null) break;
-                if (i != WXMPHelperMain.MaxMainMenu - 1) continue;
-                ClearMenu(WXMPHelperMain.MaxMainMenu);
-                for (int j = 1; j <= WXMPHelperMain.MaxSubMenu; j++)
+                if (i != WXMPHelperMenu.MaxMainMenu - 1) continue;
+                ClearMenu(WXMPHelperMenu.MaxMainMenu);
+                for (int j = 1; j <= WXMPHelperMenu.MaxSubMenu; j++)
                 {
-                    ClearMenu(WXMPHelperMain.MaxMainMenu, j);
+                    ClearMenu(WXMPHelperMenu.MaxMainMenu, j);
                 }
             }
         } 
@@ -185,13 +185,13 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         /// <param name="index2">子菜单索引</param>
         private void PushMenuSub(int index, int index2)
         {
-            for (int i = index2; i < WXMPHelperMain.MaxSubMenu; i++)
+            for (int i = index2; i < WXMPHelperMenu.MaxSubMenu; i++)
             {
                 lbList[index + "" + i].Text = lbList[index + "" + (i + 1)].Text;
                 lbList[index + "" + i].Tag = lbList[index + "" + (i + 1)].Tag;
                 if (lbList[index + "" + (i + 1)].Tag == null) break;
-                if (i != WXMPHelperMain.MaxSubMenu - 1) continue;
-                ClearMenu(index, WXMPHelperMain.MaxSubMenu);
+                if (i != WXMPHelperMenu.MaxSubMenu - 1) continue;
+                ClearMenu(index, WXMPHelperMenu.MaxSubMenu);
             }
         } 
         #endregion
