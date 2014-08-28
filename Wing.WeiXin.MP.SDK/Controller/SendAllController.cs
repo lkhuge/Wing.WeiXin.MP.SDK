@@ -17,6 +17,26 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class SendAllController
     {
+        /// <summary>
+        /// 上传图文消息素材的URL
+        /// </summary>
+        private const string UrlUploadNews = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token={0";
+
+        /// <summary>
+        /// 根据分组进行群发的URL
+        /// </summary>
+        private const string UrlSendAllByGroup = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token={0}";
+
+        /// <summary>
+        /// 根据OpenID列表群发的URL
+        /// </summary>
+        private const string UrlSendAllByOpenIDList = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token={0}";
+
+        /// <summary>
+        /// 删除群发的URL
+        /// </summary>
+        private const string UrlDeleteSendAll = "https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token={0}";
+
         #region 上传图文消息素材 public Media UploadNews(WXAccount account, SendAllMessageNews news)
         /// <summary>
         /// 上传图文消息素材
@@ -27,7 +47,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Media UploadNews(WXAccount account, SendAllMessageNews news)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(URLManager.GetURLForSendAllUploadNews(account), JSONHelper.JSONSerialize(news));
+            string result = HTTPHelper.Post(String.Format(
+                UrlUploadNews,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(news));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
@@ -49,7 +71,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
             account.CheckIsService();
 
             return JSONHelper.JSONDeserialize<SendAllReturnMessage>(
-                HTTPHelper.Post(URLManager.GetURLForSendAllByGroup(account), JSONHelper.JSONSerialize(group)));
+                HTTPHelper.Post(String.Format(
+                UrlSendAllByGroup,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(group)));
         } 
         #endregion
 
@@ -64,7 +88,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(URLManager.GetURLForSendAllByOpenIDList(account), JSONHelper.JSONSerialize(openIDList)));
+            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(String.Format(
+                UrlSendAllByOpenIDList,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(openIDList)));
         }
         #endregion
 
@@ -79,7 +105,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Post(URLManager.GetURLForSendAllDelete(account), JSONHelper.JSONSerialize(delete)));
+            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Post(String.Format(
+                UrlDeleteSendAll,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(delete)));
         } 
         #endregion
     }

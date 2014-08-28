@@ -14,6 +14,21 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class MenuController
     {
+        /// <summary>
+        /// 创建菜单的URL
+        /// </summary>
+        private const string UrlCreateMenu = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}";
+
+        /// <summary>
+        /// 获取菜单的URL
+        /// </summary>
+        private const string UrlGetMenu = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token={0}";
+
+        /// <summary>
+        /// 删除菜单的URL
+        /// </summary>
+        private const string UrlDeleteMenu = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={0}";
+
         #region 创建菜单 public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         /// <summary>
         /// 创建菜单
@@ -24,7 +39,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         {
             return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(URLManager.GetURLForCreateMenu(account), JSONHelper.JSONSerialize(menu)));
+                HTTPHelper.Post(String.Format(
+                    UrlCreateMenu,
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(menu)));
         } 
         #endregion
 
@@ -36,7 +53,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>菜单</returns>
         public MenuForGet GetMenu(WXAccount account)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForGetMenu(account));
+            string result = HTTPHelper.Get(String.Format(
+                    UrlGetMenu,
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
@@ -54,7 +73,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg DeleteMenu(WXAccount account)
         {
-            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Get(URLManager.GetURLForDeleteMenu(account)));
+            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Get(String.Format(
+                UrlDeleteMenu,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token)));
         } 
         #endregion
     }

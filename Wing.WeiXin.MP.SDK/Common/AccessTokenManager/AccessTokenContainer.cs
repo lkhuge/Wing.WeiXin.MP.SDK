@@ -15,6 +15,12 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
     public class AccessTokenContainer
     {
         /// <summary>
+        /// 获取AccessToken的URL
+        /// </summary>
+        private const string Url =
+            "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
+
+        /// <summary>
         /// 获取新的AccessToken事件
         /// </summary>
         public event Action<WXAccount> NewAccessToken;
@@ -60,7 +66,7 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         private AccessToken GetNewAccessToken(WXAccount account)
         {
             if (NewAccessToken != null) NewAccessToken(account);
-            string result = HTTPHelper.Get(URLManager.GetURLForGetAccessToken(account.AppID, account.AppSecret));
+            string result = HTTPHelper.Get(String.Format(Url, account.AppID, account.AppSecret));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());

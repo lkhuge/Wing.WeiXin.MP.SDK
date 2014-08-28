@@ -16,6 +16,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class MediaController
     {
+        /// <summary>
+        /// 上传多媒体的URL
+        /// </summary>
+        private const string UrlUpload = "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token={0}&type={1}";
+
+        /// <summary>
+        /// 下载多媒体的URL
+        /// </summary>
+        private const string UrlDownLoad = "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}";
+
         #region 上传多媒体 public Media Upload(WXAccount account, UploadMediaType type, string path)
         /// <summary>
         /// 上传多媒体
@@ -27,7 +37,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media Upload(WXAccount account, UploadMediaType type, string path, string name)
         {
-            string result = HTTPHelper.Upload(URLManager.GetURLForUploadMedia(account, type), path, name);
+            string result = HTTPHelper.Upload(String.Format(
+                UrlUpload,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, 
+                type), path, name);
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
@@ -46,7 +59,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">下载路径加文件名</param>
         public void DownLoad(WXAccount account, string media_id, string pathName)
         {
-            string result = HTTPHelper.DownloadFile(URLManager.GetURLForDownloadMedia(account, media_id), pathName);
+            string result = HTTPHelper.DownloadFile(String.Format(
+                UrlDownLoad,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
+                media_id), pathName);
             if (!String.IsNullOrEmpty(result)) throw new Exception(
                 JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
         } 

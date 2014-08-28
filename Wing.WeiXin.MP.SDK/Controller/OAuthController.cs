@@ -19,6 +19,26 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class OAuthController
     {
+        /// <summary>
+        /// 获取取得Code的URL的URL
+        /// </summary>
+        private const string UrlGetURLForOAuthGetCode = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope={2}&state={3}#wechat_redirect";
+
+        /// <summary>
+        /// 根据Code获取AccessToken的URL
+        /// </summary>
+        private const string UrlGetAccessTokenByCode = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code";
+
+        /// <summary>
+        /// 根据RefreshToken刷新AccessToken的URL
+        /// </summary>
+        private const string UrlRefreshAccessTokenByRefreshToken = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid={0}&grant_type=refresh_token&refresh_token={1}";
+
+        /// <summary>
+        /// 获取认证用户信息的URL
+        /// </summary>
+        private const string UrlGetOAuthUser = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}";
+
         #region 获取取得Code的URL public string GetURLForOAuthGetCode(WXAccount account, string redirectURL, OAuthScope scope, string state)
         /// <summary>
         /// 获取取得Code的URL
@@ -31,7 +51,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public string GetURLForOAuthGetCode(WXAccount account, string redirectURL, OAuthScope scope, string state)
         {
             account.CheckIsService();
-            return URLManager.GetURLForOAuthGetCode(account.AppID, redirectURL, scope, state);
+            return String.Format(
+                UrlGetURLForOAuthGetCode,
+                account.AppID, HttpUtility.UrlEncode(redirectURL), scope, state);
         } 
         #endregion
 
@@ -45,7 +67,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public OAuthAccessToken GetAccessTokenByCode(WXAccount account, string code)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(URLManager.GetURLForOAuthGetAccessToken(account.AppID, account.AppSecret, code));
+            string result = HTTPHelper.Get(String.Format(
+                UrlGetAccessTokenByCode,
+                account.AppID, account.AppSecret, code));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
@@ -64,7 +88,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public OAuthAccessToken RefreshAccessTokenByRefreshToken(WXAccount account, string refresh_token)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(URLManager.GetURLForOAuthRefreshAccessToken(account.AppID, refresh_token));
+            string result = HTTPHelper.Get(String.Format(
+                UrlRefreshAccessTokenByRefreshToken,
+                account.AppID, refresh_token));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
@@ -74,15 +100,20 @@ namespace Wing.WeiXin.MP.SDK.Controller
         }
         #endregion
 
-        #region 获取认证用户信息 public OAuthUser GetOAuthUser(OAuthAccessToken accessToken)
+        #region 获取认证用户信息 public OAuthUser GetOAuthUser(OAuthAccessToken accessToken, OAuthUserInfoLanguage language = OAuthUserInfoLanguage.zh_CN)
         /// <summary>
         /// 获取认证用户信息
         /// </summary>
         /// <param name="accessToken">OAuth使用的AccessToken</param>
+        /// <param name="language">返回国家地区语言版本</param>
         /// <returns>AccessToken</returns>
-        public OAuthUser GetOAuthUser(OAuthAccessToken accessToken)
+        public OAuthUser GetOAuthUser(OAuthAccessToken accessToken, WXLanguageType language = WXLanguageType.zh_CN)
         {
-            string result = HTTPHelper.Get(URLManager.GetURLForOAuthGetUserInfo(accessToken));
+            string result = HTTPHelper.Get(String.Format(
+                UrlGetOAuthUser,
+                accessToken.access_token,
+                accessToken.openid,
+                language));
             if (JSONHelper.HasKey(result, "errcode"))
             {
                 throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());

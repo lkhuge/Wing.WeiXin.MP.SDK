@@ -17,6 +17,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class CSController
     {
+        /// <summary>
+        /// 发送客服消息的URL
+        /// </summary>
+        private const string Url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}";
+
         #region 发送客服信息 public ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         /// <summary>
         /// 发送客服信息
@@ -28,7 +33,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
             return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(URLManager.GetURLForSendCSMessage(account), JSONHelper.JSONSerialize(csmessage)));
+                HTTPHelper.Post(
+                    String.Format(Url, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
+                    JSONHelper.JSONSerialize(csmessage)));
         } 
         #endregion
     }

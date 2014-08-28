@@ -18,6 +18,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class QRCodeController
     {
+        /// <summary>
+        /// 创建二维码ticket的URL
+        /// </summary>
+        private const string UrlGetQRCodeTicket = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={0}";
+
+        /// <summary>
+        /// 通过ticket换取二维码的URL
+        /// </summary>
+        private const string UrlGetQRCode = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={0}";
+
         #region 创建二维码ticket public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         /// <summary>
         /// 创建二维码ticket
@@ -28,7 +38,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(URLManager.GetURLForCreateQRCodeTicket(account), 
+            string result = HTTPHelper.Post(
+                String.Format(
+                    UrlGetQRCodeTicket,
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
                 JSONHelper.JSONSerialize(qrCodeTicketRequest));
             if (JSONHelper.HasKey(result, "errcode"))
             {
@@ -47,7 +60,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">保存路径</param>
         public void GetQRCode(QRCodeTicket qrCodeTicket, string pathName)
         {
-            HTTPHelper.DownloadFile(URLManager.GetURLForGetQRCode(qrCodeTicket), pathName);
+            HTTPHelper.DownloadFile(String.Format(
+                UrlGetQRCode,
+                HttpUtility.UrlEncode(qrCodeTicket.ticket)), pathName);
         } 
         #endregion
     }
