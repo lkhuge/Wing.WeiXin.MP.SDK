@@ -59,5 +59,10 @@ namespace Wing.WeiXin.MP.SDK.Entities.User.User
         /// 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
         /// </summary>
         public int subscribe_time { get; set; }
+
+        /// <summary>
+        /// 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
+        /// </summary>
+        public string unionid { get; set; }
     }
 }
