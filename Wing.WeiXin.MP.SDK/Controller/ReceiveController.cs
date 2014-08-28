@@ -40,15 +40,39 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 request.Check();
                 request.ParsePostData();
+                if (CheckMsgID(request)) return null;
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null) ReceiveEnd(request, response);
                 return response;
             }
             catch (Exception e)
             {
+                if (ReceiveEnd != null) ReceiveEnd(request, null);
                 return new Response(e);
             }
         }
+        #endregion
+
+        #region 检测MsgID防止消息重复 private bool CheckMsgID(Request request)
+        /// <summary>
+        /// 检测MsgID防止消息重复
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>是否息重复</returns>
+        private bool CheckMsgID(Request request)
+        {
+            if (!request.HasPostData("MsgId")) return false;
+            if (GlobalManager.WXSessionManager == null) return false;
+            string msgID = request.GetMsgId();
+            if (GlobalManager.WXSessionManager.HasKey(request.FromUserName, "LastMsgID"))
+            {
+                string lastMsgID = GlobalManager.WXSessionManager.Get(request.FromUserName, "LastMsgID").ToString();
+                if (msgID.Equals(lastMsgID)) return true;
+            }
+            GlobalManager.WXSessionManager.Set(request.FromUserName, "LastMsgID", msgID);
+
+            return false;
+        } 
         #endregion
     }
 }
