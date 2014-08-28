@@ -57,6 +57,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         private const string UrlMoveGroup = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token={0}";
 
+        /// <summary>
+        /// 修改备注名的URL
+        /// </summary>
+        private const string UrlModityRemark = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token={0}";
+
         #region 获取用户基本信息 public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         /// <summary>
         /// 获取用户基本信息
@@ -224,7 +229,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <param name="group">组</param>
-        /// <returns></returns>
+        /// <returns>结果</returns>
         public ErrorMsg ModityGroupName(WXAccount account, WXUserGroup group)
         {
             string result = HTTPHelper.Post(String.Format(
@@ -242,7 +247,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="account">微信公共平台账号</param>
         /// <param name="user">用户</param>
         /// <param name="group">组</param>
-        /// <returns></returns>
+        /// <returns>结果</returns>
         public ErrorMsg MoveGroup(WXAccount account, WXUser user, WXUserGroup group)
         {
             string result = HTTPHelper.Post(
@@ -257,6 +262,30 @@ namespace Wing.WeiXin.MP.SDK.Controller
 
             return JSONHelper.JSONDeserialize<ErrorMsg>(result);
         }
+        #endregion
+
+        #region 修改备注名 public ErrorMsg ModityRemark(WXAccount account, string openid, string remark)
+        /// <summary>
+        /// 修改备注名
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="openid">普通用户的标识</param>
+        /// <param name="remark">备注名</param>
+        /// <returns>结果</returns>
+        public ErrorMsg ModityRemark(WXAccount account, string openid, string remark)
+        {
+            string result = HTTPHelper.Post(
+                String.Format(
+                    UrlModityRemark,
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
+                JSONHelper.JSONSerialize(new
+                {
+                    openid,
+                    remark
+                }));
+
+            return JSONHelper.JSONDeserialize<ErrorMsg>(result);
+        } 
         #endregion
     }
 }

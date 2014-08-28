@@ -9,3 +9,4 @@ packages/
 *.bat
 *.user
 Wing.WeiXin.MP.SDK.Test/app.config
+*.suo
