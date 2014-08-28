@@ -110,6 +110,7 @@
     <Compile Include="Controller\QRCodeController.cs" />
     <Compile Include="Controller\ReceiveController.cs" />
     <Compile Include="Controller\SendAllController.cs" />
+    <Compile Include="Controller\URLController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
     <Compile Include="Entities\Request.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Entities\User\User\WXUser.cs" />
     <Compile Include="Entities\User\User\WXUserList.cs" />
     <Compile Include="Enumeration\OAuthScope.cs" />
+    <Compile Include="Enumeration\WXLanguageType.cs" />
     <Compile Include="Enumeration\QRCodeType.cs" />
     <Compile Include="Enumeration\ReceiveEntityType.cs" />
     <Compile Include="Enumeration\ReturnCode.cs" />
@@ -181,7 +183,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="URLManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
