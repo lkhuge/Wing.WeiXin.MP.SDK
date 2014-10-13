@@ -49,6 +49,11 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
             /// 图文消息的描述
             /// </summary>
             public string digest { get; set; }
+
+            /// <summary>
+            /// 是否显示封面，1为显示，0为不显示
+            /// </summary>
+            public string show_cover_pic { get; set; }
         }
     }
 }

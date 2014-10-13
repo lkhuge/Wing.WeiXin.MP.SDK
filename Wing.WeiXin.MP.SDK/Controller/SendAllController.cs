@@ -8,6 +8,7 @@ using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
+using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -20,7 +21,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 上传图文消息素材的URL
         /// </summary>
-        private const string UrlUploadNews = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token={0";
+        private const string UrlUploadNews = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token={0}";
 
         /// <summary>
         /// 根据分组进行群发的URL
