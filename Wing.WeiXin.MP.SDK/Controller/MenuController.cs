@@ -41,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return JSONHelper.JSONDeserialize<ErrorMsg>(
                 HTTPHelper.Post(String.Format(
                     UrlCreateMenu,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(menu)));
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerializeN(menu)));
         } 
         #endregion
 
