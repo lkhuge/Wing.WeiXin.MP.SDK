@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -96,6 +98,28 @@ namespace Wing.WeiXin.MP.SDK
         public static void InitWXSessionManager(IWXSession wxSession)
         {
             WXSessionManager = new WXSessionManager(wxSession);
+        }
+        #endregion
+
+        #region 获取首个服务号账号 public static WXAccount GetFirstServiceAccount()
+        /// <summary>
+        /// 获取首个服务号账号
+        /// </summary>
+        /// <returns>首个服务号账号</returns>
+        public static WXAccount GetFirstServiceAccount()
+        {
+            return ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service);
+        } 
+        #endregion
+
+        #region 获取首个订阅号账号 public static WXAccount GetFirstSubscriptionAccount()
+        /// <summary>
+        /// 获取首个订阅号账号
+        /// </summary>
+        /// <returns>首个订阅号账号</returns>
+        public static WXAccount GetFirstSubscriptionAccount()
+        {
+            return ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Subscription);
         }
         #endregion
     }
