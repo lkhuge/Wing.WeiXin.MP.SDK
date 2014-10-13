@@ -161,6 +161,56 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         不合法的自定义菜单使用用户 = 40028,
 
         /// <summary>
+        /// 不合法的oauth_code
+        /// </summary>
+        不合法的oauth_code = 40029,
+
+        /// <summary>
+        /// 不合法的refresh_token
+        /// </summary>
+	    不合法的refresh_token = 40030,
+
+        /// <summary>
+        /// 不合法的openid列表
+        /// </summary>
+	    不合法的openid列表 = 40031,
+
+        /// <summary>
+        /// 不合法的openid列表长度
+        /// </summary>
+	    不合法的openid列表长度 = 40032,
+
+        /// <summary>
+        /// 不合法的请求字符，不能包含\uxxxx格式的字符
+        /// </summary>
+	    不合法的请求字符 = 40033,
+
+        /// <summary>
+        /// 不合法的参数
+        /// </summary>
+	    不合法的参数 = 40035,
+
+        /// <summary>
+        /// 不合法的请求格式
+        /// </summary>
+	    不合法的请求格式 = 40038,
+
+        /// <summary>
+        /// 不合法的URL长度
+        /// </summary>
+	    不合法的URL长度 = 40039,
+
+        /// <summary>
+        /// 不合法的分组id
+        /// </summary>
+	    不合法的分组id = 40050,
+
+        /// <summary>
+        /// 分组名字不合法
+        /// </summary>
+	    分组名字不合法 = 40051,
+
+        /// <summary>
         /// 缺少access_token参数
         /// </summary>
         缺少access_token参数 = 41001,
@@ -196,9 +246,29 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         缺少子菜单数据 = 41007,
 
         /// <summary>
+        /// 缺少oauth_code
+        /// </summary>
+        缺少oauth_code = 41008,
+
+        /// <summary>
+        /// 缺少openid
+        /// </summary>
+	    缺少openid  = 41009,
+
+        /// <summary>
         /// access_token超时
         /// </summary>
         access_token超时 = 42001,
+
+        /// <summary>
+        /// refresh_token超时
+        /// </summary>
+    	refresh_token超时 = 42002,
+
+        /// <summary>
+        /// oauth_code超时
+        /// </summary>
+	    oauth_code超时 = 42003,
 
         /// <summary>
         /// 需要GET请求
@@ -216,6 +286,16 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         需要HTTPS请求 = 43003,
 
         /// <summary>
+        /// 需要接收者关注
+        /// </summary>
+    	需要接收者关注 = 43004,
+
+        /// <summary>
+        /// 需要好友关系
+        /// </summary>
+	    需要好友关系 = 43005,
+
+        /// <summary>
         /// 多媒体文件为空
         /// </summary>
         多媒体文件为空 = 44001,
@@ -229,6 +309,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// 图文消息内容为空
         /// </summary>
         图文消息内容为空 = 44003,
+
+        /// <summary>
+        /// 文本消息内容为空
+        /// </summary>
+    	文本消息内容为空 = 44004,
 
         /// <summary>
         /// 多媒体文件大小超过限制
@@ -281,6 +366,26 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         创建菜单个数超过限制 = 45010,
 
         /// <summary>
+        /// 回复时间超过限制
+        /// </summary>
+    	回复时间超过限制 = 45015,
+
+        /// <summary>
+        /// 系统分组不允许修改
+        /// </summary>
+	    系统分组不允许修改 = 45016,
+
+        /// <summary>
+        /// 分组名字过长
+        /// </summary>
+	    分组名字过长 = 45017,
+
+        /// <summary>
+        /// 分组数量超过上限
+        /// </summary>
+	    分组数量超过上限 = 45018,
+
+        /// <summary>
         /// 不存在媒体数据
         /// </summary>
         不存在媒体数据 = 46001,
@@ -294,6 +399,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// 不存在的菜单数据
         /// </summary>
         不存在的菜单数据 = 46003,
+
+        /// <summary>
+        /// 不存在的用户
+        /// </summary>
+    	不存在的用户 = 46004,
 
         /// <summary>
         /// 解析JSON_XML内容错误
