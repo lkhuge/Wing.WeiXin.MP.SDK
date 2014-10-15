@@ -8,18 +8,8 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll
     /// <summary>
     /// 群发回复消息
     /// </summary>
-    public class SendAllReturnMessage
+    public class SendAllReturnMessage : ErrorMsg
     {
-        /// <summary>
-        /// 错误码
-        /// </summary>
-        public int errcode { get; set; }
-
-        /// <summary>
-        /// 错误信息
-        /// </summary>
-        public string errmsg { get; set; }
-
         /// <summary>
         /// 消息ID
         /// </summary>

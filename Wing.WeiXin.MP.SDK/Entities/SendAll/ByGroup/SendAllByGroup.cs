@@ -6,27 +6,27 @@ using System.Text;
 namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup
 {
     /// <summary>
-    /// 群发组
+    /// 根据微信用户分组群发
     /// </summary>
     public abstract class SendAllByGroup
     {
         /// <summary>
-        /// 用于设定图文消息的接收者
+        /// 微信用户分组
         /// </summary>
         public Filter filter { get; set; }
 
         /// <summary>
-        /// 群发的消息类型，图文消息为mpnews
+        /// 群发的消息类型
         /// </summary>
         public string msgtype { get; set; }
 
         /// <summary>
-        /// 用于设定图文消息的接收者
+        /// 微信用户分组
         /// </summary>
         public class Filter
         {
             /// <summary>
-            /// 群发到的分组的group_id
+            /// 微信用户分组
             /// </summary>
             public string group_id { get; set; }
         }

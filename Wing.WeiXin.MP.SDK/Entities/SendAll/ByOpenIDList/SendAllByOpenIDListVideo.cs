@@ -3,41 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup
+namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList
 {
     /// <summary>
-    /// 高级群发视频消息（根据微信用户分组）
+    /// 高级群发视频消息（根据OpenID列表）
     /// </summary>
-    public class SendAllByGroupVideo : SendAllByGroup
+    public class SendAllByOpenIDListVideo : SendAllByOpenIDList
     {
         /// <summary>
         /// 用于设定即将发送的视频消息
         /// </summary>
         public MPVideo mpvideo { get; set; }
 
-        #region 实例化空的高级群发图文消息 public SendAllByGroupVideo()
+        #region 实例化空的高级群发图文消息 public SendAllByOpenIDListVideo()
         /// <summary>
         /// 实例化空的高级群发视频消息
         /// </summary>
-        public SendAllByGroupVideo()
+        public SendAllByOpenIDListVideo()
         {
             msgtype = "mpvideo";
         } 
         #endregion
 
-        #region 根据用于群发的消息的media_id和微信用户分组实例化高级群发视频消息 public SendAllByGroupVideo(string media_id, string group_id)
+        #region 根据用于群发的消息的media_id和OpenID列表实例化高级群发视频消息 public SendAllByOpenIDListVideo(string media_id, List<string> openIDList)
         /// <summary>
-        /// 根据用于群发的消息的media_id和微信用户分组实例化高级群发视频消息
+        /// 根据用于群发的消息的media_id和OpenID列表实例化高级群发视频消息
         /// </summary>
         /// <param name="media_id">用于群发的消息的media_id</param>
-        /// <param name="group_id">微信用户分组</param>
-        public SendAllByGroupVideo(string media_id, string group_id)
+        /// <param name="openIDList">OpenID列表</param>
+        public SendAllByOpenIDListVideo(string media_id, List<string> openIDList)
         {
             msgtype = "mpvideo";
-            filter = new Filter
-            {
-                group_id = group_id
-            };
+            touser = openIDList;
             mpvideo = new MPVideo
             {
                 media_id = media_id

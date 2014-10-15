@@ -9,6 +9,7 @@ using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
+using Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Controller

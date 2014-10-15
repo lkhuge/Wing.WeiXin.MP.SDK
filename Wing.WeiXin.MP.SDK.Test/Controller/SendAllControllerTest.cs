@@ -5,6 +5,8 @@ using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
+using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
+using Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -24,7 +26,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             Assert.AreEqual(re1.errcode, 0);
             SendAllReturnMessage re2 =
                 SendAllByOpenIDListTest(
-                new SendAllByOpenIDList(new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }, media.media_id));
+                new SendAllByOpenIDListText("content", new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }));
             Assert.AreEqual(re2.errcode, 0);
             DeleteSendAllTest(new SendAllDelete(re2.msg_id));
         } 
@@ -69,7 +71,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public SendAllReturnMessage SendAllByGroupTest(Media m)
         {
-            SendAllByGroup group = new SendAllByGroup("106", m.media_id);
+            SendAllByGroup group = new SendAllByGroupText("content", "101");
             return new SendAllController().SendAllByGroup(account, group);
         } 
         #endregion
