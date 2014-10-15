@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
 
 namespace Wing.WeiXin.MP.SDK.Common
 {

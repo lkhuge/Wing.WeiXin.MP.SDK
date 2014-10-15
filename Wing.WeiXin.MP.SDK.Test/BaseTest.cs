@@ -5,6 +5,7 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Enumeration;

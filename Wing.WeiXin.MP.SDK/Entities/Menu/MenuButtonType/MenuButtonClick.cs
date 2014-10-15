@@ -1,4 +1,4 @@
-﻿namespace Wing.WeiXin.MP.SDK.Entities.Menu
+﻿namespace Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType
 {
     /// <summary>
     /// Click类型菜单按钮
