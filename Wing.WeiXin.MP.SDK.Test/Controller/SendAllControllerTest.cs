@@ -21,10 +21,10 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         public void SendAllTest()
         {
             Media media = UploadNewsTest();
-            SendAllReturnMessage re1 =
+            ReturnMessage re1 =
                 SendAllByGroupTest(media);
             Assert.AreEqual(re1.errcode, 0);
-            SendAllReturnMessage re2 =
+            ReturnMessage re2 =
                 SendAllByOpenIDListTest(
                 new SendAllByOpenIDListText("content", new List<string> { "orImOuC33jQiJFrVelQGGTmwPSFE" }));
             Assert.AreEqual(re2.errcode, 0);
@@ -64,23 +64,23 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         } 
         #endregion
 
-        #region 根据分组进行群发测试 public SendAllReturnMessage SendAllByGroupTest()
+        #region 根据分组进行群发测试 public ReturnMessage SendAllByGroupTest()
         /// <summary>
         /// 根据分组进行群发测试
         /// </summary>
         [TestMethod]
-        public SendAllReturnMessage SendAllByGroupTest(Media m)
+        public ReturnMessage SendAllByGroupTest(Media m)
         {
             SendAllByGroup group = new SendAllByGroupText("content", "101");
             return new SendAllController().SendAllByGroup(account, group);
         } 
         #endregion
 
-        #region 根据OpenID列表群发测试 public SendAllReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
+        #region 根据OpenID列表群发测试 public ReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         /// <summary>
         /// 根据OpenID列表群发测试
         /// </summary>
-        public SendAllReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
+        public ReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         {
             return new SendAllController().SendAllByOpenIDList(account, openIDList);
         } 
