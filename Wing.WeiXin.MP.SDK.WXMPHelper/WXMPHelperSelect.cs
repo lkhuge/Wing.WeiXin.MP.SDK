@@ -64,6 +64,37 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 tabControl1.SelectedIndex = 1;
                 tbView.Text = tag.Key;
             }
+            if (index == 2)
+            {
+                tabControl1.SelectedIndex = 2;
+                tbScanCodePush.Text = tag.Key;
+            }
+            if (index == 3)
+            {
+                tabControl1.SelectedIndex = 3;
+                tbScanCodeWaitMsg.Text = tag.Key;
+            }
+            if (index == 4)
+            {
+                tabControl1.SelectedIndex = 4;
+                tbPicSysPhoto.Text = tag.Key;
+            }
+            if (index == 5)
+            {
+                tabControl1.SelectedIndex = 5;
+                tbPicPhotoOrAlbum.Text = tag.Key;
+            }
+            if (index == 6)
+            {
+                tabControl1.SelectedIndex = 6;
+                tbPicWeixin.Text = tag.Key;
+            }
+            if (index == 7)
+            {
+                tabControl1.SelectedIndex = 7;
+                tbLocationSelect.Text = tag.Key;
+            }
+
         }  
         #endregion
 
@@ -445,6 +476,36 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             if (tag.Index == 1)
             {
                 lb.Text = String.Format("View菜单\n菜单名称：{0}\n菜单URL：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 2)
+            {
+                lb.Text = String.Format("扫码推事件菜单\n菜单名称：{0}\n菜单Key：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 3)
+            {
+                lb.Text = String.Format("扫码推事件且弹提示框菜单\n菜单名称：{0}\n菜单Key：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 4)
+            {
+                lb.Text = String.Format("弹出系统拍照发图菜单\n菜单名称：{0}\n菜单Key：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 5)
+            {
+                lb.Text = String.Format("弹出拍照或者相册发图菜单\n菜单名称：{0}\n菜单Key：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 6)
+            {
+                lb.Text = String.Format("弹出微信相册发图器菜单\n菜单名称：{0}\n菜单Key：{1}",
+                        tag.Name, tag.Key);
+            }
+            if (tag.Index == 7)
+            {
+                lb.Text = String.Format("弹出地理位置选择器菜单\n菜单名称：{0}\n菜单Key：{1}",
                         tag.Name, tag.Key);
             }
         } 
