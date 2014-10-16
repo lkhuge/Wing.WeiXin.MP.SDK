@@ -61,36 +61,36 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 根据分组进行群发 public SendAllReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
+        #region 根据分组进行群发 public ReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         /// <summary>
         /// 根据分组进行群发
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <param name="group">群发组</param>
         /// <returns>群发回复消息</returns>
-        public SendAllReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
+        public ReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(
+            return JSONHelper.JSONDeserialize<ReturnMessage>(
                 HTTPHelper.Post(String.Format(
                 UrlSendAllByGroup,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(group)));
         } 
         #endregion
 
-        #region 根据OpenID列表群发 public SendAllReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
+        #region 根据OpenID列表群发 public ReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         /// <summary>
         /// 根据OpenID列表群发
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <param name="openIDList">OpenID列表</param>
         /// <returns>群发回复消息</returns>
-        public SendAllReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
+        public ReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<SendAllReturnMessage>(HTTPHelper.Post(String.Format(
+            return JSONHelper.JSONDeserialize<ReturnMessage>(HTTPHelper.Post(String.Format(
                 UrlSendAllByOpenIDList,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(openIDList)));
         }

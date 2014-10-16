@@ -113,6 +113,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// <summary>
         /// 弹出地理位置选择器的事件推送
         /// </summary>
-        location_select
+        location_select,
+
+        /// <summary>
+        /// 发送模板消息事件
+        /// </summary>
+        TEMPLATESENDJOBFINISH
     }
 }

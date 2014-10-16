@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Wing.WeiXin.MP.SDK.Entities.SendAll
+namespace Wing.WeiXin.MP.SDK.Entities
 {
     /// <summary>
-    /// 群发回复消息
+    /// 返回信息
     /// </summary>
-    public class SendAllReturnMessage : ErrorMsg
+    public class ReturnMessage : ErrorMsg
     {
         /// <summary>
         /// 消息ID
