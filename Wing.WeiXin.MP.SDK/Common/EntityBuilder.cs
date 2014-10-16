@@ -78,6 +78,14 @@ namespace Wing.WeiXin.MP.SDK.Common
             "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>transfer_customer_service</MsgType></xml>";
         #endregion
 
+        #region 转发指定多客服响应内容
+        /// <summary>
+        /// 转发指定多客服响应内容
+        /// </summary>
+        private const string MessageTCSForOne =
+            "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>transfer_customer_service</MsgType><TransInfo><KfAccount>{0}</KfAccount></TransInfo></xml>"; 
+        #endregion
+        
         #region 获取图片消息 public static Response GetMessageImage(Request request, string mediaId)
         /// <summary>
         /// 获取图片消息
@@ -191,6 +199,19 @@ namespace Wing.WeiXin.MP.SDK.Common
         public static Response GetMessageTCS(Request request)
         {
             return GetResponse(MessageTCS, request);
+        }
+        #endregion
+
+        #region 获取转发指定多客服消息 public static Response GetMessageTCSForOne(Request request, string csID)
+        /// <summary> 
+        /// 获取转发指定多客服消息
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="csID">客服ID</param>
+        /// <returns>响应对象</returns>
+        public static Response GetMessageTCSForOne(Request request, string csID)
+        {
+            return GetResponse(MessageTCSForOne, request, csID);
         }
         #endregion
 
