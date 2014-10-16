@@ -15,6 +15,7 @@ using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
 using WXMenu = Wing.WeiXin.MP.SDK.Entities.Menu.Menu;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper

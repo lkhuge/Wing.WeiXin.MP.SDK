@@ -76,6 +76,12 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             if (!CheckName(20)) return;
             if (tabControl1.SelectedIndex == 0) SetMenuClick();
             if (tabControl1.SelectedIndex == 1) SetMenuView();
+            if (tabControl1.SelectedIndex == 2) SetMenuScanCodePush();
+            if (tabControl1.SelectedIndex == 3) SetMenuScanCodeWaitMsg();
+            if (tabControl1.SelectedIndex == 4) SetMenuPicSysPhoto();
+            if (tabControl1.SelectedIndex == 5) SetMenuPicPhotoOrAlbum();
+            if (tabControl1.SelectedIndex == 6) SetMenuPicWeixin();
+            if (tabControl1.SelectedIndex == 7) SetMenuLocationSelect();
         } 
         #endregion
 
@@ -256,6 +262,144 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             SetLableText(lb);
             Close();
         } 
+        #endregion
+
+        #region 设置扫码推事件菜单 private void SetMenuScanCodePush()
+        /// <summary>
+        /// 设置扫码推事件菜单
+        /// </summary>
+        private void SetMenuScanCodePush()
+        {
+            string key = tbScanCodePush.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 2,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
+        #endregion
+
+        #region 设置扫码推事件且弹出“消息接收中”提示框菜单 private void SetMenuScanCodeWaitMsg()
+        /// <summary>
+        /// 设置扫码推事件且弹出“消息接收中”提示框菜单
+        /// </summary>
+        private void SetMenuScanCodeWaitMsg()
+        {
+            string key = tbScanCodeWaitMsg.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 3,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
+        #endregion
+
+        #region 设置弹出系统拍照发图菜单 private void SetMenuPicSysPhoto()
+        /// <summary>
+        /// 设置弹出系统拍照发图菜单
+        /// </summary>
+        private void SetMenuPicSysPhoto()
+        {
+            string key = tbPicSysPhoto.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 4,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
+        #endregion
+
+        #region 设置弹出拍照或者相册发图菜单 private void SetMenuPicPhotoOrAlbum()
+        /// <summary>
+        /// 设置弹出拍照或者相册发图菜单
+        /// </summary>
+        private void SetMenuPicPhotoOrAlbum()
+        {
+            string key = tbPicPhotoOrAlbum.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 5,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
+        #endregion
+
+        #region 设置弹出微信相册发图器菜单 private void SetMenuPicWeixin()
+        /// <summary>
+        /// 设置弹出微信相册发图器菜单
+        /// </summary>
+        private void SetMenuPicWeixin()
+        {
+            string key = tbPicWeixin.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 6,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
+        #endregion
+
+        #region 设置弹出地理位置选择器菜单 private void SetMenuLocationSelect()
+        /// <summary>
+        /// 设置弹出地理位置选择器菜单
+        /// </summary>
+        private void SetMenuLocationSelect()
+        {
+            string key = tbLocationSelect.Text;
+            if (String.IsNullOrEmpty(key) || String.IsNullOrEmpty(key.Trim()))
+            {
+                MessageBox.Show("菜单Key不能为空");
+                return;
+            }
+            lb.Tag = new
+            {
+                Index = 7,
+                Name = tbName.Text.Trim(),
+                Key = key.Trim()
+            };
+            SetLableText(lb);
+            Close();
+        }
         #endregion
 
         #region 检测菜单名称 private bool CheckName(int max)

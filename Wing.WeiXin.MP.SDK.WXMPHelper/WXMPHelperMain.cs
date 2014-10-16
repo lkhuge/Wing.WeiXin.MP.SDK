@@ -25,5 +25,15 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             new WXMPHelperMenu().Show();
         } 
         #endregion
+
+        #region 二维码管理 private void buQRCode_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 二维码管理
+        /// </summary>
+        private void buQRCode_Click(object sender, EventArgs e)
+        {
+            new WXMPHelperQRCode().Show();
+        } 
+        #endregion
     }
 }

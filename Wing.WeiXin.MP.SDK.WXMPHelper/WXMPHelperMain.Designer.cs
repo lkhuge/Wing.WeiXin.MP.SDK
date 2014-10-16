@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btMenu = new System.Windows.Forms.Button();
+            this.buQRCode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btMenu
@@ -41,11 +42,22 @@
             this.btMenu.UseVisualStyleBackColor = true;
             this.btMenu.Click += new System.EventHandler(this.btMenu_Click);
             // 
+            // buQRCode
+            // 
+            this.buQRCode.Location = new System.Drawing.Point(145, 21);
+            this.buQRCode.Name = "buQRCode";
+            this.buQRCode.Size = new System.Drawing.Size(85, 23);
+            this.buQRCode.TabIndex = 1;
+            this.buQRCode.Text = "二维码管理";
+            this.buQRCode.UseVisualStyleBackColor = true;
+            this.buQRCode.Click += new System.EventHandler(this.buQRCode_Click);
+            // 
             // WXMPHelperMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.buQRCode);
             this.Controls.Add(this.btMenu);
             this.Name = "WXMPHelperMain";
             this.Text = "微信公共平台简易助手";
@@ -56,5 +68,6 @@
         #endregion
 
         private System.Windows.Forms.Button btMenu;
+        private System.Windows.Forms.Button buQRCode;
     }
 }

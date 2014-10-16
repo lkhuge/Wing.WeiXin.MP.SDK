@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ftp">
-      <HintPath>..\packages\Ftp.dll.2.0.14118.914\lib\Ftp.dll</HintPath>
+    <Reference Include="Ftp, Version=2.0.14247.1235, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ftp.dll.2.0.14247.1235\lib\Ftp.dll</HintPath>
     </Reference>
     <Reference Include="Gma.QrCodeNet.Encoding">
       <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
@@ -47,7 +48,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
       <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.dll</HintPath>
@@ -72,13 +73,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wing.CL, Version=0.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wing.CL, Version=0.0.0.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.CL.0.0.0.6\lib\net40\Wing.CL.dll</HintPath>
+      <HintPath>..\packages\Wing.CL.0.0.0.7\lib\net40\Wing.CL.dll</HintPath>
     </Reference>
-    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.0.1.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.0.1.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.0.1.2\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
+      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.0.1.3\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +100,12 @@
     </Compile>
     <Compile Include="WXMPHelperMenu.Designer.cs">
       <DependentUpon>WXMPHelperMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WXMPHelperQRCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WXMPHelperQRCode.Designer.cs">
+      <DependentUpon>WXMPHelperQRCode.cs</DependentUpon>
     </Compile>
     <Compile Include="WXMPHelperSelect.cs">
       <SubType>Form</SubType>
@@ -124,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WXMPHelperMenu.resx">
       <DependentUpon>WXMPHelperMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WXMPHelperQRCode.resx">
+      <DependentUpon>WXMPHelperQRCode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WXMPHelperSelect.resx">
       <DependentUpon>WXMPHelperSelect.cs</DependentUpon>
