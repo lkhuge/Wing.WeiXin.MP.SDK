@@ -189,6 +189,24 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
+        #region 获取XML数据（二级数据） public string GetPostData(string key1, string key2)
+        /// <summary>
+        /// 获取XML数据（二级数据）
+        /// </summary>
+        /// <param name="key1">一级数据名称</param>
+        /// <param name="key2">二级数据名称</param>
+        /// <returns>XML数据</returns>
+        public string GetPostData(string key1, string key2)
+        {
+            XElement element = RootElement.Element(key1);
+            if (element == null) throw new Exception(String.Format("XML格式错误（未发现{0}节点）", key1));
+            XElement element2 = element.Element(key2);
+            if (element2 == null) throw new Exception(String.Format("XML格式错误（未发现{0}节点）", key2));
+
+            return element2.Value;
+        } 
+        #endregion
+
         #region 是否存在XML数据 public bool HasPostData(string key)
         /// <summary>
         /// 是否存在XML数据

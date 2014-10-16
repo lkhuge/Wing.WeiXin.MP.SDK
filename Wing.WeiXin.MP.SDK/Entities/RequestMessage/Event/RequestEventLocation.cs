@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event
 {
     /// <summary>
     /// 上报地理位置事件请求

@@ -33,6 +33,19 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
         }
         #endregion
 
+        #region 获取XML数据 public string GetPostData(string key)
+        /// <summary>
+        /// 获取XML数据（二级数据）
+        /// </summary>
+        /// <param name="key1">一级数据名称</param>
+        /// <param name="key2">二级数据名称</param>
+        /// <returns>XML数据</returns>
+        public string GetPostData(string key1, string key2)
+        {
+            return Request.GetPostData(key1, key2);
+        }
+        #endregion
+
         #region 获取请求对象 public static T GetRequestAMessage<T>(Request newRequest)
         /// <summary>
         /// 获取请求对象

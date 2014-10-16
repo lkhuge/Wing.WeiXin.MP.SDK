@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu
 {
     /// <summary>
-    /// 文本消息请求
+    /// 点击菜单跳转链接时的事件请求
     /// </summary>
-    public class RequestText : RequestAMessage
+    public class RequestEventView : RequestAMessage
     {
         /// <summary>
-        /// 文本消息内容
+        /// 事件KEY值，设置的跳转URL
         /// </summary>
-        public string Content
+        public string EventKey
         {
-            get { return GetPostData("Content"); }
+            get { return GetPostData("EventKey"); }
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
         /// </summary>
         public override ReceiveEntityType ReceiveEntityType
         {
-            get { return ReceiveEntityType.text; }
+            get { return ReceiveEntityType.VIEW; }
         }
     }
 }

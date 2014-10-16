@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
 {
     /// <summary>
     /// 地理位置请求

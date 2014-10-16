@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event
 {
     /// <summary>
-    /// 关注事件请求
+    /// 推送群发结果事件请求
     /// </summary>
-    public class RequestEventSubscribe : RequestAMessage
+    public class RequestEventMasssEndJobFinish : RequestAMessage
     {
         /// <summary>
         /// 实体类型
         /// </summary>
         public override ReceiveEntityType ReceiveEntityType
         {
-            get { return ReceiveEntityType.subscribe; }
+            get { return ReceiveEntityType.MASSSENDJOBFINISH; }
         }
     }
 }

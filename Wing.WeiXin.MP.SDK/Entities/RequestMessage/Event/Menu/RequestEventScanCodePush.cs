@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu
 {
     /// <summary>
-    /// 带参数二维码关注事件请求
+    /// 扫码推事件的事件请求
     /// </summary>
-    public class RequestEventSubscribeByQRScene : RequestAMessage
+    public class RequestEventScanCodePush : RequestAMessage
     {
         /// <summary>
-        /// 事件KEY值，qrscene_为前缀，后面为二维码的参数值
+        /// 事件KEY值，由开发者在创建菜单时设定
         /// </summary>
         public string EventKey
         {
@@ -20,11 +20,11 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
         }
 
         /// <summary>
-        /// 二维码的ticket，可用来换取二维码图片
+        /// 扫描结果，即二维码对应的字符串信息
         /// </summary>
-        public string Ticket
+        public string ScanResult
         {
-            get { return GetPostData("Ticket"); }
+            get { return GetPostData("ScanCodeInfo", "ScanResult"); }
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
         /// </summary>
         public override ReceiveEntityType ReceiveEntityType
         {
-            get { return ReceiveEntityType.subscribeByQRScene; }
+            get { return ReceiveEntityType.scancode_push; }
         }
     }
 }

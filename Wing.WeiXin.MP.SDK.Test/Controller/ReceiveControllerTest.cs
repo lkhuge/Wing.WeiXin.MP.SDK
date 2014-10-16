@@ -6,6 +6,8 @@ using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
+using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event;
+using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller

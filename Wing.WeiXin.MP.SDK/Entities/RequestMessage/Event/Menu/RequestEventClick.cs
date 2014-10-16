@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
+namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu
 {
     /// <summary>
     /// 点击菜单拉取消息时的事件请求
