@@ -394,6 +394,54 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                     url = tag.Key
                 });
             }
+            if (tag.Index == 2)
+            {
+                subButton.Add(new MenuButtonScanCodePush
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
+            if (tag.Index == 3)
+            {
+                subButton.Add(new MenuButtonScanCodeWaitMsg
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
+            if (tag.Index == 4)
+            {
+                subButton.Add(new MenuButtonPicSysPhoto
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
+            if (tag.Index == 5)
+            {
+                subButton.Add(new MenuButtonPicPhotoOrAlbum
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
+            if (tag.Index == 6)
+            {
+                subButton.Add(new MenuButtonPicWeixin
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
+            if (tag.Index == 7)
+            {
+                subButton.Add(new MenuButtonLocationSelect
+                {
+                    name = tag.Name,
+                    key = tag.Key
+                });
+            }
         } 
         #endregion
 
@@ -423,6 +471,60 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                     Index = 1,
                     Name = item.name,
                     Key = item.url
+                };
+            }
+            if (item.type.Equals("scancode_push"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 2,
+                    Name = item.name,
+                    Key = item.key
+                };
+            }
+            if (item.type.Equals("scancode_waitmsg"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 3,
+                    Name = item.name,
+                    Key = item.key
+                };
+            }
+            if (item.type.Equals("pic_sysphoto"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 4,
+                    Name = item.name,
+                    Key = item.key
+                };
+            }
+            if (item.type.Equals("pic_photo_or_album"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 5,
+                    Name = item.name,
+                    Key = item.key
+                };
+            }
+            if (item.type.Equals("pic_weixin"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 6,
+                    Name = item.name,
+                    Key = item.key
+                };
+            }
+            if (item.type.Equals("location_select"))
+            {
+                lbList[id].Tag = new
+                {
+                    Index = 7,
+                    Name = item.name,
+                    Key = item.key
                 };
             }
             WXMPHelperSelect.SetLableText(lbList[id]);
