@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Wing.CL.Net;
 using Wing.CL.StringManager;
+using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.SDK.Common
@@ -248,6 +249,21 @@ namespace Wing.WeiXin.MP.SDK.Common
                 request.Timestamp,
                 request.Nonce), request.PostData));
         } 
+        #endregion
+
+        #region 从快速配置回复消息上获取消息 public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
+        /// <summary>
+        /// 从快速配置回复消息上获取消息
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="filename">文件名</param>
+        /// <returns>响应对象</returns>
+        public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
+        {
+            return QuickConfigReturnMessageManager.GetReturnMessage(
+                QuickConfigReturnMessageItemListConfigSection.ReadOfKeyValueData(filename),
+                request);
+        }
         #endregion
     }
 }
