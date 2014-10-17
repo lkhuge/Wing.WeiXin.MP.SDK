@@ -39,17 +39,30 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         } 
         #endregion
 
-        #region 设置数据 public void Set(string user, string key, object value)
+        #region 设置对象数据 public void Set(string user, string key, object value)
         /// <summary>
-        /// 设置数据
+        /// 设置对象数据
         /// </summary>
         /// <param name="user">用户编号</param>
         /// <param name="key">Key值</param>
-        /// <param name="value">数据</param>
+        /// <param name="value">对象数据</param>
         public void Set(string user, string key, object value)
         {
             wxSession.Set(user, key, value);
         } 
+        #endregion
+
+        #region 设置字符串数据 public void Set(string user, string key, string value)
+        /// <summary>
+        /// 设置字符串数据
+        /// </summary>
+        /// <param name="user">用户编号</param>
+        /// <param name="key">Key值</param>
+        /// <param name="value">字符串数据</param>
+        public void Set(string user, string key, string value)
+        {
+            wxSession.Set(user, key, value);
+        }
         #endregion
 
         #region 删除数据 public void Delete(string user, string key)
@@ -61,32 +74,6 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public void Delete(string user, string key)
         {
             wxSession.Delete(user, key);
-        } 
-        #endregion
-
-        #region 是否存在Key值 public bool HasKey(string user, string key)
-        /// <summary>
-        /// 是否存在Key值
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="key">Key值</param>
-        /// <returns>是否存在Key值</returns>
-        public bool HasKey(string user, string key)
-        {
-            return wxSession.HasKey(user, key);
-        } 
-        #endregion
-
-        #region 是否存在数据 public bool HasValue(string user, object value)
-        /// <summary>
-        /// 是否存在数据
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="value">数据</param>
-        /// <returns>是否存在数据</returns>
-        public bool HasValue(string user, object value)
-        {
-            return wxSession.HasValue(user, value);
         } 
         #endregion
     }

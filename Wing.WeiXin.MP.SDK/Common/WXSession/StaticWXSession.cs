@@ -40,14 +40,27 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
 
         #endregion
 
-        #region 设置数据 public void Set(string user, string key, object value)
+        #region 设置对象数据 public void Set(string user, string key, object value)
         /// <summary>
-        /// 设置数据
+        /// 设置对象数据
         /// </summary>
         /// <param name="user">用户编号</param>
         /// <param name="key">Key值</param>
-        /// <param name="value">数据</param>
+        /// <param name="value">对象数据</param>
         public void Set(string user, string key, object value)
+        {
+            session.GetOrAdd(user, new Dictionary<string, object>())[key] = value;
+        }
+        #endregion
+
+        #region 设置字符串数据 public void Set(string user, string key, string value)
+        /// <summary>
+        /// 设置字符串数据
+        /// </summary>
+        /// <param name="user">用户编号</param>
+        /// <param name="key">Key值</param>
+        /// <param name="value">字符串数据</param>
+        public void Set(string user, string key, string value)
         {
             session.GetOrAdd(user, new Dictionary<string, object>())[key] = value;
         }
@@ -76,19 +89,6 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public bool HasKey(string user, string key)
         {
             return session.GetOrAdd(user, new Dictionary<string, object>()).ContainsKey(key);
-        }
-        #endregion
-
-        #region 是否存在数据 public bool HasValue(string user, object value)
-        /// <summary>
-        /// 是否存在数据
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="value">数据</param>
-        /// <returns>是否存在数据</returns>
-        public bool HasValue(string user, object value)
-        {
-            return session.GetOrAdd(user, new Dictionary<string, object>()).ContainsValue(value);
         }
         #endregion
     }
