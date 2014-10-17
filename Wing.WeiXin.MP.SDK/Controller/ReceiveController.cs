@@ -27,6 +27,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         public static event Action<Request, Response> ReceiveEnd;
 
+        /// <summary>
+        /// 接收异常事件
+        /// </summary>
+        public static event Action<Request, Exception> ReceiveException;
+
         #region 执行操作 public Response Action(Request request)
         /// <summary>
         /// 执行操作
@@ -47,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             }
             catch (Exception e)
             {
-                if (ReceiveEnd != null) ReceiveEnd(request, null);
+                if (ReceiveException != null) ReceiveException(request, e);
                 return new Response(e);
             }
         }

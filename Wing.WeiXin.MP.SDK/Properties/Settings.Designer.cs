@@ -32,12 +32,39 @@ namespace Wing.WeiXin.MP.SDK.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("无消息")]
-        public string NoResponseMessage {
+        [global::System.Configuration.DefaultSettingValueAttribute("System")]
+        public string SystemUsername {
             get {
-                return ((string)(this["NoResponseMessage"]));
+                return ((string)(this["SystemUsername"]));
+            }
+            set {
+                this["SystemUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AT_")]
+        public string AccessTokenHead {
+            get {
+                return ((string)(this["AccessTokenHead"]));
+            }
+            set {
+                this["AccessTokenHead"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ATT_")]
+        public string AccessTokenTimeHead {
+            get {
+                return ((string)(this["AccessTokenTimeHead"]));
+            }
+            set {
+                this["AccessTokenTimeHead"] = value;
             }
         }
     }

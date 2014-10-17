@@ -5,8 +5,14 @@
     <Setting Name="ConfigRootNameGroup" Type="System.String" Scope="Application">
       <Value Profile="(Default)">WeiXinMPSDKConfigGroup</Value>
     </Setting>
-    <Setting Name="NoResponseMessage" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">无消息</Value>
+    <Setting Name="SystemUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)">System</Value>
+    </Setting>
+    <Setting Name="AccessTokenHead" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AT_</Value>
+    </Setting>
+    <Setting Name="AccessTokenTimeHead" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ATT_</Value>
     </Setting>
   </Settings>
 </SettingsFile>

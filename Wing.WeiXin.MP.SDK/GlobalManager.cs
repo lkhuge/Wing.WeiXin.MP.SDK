@@ -52,6 +52,8 @@ namespace Wing.WeiXin.MP.SDK
         {
             InitConfig(new ConfigManager());
             InitEvent(new EventManager());
+            InitWXSessionManager(new StaticWXSession());
+            InitAccessTokenContainer(new WXSessionAccessTokenManager());
         } 
         #endregion
 

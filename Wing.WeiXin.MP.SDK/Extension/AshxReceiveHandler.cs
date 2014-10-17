@@ -35,11 +35,6 @@ namespace Wing.WeiXin.MP.SDK.Extension
             get { return ResponseContentType.TEXT; }
         }
 
-        /// <summary>
-        /// 无消息提示文字
-        /// </summary>
-        public static string NoResponseMessage = Settings.Default.NoResponseMessage;
-
         #region 初始化 public AshxReceiveHandler()
         /// <summary>
         /// 初始化
@@ -65,7 +60,7 @@ namespace Wing.WeiXin.MP.SDK.Extension
                     context.GetString("echostr"),
                     context.GetPostStream()));
 
-            return response == null ? NoResponseMessage : response.Text;
+            return response == null ? "" : response.Text;
         } 
         #endregion
     }
