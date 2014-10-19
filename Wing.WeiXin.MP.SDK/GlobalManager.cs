@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
+using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
+using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
@@ -44,6 +46,11 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static WXSessionManager WXSessionManager { get; private set; }
 
+        /// <summary>
+        /// 微信加解密工具类列表
+        /// </summary>
+        public static Dictionary<string, WXBizMsgCrypt> CryptList;
+
         #region 初始化 public static void Init()
         /// <summary>
         /// 初始化
@@ -51,6 +58,7 @@ namespace Wing.WeiXin.MP.SDK
         public static void Init()
         {
             InitConfig(new ConfigManager());
+            InitCryptList();
             InitEvent(new EventManager());
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
@@ -101,6 +109,26 @@ namespace Wing.WeiXin.MP.SDK
         {
             WXSessionManager = new WXSessionManager(wxSession);
         }
+        #endregion
+
+        #region 初始化微信加解密工具类列表 public static void InitCryptList()
+        /// <summary>
+        /// 初始化微信加解密工具类列表
+        /// </summary>
+        public static void InitCryptList()
+        {
+            string token = ConfigManager.BaseConfig.Token;
+            CryptList = ConfigManager.BaseConfig.AccountList.Cast<AccountItemConfigSection>()
+                .Where(w => w.NeedEncoding)
+                .ToDictionary(
+                    k => k.WeixinMPID,
+                    v => new WXBizMsgCrypt
+                    {
+                        token = token,
+                        encodingAESKey = v.EncodingAESKey,
+                        appID = v.AppID
+                    });
+        } 
         #endregion
 
         #region 获取首个服务号账号 public static WXAccount GetFirstServiceAccount()

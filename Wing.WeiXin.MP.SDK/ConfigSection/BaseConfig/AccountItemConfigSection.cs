@@ -55,5 +55,27 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
             get { return Convert.ToString(this["AppSecret"]); }
         }
         #endregion
+
+        #region 是否需要加密 public bool NeedEncoding
+        /// <summary>
+        /// 是否需要加密
+        /// </summary>
+        [ConfigurationProperty("NeedEncoding", DefaultValue = false)]
+        public bool NeedEncoding
+        {
+            get { return Convert.ToBoolean(this["NeedEncoding"]); }
+        }
+        #endregion
+
+        #region 加密密钥 public string EncodingAESKey
+        /// <summary>
+        /// 加密密钥
+        /// </summary>
+        [ConfigurationProperty("EncodingAESKey")]
+        public string EncodingAESKey
+        {
+            get { return Convert.ToString(this["EncodingAESKey"]); }
+        }
+        #endregion
     }
 }

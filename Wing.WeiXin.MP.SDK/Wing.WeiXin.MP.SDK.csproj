@@ -93,6 +93,8 @@
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\MsgCrypt\Cryptography.cs" />
+    <Compile Include="Common\MsgCrypt\WXBizMsgCrypt.cs" />
     <Compile Include="Common\WXSession\IWXSession.cs" />
     <Compile Include="Common\WXSession\StaticWXSession.cs" />
     <Compile Include="Common\WXSession\WXSessionManager.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="Entities\WXXD\PostageTemp\WXPostageTempQueryResponse.cs" />
     <Compile Include="Entities\WXXD\PostageTemp\WXPostageTempResponse.cs" />
     <Compile Include="Enumeration\OAuthScope.cs" />
+    <Compile Include="Enumeration\WXBizMsgCryptErrorCode.cs" />
     <Compile Include="Enumeration\WXLanguageType.cs" />
     <Compile Include="Enumeration\QRCodeType.cs" />
     <Compile Include="Enumeration\ReceiveEntityType.cs" />

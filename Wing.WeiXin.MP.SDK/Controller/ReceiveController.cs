@@ -69,9 +69,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
             if (!request.HasPostData("MsgId")) return false;
             if (GlobalManager.WXSessionManager == null) return false;
             string msgID = request.GetMsgId();
-            if (GlobalManager.WXSessionManager.HasKey(request.FromUserName, "LastMsgID"))
+            object msgIDTemp = GlobalManager.WXSessionManager.Get(request.FromUserName, "LastMsgID");
+            if (msgIDTemp != null)
             {
-                string lastMsgID = GlobalManager.WXSessionManager.Get(request.FromUserName, "LastMsgID").ToString();
+                string lastMsgID = msgIDTemp.ToString();
                 if (msgID.Equals(lastMsgID)) return true;
             }
             GlobalManager.WXSessionManager.Set(request.FromUserName, "LastMsgID", msgID);

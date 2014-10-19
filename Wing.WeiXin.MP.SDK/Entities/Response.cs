@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Xml.Linq;
+using Wing.CL.StringManager;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -40,19 +43,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string Text { get; private set; }
         #endregion
 
-        #region 根据响应内容实例化文本类型对象 public Response(string text)
-        /// <summary>
-        /// 根据响应内容实例化文本类型对象
-        /// </summary>
-        /// <param name="text">响应内容</param>
-        public Response(string text)
-        {
-            Text = text;
-            ContentType = TEXT;
-        }
-        #endregion
-
-        #region 根据微信异常实例化文本类型对象 public Response(WXException e)
+        #region 根据微信异常实例化文本类型对象 public Response(Exception e)
         /// <summary>
         /// 根据微信异常实例化文本类型对象
         /// </summary>
@@ -64,29 +55,40 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 根据响应内容和响应类型实例化 public Response(string text, string type)
+        #region 根据响应内容和响应类型实例化 public Response(string text, Request request, string type)
         /// <summary>
         /// 根据响应内容和响应类型实例化
         /// </summary>
         /// <param name="text">响应内容</param>
+        /// <param name="request">请求对象</param>
         /// <param name="type">响应类型</param>
-        public Response(string text, string type)
+        public Response(string text, Request request, string type)
         {
-            Text = text;
+            Text = GetCryptMessage(text, request);
             ContentType = type;
         }
         #endregion
 
-        #region 输出响应 public void ResponseOutput(HttpResponse response)
+        #region 获取加密消息 private string GetCryptMessage(string text, Request request)
         /// <summary>
-        /// 输出响应
+        /// 获取加密消息
         /// </summary>
-        /// <param name="response">HTTP响应</param>
-        public void ResponseOutput(HttpResponse response)
+        /// <param name="text">原文</param>
+        /// <param name="request">请求对象</param>
+        /// <returns>加密后的消息</returns>
+        private string GetCryptMessage(string text, Request request)
         {
-            response.ContentType = ContentType;
-            response.Write(Text);
-        }
+            if (!GlobalManager.CryptList.ContainsKey(request.ToUserName)) return text;
+            string encryptMsg = null;
+            if(GlobalManager.CryptList[request.ToUserName].EncryptMsg(
+                text, 
+                DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture), 
+                request.Nonce,
+                ref encryptMsg) != 0) 
+                throw new Exception(String.Format("消息加密失败，原文：{0}", text));
+
+            return encryptMsg;
+        } 
         #endregion
 
         #region 获取完整响应信息 public override string ToString()

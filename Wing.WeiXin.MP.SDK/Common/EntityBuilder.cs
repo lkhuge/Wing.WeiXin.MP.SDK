@@ -229,8 +229,8 @@ namespace Wing.WeiXin.MP.SDK.Common
             return new Response(String.Format(content
                     .Replace("{ToUserName}", request.FromUserName)
                     .Replace("{FromUserName}", request.ToUserName)
-                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)), 
-                paramList), Response.XML);
+                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)),
+                paramList), request, Response.XML);
         } 
         #endregion
 
@@ -247,7 +247,7 @@ namespace Wing.WeiXin.MP.SDK.Common
                 apiUrl,
                 request.Signature,
                 request.Timestamp,
-                request.Nonce), request.PostData));
+                request.Nonce), request.PostData), request, Response.XML);
         } 
         #endregion
 

@@ -37,7 +37,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
 //                return null;
 //            });
             GlobalManager.InitWXSessionManager(new StaticWXSession());
-            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, r => EntityBuilder.GetMessageFromFriend(r, "http://huwing.vicp.cc/Receive"));
+//            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, r => EntityBuilder.GetMessageFromFriend(r, "http://huwing.vicp.cc/Receive"));
             GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
             GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
             Stopwatch sw = new Stopwatch();
@@ -49,8 +49,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             sw.Stop();
             Debug.WriteLine(sw.ElapsedMilliseconds);
             
-            Response result = new ReceiveController().Action(messageText);
-            Assert.IsNotNull(result);
+//            Response result = new ReceiveController().Action(messageText);
+//            Assert.IsNotNull(result);
         } 
         #endregion
 

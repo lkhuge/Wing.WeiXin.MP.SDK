@@ -157,9 +157,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public void ParsePostData()
         {
-            XDocument doc = XDocument.Parse(PostData);
-            RootElement = doc.Element("xml");
-            if (RootElement == null) throw new Exception("XML格式错误（未发现xml根节点）");
+            RootElement = EncodingData();
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
             MsgTypeName = GetPostData("MsgType");
@@ -171,6 +169,27 @@ namespace Wing.WeiXin.MP.SDK.Entities
             ReceiveEntityType Temp;
             if (!Enum.TryParse(MsgTypeName, out Temp)) throw new Exception("XML格式错误（未知消息类型）");
             MsgType = Temp;
+        } 
+        #endregion
+
+        #region 解码数据 private XElement EncodingData()
+        /// <summary>
+        /// 解码数据
+        /// </summary>
+        /// <returns>root节点数据</returns>
+        private XElement EncodingData()
+        {
+            XElement root = XDocument.Parse(PostData).Element("xml");
+            if (root == null) throw new Exception("XML格式错误（未发现xml根节点）");
+            XElement enElement = root.Element("Encrypt");
+            if (enElement == null) return root;
+            string weixinID = GetPostData("ToUserName");
+            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw new Exception("消息需要解码，可没有提供解密密钥");
+            string outMsg = null;
+            if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0) 
+                throw new Exception(String.Format("消息解码失败，原文：{0}", PostData));
+
+            return XDocument.Parse(outMsg).Element("xml");
         } 
         #endregion
 
