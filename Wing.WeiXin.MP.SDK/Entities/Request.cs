@@ -172,9 +172,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
-        #region 解码数据 private XElement EncodingData()
+        #region 解密数据 private XElement EncodingData()
         /// <summary>
-        /// 解码数据
+        /// 解密数据
         /// </summary>
         /// <returns>root节点数据</returns>
         private XElement EncodingData()
@@ -184,10 +184,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) return root;
             string weixinID = GetPostData("ToUserName");
-            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw new Exception("消息需要解码，可没有提供解密密钥");
+            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw new Exception("消息需要解密，可没有提供解密密钥");
             string outMsg = null;
-            if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0) 
-                throw new Exception(String.Format("消息解码失败，原文：{0}", PostData));
+            if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
+                throw new Exception(String.Format("消息解密失败，原文：{0}", PostData));
 
             return XDocument.Parse(outMsg).Element("xml");
         } 

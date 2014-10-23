@@ -5,13 +5,13 @@
     <Setting Name="ConfigRootNameGroup" Type="System.String" Scope="Application">
       <Value Profile="(Default)">WeiXinMPSDKConfigGroup</Value>
     </Setting>
-    <Setting Name="SystemUsername" Type="System.String" Scope="User">
+    <Setting Name="SystemUsername" Type="System.String" Scope="Application">
       <Value Profile="(Default)">System</Value>
     </Setting>
-    <Setting Name="AccessTokenHead" Type="System.String" Scope="User">
+    <Setting Name="AccessTokenHead" Type="System.String" Scope="Application">
       <Value Profile="(Default)">AT_</Value>
     </Setting>
-    <Setting Name="AccessTokenTimeHead" Type="System.String" Scope="User">
+    <Setting Name="AccessTokenTimeHead" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ATT_</Value>
     </Setting>
   </Settings>
