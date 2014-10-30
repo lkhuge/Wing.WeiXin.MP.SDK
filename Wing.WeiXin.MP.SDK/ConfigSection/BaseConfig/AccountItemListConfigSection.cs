@@ -49,7 +49,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         {
             AccountItemConfigSection config =
                 this.Cast<AccountItemConfigSection>().FirstOrDefault(a => a.WeixinMPID.Equals(weixinMPID));
-            if (config == null) throw new Exception(String.Format("未注册该账号（{0}）", weixinMPID));
+            if (config == null) throw MessageException.GetInstance(String.Format("未注册该账号（{0}）", weixinMPID));
 
             return config;
         }

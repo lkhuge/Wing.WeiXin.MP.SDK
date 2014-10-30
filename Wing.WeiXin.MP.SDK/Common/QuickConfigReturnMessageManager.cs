@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Common
             ReturnEntityType type = (!kvList.ContainsKey("Type"))
                 ? ReturnEntityType.ReturnMessageText
                 : (ReturnEntityType)Enum.Parse(typeof(ReturnEntityType), kvList["Type"]);
-            if (!funcList.ContainsKey(type)) throw new Exception("未知快速配置回复消息类型");
+            if (!funcList.ContainsKey(type)) throw MessageException.GetInstance("未知快速配置回复消息类型");
 
             return funcList[type](kvList, request);
         }
@@ -67,7 +67,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复图片消息</returns>
         private static Response GetReturnMessageImage(Dictionary<string, string> kvList, Request request)
         {
-            if (!kvList.ContainsKey("MediaId")) throw new Exception("回复图片消息格式错误（缺少‘MediaId’）");
+            if (!kvList.ContainsKey("MediaId")) throw MessageException.GetInstance("回复图片消息格式错误（缺少‘MediaId’）");
 
             return EntityBuilder.GetMessageImage(request, kvList["MediaId"]);
         }
@@ -82,7 +82,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复音乐消息</returns>
         private static Response GetReturnMessageMusic(Dictionary<string, string> kvList, Request request)
         {
-            if (!kvList.ContainsKey("ThumbMediaId")) throw new Exception("回复音乐消息格式错误（缺少‘ThumbMediaId’）");
+            if (!kvList.ContainsKey("ThumbMediaId")) throw MessageException.GetInstance("回复音乐消息格式错误（缺少‘ThumbMediaId’）");
 
             return EntityBuilder.GetMessageMusic(request,
                 kvList.ContainsKey("Title") ? kvList["Title"] : "",
@@ -117,7 +117,7 @@ namespace Wing.WeiXin.MP.SDK.Common
                 urlList.Add(kvList.ContainsKey(String.Format("Articles{0}Url", i))
                         ? kvList[String.Format("Articles{0}Url", i)] : "");
             }
-            if (titleList.Count == 0) throw new Exception("回复图文消息项目数量不能为空");
+            if (titleList.Count == 0) throw MessageException.GetInstance("回复图文消息项目数量不能为空");
 
             return EntityBuilder.GetMessageNews(request,
                 titleList,
@@ -136,7 +136,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复文本消息</returns>
         private static Response GetReturnMessageText(Dictionary<string, string> kvList, Request request)
         {
-            if (!kvList.ContainsKey("Content")) throw new Exception("回复文本消息格式错误（缺少‘Content’）");
+            if (!kvList.ContainsKey("Content")) throw MessageException.GetInstance("回复文本消息格式错误（缺少‘Content’）");
 
             return EntityBuilder.GetMessageText(request, kvList["Content"]);
         }
@@ -151,7 +151,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复视频消息</returns>
         private static Response GetReturnMessageVideo(Dictionary<string, string> kvList, Request request)
         {
-            if (!kvList.ContainsKey("MediaId")) throw new Exception("回复视频消息格式错误（缺少‘MediaId’）");
+            if (!kvList.ContainsKey("MediaId")) throw MessageException.GetInstance("回复视频消息格式错误（缺少‘MediaId’）");
 
             return EntityBuilder.GetMessageVideo(request,
                 kvList["MediaId"],
@@ -169,7 +169,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复语音消息</returns>
         private static Response GetReturnMessageVoice(Dictionary<string, string> kvList, Request request)
         {
-            if (!kvList.ContainsKey("MediaId")) throw new Exception("回复语音消息格式错误（缺少‘MediaId’）");
+            if (!kvList.ContainsKey("MediaId")) throw MessageException.GetInstance("回复语音消息格式错误（缺少‘MediaId’）");
 
             return EntityBuilder.GetMessageVoice(request, kvList["MediaId"]);
         }

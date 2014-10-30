@@ -36,16 +36,16 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu
             get
             {
                 XElement element = Request.RootElement.Element("SendPicsInfo");
-                if (element == null) throw new Exception("XML格式错误（未发现SendPicsInfo节点）");
+                if (element == null) throw MessageException.GetInstance("XML格式错误（未发现SendPicsInfo节点）");
                 XElement element2 = element.Element("PicList");
-                if (element2 == null) throw new Exception("XML格式错误（未发现PicList节点）");
+                if (element2 == null) throw MessageException.GetInstance("XML格式错误（未发现PicList节点）");
 
                 return element2.Elements().Select(e =>
                 {
                     XElement eleTemp = e.Element("item");
-                    if (eleTemp == null) throw new Exception("XML格式错误（未发现item节点）");
+                    if (eleTemp == null) throw MessageException.GetInstance("XML格式错误（未发现item节点）");
                     XElement eleTemp2 = eleTemp.Element("PicMd5Sum");
-                    if (eleTemp2 == null) throw new Exception("XML格式错误（未发现PicMd5Sum节点）");
+                    if (eleTemp2 == null) throw MessageException.GetInstance("XML格式错误（未发现PicMd5Sum节点）");
                     return eleTemp2.Value;
                 }).ToList();
             }

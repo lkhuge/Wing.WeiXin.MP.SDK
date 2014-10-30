@@ -116,6 +116,17 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
+        #region 实例化请求对象 public Request(string postData)
+        /// <summary>
+        /// 实例化请求对象
+        /// </summary>
+        /// <param name="postData">POST数据</param>
+        public Request(string postData)
+        {
+            PostData = postData;
+        }
+        #endregion
+
         #region 验证数据 public void Check()
         /// <summary>
         /// 验证数据
@@ -123,12 +134,12 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>结果（空则验证通过）</returns>
         public void Check()
         {
-            if (!CheckSignature(Nonce)) throw new Exception( "验证未通过\nRequest:" +
+            if (!CheckSignature(Nonce)) throw MessageException.GetInstance( "验证未通过\nRequest:" +
                 String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
                     Signature, Timestamp, Nonce, Echostr, PostData));
 
             //首次验证
-            if (!String.IsNullOrEmpty(Echostr)) throw new Exception(Echostr);
+            if (!String.IsNullOrEmpty(Echostr)) throw MessageException.GetInstance(Echostr);
         } 
         #endregion
 
@@ -167,7 +178,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 MsgTypeName = "subscribeByQRScene";
             }
             ReceiveEntityType Temp;
-            if (!Enum.TryParse(MsgTypeName, out Temp)) throw new Exception("XML格式错误（未知消息类型）");
+            if (!Enum.TryParse(MsgTypeName, out Temp)) throw MessageException.GetInstance("XML格式错误（未知消息类型）");
             MsgType = Temp;
         } 
         #endregion
@@ -180,14 +191,14 @@ namespace Wing.WeiXin.MP.SDK.Entities
         private XElement EncodingData()
         {
             XElement root = XDocument.Parse(PostData).Element("xml");
-            if (root == null) throw new Exception("XML格式错误（未发现xml根节点）");
+            if (root == null) throw MessageException.GetInstance("XML格式错误（未发现xml根节点）");
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) return root;
             string weixinID = GetPostData("ToUserName");
-            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw new Exception("消息需要解密，可没有提供解密密钥");
+            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw MessageException.GetInstance("消息需要解密，可没有提供解密密钥");
             string outMsg = null;
             if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
-                throw new Exception(String.Format("消息解密失败，原文：{0}", PostData));
+                throw MessageException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData));
 
             return XDocument.Parse(outMsg).Element("xml");
         } 
@@ -202,7 +213,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string GetPostData(string key)
         {
             XElement element = RootElement.Element(key);
-            if (element == null) throw new Exception(String.Format("XML格式错误（未发现{0}节点）", key));
+            if (element == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key));
 
             return element.Value;
         } 
@@ -218,9 +229,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string GetPostData(string key1, string key2)
         {
             XElement element = RootElement.Element(key1);
-            if (element == null) throw new Exception(String.Format("XML格式错误（未发现{0}节点）", key1));
+            if (element == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key1));
             XElement element2 = element.Element(key2);
-            if (element2 == null) throw new Exception(String.Format("XML格式错误（未发现{0}节点）", key2));
+            if (element2 == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key2));
 
             return element2.Value;
         } 

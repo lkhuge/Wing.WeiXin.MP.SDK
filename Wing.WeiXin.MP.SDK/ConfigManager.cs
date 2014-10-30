@@ -4,6 +4,7 @@ using System.Configuration;
 using Wing.WeiXin.MP.SDK.ConfigSection;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
+using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -40,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK
         private void LoadBaseConfigSection()
         {
             BaseConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Base") as BaseConfigSection;
-            if (BaseConfig == null) throw new Exception("未发现基础配置");
+            if (BaseConfig == null) throw MessageException.GetInstance("未发现基础配置");
         }
         #endregion
 
@@ -51,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK
         private void LoadEventConfigSection()
         {
             EventConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Event") as EventConfigSection;
-            if (EventConfig == null) throw new Exception("未发现事件配置");
+            if (EventConfig == null) throw MessageException.GetInstance("未发现事件配置");
         }
         #endregion
     }

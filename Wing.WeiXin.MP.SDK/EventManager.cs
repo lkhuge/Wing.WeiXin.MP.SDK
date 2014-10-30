@@ -41,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             if (GloablReceiveEvent[toUserName].ContainsKey(eventName))
             {
-                throw new Exception(String.Format("事件名（{0}）重复", eventName));
+                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
             }
             GloablReceiveEvent[toUserName].Add(eventName, receiveEvent);
         } 
@@ -67,7 +67,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
             {
-                throw new Exception(String.Format("事件名（{0}）重复", eventName));
+                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
             }
             ReceiveEvent[toUserName][typeName].Add(
                 eventName,
@@ -96,7 +96,7 @@ namespace Wing.WeiXin.MP.SDK
             {
                 if (ReceiveEvent[toUserName][typeName].ContainsKey(eve.Key))
                 {
-                    throw new Exception(String.Format("事件名（{0}）重复", eve.Key));
+                    throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eve.Key));
                 }
                 Func<T, Response> eveT = eve.Value;
                 ReceiveEvent[toUserName][typeName].Add(

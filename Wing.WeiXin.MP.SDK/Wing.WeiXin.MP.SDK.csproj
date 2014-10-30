@@ -136,6 +136,7 @@
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicPhotoOrAlbum.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicWeixin.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonLocationSelect.cs" />
+    <Compile Include="Entities\MessageException.cs" />
     <Compile Include="Entities\MessageTemplate.cs" />
     <Compile Include="Entities\Request.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventScanCodePush.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Enumeration\WeixinMPType.cs" />
     <Compile Include="Common\QuickConfigReturnMessageManager.cs" />
     <Compile Include="EventManager.cs" />
+    <Compile Include="Extension\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\AshxReceiveHandler.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

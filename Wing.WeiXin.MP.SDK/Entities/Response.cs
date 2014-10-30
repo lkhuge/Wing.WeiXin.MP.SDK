@@ -43,14 +43,26 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string Text { get; private set; }
         #endregion
 
-        #region 根据微信异常实例化文本类型对象 public Response(Exception e)
+        #region 根据异常实例化文本类型对象 public Response(Exception e)
         /// <summary>
-        /// 根据微信异常实例化文本类型对象
+        /// 根据异常实例化文本类型对象
         /// </summary>
-        /// <param name="e">消息对象</param>
+        /// <param name="e">异常</param>
         public Response(Exception e)
         {
             Text = e.Message;
+            ContentType = TEXT;
+        }
+        #endregion
+
+        #region 根据消息异常实例化文本类型对象 public Response(MessageException e)
+        /// <summary>
+        /// 根据消息异常实例化文本类型对象
+        /// </summary>
+        /// <param name="e">消息异常</param>
+        public Response(MessageException e)
+        {
+            Text = e.ExceptionMessage;
             ContentType = TEXT;
         }
         #endregion
@@ -84,8 +96,8 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 text, 
                 DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture), 
                 request.Nonce,
-                ref encryptMsg) != 0) 
-                throw new Exception(String.Format("消息加密失败，原文：{0}", text));
+                ref encryptMsg) != 0)
+                throw MessageException.GetInstance(String.Format("消息加密失败，原文：{0}", text));
 
             return encryptMsg;
         } 

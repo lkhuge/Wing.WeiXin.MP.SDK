@@ -40,7 +40,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 return jp.Value.ToString();
             }
-            throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+            throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
         } 
         #endregion
     }

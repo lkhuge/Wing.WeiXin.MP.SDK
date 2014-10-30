@@ -72,7 +72,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 account.AppID, account.AppSecret, code));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
             return JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
         } 
@@ -93,7 +93,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 account.AppID, refresh_token));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
@@ -116,7 +116,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 language));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<OAuthUser>(result);

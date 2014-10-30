@@ -76,7 +76,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public void CheckIsService()
         {
             if (Type == WeixinMPType.Service) return;
-            throw new Exception("只有服务号支持此操作");
+            throw MessageException.GetInstance("只有服务号支持此操作");
         } 
         #endregion
     }

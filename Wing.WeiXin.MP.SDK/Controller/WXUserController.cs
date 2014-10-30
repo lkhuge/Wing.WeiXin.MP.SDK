@@ -79,7 +79,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 lang));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<WXUser>(result);
@@ -99,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<WXUserList>(result);
@@ -151,7 +151,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 userList.next_openid));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<WXUserList>(result);
@@ -172,7 +172,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(group));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<WXUserGroup>(result);
@@ -192,7 +192,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<WXUserGroupList>(result);
@@ -213,7 +213,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(user));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return new WXUserGroup { group = new WXGroup

@@ -60,8 +60,8 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         public DateTime GetExpiresDateTime(WXAccount account)
         {
             DateTime temp;
-            if (!expiresDateTimeList.TryGetValue(account.ID, out temp)) 
-                throw new Exception("没有该账号的截止日期信息");
+            if (!expiresDateTimeList.TryGetValue(account.ID, out temp))
+                throw MessageException.GetInstance("没有该账号的截止日期信息");
 
             return temp;
         }

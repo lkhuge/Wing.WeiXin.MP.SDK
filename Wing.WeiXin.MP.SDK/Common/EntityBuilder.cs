@@ -134,7 +134,7 @@ namespace Wing.WeiXin.MP.SDK.Common
                 || picUrlList.Count != count
                 || urlList.Count != count)
             {
-                throw new Exception("图文消息格式不正确");
+                throw MessageException.GetInstance("图文消息格式不正确");
             }
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < count; i++)

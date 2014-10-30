@@ -48,7 +48,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 type), path, name);
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<Media>(result);
@@ -76,7 +76,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 }));
             if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw new Exception(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
             return JSONHelper.JSONDeserialize<Media>(result);
@@ -96,7 +96,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 UrlDownLoad,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 media_id), pathName);
-            if (!String.IsNullOrEmpty(result)) throw new Exception(
+            if (!String.IsNullOrEmpty(result)) throw MessageException.GetInstance(
                 JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
         } 
         #endregion
