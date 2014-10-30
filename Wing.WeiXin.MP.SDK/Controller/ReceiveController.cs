@@ -32,23 +32,28 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         public static event Action<Request, Exception> ReceiveException;
 
-        #region 执行操作 public Response Action(Request request)
+        #region 执行操作 public Response Action(Request request, bool needCheck = true)
         /// <summary>
         /// 执行操作
         /// </summary>
         /// <param name="request">请求对象</param>
+        /// <param name="needCheck">是否需要检查请求</param>
         /// <returns>响应对象</returns>
-        public Response Action(Request request)
+        public Response Action(Request request, bool needCheck = true)
         {
             if (ReceiveStart != null) ReceiveStart(request);
             try
             {
-                request.Check();
+                if (needCheck) request.Check();
                 request.ParsePostData();
                 if (CheckMsgID(request)) return null;
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null) ReceiveEnd(request, response);
                 return response;
+            }
+            catch (MessageException e)
+            {
+                return new Response(e);
             }
             catch (Exception e)
             {
