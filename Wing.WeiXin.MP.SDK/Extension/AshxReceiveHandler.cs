@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using Wing.CL.WebManager;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -10,58 +12,67 @@ using Wing.WeiXin.MP.SDK.Properties;
 namespace Wing.WeiXin.MP.SDK.Extension
 {
     /// <summary>
-    /// 接收事件处理（一般处理程序扩展类）
+    /// 接收事件处理
     /// </summary>
-    public class AshxReceiveHandler : AshxExtension
+    public class AshxReceiveHandler : IHttpHandler
     {
         /// <summary>
         /// 接收消息控制器
         /// </summary>
         private readonly ReceiveController receiveController;
 
-        /// <summary>
-        /// 主要为了获取Get参数
-        /// </summary>
-        protected override bool IsGet
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// 由于控制器已经将请求解析为字符串,因此响应对象使用文本类型
-        /// </summary>
-        protected override ResponseContentType ContentType
-        {
-            get { return ResponseContentType.TEXT; }
-        }
-
         #region 初始化 public AshxReceiveHandler()
         /// <summary>
         /// 初始化
         /// </summary>
-        public AshxReceiveHandler()
+        public AshxReceiveHandler(bool isReusable)
         {
+            IsReusable = isReusable;
             receiveController = new ReceiveController();
-        } 
+        }
+
         #endregion
 
-        #region 响应事件 protected override object Action(HttpContextExtension context)
+        #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
         /// 响应事件
         /// </summary>
         /// <param name="context">上下文</param>
         /// <returns>响应结果</returns>
-        protected override object Action(HttpContextExtension context)
+        public void ProcessRequest(HttpContext context)
         {
             Response response = receiveController.Action(new Request(
-                    context.GetString("signature"),
-                    context.GetString("timestamp"),
-                    context.GetString("nonce"),
-                    context.GetString("echostr"),
-                    context.GetPostStream()));
+                    context.Request.QueryString["signature"],
+                    context.Request.QueryString["timestamp"],
+                    context.Request.QueryString["nonce"],
+                    context.Request.QueryString["echostr"],
+                    GetPostStream(context)));
 
-            return response == null ? "" : response.Text;
+            context.Response.Write(response == null ? "" : response.Text);
         } 
         #endregion
+
+        #region 获取Post请求流 private string GetPostStream(HttpContext context)
+        /// <summary>
+        /// 获取Post请求流
+        /// </summary>
+        /// <param name="context">上下文</param>
+        /// <returns>Post请求流字符串</returns>
+        private string GetPostStream(HttpContext context)
+        {
+            try
+            {
+                return new StreamReader(
+                    context.Request.InputStream,
+                    Encoding.UTF8).ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        public bool IsReusable { get; private set; }
     }
 }
