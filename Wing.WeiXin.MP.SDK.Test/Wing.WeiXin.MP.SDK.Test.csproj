@@ -58,6 +58,7 @@
     <Compile Include="Controller\MenuControllerTest.cs" />
     <Compile Include="Controller\QRCodeControllerTest.cs" />
     <Compile Include="Controller\ReceiveControllerTest.cs" />
+    <Compile Include="Controller\SemanticControllerTests.cs" />
     <Compile Include="Controller\SendAllControllerTest.cs" />
     <Compile Include="Controller\URLControllerTests.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />

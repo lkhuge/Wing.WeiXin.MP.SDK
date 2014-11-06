@@ -419,5 +419,100 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// 用户未授权该api
         /// </summary>
         用户未授权该api = 50001,
+
+        /// <summary>
+        /// 请求正常 无语义结果
+        /// </summary>
+        请求正常_无语义结果 = 7000000,
+
+        /// <summary>
+        /// 缺失请求参数
+        /// </summary>
+        缺失请求参数 = 7000001,
+
+        /// <summary>
+        /// signature参数无效
+        /// </summary>
+        signature参数无效 = 7000002,
+
+        /// <summary>
+        /// 地理位置相关配置1无效
+        /// </summary>
+        地理位置相关配置1无效 = 7000003,
+
+        /// <summary>
+        /// 地理位置相关配置2无效
+        /// </summary>
+        地理位置相关配置2无效 = 7000004,
+
+        /// <summary>
+        /// 请求地理位置信息失败
+        /// </summary>
+        请求地理位置信息失败 = 7000005,
+
+        /// <summary>
+        /// 地理位置结果解析失败
+        /// </summary>
+        地理位置结果解析失败 = 7000006,
+
+        /// <summary>
+        /// 内部初始化失败
+        /// </summary>
+        内部初始化失败 = 7000007,
+
+        /// <summary>
+        /// 非法appid 获取密钥失败
+        /// </summary>
+        非法appid_获取密钥失败 = 7000008,
+
+        /// <summary>
+        /// 请求语义服务失败
+        /// </summary>
+        请求语义服务失败 = 7000009,
+
+        /// <summary>
+        /// 非法post请求
+        /// </summary>
+        非法post请求 = 7000010,
+
+        /// <summary>
+        /// post请求json字段无效
+        /// </summary>
+        post请求json字段无效 = 7000011,
+
+        /// <summary>
+        /// 查询query太短
+        /// </summary>
+        查询query太短 = 7000030,
+
+        /// <summary>
+        /// 查询query太长
+        /// </summary>
+        查询query太长 = 7000031,
+
+        /// <summary>
+        /// 城市经纬度信息缺失
+        /// </summary>
+        城市经纬度信息缺失 = 7000032,
+
+        /// <summary>
+        /// query请求语义处理失败
+        /// </summary>
+        query请求语义处理失败 = 7000033,
+
+        /// <summary>
+        /// 获取天气信息失败
+        /// </summary>
+        获取天气信息失败 = 7000034,
+
+        /// <summary>
+        /// 获取股票信息失败
+        /// </summary>
+        获取股票信息失败 = 7000035,
+
+        /// <summary>
+        /// utf8编码转换失败
+        /// </summary>
+        utf8编码转换失败 = 7000036
     }
 }

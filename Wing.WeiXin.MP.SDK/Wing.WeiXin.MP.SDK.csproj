@@ -79,9 +79,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wing.CL, Version=0.0.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.CL.0.0.0.8\lib\net40\Wing.CL.dll</HintPath>
+    <Reference Include="Wing.CL">
+      <HintPath>..\packages\Wing.CL.0.0.0.9\lib\net40\Wing.CL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +121,7 @@
     <Compile Include="Controller\OAuthController.cs" />
     <Compile Include="Controller\QRCodeController.cs" />
     <Compile Include="Controller\ReceiveController.cs" />
+    <Compile Include="Controller\SemanticController.cs" />
     <Compile Include="Controller\SendAllController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
     <Compile Include="Controller\URLController.cs" />
@@ -164,6 +164,9 @@
     <Compile Include="Entities\RequestMessage\Message\RequestVoice.cs" />
     <Compile Include="Entities\Response.cs" />
     <Compile Include="Entities\ReturnMessage.cs" />
+    <Compile Include="Entities\Semantic\DatetimeSemantic.cs" />
+    <Compile Include="Entities\Semantic\SemanticRequest.cs" />
+    <Compile Include="Entities\Semantic\SemanticResponse.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupImage.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupNews.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupText.cs" />
