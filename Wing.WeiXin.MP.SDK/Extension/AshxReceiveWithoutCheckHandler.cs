@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Wing.CL.Net;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -19,17 +20,7 @@ namespace Wing.WeiXin.MP.SDK.Extension
         /// <summary>
         /// 接收消息控制器
         /// </summary>
-        private readonly ReceiveController receiveController;
-
-        #region 初始化 public AshxReceiveWithoutCheckHandler()
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public AshxReceiveWithoutCheckHandler()
-        {
-            receiveController = new ReceiveController();
-        } 
-        #endregion
+        private readonly ReceiveController receiveController = new ReceiveController();
 
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
@@ -40,32 +31,11 @@ namespace Wing.WeiXin.MP.SDK.Extension
         public void ProcessRequest(HttpContext context)
         {
             Response response = receiveController.Action(
-                new Request(GetPostStream(context)), 
+                new Request(HTTPHelper.GetPostStream(context)), 
                 false);
 
             context.Response.Write(response == null ? "" : response.Text);
         } 
-        #endregion
-
-        #region 获取Post请求流 private string GetPostStream(HttpContext context)
-        /// <summary>
-        /// 获取Post请求流
-        /// </summary>
-        /// <param name="context">上下文</param>
-        /// <returns>Post请求流字符串</returns>
-        private string GetPostStream(HttpContext context)
-        {
-            try
-            {
-                return new StreamReader(
-                    context.Request.InputStream,
-                    Encoding.UTF8).ReadToEnd();
-            }
-            catch
-            {
-                return null;
-            }
-        }
         #endregion
 
         /// <summary>

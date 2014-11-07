@@ -79,8 +79,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wing.CL">
-      <HintPath>..\packages\Wing.CL.0.0.0.9\lib\net40\Wing.CL.dll</HintPath>
+    <Reference Include="Wing.CL, Version=0.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Wing.CL.0.0.0.10\lib\net40\Wing.CL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

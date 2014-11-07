@@ -107,7 +107,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <returns>KeyValue数据</returns>
         public static Dictionary<string, string> ReadOfKeyValueData(string fileName)
         {
-            return FileHelper.ReadLine(fileName)
+            return File.ReadAllLines(fileName, Encoding.UTF8)
                 .Where(r => !String.IsNullOrEmpty(r) && !String.IsNullOrEmpty(r.Trim()) && r.IndexOf(':') != -1)
                 .ToDictionary(
                     k => k.Substring(0, k.IndexOf(':')).Trim(), 
