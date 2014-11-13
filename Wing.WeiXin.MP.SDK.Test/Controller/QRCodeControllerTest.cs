@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         public void GetQRCodeTest(QRCodeTicket qrCodeTicket)
         {
             const string pathName = "E:\\Test\\test.jpg";
-            new QRCodeController().GetQRCode(qrCodeTicket, pathName);
+            new QRCodeController().GetQRCode(qrCodeTicket.ticket, pathName);
             Assert.IsTrue(File.Exists(pathName));
         } 
         #endregion

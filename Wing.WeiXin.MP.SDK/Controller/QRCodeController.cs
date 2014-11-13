@@ -52,17 +52,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 通过ticket换取二维码 public void GetQRCode(QRCodeTicket qrCodeTicket, string pathName)
+        #region 通过ticket换取二维码 public void GetQRCode(string ticket, string pathName)
         /// <summary>
         /// 通过ticket换取二维码
         /// </summary>
-        /// <param name="qrCodeTicket">二维码ticket</param>
+        /// <param name="ticket">二维码ticket</param>
         /// <param name="pathName">保存路径</param>
-        public void GetQRCode(QRCodeTicket qrCodeTicket, string pathName)
+        public void GetQRCode(string ticket, string pathName)
         {
             HTTPHelper.DownloadFile(String.Format(
                 UrlGetQRCode,
-                HttpUtility.UrlEncode(qrCodeTicket.ticket)), pathName);
+                HttpUtility.UrlEncode(ticket)), pathName);
         } 
         #endregion
     }

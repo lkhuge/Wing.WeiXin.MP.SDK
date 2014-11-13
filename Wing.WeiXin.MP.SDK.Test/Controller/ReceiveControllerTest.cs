@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Common;
@@ -10,6 +11,7 @@ using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Extension.Event.Text;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -36,27 +38,36 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
 //                }
 //                return null;
 //            });
-            GlobalManager.InitWXSessionManager(new StaticWXSession());
 //            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, r => EntityBuilder.GetMessageFromFriend(r, "http://huwing.vicp.cc/Receive"));
-            GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
-            GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (int i = 0; i < 10000; i ++)
+//            GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
+//            GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
+//            Stopwatch sw = new Stopwatch();
+//            sw.Start();
+//            for (int i = 0; i < 10000; i ++)
+//            {
+//                new ReceiveController().Action(messageText);
+//            }
+//            sw.Stop();
+//            Debug.WriteLine(sw.ElapsedMilliseconds);
+
+            GlobalManager.EventManager.AddReceiveEvent("Event1", "gh_7f215c8b1c91", new WordHeadEventList(new Dictionary<string,Func<string,Request,Response>>
             {
-                new ReceiveController().Action(messageText);
-            }
-            sw.Stop();
-            Debug.WriteLine(sw.ElapsedMilliseconds);
-            
-//            Response result = new ReceiveController().Action(messageText);
-//            Assert.IsNotNull(result);
+                {"t", E3}
+            }).GetEventWithSeparatorWord('e'));
+
+            Response result = new ReceiveController().Action(messageText);
+            Assert.IsNotNull(result);
         } 
         #endregion
 
         public Response E2(RequestEventClick r)
         {
             return EntityBuilder.GetMessageText(r.Request, "qwe");
+        }
+
+        public Response E3(string content,Request r)
+        {
+            return EntityBuilder.GetMessageText(r, content);
         }
     }
 }

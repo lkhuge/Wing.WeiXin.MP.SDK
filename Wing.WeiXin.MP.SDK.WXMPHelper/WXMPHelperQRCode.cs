@@ -185,10 +185,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         private void bgwDownload_DoWork(object sender, DoWorkEventArgs e)
         {
             string fileName = (string)e.Argument;
-            new QRCodeController().GetQRCode(new QRCodeTicket
-            {
-                ticket = tbTicket.Text
-            }, fileName);
+            new QRCodeController().GetQRCode(tbTicket.Text, fileName);
         } 
         #endregion
 

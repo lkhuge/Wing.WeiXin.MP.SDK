@@ -240,15 +240,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 移动用户分组 public ErrorMsg MoveGroup(WXAccount account, WXUser user, WXUserGroup group)
+        #region 移动用户分组 public ErrorMsg MoveGroup(WXAccount account, WXUser user, int to_groupid)
         /// <summary>
         /// 移动用户分组
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <param name="user">用户</param>
-        /// <param name="group">组</param>
+        /// <param name="to_groupid">组ID</param>
         /// <returns>结果</returns>
-        public ErrorMsg MoveGroup(WXAccount account, WXUser user, WXUserGroup group)
+        public ErrorMsg MoveGroup(WXAccount account, WXUser user, int to_groupid)
         {
             string result = HTTPHelper.Post(
                 String.Format(
@@ -257,7 +257,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 JSONHelper.JSONSerialize(new
                 {
                     user.openid,
-                    to_groupid = group.group.id
+                    to_groupid
                 }));
 
             return JSONHelper.JSONDeserialize<ErrorMsg>(result);
