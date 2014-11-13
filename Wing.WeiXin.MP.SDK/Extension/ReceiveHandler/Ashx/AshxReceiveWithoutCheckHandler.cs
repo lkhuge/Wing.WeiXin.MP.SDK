@@ -9,12 +9,13 @@ using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
 
-namespace Wing.WeiXin.MP.SDK.Extension
+namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
 {
     /// <summary>
-    /// 接收事件处理
+    /// 接收事件处理（不需要检查请求）（一般处理程序扩展类）
+    /// 用于测试
     /// </summary>
-    public class AshxReceiveHandler : IHttpHandler
+    public class AshxReceiveWithoutCheckHandler : IHttpHandler
     {
         /// <summary>
         /// 接收消息控制器
@@ -29,12 +30,9 @@ namespace Wing.WeiXin.MP.SDK.Extension
         /// <returns>响应结果</returns>
         public void ProcessRequest(HttpContext context)
         {
-            Response response = receiveController.Action(new Request(
-                    context.Request.QueryString["signature"],
-                    context.Request.QueryString["timestamp"],
-                    context.Request.QueryString["nonce"],
-                    context.Request.QueryString["echostr"],
-                    HTTPHelper.GetPostStream(context)));
+            Response response = receiveController.Action(
+                new Request(HTTPHelper.GetPostStream(context)), 
+                false);
 
             context.Response.Write(response == null ? "" : response.Text);
         } 
