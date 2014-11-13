@@ -344,6 +344,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                     msg.Add(String.Format("Articles{0}PicUrl:{1}", index, picUrl));
                 if (!String.IsNullOrEmpty(url))
                     msg.Add(String.Format("Articles{0}Url:{1}", index, url));
+                index++;
             }
             return msg.ToArray();
         } 
