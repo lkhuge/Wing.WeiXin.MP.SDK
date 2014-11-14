@@ -51,6 +51,11 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static Dictionary<string, WXBizMsgCrypt> CryptList;
 
+        /// <summary>
+        /// 是否已经初始化
+        /// </summary>
+        private static bool IsInit;
+
         #region 初始化 public static void Init()
         /// <summary>
         /// 初始化
@@ -62,27 +67,28 @@ namespace Wing.WeiXin.MP.SDK
             InitEvent(new EventManager());
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
+            IsInit = true;
         } 
         #endregion
 
-        #region 初始化配置 public static void InitConfig(ConfigManager configManager)
+        #region 初始化配置 private static void InitConfig(ConfigManager configManager)
         /// <summary>
         /// 初始化配置
         /// </summary>
         /// <param name="configManager">配置管理类</param>
-        public static void InitConfig(ConfigManager configManager)
+        private static void InitConfig(ConfigManager configManager)
         {
             if (ConfigLoad != null) ConfigLoad();
             ConfigManager = configManager;
         } 
         #endregion
 
-        #region 初始化事件 public static void InitEvent(EventManager eventManager)
+        #region 初始化事件 private static void InitEvent(EventManager eventManager)
         /// <summary>
         /// 初始化事件
         /// </summary>
         /// <param name="eventManager">事件管理类</param>
-        public static void InitEvent(EventManager eventManager)
+        private static void InitEvent(EventManager eventManager)
         {
             if (EventLoad != null) EventLoad();
             EventManager = eventManager;
@@ -151,6 +157,16 @@ namespace Wing.WeiXin.MP.SDK
         {
             return ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Subscription);
         }
+        #endregion
+
+        #region 检测是否初始化 public static void CheckInit()
+        /// <summary>
+        /// 检测是否初始化
+        /// </summary>
+        public static void CheckInit()
+        {
+            if (!IsInit) throw new Exception("微信公共平台未初始化");
+        } 
         #endregion
     }
 }

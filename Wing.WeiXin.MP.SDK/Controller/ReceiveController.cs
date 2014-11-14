@@ -41,6 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>响应对象</returns>
         public Response Action(Request request, bool needCheck = true)
         {
+            GlobalManager.CheckInit();
             if (ReceiveStart != null) ReceiveStart(request);
             try
             {
