@@ -27,14 +27,6 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         void Set(string user, string key, object value);
 
         /// <summary>
-        /// 设置字符串数据
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="key">Key值</param>
-        /// <param name="value">字符串数据</param>
-        void Set(string user, string key, string value);
-
-        /// <summary>
         /// 删除数据
         /// </summary>
         /// <param name="user">用户编号</param>

@@ -53,19 +53,6 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         }
         #endregion
 
-        #region 设置字符串数据 public void Set(string user, string key, string value)
-        /// <summary>
-        /// 设置字符串数据
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="key">Key值</param>
-        /// <param name="value">字符串数据</param>
-        public void Set(string user, string key, string value)
-        {
-            session.GetOrAdd(user, new Dictionary<string, object>())[key] = value;
-        }
-        #endregion
-
         #region 删除数据 public void Delete(string user, string key)
         /// <summary>
         /// 删除数据
