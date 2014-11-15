@@ -159,6 +159,18 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
+        #region 检测事件是否可以执行 public static bool CheckEventAction(string actionKey)
+        /// <summary>
+        /// 检测事件是否可以执行
+        /// </summary>
+        /// <param name="actionKey">事件配置Key</param>
+        /// <returns>事件是否可以执行</returns>
+        public static bool CheckEventAction(string actionKey)
+        {
+            return ConfigManager.EventConfig.EventList.CheckEvent(actionKey);
+        } 
+        #endregion
+
         #region 检测是否初始化 public static void CheckInit()
         /// <summary>
         /// 检测是否初始化

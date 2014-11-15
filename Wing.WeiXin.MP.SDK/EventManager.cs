@@ -137,7 +137,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (!GloablReceiveEvent.ContainsKey("")) return null;
             return GloablReceiveEvent[""]
-                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
@@ -152,7 +152,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
             return GloablReceiveEvent[request.ToUserName]
-                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion
@@ -168,7 +168,7 @@ namespace Wing.WeiXin.MP.SDK
             if (!ReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
             return ReceiveEvent[request.ToUserName][request.MsgType]
-                .Where(e => GlobalManager.ConfigManager.EventConfig.EventList.CheckEvent(e.Key))
+                .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
         }
         #endregion

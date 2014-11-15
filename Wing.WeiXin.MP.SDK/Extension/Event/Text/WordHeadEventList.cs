@@ -36,13 +36,15 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         } 
         #endregion
 
-        #region 根据分割字符获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord)
+        #region 根据分割字符获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord, bool actionByConfig = true, string actionNameHead = null)
         /// <summary>
         /// 根据分割字符获取以字符串作为头部区分的事件列表
         /// </summary>
         /// <param name="separatorWord">分割字符</param>
+        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
+        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
         /// <returns>以字符串作为头部区分的事件列表</returns>
-        public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord)
+        public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord, bool actionByConfig = true, string actionNameHead = null)
         {
             return request =>
             {
@@ -54,18 +56,22 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 return Handler(
                     text.Substring(0, index).Trim(), 
                     text.Substring(index + 1).Trim(),
-                    request.Request);
+                    request.Request,
+                    actionByConfig,
+                    actionNameHead);
             };
         } 
         #endregion
 
-        #region 根据头部字符串长度获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength)
+        #region 根据头部字符串长度获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength, bool actionByConfig = true, string actionNameHead = null)
         /// <summary>
         /// 根据头部字符串长度获取以字符串作为头部区分的事件列表
         /// </summary>
         /// <param name="headWordLength">头部字符串长度</param>
+        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
+        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
         /// <returns>以字符串作为头部区分的事件列表</returns>
-        public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength)
+        public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength, bool actionByConfig = true, string actionNameHead = null)
         {
             return request =>
             {
@@ -75,21 +81,26 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 return Handler(
                     text.Substring(0, headWordLength).Trim(),
                     text.Substring(headWordLength).Trim(),
-                    request.Request);
+                    request.Request,
+                    actionByConfig,
+                    actionNameHead);
             };
         }
         #endregion
 
-        #region 执行事件 private Response Handler(string head, string content, Request request)
+        #region 执行事件 private Response Handler(string head, string content, Request request, bool actionByConfig, string actionNameHead)
         /// <summary>
         /// 执行事件
         /// </summary>
         /// <param name="head">字符串头部</param>
         /// <param name="content">字符串主体</param>
         /// <param name="request">请求</param>
+        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
+        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
         /// <returns>响应</returns>
-        private Response Handler(string head, string content, Request request)
+        private Response Handler(string head, string content, Request request, bool actionByConfig, string actionNameHead)
         {
+            if (actionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, head))) return null;
             if (!eventList.ContainsKey(head)) return null;
             Func<string, Request, Response> eventTemp = eventList
                 .FirstOrDefault(e => isCaseSensitive ? e.Key.Equals(head) : e.Key.ToLower().Equals(head.ToLower())).Value;
