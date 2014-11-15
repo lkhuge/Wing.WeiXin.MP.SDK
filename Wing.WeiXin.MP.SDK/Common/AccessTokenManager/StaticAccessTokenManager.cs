@@ -13,16 +13,21 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
     public class StaticAccessTokenManager : IAccessTokenManager
     {
         /// <summary>
+        /// AccessToken锁标示
+        /// </summary>
+        private static readonly object accessTokenLockSign = new object();
+        
+        /// <summary>
         /// AccessToken列表
         /// </summary>
-        private static readonly ConcurrentDictionary<string, AccessToken> accessTokenList
-            = new ConcurrentDictionary<string, AccessToken>();
+        private static readonly Dictionary<string, AccessToken> accessTokenList
+            = new Dictionary<string, AccessToken>();
 
         /// <summary>
         /// 截止日期列表
         /// </summary>
-        private static readonly ConcurrentDictionary<string, DateTime> expiresDateTimeList
-            = new ConcurrentDictionary<string, DateTime>();
+        private static readonly Dictionary<string, DateTime> expiresDateTimeList
+            = new Dictionary<string, DateTime>();
 
         #region 根据微信公共平台账号获取AccessToken public AccessToken GetAccessToken(WXAccount account);
         /// <summary>
@@ -32,9 +37,10 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken</returns>
         public AccessToken GetAccessToken(WXAccount account)
         {
-            AccessToken temp;
-
-            return !accessTokenList.TryGetValue(account.ID, out temp) ? null : temp;
+            lock (accessTokenLockSign)
+            {
+                return accessTokenList.ContainsKey(account.ID) ? accessTokenList[account.ID] : null;
+            }
         }
 
         #endregion
@@ -47,7 +53,10 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <param name="accessToken">AccessToken</param>
         public void SetAccessToken(WXAccount account, AccessToken accessToken)
         {
-            accessTokenList.GetOrAdd(account.ID, accessToken);
+            lock (accessTokenLockSign)
+            {
+                accessTokenList[account.ID] = accessToken;
+            }
         }
         #endregion
 
@@ -59,11 +68,11 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken的截止日期</returns>
         public DateTime GetExpiresDateTime(WXAccount account)
         {
-            DateTime temp;
-            if (!expiresDateTimeList.TryGetValue(account.ID, out temp))
+            lock (accessTokenLockSign)
+            {
+                if (expiresDateTimeList.ContainsKey(account.ID)) return expiresDateTimeList[account.ID];
                 throw MessageException.GetInstance("没有该账号的截止日期信息");
-
-            return temp;
+            }
         }
         #endregion
 
@@ -75,7 +84,10 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <param name="expires">AccessToken的截止日期</param>
         public void SetExpiresDateTime(WXAccount account, DateTime expires)
         {
-            expiresDateTimeList.GetOrAdd(account.ID, expires);
+            lock (accessTokenLockSign)
+            {
+                expiresDateTimeList[account.ID] = expires;
+            }
         }
         #endregion
     }

@@ -12,19 +12,14 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
     public class StaticWXSession : IWXSession
     {
         /// <summary>
+        /// 用于锁定资源的对象
+        /// </summary>
+        private static readonly object lockSign = new object();
+
+        /// <summary>
         /// AccessToken列表
         /// </summary>
-        private readonly ConcurrentDictionary<string, Dictionary<string, object>> session;
-
-        #region 初始化 public StaticWXSession()
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public StaticWXSession()
-        {
-            session = new ConcurrentDictionary<string, Dictionary<string, object>>();
-        } 
-        #endregion
+        private readonly Dictionary<string, object> session = new Dictionary<string, object>();
 
         #region 获取数据 public object Get(string user, string key)
         /// <summary>
@@ -35,7 +30,12 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <returns>数据</returns>
         public object Get(string user, string key)
         {
-            return !HasKey(user, key) ? null : session.GetOrAdd(user, new Dictionary<string,object>())[key];
+            lock (lockSign)
+            {
+                string sessionKey = String.Format("{0}@{1}", user, key);
+
+                return !session.ContainsKey(sessionKey) ? null : session[sessionKey];
+            }
         }
 
         #endregion
@@ -49,7 +49,12 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <param name="value">对象数据</param>
         public void Set(string user, string key, object value)
         {
-            session.GetOrAdd(user, new Dictionary<string, object>())[key] = value;
+            lock (lockSign)
+            {
+                string sessionKey = String.Format("{0}@{1}", user, key);
+
+                session[sessionKey] = value;
+            }
         }
         #endregion
 
@@ -61,21 +66,12 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <param name="key">Key值</param>
         public void Delete(string user, string key)
         {
-            if (!HasKey(user, key)) return;
-            session.GetOrAdd(user, new Dictionary<string, object>()).Remove(key);
-        }
-        #endregion
+            lock (lockSign)
+            {
+                string sessionKey = String.Format("{0}@{1}", user, key);
 
-        #region 是否存在Key值 public bool HasKey(string user, string key)
-        /// <summary>
-        /// 是否存在Key值
-        /// </summary>
-        /// <param name="user">用户编号</param>
-        /// <param name="key">Key值</param>
-        /// <returns>是否存在Key值</returns>
-        public bool HasKey(string user, string key)
-        {
-            return session.GetOrAdd(user, new Dictionary<string, object>()).ContainsKey(key);
+                session.Remove(sessionKey);
+            }
         }
         #endregion
     }
