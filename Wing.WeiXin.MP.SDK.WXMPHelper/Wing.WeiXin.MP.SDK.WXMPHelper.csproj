@@ -77,9 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Wing.CL.0.0.0.10\lib\net40\Wing.CL.dll</HintPath>
     </Reference>
-    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.0.1.9, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.0.1.9\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
+      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.0.2.0\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
