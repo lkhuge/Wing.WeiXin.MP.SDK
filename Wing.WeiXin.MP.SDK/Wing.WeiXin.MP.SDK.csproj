@@ -243,6 +243,7 @@
     <Compile Include="Enumeration\WeixinMPType.cs" />
     <Compile Include="Common\QuickConfigReturnMessageManager.cs" />
     <Compile Include="EventManager.cs" />
+    <Compile Include="Extension\Event\Click\ClickEventList.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />

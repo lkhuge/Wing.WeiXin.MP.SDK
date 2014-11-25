@@ -100,8 +100,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         /// <returns>响应</returns>
         private Response Handler(string head, string content, Request request, bool actionByConfig, string actionNameHead)
         {
-            if (actionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, head))) return null;
             if (!eventList.ContainsKey(head)) return null;
+            if (actionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, head))) return null;
             Func<string, Request, Response> eventTemp = eventList
                 .FirstOrDefault(e => isCaseSensitive ? e.Key.Equals(head) : e.Key.ToLower().Equals(head.ToLower())).Value;
 
