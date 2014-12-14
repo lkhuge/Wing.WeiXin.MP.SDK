@@ -274,6 +274,11 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             {
                 e.Result = new MenuController().GetMenu((WXAccount) e.Argument);
             }
+            catch (MessageException me)
+            {
+                MessageBox.Show(me.ExceptionMessage);
+                e.Result = null;
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
