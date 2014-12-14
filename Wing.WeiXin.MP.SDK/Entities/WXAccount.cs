@@ -62,7 +62,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount(AccountItemConfigSection config)
         {
             ID = config.WeixinMPID;
-            Token = GlobalManager.ConfigManager.BaseConfig.Token;
+            Token = String.IsNullOrEmpty(GlobalManager.ConfigManager.BaseConfig.Token) 
+                ? config.Token 
+                : GlobalManager.ConfigManager.BaseConfig.Token;
             Type = config.WeixinMPType;
             AppID = config.AppID;
             AppSecret = config.AppSecret;

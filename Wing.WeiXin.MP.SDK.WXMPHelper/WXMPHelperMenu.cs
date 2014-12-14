@@ -8,14 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
+using Wing.WeiXin.MP.SDK.Lib;
 using WXMenu = Wing.WeiXin.MP.SDK.Entities.Menu.Menu;
 
 namespace Wing.WeiXin.MP.SDK.WXMPHelper
@@ -210,7 +209,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 "{0};{1};{2}", 
                 kv.Key, 
                 kv.Value.Text.Replace("\n", "{LF}"),
-                JSONHelper.JSONSerializeN(kv.Value.Tag))));
+                LibManager.JSONHelper.JSONSerialize(kv.Value.Tag))));
             MessageBox.Show("导出完成");
         } 
         #endregion
@@ -239,7 +238,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             {
                 string[] info = l.Split(';');
                 lbList[info[0]].Text = info[1].Replace("{LF}", "\n");
-                lbList[info[0]].Tag = JSONHelper.JSONDeserializeN(info[2]);
+                lbList[info[0]].Tag = LibManager.JSONHelper.JSONDeserialize(info[2]);
             }
             MessageBox.Show("导入完成");
         } 
