@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Wing.CL.Net;
 using Wing.WeiXin.MP.SDK.Entities.WXXD.Function;
 
 namespace Wing.WeiXin.MP.SDK.Common.WXXD

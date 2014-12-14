@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Common.WXXD
 {
@@ -49,9 +48,9 @@ namespace Wing.WeiXin.MP.SDK.Common.WXXD
         /// <returns>响应数据</returns>
         protected T GetData<T>(String url, Object obj)
         {
-            return JSONHelper.JSONDeserialize<T>(HTTPHelper.Post(
+            return LibManager.JSONHelper.JSONDeserialize<T>(LibManager.HTTPHelper.Post(
                 GetUrlByAccessToken(url),
-                JSONHelper.JSONSerialize(obj)));
+                LibManager.JSONHelper.JSONSerialize(obj)));
         } 
         #endregion
 
@@ -64,7 +63,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXXD
         /// <returns>响应数据</returns>
         protected T GetData<T>(String url)
         {
-            return JSONHelper.JSONDeserialize<T>(HTTPHelper.Get(
+            return LibManager.JSONHelper.JSONDeserialize<T>(LibManager.HTTPHelper.Get(
                 GetUrlByAccessToken(url)));
         }
         #endregion
@@ -80,7 +79,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXXD
         /// <returns>响应数据</returns>
         protected T Upload<T>(String url, String path, String filename)
         {
-            return JSONHelper.JSONDeserialize<T>(HTTPHelper.Upload(
+            return LibManager.JSONHelper.JSONDeserialize<T>(LibManager.HTTPHelper.Upload(
                 GetUrlByAccessToken(url), path, filename));
         }
         #endregion

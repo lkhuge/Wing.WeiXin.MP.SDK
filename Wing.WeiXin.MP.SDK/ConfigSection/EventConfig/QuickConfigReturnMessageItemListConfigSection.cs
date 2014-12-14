@@ -4,7 +4,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Wing.CL.FileManager;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;

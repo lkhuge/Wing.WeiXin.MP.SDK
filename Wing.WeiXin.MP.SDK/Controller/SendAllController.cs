@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -11,6 +9,7 @@ using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -49,15 +48,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Media UploadNews(WXAccount account, SendAllMessageNews news)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(String.Format(
+            string result = LibManager.HTTPHelper.Post(String.Format(
                 UrlUploadNews,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(news));
-            if (JSONHelper.HasKey(result, "errcode"))
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(news));
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<Media>(result);
+            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
         } 
         #endregion
 
@@ -72,10 +71,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<ReturnMessage>(
-                HTTPHelper.Post(String.Format(
+            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(
+                LibManager.HTTPHelper.Post(String.Format(
                 UrlSendAllByGroup,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(group)));
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(group)));
         } 
         #endregion
 
@@ -90,9 +89,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<ReturnMessage>(HTTPHelper.Post(String.Format(
+            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(LibManager.HTTPHelper.Post(String.Format(
                 UrlSendAllByOpenIDList,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(openIDList)));
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(openIDList)));
         }
         #endregion
 
@@ -107,9 +106,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             account.CheckIsService();
 
-            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Post(String.Format(
+            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(LibManager.HTTPHelper.Post(String.Format(
                 UrlDeleteSendAll,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(delete)));
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(delete)));
         } 
         #endregion
     }

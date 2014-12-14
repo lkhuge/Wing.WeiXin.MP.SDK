@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -67,14 +66,14 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public OAuthAccessToken GetAccessTokenByCode(WXAccount account, string code)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                 UrlGetAccessTokenByCode,
                 account.AppID, account.AppSecret, code));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
-            return JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
+            return LibManager.JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
         } 
         #endregion
 
@@ -88,15 +87,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public OAuthAccessToken RefreshAccessTokenByRefreshToken(WXAccount account, string refresh_token)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                 UrlRefreshAccessTokenByRefreshToken,
                 account.AppID, refresh_token));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
+            return LibManager.JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
         }
         #endregion
 
@@ -109,17 +108,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthUser GetOAuthUser(OAuthAccessToken accessToken, WXLanguageType language = WXLanguageType.zh_CN)
         {
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                 UrlGetOAuthUser,
                 accessToken.access_token,
                 accessToken.openid,
                 language));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<OAuthUser>(result);
+            return LibManager.JSONHelper.JSONDeserialize<OAuthUser>(result);
         } 
         #endregion
     }

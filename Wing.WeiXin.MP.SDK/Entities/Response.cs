@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
-using Wing.CL.StringManager;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -93,8 +93,8 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (!GlobalManager.CryptList.ContainsKey(request.ToUserName)) return text;
             string encryptMsg = null;
             if(GlobalManager.CryptList[request.ToUserName].EncryptMsg(
-                text, 
-                DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture), 
+                text,
+                LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture), 
                 request.Nonce,
                 ref encryptMsg) != 0)
                 throw MessageException.GetInstance(String.Format("消息加密失败，原文：{0}", text));

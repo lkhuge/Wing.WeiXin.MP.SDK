@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Common
 {
@@ -229,7 +228,7 @@ namespace Wing.WeiXin.MP.SDK.Common
             return new Response(String.Format(content
                     .Replace("{ToUserName}", request.FromUserName)
                     .Replace("{FromUserName}", request.ToUserName)
-                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeNow().ToString(CultureInfo.InvariantCulture)),
+                    .Replace("{CreateTime}", LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture)),
                 paramList), request, Response.XML);
         } 
         #endregion
@@ -243,7 +242,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageFromFriend(Request request, string apiUrl)
         {
-            return new Response(HTTPHelper.Post(String.Format("{0}?signature={1}&timestamp={2}&nonce={3}", 
+            return new Response(LibManager.HTTPHelper.Post(String.Format("{0}?signature={1}&timestamp={2}&nonce={3}", 
                 apiUrl,
                 request.Signature,
                 request.Timestamp,

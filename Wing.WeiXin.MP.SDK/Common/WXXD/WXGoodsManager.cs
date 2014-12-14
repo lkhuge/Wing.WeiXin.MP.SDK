@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.WXXD.Goods;

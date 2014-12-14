@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Wing.CL.Net;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
@@ -34,7 +34,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     context.Request.QueryString["timestamp"],
                     context.Request.QueryString["nonce"],
                     context.Request.QueryString["echostr"],
-                    HTTPHelper.GetPostStream(context)));
+                    LibManager.HTTPHelper.GetPostStream(context)));
 
             context.Response.Write(response == null ? "" : response.Text);
         } 

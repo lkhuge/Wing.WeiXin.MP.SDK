@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Wing.CL.Serialize;
-using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -68,7 +67,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             {
                 if (createTime == default(DateTime))
                 {
-                    createTime = DateTimeHelper.GetTime(GetPostData("CreateTime"));
+                    createTime = LibManager.DateTimeHelper.GetDateTimeByLongTime(GetPostData("CreateTime"));
                 }
                 return createTime;
             } 
@@ -158,7 +157,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 nonce
             }.OrderBy(z => z).ToArray();
 
-            return Security.SHA1_Encrypt(string.Join("", arr)).Equals(Signature);
+            return LibManager.SecurityHelper.SHA1_Encrypt(string.Join("", arr)).Equals(Signature);
         }
         #endregion
 

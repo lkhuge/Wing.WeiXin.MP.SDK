@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -38,17 +37,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(
+            string result = LibManager.HTTPHelper.Post(
                 String.Format(
                     UrlGetQRCodeTicket,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
-                JSONHelper.JSONSerialize(qrCodeTicketRequest));
-            if (JSONHelper.HasKey(result, "errcode"))
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
+                LibManager.JSONHelper.JSONSerialize(qrCodeTicketRequest));
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<QRCodeTicket>(result);
+            return LibManager.JSONHelper.JSONDeserialize<QRCodeTicket>(result);
         } 
         #endregion
 
@@ -60,7 +59,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">保存路径</param>
         public void GetQRCode(string ticket, string pathName)
         {
-            HTTPHelper.DownloadFile(String.Format(
+            LibManager.HTTPHelper.DownloadFile(String.Format(
                 UrlGetQRCode,
                 HttpUtility.UrlEncode(ticket)), pathName);
         } 

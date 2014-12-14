@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
-using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.DKF;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -30,12 +28,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public ReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(String.Format(
+            string result = LibManager.HTTPHelper.Post(String.Format(
                     UrlSendMessageTemplate,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    JSONHelper.JSONSerialize(messageTemplate));
+                    LibManager.JSONHelper.JSONSerialize(messageTemplate));
 
-            return JSONHelper.JSONDeserialize<ReturnMessage>(result);
+            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(result);
         } 
         #endregion
     }

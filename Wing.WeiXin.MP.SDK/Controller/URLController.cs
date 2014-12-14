@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -28,19 +26,18 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>短域名</returns>
         public string GetShortURL(WXAccount account, string url)
         {
-            string result = HTTPHelper.Post(
-                String.Format(UrlGetShortURL, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
-                JSONHelper.JSONSerialize(new
+            string result = LibManager.HTTPHelper.Post(
+                String.Format(UrlGetShortURL, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
+                LibManager.JSONHelper.JSONSerialize(new
                 {
                     action = "long2short",
                     long_url = url
                 }));
-            JProperty jp = JObject.Parse(result).Property("short_url");
-            if (jp != null)
-            {
-                return jp.Value.ToString();
-            }
-            throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+            string shoutUrl = LibManager.JSONHelper.GetValue(result, "short_url");
+            if (String.IsNullOrEmpty(shoutUrl)) 
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+            
+            return shoutUrl;
         } 
         #endregion
     }

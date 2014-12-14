@@ -8,6 +8,7 @@ using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -62,12 +63,23 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void Init()
         {
-            InitConfig(new ConfigManager());
-            InitCryptList();
-            InitEvent(new EventManager());
+            InitBase();
+            LibManager.InitLibByDefault();
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
             IsInit = true;
+        } 
+        #endregion
+
+        #region 初始化基础配置 public static void InitBase()
+        /// <summary>
+        /// 初始化基础配置
+        /// </summary>
+        public static void InitBase()
+        {
+            InitConfig(new ConfigManager());
+            InitCryptList();
+            InitEvent(new EventManager());
         } 
         #endregion
 

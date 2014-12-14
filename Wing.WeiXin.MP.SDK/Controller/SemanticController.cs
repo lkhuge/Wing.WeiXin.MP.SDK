@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Semantic;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -30,12 +29,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public T GetSemantic<T>(WXAccount account, SemanticRequest request) where T : SemanticResponse
         {
             request.appid = account.AppID;
-            string result = HTTPHelper.Post(String.Format(
+            string result = LibManager.HTTPHelper.Post(String.Format(
                     Url,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    JSONHelper.JSONSerialize(request));
+                    LibManager.JSONHelper.JSONSerialize(request));
 
-            return JSONHelper.JSONDeserialize<T>(result);
+            return LibManager.JSONHelper.JSONDeserialize<T>(result);
         } 
         #endregion
     }

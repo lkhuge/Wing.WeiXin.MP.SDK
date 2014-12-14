@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -38,10 +37,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         {
-            return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(String.Format(
+            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(
+                LibManager.HTTPHelper.Post(String.Format(
                     UrlCreateMenu,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerializeN(menu)));
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(menu)));
         } 
         #endregion
 
@@ -53,15 +52,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>菜单</returns>
         public MenuForGet GetMenu(WXAccount account)
         {
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                     UrlGetMenu,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<MenuForGet>(result);
+            return LibManager.JSONHelper.JSONDeserialize<MenuForGet>(result);
         } 
         #endregion
 
@@ -73,7 +72,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg DeleteMenu(WXAccount account)
         {
-            return JSONHelper.JSONDeserialize<ErrorMsg>(HTTPHelper.Get(String.Format(
+            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(LibManager.HTTPHelper.Get(String.Format(
                 UrlDeleteMenu,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token)));
         } 

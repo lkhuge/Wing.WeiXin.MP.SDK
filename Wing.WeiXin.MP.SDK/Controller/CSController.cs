@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -32,10 +31,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         {
             account.CheckIsService();
-            return JSONHelper.JSONDeserialize<ErrorMsg>(
-                HTTPHelper.Post(
-                    String.Format(Url, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
-                    JSONHelper.JSONSerialize(csmessage)));
+            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(
+                LibManager.HTTPHelper.Post(
+                    String.Format(Url, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
+                    LibManager.JSONHelper.JSONSerialize(csmessage)));
         } 
         #endregion
     }

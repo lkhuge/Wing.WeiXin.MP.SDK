@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using Wing.CL.Net;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
@@ -31,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         public void ProcessRequest(HttpContext context)
         {
             Response response = receiveController.Action(
-                new Request(HTTPHelper.GetPostStream(context)), 
+                new Request(LibManager.HTTPHelper.GetPostStream(context)), 
                 false);
 
             context.Response.Write(response == null ? "" : response.Text);

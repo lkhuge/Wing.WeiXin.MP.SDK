@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
-using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -42,16 +41,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media Upload(WXAccount account, UploadMediaType type, string path, string name)
         {
-            string result = HTTPHelper.Upload(String.Format(
+            string result = LibManager.HTTPHelper.Upload(String.Format(
                 UrlUpload,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, 
                 type), path, name);
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<Media>(result);
+            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
         } 
         #endregion
 
@@ -68,18 +67,18 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Media UploadVideoForSendAll(WXAccount account, string path, string name, string title, string description)
         {
             Media media = Upload(account, UploadMediaType.video, path, name);
-            string result = HTTPHelper.Post(String.Format(
+            string result = LibManager.HTTPHelper.Post(String.Format(
                 UrlUploadVideoForSendAll,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), JSONHelper.JSONSerialize(new
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(new
                 {
                     media.media_id, title, description
                 }));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<Media>(result);
+            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
         }
         #endregion
 
@@ -92,12 +91,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">下载路径加文件名</param>
         public void DownLoad(WXAccount account, string media_id, string pathName)
         {
-            string result = HTTPHelper.DownloadFile(String.Format(
+            string result = LibManager.HTTPHelper.DownloadFile(String.Format(
                 UrlDownLoad,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 media_id), pathName);
             if (!String.IsNullOrEmpty(result)) throw MessageException.GetInstance(
-                JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
         } 
         #endregion
     }

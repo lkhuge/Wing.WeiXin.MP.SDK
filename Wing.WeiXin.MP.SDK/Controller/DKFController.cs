@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.CL.Net;
-using Wing.CL.Serialize;
-using Wing.CL.StringManager;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.DKF;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -40,15 +38,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public DKFList GetDKFList(WXAccount account)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                     UrlGetDKFList,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<DKFList>(result);
+            return LibManager.JSONHelper.JSONDeserialize<DKFList>(result);
         } 
         #endregion
 
@@ -61,15 +59,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public DKFOnlineList GetDKFOnlineList(WXAccount account)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Get(String.Format(
+            string result = LibManager.HTTPHelper.Get(String.Format(
                     UrlGetDKFOnlineList,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<DKFOnlineList>(result);
+            return LibManager.JSONHelper.JSONDeserialize<DKFOnlineList>(result);
         } 
         #endregion
 
@@ -87,21 +85,21 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public DKFrecordList GetDKFrecordList(WXAccount account, DateTime starttime, DateTime endtime, string openid, int pagesize, int pageindex)
         {
             account.CheckIsService();
-            string result = HTTPHelper.Post(String.Format(
+            string result = LibManager.HTTPHelper.Post(String.Format(
                     UrlGetDKFrecordList,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), 
-                    JSONHelper.JSONSerialize(new
+                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
+                    LibManager.JSONHelper.JSONSerialize(new
                     {
-                        starttime = DateTimeHelper.GetLongTimeByDateTime(starttime),
-                        endtime = DateTimeHelper.GetLongTimeByDateTime(endtime),
+                        starttime = LibManager.DateTimeHelper.GetLongTimeByDateTime(starttime),
+                        endtime = LibManager.DateTimeHelper.GetLongTimeByDateTime(endtime),
                         openid, pagesize, pageindex
                     }));
-            if (JSONHelper.HasKey(result, "errcode"))
+            if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
             }
 
-            return JSONHelper.JSONDeserialize<DKFrecordList>(result);
+            return LibManager.JSONHelper.JSONDeserialize<DKFrecordList>(result);
         } 
         #endregion
     }
