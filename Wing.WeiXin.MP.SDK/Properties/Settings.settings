@@ -14,5 +14,8 @@
     <Setting Name="AccessTokenTimeHead" Type="System.String" Scope="Application">
       <Value Profile="(Default)">ATT_</Value>
     </Setting>
+    <Setting Name="TextMenuEventListHead" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TMEL_</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

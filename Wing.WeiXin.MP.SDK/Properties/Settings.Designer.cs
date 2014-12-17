@@ -58,5 +58,14 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["AccessTokenTimeHead"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TMEL_")]
+        public string TextMenuEventListHead {
+            get {
+                return ((string)(this["TextMenuEventListHead"]));
+            }
+        }
     }
 }
