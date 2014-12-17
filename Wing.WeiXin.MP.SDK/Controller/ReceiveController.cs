@@ -46,7 +46,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 if (needCheck) request.Check();
                 request.ParsePostData();
-                if (CheckMsgID(request)) return null;
+                if (needCheck && CheckMsgID(request)) return null;
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null) ReceiveEnd(request, response);
                 return response;

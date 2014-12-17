@@ -29,6 +29,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         /// <param name="message">消息</param>
         public MessageException(string message)
+            : base(message)
         {
             ExceptionMessage = message;
         } 

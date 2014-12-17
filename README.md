@@ -17,7 +17,7 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 快速上手
 ----------------
 ###配置文件
-1.首先在配置文件（Web.config）中添加节点配置
+1.首先在配置文件（Web.config）中添加节点(configuration->configSections)
 ```
 <sectionGroup name="WeiXinMPSDKConfigGroup">
      <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig.BaseConfigSection, Wing.WeiXin.MP.SDK" />
@@ -25,7 +25,7 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 </sectionGroup>
 ```
 
-2.添加配置节点
+2.添加配置节点(configuration)
 ```
 <WeiXinMPSDKConfigGroup>
     <Base Token="xxxxxxxx">
@@ -45,7 +45,7 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 </WeiXinMPSDKConfigGroup>
 ```
 
-3.添加接收事件处理配置
+3.添加接收事件处理配置(configuration)
 IIS 6.0
 ```
 <system.web>
@@ -55,7 +55,7 @@ IIS 6.0
 <system.web>
 ```
 
-IIS 7.0 （集成模式）
+IIS 7.0 （集成模式）(configuration)
 ```
 <system.webServer>
   <handlers>
