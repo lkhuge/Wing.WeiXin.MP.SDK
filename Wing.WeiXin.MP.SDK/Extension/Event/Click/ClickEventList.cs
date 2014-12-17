@@ -10,8 +10,18 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Click
     /// <summary>
     /// 菜单Click事件列表
     /// </summary>
-    public class ClickEventList
+    public class ClickEventList : IEventBuilder<RequestEventClick>
     {
+        /// <summary>
+        /// 是否需要根据配置判断是否执行
+        /// </summary>
+        public bool ActionByConfig = true;
+
+        /// <summary>
+        /// 配置前缀（配置名称格式：配置前缀@消息头部）
+        /// </summary>
+        public string ActionNameHead = null;
+
         /// <summary>
         /// 事件列表
         /// </summary>
@@ -28,20 +38,18 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Click
         } 
         #endregion
 
-        #region 获取事件 public Func<RequestEventClick, Response> GetEvent(bool actionByConfig = true, string actionNameHead = null)
+        #region 获取事件 public Func<RequestEventClick, Response> GetEvent()
         /// <summary>
         /// 获取事件
         /// </summary>
-        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
-        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
         /// <returns>事件</returns>
-        public Func<RequestEventClick, Response> GetEvent(bool actionByConfig = true, string actionNameHead = null)
+        public Func<RequestEventClick, Response> GetEvent()
         {
             return request =>
             {
                 string key = request.EventKey;
                 if (!eventList.ContainsKey(key)) return null;
-                if (actionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, key))) return null;
+                if (ActionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", ActionNameHead, key))) return null;
 
                 return eventList[key](request.Request);
             };

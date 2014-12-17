@@ -5,6 +5,7 @@ using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Extension.Event;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -104,6 +105,35 @@ namespace Wing.WeiXin.MP.SDK
                     r => eveT(RequestAMessage.GetRequestAMessage<T>(r)));
             }
             
+        }
+        #endregion
+
+        #region 添加接收事件 public void AddReceiveEvent<T>(string eventName, string toUserName, IEventBuilder<T> eventBuilder)
+        /// <summary>
+        /// 添加接收事件
+        /// </summary>
+        /// <param name="eventName">事件名</param>
+        /// <param name="toUserName">开发者微信号</param>
+        /// <param name="eventBuilder">事件生成器</param>
+        public void AddReceiveEvent<T>(string eventName, string toUserName, IEventBuilder<T> eventBuilder) where T : RequestAMessage, new()
+        {
+            if (!ReceiveEvent.ContainsKey(toUserName))
+            {
+                ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
+            }
+            ReceiveEntityType typeName = new T().ReceiveEntityType;
+            if (!ReceiveEvent[toUserName].ContainsKey(typeName))
+            {
+                ReceiveEvent[toUserName].Add(typeName, new Dictionary<string, Func<Request, Response>>());
+            }
+            if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
+            {
+                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
+            }
+            ReceiveEvent[toUserName][typeName].Add(
+                eventName,
+                r => eventBuilder.GetEvent()(RequestAMessage.GetRequestAMessage<T>(r)));
+
         }
         #endregion
 

@@ -10,43 +10,44 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
     /// <summary>
     /// 以字符串作为头部区分的事件列表
     /// </summary>
-    public class WordHeadEventList
+    public class WordHeadEventList : IEventBuilder<RequestText>
     {
+        /// <summary>
+        /// 是否需要根据配置判断是否执行
+        /// </summary>
+        public bool ActionByConfig = true;
+
+        /// <summary>
+        /// 配置前缀（配置名称格式：配置前缀@消息头部）
+        /// </summary>
+        public string ActionNameHead = null;
+
+        /// <summary>
+        /// 字符串头部是否区分大小写
+        /// </summary>
+        public bool IsCaseSensitive;
+
         /// <summary>
         /// 事件列表
         /// </summary>
         private readonly Dictionary<string, Func<string, Request, Response>> eventList;
 
         /// <summary>
-        /// 字符串头部是否区分大小写
+        /// 返回事件列表
         /// </summary>
-        private readonly bool isCaseSensitive;
+        private readonly Func<RequestText, Response> returnEvent;
 
-        #region 根据事件列表和字符串头部是否区分大小写实例化以字符串作为头部区分的事件列表 public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, bool isCaseSensitive = false)
+        #region 根据事件列表和分割字符实例化根据分割字符获取以字符串作为头部区分的事件列表 public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, char separatorWord)
         /// <summary>
-        /// 根据事件列表和字符串头部是否区分大小写实例化以字符串作为头部区分的事件列表
+        /// 根据事件列表和分割字符实例化根据分割字符获取以字符串作为头部区分的事件列表
         /// </summary>
         /// <param name="eventList">事件列表</param>
-        /// <param name="isCaseSensitive">字符串头部是否区分大小写</param>
-        public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, bool isCaseSensitive = false)
+        /// <param name="separatorWord">分割字符</param>
+        public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, char separatorWord)
         {
             if (eventList == null) throw new ArgumentNullException("eventList");
             this.eventList = eventList;
-            this.isCaseSensitive = isCaseSensitive;
-        } 
-        #endregion
-
-        #region 根据分割字符获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord, bool actionByConfig = true, string actionNameHead = null)
-        /// <summary>
-        /// 根据分割字符获取以字符串作为头部区分的事件列表
-        /// </summary>
-        /// <param name="separatorWord">分割字符</param>
-        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
-        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
-        /// <returns>以字符串作为头部区分的事件列表</returns>
-        public Func<RequestText, Response> GetEventWithSeparatorWord(char separatorWord, bool actionByConfig = true, string actionNameHead = null)
-        {
-            return request =>
+            returnEvent = request =>
             {
                 string text = request.Content;
                 if (String.IsNullOrEmpty(text)) return null;
@@ -54,26 +55,26 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 if (index == -1) return null;
 
                 return Handler(
-                    text.Substring(0, index).Trim(), 
+                    text.Substring(0, index).Trim(),
                     text.Substring(index + 1).Trim(),
                     request.Request,
-                    actionByConfig,
-                    actionNameHead);
+                    ActionByConfig,
+                    ActionNameHead);
             };
         } 
         #endregion
 
-        #region 根据头部字符串长度获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength, bool actionByConfig = true, string actionNameHead = null)
+        #region 根据事件列表和头部字符串长度写实例化根据头部字符串长度获取以字符串作为头部区分的事件列表 public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, int headWordLength)
         /// <summary>
-        /// 根据头部字符串长度获取以字符串作为头部区分的事件列表
+        /// 根据事件列表和头部字符串长度写实例化根据头部字符串长度获取以字符串作为头部区分的事件列表
         /// </summary>
+        /// <param name="eventList">事件列表</param>
         /// <param name="headWordLength">头部字符串长度</param>
-        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
-        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
-        /// <returns>以字符串作为头部区分的事件列表</returns>
-        public Func<RequestText, Response> GetEventWithoutSeparatorWord(int headWordLength, bool actionByConfig = true, string actionNameHead = null)
+        public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, int headWordLength)
         {
-            return request =>
+            if (eventList == null) throw new ArgumentNullException("eventList");
+            this.eventList = eventList;
+            returnEvent = request =>
             {
                 string text = request.Content;
                 if (String.IsNullOrEmpty(text) || text.Length <= headWordLength) return null;
@@ -82,9 +83,20 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                     text.Substring(0, headWordLength).Trim(),
                     text.Substring(headWordLength).Trim(),
                     request.Request,
-                    actionByConfig,
-                    actionNameHead);
+                    ActionByConfig,
+                    ActionNameHead);
             };
+        }
+        #endregion
+
+        #region 获取以字符串作为头部区分的事件列表 public Func<RequestText, Response> GetEvent()
+        /// <summary>
+        /// 获取以字符串作为头部区分的事件列表
+        /// </summary>
+        /// <returns>以字符串作为头部区分的事件列表</returns>
+        public Func<RequestText, Response> GetEvent()
+        {
+            return returnEvent;
         }
         #endregion
 
@@ -103,7 +115,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             if (!eventList.ContainsKey(head)) return null;
             if (actionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, head))) return null;
             Func<string, Request, Response> eventTemp = eventList
-                .FirstOrDefault(e => isCaseSensitive ? e.Key.Equals(head) : e.Key.ToLower().Equals(head.ToLower())).Value;
+                .FirstOrDefault(e => IsCaseSensitive ? e.Key.Equals(head) : e.Key.ToLower().Equals(head.ToLower())).Value;
 
             return eventTemp == null ? null : eventTemp(content, request);
         } 
