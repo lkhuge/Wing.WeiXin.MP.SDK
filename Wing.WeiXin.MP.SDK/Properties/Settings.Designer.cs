@@ -61,10 +61,19 @@ namespace Wing.WeiXin.MP.SDK.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TMEL_")]
-        public string TextMenuEventListHead {
+        [global::System.Configuration.DefaultSettingValueAttribute("TMEL")]
+        public string TextMenuEventListSign {
             get {
-                return ((string)(this["TextMenuEventListHead"]));
+                return ((string)(this["TextMenuEventListSign"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TMELES")]
+        public string TextMenuEventListExpiresSign {
+            get {
+                return ((string)(this["TextMenuEventListExpiresSign"]));
             }
         }
     }

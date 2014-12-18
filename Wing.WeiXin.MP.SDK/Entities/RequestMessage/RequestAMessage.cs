@@ -72,5 +72,16 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage
             Request = newRequest;
         }
         #endregion
+
+        #region 获取发送方帐号（一个OpenID） public string GetFromUserName()
+        /// <summary>
+        /// 获取发送方帐号（一个OpenID）
+        /// </summary>
+        /// <returns>发送方帐号（一个OpenID）</returns>
+        public string GetFromUserName()
+        {
+            return Request.FromUserName;
+        } 
+        #endregion
     }
 }
