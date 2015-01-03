@@ -50,11 +50,6 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
 //            sw.Stop();
 //            Debug.WriteLine(sw.ElapsedMilliseconds);
 
-            GlobalManager.EventManager.AddReceiveEvent("Event1", "gh_7f215c8b1c91", new WordHeadEventList(new Dictionary<string,Func<string,Request,Response>>
-            {
-                {"t", E3}
-            }).GetEventWithSeparatorWord('e'));
-
             Response result = new ReceiveController().Action(messageText);
             Assert.IsNotNull(result);
         } 

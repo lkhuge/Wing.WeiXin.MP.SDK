@@ -215,6 +215,7 @@
     <Compile Include="Extension\Event\IEventBuilder.cs" />
     <Compile Include="Extension\Event\Text\TextMenuEventList.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />
     <Compile Include="GlobalManager.cs" />

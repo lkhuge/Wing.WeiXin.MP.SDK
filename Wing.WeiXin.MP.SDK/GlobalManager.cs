@@ -149,6 +149,17 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
+        #region 获取首个账号 public static WXAccount GetFirstAccount()
+        /// <summary>
+        /// 获取首个账号
+        /// </summary>
+        /// <returns>首个账号</returns>
+        public static WXAccount GetFirstAccount()
+        {
+            return ConfigManager.BaseConfig.AccountList.GetWXAccountList().FirstOrDefault();
+        }
+        #endregion
+
         #region 获取首个服务号账号 public static WXAccount GetFirstServiceAccount()
         /// <summary>
         /// 获取首个服务号账号
