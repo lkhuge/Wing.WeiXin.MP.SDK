@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -78,7 +79,24 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public void CheckIsService()
         {
             if (Type == WeixinMPType.Service) return;
-            throw MessageException.GetInstance("只有服务号支持此操作");
+            throw WXException.GetInstance("只有服务号支持此操作", Settings.Default.SystemUsername);
+        } 
+        #endregion
+
+        #region 获取账户信息 public override string ToString()
+        /// <summary>
+        /// 获取账户信息
+        /// </summary>
+        /// <returns>账户信息</returns>
+        public override string ToString()
+        {
+            return String.Format("ID:{1}{0}Type:{2}{0}Token:{3}{0}AppID:{4}{0}AppSecret:{5}",
+                Environment.NewLine,
+                ID,
+                Type,
+                Token,
+                AppID,
+                AppSecret);
         } 
         #endregion
     }

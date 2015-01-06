@@ -9,6 +9,7 @@ using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -67,6 +68,7 @@ namespace Wing.WeiXin.MP.SDK
             LibManager.InitLibByDefault();
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
+            
             IsInit = true;
         } 
         #endregion
@@ -200,7 +202,8 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void CheckInit()
         {
-            if (!IsInit) throw new Exception("微信公共平台未初始化");
+            LogManager.WriteSystem("检测是否初始化");
+            if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
         } 
         #endregion
     }

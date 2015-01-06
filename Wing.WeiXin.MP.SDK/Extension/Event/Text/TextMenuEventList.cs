@@ -79,7 +79,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         {
             if (!CheckTimeout(openID)) return;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
-            if (itemObj == null) throw MessageException.GetInstance("菜单未设置");
+            if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
             TextMenuItem item = (TextMenuItem) itemObj;
             if (item.ParentItem == null) return;
             GlobalManager.WXSessionManager.Set(openID, Settings.Default.TextMenuEventListSign, item.ParentItem);
@@ -96,7 +96,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         {
             if (!CheckTimeout(openID)) return null;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
-            if (itemObj == null) throw MessageException.GetInstance("菜单未设置");
+            if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
             TextMenuItem item = (TextMenuItem)itemObj;
             if (item.ParentItem == null) return ShowMeun(item, request);
             GlobalManager.WXSessionManager.Set(openID, Settings.Default.TextMenuEventListSign, item.ParentItem);
@@ -116,7 +116,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         {
             if (!CheckTimeout(openID)) return null;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
-            if (itemObj == null) throw MessageException.GetInstance("菜单未设置");
+            if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
 
             return ShowMeun((TextMenuItem) itemObj, request);
         } 

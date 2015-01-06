@@ -68,7 +68,7 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
             string result = LibManager.HTTPHelper.Get(String.Format(Url, account.AppID, account.AppSecret));
             if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
             }
             AccessToken accessTokenNew = LibManager.JSONHelper.JSONDeserialize<AccessToken>(result);
             accessTokenManager.SetAccessToken(account, accessTokenNew);

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Lib.Net
 {
@@ -82,7 +84,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
                 if (webStream == null) throw new NullReferenceException();
                 if (webResponse.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    throw new Exception("404");
+                    throw WXException.GetInstance("404", Settings.Default.SystemUsername);
                 }
                 if (webResponse.ContentType.Equals("text/plain"))
                 {

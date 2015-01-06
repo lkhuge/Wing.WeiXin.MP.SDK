@@ -30,5 +30,20 @@ namespace Wing.WeiXin.MP.SDK.Entities
             return Enum.GetName(typeof(ReturnCode), Convert.ToInt32(errcode));
         } 
         #endregion
+
+        #region 获取错误码信息 public override string ToString()
+        /// <summary>
+        /// 获取错误码信息
+        /// </summary>
+        /// <returns>错误码信息</returns>
+        public override string ToString()
+        {
+            return String.Format("Errcode:{1}{0}Errmsg:{2}{0}Introduce:{3}{0}",
+                Environment.NewLine,
+                errcode,
+                errmsg,
+                GetIntroduce());
+        } 
+        #endregion
     }
 }

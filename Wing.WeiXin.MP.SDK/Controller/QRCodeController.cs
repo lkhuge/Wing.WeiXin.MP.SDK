@@ -44,7 +44,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 LibManager.JSONHelper.JSONSerialize(qrCodeTicketRequest));
             if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
             return LibManager.JSONHelper.JSONDeserialize<QRCodeTicket>(result);

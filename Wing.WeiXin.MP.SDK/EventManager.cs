@@ -42,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             if (GloablReceiveEvent[toUserName].ContainsKey(eventName))
             {
-                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
+                throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             }
             GloablReceiveEvent[toUserName].Add(eventName, receiveEvent);
         } 
@@ -68,7 +68,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
             {
-                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
+                throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             }
             ReceiveEvent[toUserName][typeName].Add(
                 eventName,
@@ -97,7 +97,7 @@ namespace Wing.WeiXin.MP.SDK
             {
                 if (ReceiveEvent[toUserName][typeName].ContainsKey(eve.Key))
                 {
-                    throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eve.Key));
+                    throw WXException.GetInstance(String.Format("事件名（{0}）重复", eve.Key), toUserName);
                 }
                 Func<T, Response> eveT = eve.Value;
                 ReceiveEvent[toUserName][typeName].Add(
@@ -128,7 +128,7 @@ namespace Wing.WeiXin.MP.SDK
             }
             if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
             {
-                throw MessageException.GetInstance(String.Format("事件名（{0}）重复", eventName));
+                throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             }
             ReceiveEvent[toUserName][typeName].Add(
                 eventName,
@@ -145,15 +145,45 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         public Response ActionEvent(Request request)
         {
-            Response result = ActionGlobalEvent(request);
-            if (result != null) return result;
-            result = ActionGlobalOneEvent(request);
-            if (result != null) return result;
-            result = ActionOneEvent(request);
-            if (result != null) return result;
+            LogManager.WriteSystem("执行事件");
 
-            return GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
+            LogManager.WriteSystem("执行全局事件");
+            Response result = ActionGlobalEvent(request);
+            if (result != null)
+            {
+                LogManager.WriteInfo("执行全局事件发送响应" + Environment.NewLine + result.Text, 
+                    request.FromUserName);
+                return result;
+            }
+
+            LogManager.WriteSystem("执行全局单账号事件");
+            result = ActionGlobalOneEvent(request);
+            if (result != null)
+            {
+                LogManager.WriteInfo("执行全局单账号事件发送响应" + Environment.NewLine + result.Text,
+                    request.FromUserName);
+                return result;
+            }
+
+            LogManager.WriteSystem("执行单账号事件");
+            result = ActionOneEvent(request);
+            if (result != null)
+            {
+                LogManager.WriteInfo("执行单账号事件发送响应" + Environment.NewLine + result.Text,
+                    request.FromUserName);
+
+                return result;
+            }
+
+            LogManager.WriteSystem("执行快速配置回复消息事件");
+            result = GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
                 .GetQuickConfigReturnMessage(request);
+            if (result != null)
+            {
+                LogManager.WriteInfo("执行快速配置回复消息事件发送响应" + Environment.NewLine + result.Text,
+                    request.FromUserName);
+            }
+            return result;
         }
         #endregion
 

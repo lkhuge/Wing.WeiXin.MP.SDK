@@ -55,18 +55,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 根据消息异常实例化文本类型对象 public Response(MessageException e)
-        /// <summary>
-        /// 根据消息异常实例化文本类型对象
-        /// </summary>
-        /// <param name="e">消息异常</param>
-        public Response(MessageException e)
-        {
-            Text = e.ExceptionMessage;
-            ContentType = TEXT;
-        }
-        #endregion
-
         #region 根据响应内容和响应类型实例化 public Response(string text, Request request, string type)
         /// <summary>
         /// 根据响应内容和响应类型实例化
@@ -97,7 +85,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture), 
                 request.Nonce,
                 ref encryptMsg) != 0)
-                throw MessageException.GetInstance(String.Format("消息加密失败，原文：{0}", text));
+                throw WXException.GetInstance(String.Format("消息加密失败，原文：{0}", text), "[CryptMessage]Account:" + request.ToUserName);
 
             return encryptMsg;
         } 

@@ -47,7 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 type), path, name);
             if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
             return LibManager.JSONHelper.JSONDeserialize<Media>(result);
@@ -75,7 +75,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 }));
             if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
             return LibManager.JSONHelper.JSONDeserialize<Media>(result);
@@ -95,8 +95,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 UrlDownLoad,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 media_id), pathName);
-            if (!String.IsNullOrEmpty(result)) throw MessageException.GetInstance(
-                LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+            if (!String.IsNullOrEmpty(result)) throw WXException.GetInstance(
+                LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID);
         } 
         #endregion
     }

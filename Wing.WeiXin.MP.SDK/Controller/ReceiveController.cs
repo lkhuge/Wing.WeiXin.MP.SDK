@@ -41,17 +41,25 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Response Action(Request request, bool needCheck = true)
         {
             GlobalManager.CheckInit();
-            if (ReceiveStart != null) ReceiveStart(request);
+            if (ReceiveStart != null)
+            {
+                LogManager.WriteSystem("触发接收开始事件");
+                ReceiveStart(request);
+            }
             try
             {
                 if (needCheck) request.Check();
                 request.ParsePostData();
                 if (needCheck && CheckMsgID(request)) return null;
                 Response response = GlobalManager.EventManager.ActionEvent(request);
-                if (ReceiveEnd != null) ReceiveEnd(request, response);
+                if (ReceiveEnd != null)
+                {
+                    LogManager.WriteSystem("接收结束事件");
+                    ReceiveEnd(request, response);
+                }
                 return response;
             }
-            catch (MessageException e)
+            catch (WXException e)
             {
                 return new Response(e);
             }
@@ -71,17 +79,19 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>是否息重复</returns>
         private bool CheckMsgID(Request request)
         {
+            LogManager.WriteSystem("检测MsgID");
             if (!request.HasPostData("MsgId")) return false;
             if (GlobalManager.WXSessionManager == null) return false;
             string msgID = request.GetMsgId();
             object msgIDTemp = GlobalManager.WXSessionManager.Get(request.FromUserName, "LastMsgID");
             if (msgIDTemp != null)
             {
+                LogManager.WriteSystem("检测MsgID通过");
                 string lastMsgID = msgIDTemp.ToString();
                 if (msgID.Equals(lastMsgID)) return true;
             }
             GlobalManager.WXSessionManager.Set(request.FromUserName, "LastMsgID", msgID);
-
+            LogManager.WriteSystem("检测MsgID未通过");
             return false;
         } 
         #endregion

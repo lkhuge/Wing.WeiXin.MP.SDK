@@ -71,7 +71,7 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
             lock (accessTokenLockSign)
             {
                 if (expiresDateTimeList.ContainsKey(account.ID)) return expiresDateTimeList[account.ID];
-                throw MessageException.GetInstance("没有该账号的截止日期信息");
+                throw WXException.GetInstance("没有该账号的截止日期信息", account.ID);
             }
         }
         #endregion

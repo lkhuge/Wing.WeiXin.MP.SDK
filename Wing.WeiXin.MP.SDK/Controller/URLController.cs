@@ -34,8 +34,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
                     long_url = url
                 }));
             string shoutUrl = LibManager.JSONHelper.GetValue(result, "short_url");
-            if (String.IsNullOrEmpty(shoutUrl)) 
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+            if (String.IsNullOrEmpty(shoutUrl))
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             
             return shoutUrl;
         } 

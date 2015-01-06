@@ -57,7 +57,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
             if (LibManager.JSONHelper.HasKey(result, "errcode"))
             {
-                throw MessageException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce());
+                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
             return LibManager.JSONHelper.JSONDeserialize<MenuForGet>(result);

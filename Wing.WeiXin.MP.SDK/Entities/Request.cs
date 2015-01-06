@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -133,12 +134,21 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>结果（空则验证通过）</returns>
         public void Check()
         {
-            if (!CheckSignature(Nonce)) throw MessageException.GetInstance( "验证未通过\nRequest:" +
+            LogManager.WriteSystem("验证请求头部");
+            if (!CheckSignature(Nonce)) 
+            {
+                LogManager.WriteSystem("验证请求头部未通过");
+                throw WXException.GetInstance( "验证未通过\nRequest:" +
                 String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                    Signature, Timestamp, Nonce, Echostr, PostData));
+                    Signature, Timestamp, Nonce, Echostr, PostData), Settings.Default.SystemUsername);
+            }
 
             //首次验证
-            if (!String.IsNullOrEmpty(Echostr)) throw MessageException.GetInstance(Echostr);
+            if (!String.IsNullOrEmpty(Echostr))
+            {
+                LogManager.WriteSystem("首次验证");
+                throw WXException.GetInstance(Echostr, Settings.Default.SystemUsername);
+            }
         } 
         #endregion
 
@@ -167,6 +177,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public void ParsePostData()
         {
+            LogManager.WriteSystem("解析POST数据");
             RootElement = EncodingData();
             ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
@@ -177,8 +188,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 MsgTypeName = "subscribeByQRScene";
             }
             ReceiveEntityType Temp;
-            if (!Enum.TryParse(MsgTypeName, out Temp)) throw MessageException.GetInstance("XML格式错误（未知消息类型）");
+            if (!Enum.TryParse(MsgTypeName, out Temp)) throw WXException.GetInstance("XML格式错误（未知消息类型）", Settings.Default.SystemUsername, MsgTypeName);
             MsgType = Temp;
+            LogManager.WriteSystem("确认为消息类型为：" + MsgType);
         } 
         #endregion
 
@@ -189,15 +201,16 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>root节点数据</returns>
         private XElement EncodingData()
         {
+            LogManager.WriteSystem("解密POST数据");
             XElement root = XDocument.Parse(PostData).Element("xml");
-            if (root == null) throw MessageException.GetInstance("XML格式错误（未发现xml根节点）");
+            if (root == null) throw WXException.GetInstance("XML格式错误（未发现xml根节点）", Settings.Default.SystemUsername);
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) return root;
             string weixinID = GetPostData("ToUserName");
-            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw MessageException.GetInstance("消息需要解密，可没有提供解密密钥");
+            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", weixinID);
             string outMsg = null;
             if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
-                throw MessageException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData));
+                throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), weixinID);
 
             return XDocument.Parse(outMsg).Element("xml");
         } 
@@ -212,7 +225,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string GetPostData(string key)
         {
             XElement element = RootElement.Element(key);
-            if (element == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key));
+            if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key), Settings.Default.SystemUsername);
 
             return element.Value;
         } 
@@ -228,9 +241,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string GetPostData(string key1, string key2)
         {
             XElement element = RootElement.Element(key1);
-            if (element == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key1));
+            if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key1), Settings.Default.SystemUsername);
             XElement element2 = element.Element(key2);
-            if (element2 == null) throw MessageException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key2));
+            if (element2 == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key2), Settings.Default.SystemUsername);
 
             return element2.Value;
         } 
