@@ -14,7 +14,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 客服控制器
     /// </summary>
-    public class CSController
+    public class CSController : WXController
     {
         /// <summary>
         /// 发送客服消息的URL
@@ -30,11 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         {
-            account.CheckIsService();
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(
-                LibManager.HTTPHelper.Post(
-                    String.Format(Url, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    LibManager.JSONHelper.JSONSerialize(csmessage)));
+            return Action<ErrorMsg>(Url, csmessage, account, true, false);
         } 
         #endregion
     }

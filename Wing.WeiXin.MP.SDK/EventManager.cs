@@ -145,45 +145,15 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         public Response ActionEvent(Request request)
         {
-            LogManager.WriteSystem("执行事件");
-
-            LogManager.WriteSystem("执行全局事件");
             Response result = ActionGlobalEvent(request);
-            if (result != null)
-            {
-                LogManager.WriteInfo("执行全局事件发送响应" + Environment.NewLine + result.Text, 
-                    request.FromUserName);
-                return result;
-            }
-
-            LogManager.WriteSystem("执行全局单账号事件");
+            if (result != null) return result;
             result = ActionGlobalOneEvent(request);
-            if (result != null)
-            {
-                LogManager.WriteInfo("执行全局单账号事件发送响应" + Environment.NewLine + result.Text,
-                    request.FromUserName);
-                return result;
-            }
-
-            LogManager.WriteSystem("执行单账号事件");
+            if (result != null)  return result;
             result = ActionOneEvent(request);
-            if (result != null)
-            {
-                LogManager.WriteInfo("执行单账号事件发送响应" + Environment.NewLine + result.Text,
-                    request.FromUserName);
+            if (result != null) return result;
 
-                return result;
-            }
-
-            LogManager.WriteSystem("执行快速配置回复消息事件");
-            result = GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
+            return GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
                 .GetQuickConfigReturnMessage(request);
-            if (result != null)
-            {
-                LogManager.WriteInfo("执行快速配置回复消息事件发送响应" + Environment.NewLine + result.Text,
-                    request.FromUserName);
-            }
-            return result;
         }
         #endregion
 
@@ -196,9 +166,19 @@ namespace Wing.WeiXin.MP.SDK
         private Response ActionGlobalEvent(Request request)
         {
             if (!GloablReceiveEvent.ContainsKey("")) return null;
-            return GloablReceiveEvent[""]
+            LogManager.WriteSystem("触发全局事件");
+            Response response = GloablReceiveEvent[""]
                 .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+            if (response != null)
+            {
+                LogManager.WriteInfo("全局事件响应" + Environment.NewLine + response.Text,
+                    request.FromUserName);
+                return response;
+            }
+            LogManager.WriteSystem("全局事件无响应");
+
+            return null;
         }
         #endregion
 
@@ -211,9 +191,19 @@ namespace Wing.WeiXin.MP.SDK
         private Response ActionGlobalOneEvent(Request request)
         {
             if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
-            return GloablReceiveEvent[request.ToUserName]
+            LogManager.WriteSystem("触发全局单账号事件");
+            Response response = GloablReceiveEvent[request.ToUserName]
                 .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+            if (response != null)
+            {
+                LogManager.WriteInfo("全局单账号事件响应" + Environment.NewLine + response.Text,
+                    request.FromUserName);
+                return response;
+            }
+            LogManager.WriteSystem("全局单账号事件无响应");
+
+            return null;
         }
         #endregion
 
@@ -227,9 +217,19 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (!ReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
-            return ReceiveEvent[request.ToUserName][request.MsgType]
+            LogManager.WriteSystem("触发单账号事件");
+            Response response = ReceiveEvent[request.ToUserName][request.MsgType]
                 .Where(e => GlobalManager.CheckEventAction(e.Key))
                 .Select(e => e.Value(request)).FirstOrDefault(r => r != null);
+            if (response != null)
+            {
+                LogManager.WriteInfo("单账号事件响应" + Environment.NewLine + response.Text,
+                    request.FromUserName);
+                return response;
+            }
+            LogManager.WriteSystem("单账号事件无响应");
+
+            return null;
         }
         #endregion
     }

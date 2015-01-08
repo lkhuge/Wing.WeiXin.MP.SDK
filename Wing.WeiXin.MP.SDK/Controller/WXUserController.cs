@@ -14,7 +14,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 用户控制器
     /// </summary>
-    public class WXUserController
+    public class WXUserController : WXController
     {
         /// <summary>
         /// 获取用户基本信息的URL
@@ -71,17 +71,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>用户基本信息</returns>
         public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         {
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                UrlGetWXUser,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
-                openID,
-                lang));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<WXUser>(result);
+            return ActionWithoutAccessToken<WXUser>(
+                String.Format(UrlGetWXUser, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, openID, lang),
+                account);
         } 
         #endregion
 
@@ -93,15 +85,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>用户列表</returns>
         public WXUserList GetWXUserList(WXAccount account)
         {
-            string result = LibManager.HTTPHelper.Get(String.Format(
+            return Action<WXUserList>(
                 UrlGetWXUserList,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<WXUserList>(result);
+                account);
         }
         #endregion
 
@@ -144,16 +130,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public WXUserList GetWXUserListNext(WXAccount account, WXUserList userList)
         {
             if (userList.total == userList.count || String.IsNullOrEmpty(userList.next_openid)) return userList;
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                UrlGetWXUserListNext,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
-                userList.next_openid));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<WXUserList>(result);
+            return ActionWithoutAccessToken<WXUserList>(
+                String.Format(UrlGetWXUserListNext, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
+                account);
         }
         #endregion
 
@@ -166,15 +145,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>组</returns>
         public WXUserGroup AddWXGroup(WXAccount account, WXUserGroup group)
         {
-            string result = LibManager.HTTPHelper.Post(String.Format(
+            return Action<WXUserGroup>(
                 UrlAddWXGroup,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(group));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<WXUserGroup>(result);
+                group,
+                account);
         } 
         #endregion
 
@@ -186,15 +160,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>用户组列表</returns>
         public WXUserGroupList GetWXUserGroupList(WXAccount account)
         {
-            string result = LibManager.HTTPHelper.Get(String.Format(
+            return Action<WXUserGroupList>(
                 UrlGetWXUserGroupList,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<WXUserGroupList>(result);
+                account);
         } 
         #endregion
 
@@ -207,17 +175,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>组</returns>
         public WXUserGroup GetWXGroupByWXUser(WXAccount account, WXUser user)
         {
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                UrlGetWXGroupByWXUser,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(user));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
             return new WXUserGroup { group = new WXGroup
             {
-                id = LibManager.JSONHelper.JSONDeserialize<WXGroupForGet>(result).groupid
+                id = Action<WXGroupForGet>(UrlGetWXGroupByWXUser, user, account).groupid
             }};
         }
         #endregion
@@ -231,35 +191,31 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>结果</returns>
         public ErrorMsg ModityGroupName(WXAccount account, WXUserGroup group)
         {
-            string result = LibManager.HTTPHelper.Post(String.Format(
+            return Action<ErrorMsg>(
                 UrlModityGroupName,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(group));
-
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result);
+                group,
+                account,
+                false,
+                false);
         } 
         #endregion
 
-        #region 移动用户分组 public ErrorMsg MoveGroup(WXAccount account, WXUser user, int to_groupid)
+        #region 移动用户分组 public ErrorMsg MoveGroup(WXAccount account, string openid, int to_groupid)
         /// <summary>
         /// 移动用户分组
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
-        /// <param name="user">用户</param>
+        /// <param name="openid">用户OpenID</param>
         /// <param name="to_groupid">组ID</param>
         /// <returns>结果</returns>
-        public ErrorMsg MoveGroup(WXAccount account, WXUser user, int to_groupid)
+        public ErrorMsg MoveGroup(WXAccount account, string openid, int to_groupid)
         {
-            string result = LibManager.HTTPHelper.Post(
-                String.Format(
-                    UrlMoveGroup,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                LibManager.JSONHelper.JSONSerialize(new
-                {
-                    user.openid,
-                    to_groupid
-                }));
-
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            return Action<ErrorMsg>(
+                UrlMoveGroup,
+                new { openid, to_groupid },
+                account,
+                false,
+                false);
         }
         #endregion
 
@@ -273,17 +229,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>结果</returns>
         public ErrorMsg ModityRemark(WXAccount account, string openid, string remark)
         {
-            string result = LibManager.HTTPHelper.Post(
-                String.Format(
-                    UrlModityRemark,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                LibManager.JSONHelper.JSONSerialize(new
-                {
-                    openid,
-                    remark
-                }));
-
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            return Action<ErrorMsg>(
+                UrlModityRemark,
+                new { openid, remark },
+                account,
+                false,
+                false);
         } 
         #endregion
     }

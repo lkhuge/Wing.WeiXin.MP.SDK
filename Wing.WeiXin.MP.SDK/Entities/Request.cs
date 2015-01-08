@@ -142,7 +142,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
                     Signature, Timestamp, Nonce, Echostr, PostData), Settings.Default.SystemUsername);
             }
-
+            LogManager.WriteSystem("验证请求头部通过");
             //首次验证
             if (!String.IsNullOrEmpty(Echostr))
             {
@@ -201,11 +201,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>root节点数据</returns>
         private XElement EncodingData()
         {
-            LogManager.WriteSystem("解密POST数据");
             XElement root = XDocument.Parse(PostData).Element("xml");
             if (root == null) throw WXException.GetInstance("XML格式错误（未发现xml根节点）", Settings.Default.SystemUsername);
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) return root;
+            LogManager.WriteSystem("解密POST数据");
             string weixinID = GetPostData("ToUserName");
             if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", weixinID);
             string outMsg = null;

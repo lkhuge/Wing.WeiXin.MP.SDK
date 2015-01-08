@@ -51,6 +51,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         {
             QuickConfigReturnMessageItemConfigSection[] list = this
                 .Cast<QuickConfigReturnMessageItemConfigSection>().ToArray();
+            if (list.Length == 0) return null;
             if (request.MsgType == ReceiveEntityType.text) return GetQuickConfigReturnMessage(
                 "Text",
                 request.ToUserName,
@@ -63,6 +64,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
                 request.GetPostData("EventKey"),
                 request,
                 list);
+            LogManager.WriteSystem("快速配置回复消息事件无响应");
 
             return null;
         }
@@ -80,21 +82,36 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         /// <returns>响应对象</returns>
         private Response GetQuickConfigReturnMessage(string type, string weixinMPID, string key, Request request, QuickConfigReturnMessageItemConfigSection[] list)
         {
+            LogManager.WriteSystem(String.Format("触发快速配置回复消息(类型：{0})事件", type));
             string name = String.Format("{0}:{1}:{2}", weixinMPID, type, key);
             QuickConfigReturnMessageItemConfigSection item = list
                 .FirstOrDefault(q => q.Key.Equals(name));
-            if (item != null) return QuickConfigReturnMessageManager.GetReturnMessage(
+            if (item != null) 
+            {
+                Response response = QuickConfigReturnMessageManager.GetReturnMessage(
                     ReadOfKeyValueData(item.Path),
                     request);
+                LogManager.WriteInfo(String.Format("快速配置回复消息(类型：{0};指定文件)响应", type) 
+                    + Environment.NewLine + response.Text, request.FromUserName);
+
+                return response;
+            }
             string keyPath = String.Format("{0}:{1}:", weixinMPID, type);
             QuickConfigReturnMessageItemConfigSection listItem = list
                 .FirstOrDefault(q => q.Key.Equals(keyPath));
             if (listItem == null) return null;
             string path = String.Format("{0}{1}.wx.txt", listItem.Path, key);
-            return File.Exists(path)
-                ? QuickConfigReturnMessageManager.GetReturnMessage(
-                    ReadOfKeyValueData(path), request)
-                : null;
+            if (File.Exists(path))
+            {
+                Response response = QuickConfigReturnMessageManager.GetReturnMessage(
+                    ReadOfKeyValueData(path), request);
+                LogManager.WriteInfo(String.Format("快速配置回复消息(类型：{0};指定路径)响应", type) 
+                    + Environment.NewLine + response.Text, request.FromUserName);
+
+                return response;
+            }
+            LogManager.WriteSystem(String.Format("快速配置回复消息(类型：{0};指定路径)事件：未找到文件", type));
+            return null;
         }
         #endregion
 

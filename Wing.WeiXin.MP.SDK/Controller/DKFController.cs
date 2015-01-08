@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 多客服控制器
     /// </summary>
-    public class DKFController
+    public class DKFController : WXController
     {
         /// <summary>
         /// 获取客服基本信息的URL
@@ -37,16 +37,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>客服基本信息</returns>
         public DKFList GetDKFList(WXAccount account)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                    UrlGetDKFList,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<DKFList>(result);
+            return Action<DKFList>(UrlGetDKFList, account, true);
         } 
         #endregion
 
@@ -58,16 +49,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>在线客服接待信息</returns>
         public DKFOnlineList GetDKFOnlineList(WXAccount account)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                    UrlGetDKFOnlineList,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<DKFOnlineList>(result);
+            return Action<DKFOnlineList>(UrlGetDKFOnlineList, account, true);
         } 
         #endregion
 
@@ -84,22 +66,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>会话记录</returns>
         public DKFrecordList GetDKFrecordList(WXAccount account, DateTime starttime, DateTime endtime, string openid, int pagesize, int pageindex)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                    UrlGetDKFrecordList,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    LibManager.JSONHelper.JSONSerialize(new
+            return Action<DKFrecordList>(UrlGetDKFrecordList, new
                     {
                         starttime = LibManager.DateTimeHelper.GetLongTimeByDateTime(starttime),
                         endtime = LibManager.DateTimeHelper.GetLongTimeByDateTime(endtime),
                         openid, pagesize, pageindex
-                    }));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<DKFrecordList>(result);
+                    }, account, true);
         } 
         #endregion
     }

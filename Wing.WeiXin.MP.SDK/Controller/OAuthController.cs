@@ -16,7 +16,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// OAuth控制器
     /// </summary>
-    public class OAuthController
+    public class OAuthController : WXController
     {
         /// <summary>
         /// 获取取得Code的URL的URL
@@ -65,15 +65,10 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthAccessToken GetAccessTokenByCode(WXAccount account, string code)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                UrlGetAccessTokenByCode,
-                account.AppID, account.AppSecret, code));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-            return LibManager.JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
+            return ActionWithoutAccessToken<OAuthAccessToken>(
+                String.Format(UrlGetAccessTokenByCode, account.AppID, account.AppSecret, code),
+                account,
+                true);
         } 
         #endregion
 
@@ -86,39 +81,27 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthAccessToken RefreshAccessTokenByRefreshToken(WXAccount account, string refresh_token)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                UrlRefreshAccessTokenByRefreshToken,
-                account.AppID, refresh_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<OAuthAccessToken>(result);
+            return ActionWithoutAccessToken<OAuthAccessToken>(
+                String.Format(UrlRefreshAccessTokenByRefreshToken, account.AppID, refresh_token),
+                account,
+                true);
         }
         #endregion
 
-        #region 获取认证用户信息 public OAuthUser GetOAuthUser(OAuthAccessToken accessToken, OAuthUserInfoLanguage language = OAuthUserInfoLanguage.zh_CN)
+        #region 获取认证用户信息 public OAuthUser GetOAuthUser(WXAccount account, OAuthAccessToken accessToken, OAuthUserInfoLanguage language = OAuthUserInfoLanguage.zh_CN)
         /// <summary>
         /// 获取认证用户信息
         /// </summary>
+        /// <param name="account">微信公共平台账号</param>
         /// <param name="accessToken">OAuth使用的AccessToken</param>
         /// <param name="language">返回国家地区语言版本</param>
         /// <returns>AccessToken</returns>
-        public OAuthUser GetOAuthUser(OAuthAccessToken accessToken, WXLanguageType language = WXLanguageType.zh_CN)
+        public OAuthUser GetOAuthUser(WXAccount account, OAuthAccessToken accessToken, WXLanguageType language = WXLanguageType.zh_CN)
         {
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                UrlGetOAuthUser,
-                accessToken.access_token,
-                accessToken.openid,
-                language));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), accessToken.openid);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<OAuthUser>(result);
+            return ActionWithoutAccessToken<OAuthUser>(
+                String.Format(UrlGetOAuthUser, accessToken.access_token, accessToken.openid, language), 
+                account, 
+                true);
         } 
         #endregion
     }

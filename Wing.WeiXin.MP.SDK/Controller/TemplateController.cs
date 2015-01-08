@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 模板消息控制器
     /// </summary>
-    public class TemplateController
+    public class TemplateController : WXController
     {
         /// <summary>
         /// 发送消息模板的URL
@@ -27,13 +27,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns></returns>
         public ReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                    UrlSendMessageTemplate,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    LibManager.JSONHelper.JSONSerialize(messageTemplate));
-
-            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(result);
+            return Action<ReturnMessage>(UrlSendMessageTemplate, messageTemplate, account, true, false);
         } 
         #endregion
     }

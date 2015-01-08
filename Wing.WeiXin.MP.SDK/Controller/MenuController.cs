@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 菜单工具类
     /// </summary>
-    public class MenuController
+    public class MenuController : WXController
     {
         /// <summary>
         /// 创建菜单的URL
@@ -37,10 +37,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         {
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(
-                LibManager.HTTPHelper.Post(String.Format(
-                    UrlCreateMenu,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(menu)));
+            return Action<ErrorMsg>(UrlCreateMenu, menu, account, false, false);
         } 
         #endregion
 
@@ -52,15 +49,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>菜单</returns>
         public MenuForGet GetMenu(WXAccount account)
         {
-            string result = LibManager.HTTPHelper.Get(String.Format(
-                    UrlGetMenu,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<MenuForGet>(result);
+            return Action<MenuForGet>(UrlGetMenu, account);
         } 
         #endregion
 
@@ -72,9 +61,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg DeleteMenu(WXAccount account)
         {
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(LibManager.HTTPHelper.Get(String.Format(
-                UrlDeleteMenu,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token)));
+            return Action<ErrorMsg>(UrlDeleteMenu, null, account, false, false);
         } 
         #endregion
     }

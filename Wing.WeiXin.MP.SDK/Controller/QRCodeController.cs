@@ -15,7 +15,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 二维码控制器
     /// </summary>
-    public class QRCodeController
+    public class QRCodeController : WXController
     {
         /// <summary>
         /// 创建二维码ticket的URL
@@ -27,6 +27,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         private const string UrlGetQRCode = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={0}";
 
+        /// <summary>
+        /// 获取短域名的URL
+        /// </summary>
+        private const string UrlGetShortURL = "https://api.weixin.qq.com/cgi-bin/shorturl?access_token={0}";
+
         #region 创建二维码ticket public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         /// <summary>
         /// 创建二维码ticket
@@ -36,18 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>二维码ticket</returns>
         public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Post(
-                String.Format(
-                    UrlGetQRCodeTicket,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                LibManager.JSONHelper.JSONSerialize(qrCodeTicketRequest));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<QRCodeTicket>(result);
+            return Action<QRCodeTicket>(UrlGetQRCodeTicket, qrCodeTicketRequest, account, true);
         } 
         #endregion
 
@@ -63,6 +57,24 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 UrlGetQRCode,
                 HttpUtility.UrlEncode(ticket)), pathName);
         } 
+        #endregion
+
+        #region 获取短域名 public string GetShortURL(WXAccount account, string url)
+        /// <summary>
+        /// 获取短域名
+        /// </summary>
+        /// <param name="account">账号</param>
+        /// <param name="url">域名</param>
+        /// <returns>短域名</returns>
+        public string GetShortURL(WXAccount account, string url)
+        {
+            return Action<ShortUrl>(
+                UrlGetShortURL,
+                new { action = "long2short", long_url = url },
+                account, 
+                false, 
+                false).short_url;
+        }
         #endregion
     }
 }

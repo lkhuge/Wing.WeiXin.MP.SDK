@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 语义控制器
     /// </summary>
-    public class SemanticController
+    public class SemanticController : WXController
     {
         /// <summary>
         /// 获取语义的URL
@@ -29,12 +29,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public T GetSemantic<T>(WXAccount account, SemanticRequest request) where T : SemanticResponse
         {
             request.appid = account.AppID;
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                    Url,
-                    GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    LibManager.JSONHelper.JSONSerialize(request));
-
-            return LibManager.JSONHelper.JSONDeserialize<T>(result);
+            return Action<T>(Url, request, account, false, false);
         } 
         #endregion
     }

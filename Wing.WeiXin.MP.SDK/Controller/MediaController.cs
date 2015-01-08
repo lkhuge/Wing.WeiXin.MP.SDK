@@ -13,7 +13,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 多媒体控制器
     /// </summary>
-    public class MediaController
+    public class MediaController : WXController
     {
         /// <summary>
         /// 上传多媒体的URL
@@ -66,19 +66,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media UploadVideoForSendAll(WXAccount account, string path, string name, string title, string description)
         {
-            Media media = Upload(account, UploadMediaType.video, path, name);
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                UrlUploadVideoForSendAll,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(new
-                {
-                    media.media_id, title, description
-                }));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
+            return Action<Media>(UrlUploadVideoForSendAll, new
             {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
+                Upload(account, UploadMediaType.video, path, name).media_id,
+                title,
+                description
+            }, account);
         }
         #endregion
 

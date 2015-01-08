@@ -16,7 +16,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// <summary>
     /// 群发控制器
     /// </summary>
-    public class SendAllController
+    public class SendAllController : WXController
     {
         /// <summary>
         /// 上传图文消息素材的URL
@@ -47,16 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media UploadNews(WXAccount account, SendAllMessageNews news)
         {
-            account.CheckIsService();
-            string result = LibManager.HTTPHelper.Post(String.Format(
-                UrlUploadNews,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(news));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
+            return Action<Media>(UrlUploadNews, news, account, true);
         } 
         #endregion
 
@@ -69,12 +60,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>群发回复消息</returns>
         public ReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         {
-            account.CheckIsService();
-
-            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(
-                LibManager.HTTPHelper.Post(String.Format(
-                UrlSendAllByGroup,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(group)));
+            return Action<ReturnMessage>(UrlSendAllByGroup, group, account, true, false);
         } 
         #endregion
 
@@ -87,11 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>群发回复消息</returns>
         public ReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         {
-            account.CheckIsService();
-
-            return LibManager.JSONHelper.JSONDeserialize<ReturnMessage>(LibManager.HTTPHelper.Post(String.Format(
-                UrlSendAllByOpenIDList,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(openIDList)));
+            return Action<ReturnMessage>(UrlSendAllByOpenIDList, openIDList, account, true, false);
         }
         #endregion
 
@@ -104,11 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>返回码对象</returns>
         public ErrorMsg DeleteSendAll(WXAccount account, SendAllDelete delete)
         {
-            account.CheckIsService();
-
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(LibManager.HTTPHelper.Post(String.Format(
-                UrlDeleteSendAll,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token), LibManager.JSONHelper.JSONSerialize(delete)));
+            return Action<ErrorMsg>(UrlDeleteSendAll, delete, account, true, false);
         } 
         #endregion
     }

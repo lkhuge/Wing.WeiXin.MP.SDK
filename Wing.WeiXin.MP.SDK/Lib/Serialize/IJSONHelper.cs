@@ -33,7 +33,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Serialize
         object JSONDeserialize(string jsonString);
 
         /// <summary>
-        /// 是否存在该Key
+        /// 获取该Key的值
         /// </summary>
         /// <param name="jsonString">Json字符串</param>
         /// <param name="key">Key</param>

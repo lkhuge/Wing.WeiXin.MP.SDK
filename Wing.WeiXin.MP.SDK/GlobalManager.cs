@@ -192,7 +192,11 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>事件是否可以执行</returns>
         public static bool CheckEventAction(string actionKey)
         {
-            return ConfigManager.EventConfig.EventList.CheckEvent(actionKey);
+            LogManager.WriteSystem(String.Format("检测事件({0})是否可以执行", actionKey));
+            bool result = ConfigManager.EventConfig.EventList.CheckEvent(actionKey);
+            LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
+
+            return result;
         } 
         #endregion
 
@@ -204,6 +208,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             LogManager.WriteSystem("检测是否初始化");
             if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
+            LogManager.WriteSystem("确认已初始化");
         } 
         #endregion
     }

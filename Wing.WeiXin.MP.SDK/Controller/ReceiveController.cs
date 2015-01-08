@@ -45,6 +45,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 LogManager.WriteSystem("触发接收开始事件");
                 ReceiveStart(request);
+                LogManager.WriteSystem("接收开始事件结束");
             }
             try
             {
@@ -54,8 +55,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null)
                 {
-                    LogManager.WriteSystem("接收结束事件");
+                    LogManager.WriteSystem("触发接收结束事件");
                     ReceiveEnd(request, response);
+                    LogManager.WriteSystem("接收结束事件结束");
                 }
                 return response;
             }
@@ -65,7 +67,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
             }
             catch (Exception e)
             {
+                LogManager.WriteSystem("触发接收异常事件");
                 if (ReceiveException != null) ReceiveException(request, e);
+                LogManager.WriteSystem("接收异常事件结束");
                 return new Response(e);
             }
         }
