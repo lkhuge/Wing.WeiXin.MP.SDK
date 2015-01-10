@@ -16,5 +16,12 @@ namespace Wing.WeiXin.MP.SDK.Lib.StringManager
         /// <param name="str">待加密的字符串</param>
         /// <returns>加密后字符串</returns>
         string SHA1_Encrypt(string str);
+
+        /// <summary>
+        /// 使用MD5加密
+        /// </summary>
+        /// <param name="str">待加密的字符串</param>
+        /// <returns>加密后字符串</returns>
+        string MD5(string str);
     }
 }

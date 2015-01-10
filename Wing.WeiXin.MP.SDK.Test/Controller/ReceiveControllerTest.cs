@@ -11,6 +11,7 @@ using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message;
 using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Extension.Event.Attributes;
 using Wing.WeiXin.MP.SDK.Extension.Event.Text;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
@@ -49,8 +50,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
 //            }
 //            sw.Stop();
 //            Debug.WriteLine(sw.ElapsedMilliseconds);
-
-            Response result = new ReceiveController().Action(messageText);
+            Response result = new ReceiveController().Action(messageText, false);
             Assert.IsNotNull(result);
         } 
         #endregion

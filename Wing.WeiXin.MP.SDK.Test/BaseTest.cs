@@ -153,7 +153,6 @@ namespace Wing.WeiXin.MP.SDK.Test
         private void LoadConfig()
         {
             GlobalManager.Init();
-            GlobalManager.InitAccessTokenContainer(new StaticAccessTokenManager());
             account = GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service); 
         } 
         #endregion

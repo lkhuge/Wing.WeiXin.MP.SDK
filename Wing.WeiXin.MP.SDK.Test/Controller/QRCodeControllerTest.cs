@@ -56,5 +56,14 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             Assert.IsTrue(File.Exists(pathName));
         } 
         #endregion
+
+        #region public void GetShortURLTest()
+        [TestMethod]
+        public void GetShortURLTest()
+        {
+            string url = new QRCodeController().GetShortURL(account, "http://www.baidu.com");
+            Assert.IsNotNull(url);
+        } 
+        #endregion
     }
 }

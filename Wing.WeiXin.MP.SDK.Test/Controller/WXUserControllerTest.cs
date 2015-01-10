@@ -114,7 +114,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         ///</summary>
         public void MoveGroupTest(WXUser user, WXUserGroup group)
         {
-            Assert.AreEqual(new WXUserController().MoveGroup(account, user, group.group.id).errcode, "0");
+            Assert.AreEqual(new WXUserController().MoveGroup(account, user.openid, group.group.id).errcode, "0");
         } 
         #endregion
 

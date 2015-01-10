@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
+using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Extension.Event;
+using Wing.WeiXin.MP.SDK.Extension.Event.Attributes;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -57,21 +61,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, Func<T, Response> receiveEvent) where T : RequestAMessage, new()
         {
-            if (!ReceiveEvent.ContainsKey(toUserName))
-            {
-                ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
-            }
-            ReceiveEntityType typeName = new T().ReceiveEntityType;
-            if (!ReceiveEvent[toUserName].ContainsKey(typeName))
-            {
-                ReceiveEvent[toUserName].Add(typeName, new Dictionary<string, Func<Request, Response>>());
-            }
-            if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
-            {
-                throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
-            }
-            ReceiveEvent[toUserName][typeName].Add(
-                eventName,
+            AddReceiveEvent(new T().ReceiveEntityType, eventName, toUserName, 
                 r => receiveEvent(RequestAMessage.GetRequestAMessage<T>(r)));
         }
         #endregion
@@ -135,6 +125,79 @@ namespace Wing.WeiXin.MP.SDK
                 r => eventBuilder.GetEvent()(RequestAMessage.GetRequestAMessage<T>(r)));
 
         }
+        #endregion
+
+        #region 添加接收事件 public void AddReceiveEvent(object receiveEvent)
+        /// <summary>
+        /// 添加接收事件
+        /// </summary>
+        /// <param name="receiveEvent">接收事件对象</param>
+        public void AddReceiveEvent(object receiveEvent)
+        {
+            Type type = receiveEvent.GetType();
+            foreach (MethodInfo methodInfo in type.GetMethods())
+            {
+                WXEventAttribute[] attList = (WXEventAttribute[])
+                    methodInfo.GetCustomAttributes(typeof(WXEventAttribute), false);
+                if (attList.Length != 1) continue;
+                if(!methodInfo.IsStatic || !methodInfo.IsPublic)
+                    WXException.GetInstance(String.Format("接收事件对象（{0}）方法（{1}）必须为静态且公开类型（public）",
+                        type.Name, methodInfo.Name), attList[0].ToUserName);
+
+                ParameterInfo[] argList = methodInfo.GetParameters();
+                if (argList.Length != 1 || (!argList[0].ParameterType.IsAssignableFrom(typeof(RequestAMessage)) 
+                    && argList[0].ParameterType != typeof(Request)))
+                    WXException.GetInstance(String.Format("接收事件对象（{0}）方法（{1}）参数仅有一个且类型必须为Request或者RequestAMessage及其子类",
+                        type.Name, methodInfo.Name), attList[0].ToUserName);
+
+                ParameterInfo returnParam = methodInfo.ReturnParameter;
+                if (returnParam == null || returnParam.ParameterType != typeof(Response))
+                    WXException.GetInstance(String.Format("接收事件对象（{0}）方法（{1}）必须有返回值且类型为Response",
+                        type.Name, methodInfo.Name), attList[0].ToUserName);
+
+                if (argList[0].ParameterType == typeof(Request))
+                {
+                    AddGloablReceiveEvent(
+                        attList[0].EventName, 
+                        attList[0].ToUserName, 
+                        (Func<Request, Response>)Delegate.CreateDelegate(typeof(Func<Request, Response>), methodInfo));
+                    continue;
+                }
+                if (argList[0].ParameterType == typeof(RequestText))
+                {
+                    AddReceiveEvent(
+                        attList[0].EventName,
+                        attList[0].ToUserName,
+                        (Func<RequestText, Response>)Delegate.CreateDelegate(typeof(Func<RequestText, Response>), methodInfo));
+                }
+            }
+        } 
+        #endregion
+
+        #region 添加接收事件 private void AddReceiveEvent(ReceiveEntityType typeName, string eventName, string toUserName, Func<Request, Response> receiveEvent)
+        /// <summary>
+        /// 添加接收事件
+        /// </summary>
+        /// <param name="typeName">消息类型</param>
+        /// <param name="eventName">事件名</param>
+        /// <param name="toUserName">开发者微信号</param>
+        /// <param name="receiveEvent">事件</param>
+        private void AddReceiveEvent(ReceiveEntityType typeName, string eventName, string toUserName, Func<Request, Response> receiveEvent)
+        {
+            if (!ReceiveEvent.ContainsKey(toUserName))
+            {
+                ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
+            }
+            if (!ReceiveEvent[toUserName].ContainsKey(typeName))
+            {
+                ReceiveEvent[toUserName].Add(typeName, new Dictionary<string, Func<Request, Response>>());
+            }
+            if (ReceiveEvent[toUserName][typeName].ContainsKey(eventName))
+            {
+                throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
+            }
+            ReceiveEvent[toUserName][typeName].Add(eventName, receiveEvent);
+        } 
         #endregion
 
         #region 执行事件 public Response ActionEvent(Request request)

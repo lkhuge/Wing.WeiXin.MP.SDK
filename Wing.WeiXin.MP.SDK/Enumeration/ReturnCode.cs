@@ -421,6 +421,41 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         用户未授权该api = 50001,
 
         /// <summary>
+        /// 参数错误(invalid parameter)
+        /// </summary>
+        参数错误 = 61451,
+
+        /// <summary>
+        /// 无效客服账号(invalid kf_account)
+        /// </summary>
+	    无效客服账号 = 61452,
+
+        /// <summary>
+        /// 账号已存在(kf_account exsited)
+        /// </summary>
+	    账号已存在 = 61453,
+
+        /// <summary>
+        /// 账号名长度超过限制(前缀10个英文字符)(invalid kf_acount length)
+        /// </summary>
+	    账号名长度超过限制_前缀10个英文字符 = 61454,
+
+        /// <summary>
+        /// 账号名包含非法字符(英文+数字)(illegal character in kf_account)
+        /// </summary>
+	    账号名包含非法字符_英文_数字 = 61455,
+
+        /// <summary>
+        /// 账号个数超过限制(10个客服账号)(kf_account count exceeded)
+        /// </summary>
+	    账号个数超过限制_10个客服账号 = 61456,
+
+        /// <summary>
+        /// 无效头像文件类型(invalid file type)
+        /// </summary>
+	    无效头像文件类型 = 61457,
+
+        /// <summary>
         /// 请求正常 无语义结果
         /// </summary>
         请求正常_无语义结果 = 7000000,
