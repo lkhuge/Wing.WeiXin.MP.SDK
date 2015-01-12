@@ -231,9 +231,10 @@
     <Compile Include="EventManager.cs" />
     <Compile Include="Entities\WXException.cs" />
     <Compile Include="Extension\Event\Attributes\WXEventAttribute.cs" />
+    <Compile Include="Extension\Event\Attributes\WXEventAttributeExtension.cs" />
     <Compile Include="Extension\Event\Click\ClickEventList.cs" />
     <Compile Include="Extension\Event\IEventBuilder.cs" />
-    <Compile Include="Extension\Event\Text\TextMenuEventList.cs" />
+    <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />

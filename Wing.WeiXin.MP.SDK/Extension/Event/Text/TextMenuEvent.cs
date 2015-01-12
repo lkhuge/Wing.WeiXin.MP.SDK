@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
 {
     /// <summary>
-    /// 文本菜单事件列表
+    /// 文本菜单事件
     /// </summary>
-    public class TextMenuEventList : IEventBuilder<RequestText>
+    public static class TextMenuEvent
     {
         /// <summary>
         /// 菜单格式化事件
@@ -42,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             GlobalManager.WXSessionManager.Set(openID, Settings.Default.TextMenuEventListSign, item);
             if (ExpiresSecond == 0) return;
             GlobalManager.WXSessionManager.Set(openID, Settings.Default.TextMenuEventListExpiresSign, DateTime.Now.AddSeconds(ExpiresSecond));
-        } 
+        }
         #endregion
 
         #region 开始捕获菜单事件并且显示菜单 public static Response Start(string openID, TextMenuItem item, Request request)
@@ -80,10 +80,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             if (!CheckTimeout(openID)) return;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
             if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
-            TextMenuItem item = (TextMenuItem) itemObj;
+            TextMenuItem item = (TextMenuItem)itemObj;
             if (item.ParentItem == null) return;
             GlobalManager.WXSessionManager.Set(openID, Settings.Default.TextMenuEventListSign, item.ParentItem);
-        } 
+        }
         #endregion
 
         #region 菜单后退并且显示菜单 public static Response GoBack(string openID, Request request)
@@ -118,8 +118,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
             if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
 
-            return ShowMeun((TextMenuItem) itemObj, request);
-        } 
+            return ShowMeun((TextMenuItem)itemObj, request);
+        }
         #endregion
 
         #region 获取菜单信息 public static Response ShowMeun(TextMenuItem item, Request request)
@@ -152,47 +152,48 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             if (DateTime.Now < (DateTime)dtObj) return true;
             Stop(openID);
             return false;
-        } 
+        }
         #endregion
 
-        #region 获取菜单选择错误信息 private Response GetMenuErrorMessage(TextMenuItem item, Request request)
+        #region 获取菜单选择错误信息 private static Response GetMenuErrorMessage(TextMenuItem item, Request request)
         /// <summary>
         /// 获取菜单选择错误信息
         /// </summary>
         /// <param name="item">菜单对象</param>
         /// <param name="request">请求对象</param>
         /// <returns>菜单选择错误信息</returns>
-        private Response GetMenuErrorMessage(TextMenuItem item, Request request)
+        private static Response GetMenuErrorMessage(TextMenuItem item, Request request)
         {
             if (MenuErrorMessage != null) return MenuErrorMessage;
 
             return ShowMeun(item, request);
-        } 
+        }
         #endregion
 
-        #region 获取文本菜单事件列表 public Func<RequestText, Response> GetEvent()
+        #region 设置文本菜单事件列表 public static void SetEvent(string toUserName)
         /// <summary>
-        /// 获取文本菜单事件列表
+        /// 设置文本菜单事件列表
         /// </summary>
-        /// <returns>文本菜单事件列表</returns>
-        public Func<RequestText, Response> GetEvent()
+        /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
+        public static void SetEvent(string toUserName)
         {
-            return request =>
+            GlobalManager.EventManager.AddSystemReceiveEvent(toUserName, request =>
             {
-                object itemObj = GlobalManager.WXSessionManager.Get(request.Request.FromUserName, Settings.Default.TextMenuEventListSign);
+                if (request.MsgType != ReceiveEntityType.text) return null;
+                object itemObj = GlobalManager.WXSessionManager.Get(request.FromUserName, Settings.Default.TextMenuEventListSign);
                 if (itemObj == null) return null;
-                if (!CheckTimeout(request.Request.FromUserName)) return null;
+                if (!CheckTimeout(request.FromUserName)) return null;
                 TextMenuItem item = (TextMenuItem)itemObj;
-                TextMenuItem subItem = item.SubItem.FirstOrDefault(i => i.Key.Equals(request.Content));
-                if (subItem == null) return GetMenuErrorMessage(item, request.Request);
-                if (subItem.Event != null) return subItem.Event(request.Request);
-                if (subItem.SubItem == null || subItem.SubItem.Length == 0) return ShowMeun(item, request.Request);
+                TextMenuItem subItem = item.SubItem.FirstOrDefault(i => i.Key.Equals(request.GetPostData("Content")));
+                if (subItem == null) return GetMenuErrorMessage(item, request);
+                if (subItem.Event != null) return subItem.Event(request);
+                if (subItem.SubItem == null || subItem.SubItem.Length == 0) return ShowMeun(item, request);
                 subItem.ParentItem = item;
-                GlobalManager.WXSessionManager.Set(request.Request.FromUserName, Settings.Default.TextMenuEventListSign, subItem);
-                GlobalManager.WXSessionManager.Set(request.Request.FromUserName, Settings.Default.TextMenuEventListExpiresSign, DateTime.Now.AddSeconds(ExpiresSecond));
-                return ShowMeun(subItem, request.Request);
-            };
-        } 
+                GlobalManager.WXSessionManager.Set(request.FromUserName, Settings.Default.TextMenuEventListSign, subItem);
+                GlobalManager.WXSessionManager.Set(request.FromUserName, Settings.Default.TextMenuEventListExpiresSign, DateTime.Now.AddSeconds(ExpiresSecond));
+                return ShowMeun(subItem, request);
+            });
+        }
         #endregion
 
         /// <summary>
