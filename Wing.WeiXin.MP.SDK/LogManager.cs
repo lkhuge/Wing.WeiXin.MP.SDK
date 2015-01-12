@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -79,6 +80,23 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (Error != null) Error(message, e, user);
         }  
+        #endregion
+
+        #region 添加写入Debug public static void AddWriteToDebug()
+        /// <summary>
+        /// 添加写入Debug
+        /// </summary>
+        public static void AddWriteToDebug()
+        {
+            Info += (m, u) => Debug.WriteLine("[{0}]({1}){2}", 
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m);
+            System += m => Debug.WriteLine("[{0}]{1}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), m);
+            Warn += (m, u) => Debug.WriteLine("[{0}]({1}){2}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m);
+            Error += (m, e, u) => Debug.WriteLine("[{0}]({1}){2}{3}{4}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m, Environment.NewLine, e.Message);
+        } 
         #endregion
     }
 }

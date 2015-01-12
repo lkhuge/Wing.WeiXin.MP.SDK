@@ -29,5 +29,16 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             get { return this["QuickConfigReturnMessageList"] as QuickConfigReturnMessageItemListConfigSection; }
         }
         #endregion
+
+        #region 事件模板列表 public EventTemplateListConfigSection EventTemplateList
+        /// <summary>
+        /// 事件模板列表
+        /// </summary>
+        [ConfigurationProperty("EventTemplateList")]
+        public EventTemplateListConfigSection EventTemplateList
+        {
+            get { return this["EventTemplateList"] as EventTemplateListConfigSection; }
+        }
+        #endregion
     }
 }
