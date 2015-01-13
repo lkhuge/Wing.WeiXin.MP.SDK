@@ -42,6 +42,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         private const string inputMessageHTML = "<form method='POST' action='?Mode=MessageTestPost'><label>Message:<textarea name='Param' rows='10' cols='80'></textarea></label><input type='submit' text='Submit'/></form>";
 
         /// <summary>
+        /// 消息调试字符串
+        /// </summary>
+        private const string MessageTest = "MessageTest";
+
+        /// <summary>
         /// 接收消息控制器
         /// </summary>
         private readonly ReceiveController receiveController = new ReceiveController();
@@ -52,7 +57,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private readonly Dictionary<string, Func<HttpRequest, string>> actionList = new Dictionary<string, Func<HttpRequest, string>>
         {
-            {"MessageTest", p => inputMessageHTML },
+            {MessageTest, p => inputMessageHTML },
             {"MessageTestPost", p => MessageRequest(p.Form["Param"]) },
             {"TextMessageTest", p => MessageRequest(String.Format(textMessageFormat,
                 String.IsNullOrEmpty(p.QueryString["Account"]) ? GlobalManager.GetFirstAccount().ID : p.QueryString["Account"],
@@ -87,7 +92,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         public void ProcessRequest(HttpContext context)
         {
             string mode = context.Request.QueryString["Mode"];
-            if (String.IsNullOrEmpty(mode) || !actionList.ContainsKey(mode))
+            mode = String.IsNullOrEmpty(mode) ? MessageTest : mode;
+            if (!actionList.ContainsKey(mode))
             {
                 Response response = receiveController.Action(
                     new Request(LibManager.HTTPHelper.GetPostStream(context)),

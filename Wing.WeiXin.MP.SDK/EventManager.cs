@@ -6,6 +6,7 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Extension.Event;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
 {
@@ -47,6 +48,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         public void AddTempReceiveEvent(string toUserName, string fromUserName, Func<Request, Response> receiveEvent)
         {
+            toUserName = CheckToUserName(toUserName);
             if (String.IsNullOrEmpty(toUserName))
                 throw WXException.GetInstance("开发者微信号不能为空", toUserName);
             if (!TempReceiveEvent.ContainsKey(toUserName))
@@ -65,6 +67,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         internal void AddSystemReceiveEvent(string toUserName, Func<Request, Response> receiveEvent)
         {
+            toUserName = CheckToUserName(toUserName);
             if (String.IsNullOrEmpty(toUserName)) toUserName = "";
             if (!SystemReceiveEvent.ContainsKey(toUserName))
             {
@@ -84,6 +87,7 @@ namespace Wing.WeiXin.MP.SDK
         public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent)
         {
             if (String.IsNullOrEmpty(toUserName)) toUserName = "";
+            toUserName = CheckToUserName(toUserName);
             if (!GloablReceiveEvent.ContainsKey(toUserName))
             {
                 GloablReceiveEvent.Add(toUserName, new Dictionary<string, Func<Request, Response>>());
@@ -118,6 +122,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEventList">事件列表</param>
         public void AddReceiveEvent<T>(string toUserName, Dictionary<string, Func<T, Response>> receiveEventList) where T : RequestAMessage, new()
         {
+            toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
             {
                 ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
@@ -151,6 +156,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="eventBuilder">事件生成器</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, IEventBuilder<T> eventBuilder) where T : RequestAMessage, new()
         {
+            toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
             {
                 ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
@@ -181,6 +187,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         internal void AddReceiveEvent(ReceiveEntityType typeName, string eventName, string toUserName, Func<Request, Response> receiveEvent)
         {
+            toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
             {
                 ReceiveEvent.Add(toUserName, new Dictionary<ReceiveEntityType, Dictionary<string, Func<Request, Response>>>());
@@ -372,6 +379,27 @@ namespace Wing.WeiXin.MP.SDK
 
             return null;
         }
+        #endregion
+
+        #region 检测开发者微信号 private void CheckToUserName(string toUserName)
+        /// <summary>
+        /// 检测开发者微信号
+        /// </summary>
+        /// <param name="toUserName">开发者微信号</param>
+        /// <returns>开发者微信号</returns>
+        private string CheckToUserName(string toUserName)
+        {
+            if (!GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any())
+                throw WXException.GetInstance("未发现任何微信公众平台账号", Settings.Default.SystemUsername);
+            if (String.IsNullOrEmpty(toUserName)) return toUserName;
+            if (toUserName.Equals(Settings.Default.FirstAccountToUserNameSign)) 
+                toUserName = GlobalManager.GetFirstAccount().ID;
+            if(!GlobalManager.ConfigManager.BaseConfig.AccountList
+                .GetWXAccountList().Any(w => w.ID.Equals(toUserName)))
+                throw WXException.GetInstance(String.Format("微信公众平台账号ID({0})不存在", toUserName), Settings.Default.SystemUsername);
+
+            return toUserName;
+        } 
         #endregion
     }
 }

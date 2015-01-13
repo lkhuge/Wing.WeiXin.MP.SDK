@@ -36,5 +36,16 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             return config.Name;
         }
         #endregion
+
+        #region 获取事件模板列表 public IEnumerable<EventTemplateConfigSection> GetEventTemplateList()
+        /// <summary>
+        /// 获取事件模板列表
+        /// </summary>
+        /// <returns>事件模板列表</returns>
+        public IEnumerable<EventTemplateConfigSection> GetEventTemplateList()
+        {
+            return this.Cast<EventTemplateConfigSection>();
+        }
+        #endregion
     }
 }

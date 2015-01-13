@@ -22,6 +22,17 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         }
         #endregion
 
+        #region 事件模板类型 public string Type
+        /// <summary>
+        /// 事件模板类型
+        /// </summary>
+        [ConfigurationProperty("Type", IsRequired = true)]
+        public string Type
+        {
+            get { return Convert.ToString(this["Type"]); }
+        }
+        #endregion
+
         #region 事件模板路径 public string Path
         /// <summary>
         /// 事件模板路径

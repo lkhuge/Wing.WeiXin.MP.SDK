@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
@@ -34,5 +35,17 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
         {
             get { return ReceiveEntityType.image; }
         }
+
+        #region 下载图片 public void DownloadImage(WXAccount account, string pathName)
+        /// <summary>
+        /// 下载图片
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="pathName">下载路径加文件名</param>
+        public void DownloadImage(WXAccount account, string pathName)
+        {
+            new MediaController().DownLoad(account, MediaId, pathName);
+        }
+        #endregion
     }
 }

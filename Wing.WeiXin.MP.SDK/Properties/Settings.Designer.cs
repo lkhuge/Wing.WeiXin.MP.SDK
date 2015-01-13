@@ -76,5 +76,14 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["TextMenuEventListExpiresSign"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("$")]
+        public string FirstAccountToUserNameSign {
+            get {
+                return ((string)(this["FirstAccountToUserNameSign"]));
+            }
+        }
     }
 }

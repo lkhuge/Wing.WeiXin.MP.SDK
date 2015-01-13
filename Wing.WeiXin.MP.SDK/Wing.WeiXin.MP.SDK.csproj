@@ -58,6 +58,15 @@
     <Compile Include="Common\AccessTokenManager\StaticAccessTokenManager.cs" />
     <Compile Include="Common\AccessTokenManager\WXSessionAccessTokenManager.cs" />
     <Compile Include="Common\EntityBuilder.cs" />
+    <Compile Include="Common\EventTemplate\Default\EventTemplate\FileEventTemplate.cs" />
+    <Compile Include="Common\EventTemplate\Default\EventTemplate\TOJSONFileEventTemplate.cs" />
+    <Compile Include="Common\EventTemplate\Default\Mapping\TransObject\EventTemplateObject.cs" />
+    <Compile Include="Common\EventTemplate\Default\Mapping\TransObject\TransObjectHelper.cs" />
+    <Compile Include="Common\EventTemplate\EventTemplateManager.cs" />
+    <Compile Include="Common\EventTemplate\IEventTemplate.cs" />
+    <Compile Include="Common\EventTemplate\Item\EventItem.cs" />
+    <Compile Include="Common\EventTemplate\Item\GlobalEventItem.cs" />
+    <Compile Include="Common\EventTemplate\Item\ReceiveEventItem.cs" />
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -238,6 +247,7 @@
     <Compile Include="Extension\Event\IEventBuilder.cs" />
     <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\AshxCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />

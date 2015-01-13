@@ -43,7 +43,7 @@ namespace Wing.WeiXin.MP.SDK
         public static void WriteInfo(string message, string user)
         {
             if (Info != null) Info(message, user);
-        } 
+        }
         #endregion
 
         #region 记录系统日志 public static void WriteSystem(string message)
@@ -54,7 +54,7 @@ namespace Wing.WeiXin.MP.SDK
         public static void WriteSystem(string message)
         {
             if (System != null) System(message);
-        } 
+        }
         #endregion
 
         #region 记录警告日志 public static void WriteWarn(string message, string user)
@@ -66,7 +66,7 @@ namespace Wing.WeiXin.MP.SDK
         public static void WriteWarn(string message, string user)
         {
             if (Warn != null) Warn(message, user);
-        } 
+        }
         #endregion
 
         #region 记录错误日志 public static void WriteError(string message, WXException e, string user)
@@ -79,24 +79,25 @@ namespace Wing.WeiXin.MP.SDK
         public static void WriteError(string message, WXException e, string user)
         {
             if (Error != null) Error(message, e, user);
-        }  
+        }
         #endregion
 
-        #region 添加写入Debug public static void AddWriteToDebug()
+        #region 添加写入方法 public static void AddWriteCallback(Action<string> callback)
         /// <summary>
-        /// 添加写入Debug
+        /// 添加写入方法
         /// </summary>
-        public static void AddWriteToDebug()
+        /// <param name="callback">写入方法</param>
+        public static void AddWriteCallback(Action<string> callback)
         {
-            Info += (m, u) => Debug.WriteLine("[{0}]({1}){2}", 
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m);
-            System += m => Debug.WriteLine("[{0}]{1}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), m);
-            Warn += (m, u) => Debug.WriteLine("[{0}]({1}){2}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m);
-            Error += (m, e, u) => Debug.WriteLine("[{0}]({1}){2}{3}{4}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m, Environment.NewLine, e.Message);
-        } 
+            Info += (m, u) => callback(String.Format("[{0}]({1}){2}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m));
+            System += m => callback(String.Format("[{0}]{1}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), m));
+            Warn += (m, u) => callback(String.Format("[{0}]({1}){2}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m));
+            Error += (m, e, u) => callback(String.Format("[{0}]({1}){2}{3}{4}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m, Environment.NewLine, e.Message));
+        }
         #endregion
     }
 }

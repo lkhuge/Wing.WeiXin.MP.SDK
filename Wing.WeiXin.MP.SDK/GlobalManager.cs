@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
+using Wing.WeiXin.MP.SDK.Common.EventTemplate;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
@@ -56,7 +57,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 是否已经初始化
         /// </summary>
-        private static bool IsInit;
+        internal static bool IsInit;
 
         #region 初始化 public static void Init()
         /// <summary>
@@ -68,9 +69,9 @@ namespace Wing.WeiXin.MP.SDK
             LibManager.InitLibByDefault();
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
-            
+
             IsInit = true;
-        } 
+        }
         #endregion
 
         #region 初始化基础配置 public static void InitBase()
@@ -82,7 +83,7 @@ namespace Wing.WeiXin.MP.SDK
             InitConfig(new ConfigManager());
             InitCryptList();
             InitEvent(new EventManager());
-        } 
+        }
         #endregion
 
         #region 初始化配置 private static void InitConfig(ConfigManager configManager)
@@ -94,7 +95,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (ConfigLoad != null) ConfigLoad();
             ConfigManager = configManager;
-        } 
+        }
         #endregion
 
         #region 初始化事件 private static void InitEvent(EventManager eventManager)
@@ -106,7 +107,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (EventLoad != null) EventLoad();
             EventManager = eventManager;
-        } 
+        }
         #endregion
 
         #region 初始化AccessToken容器 public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
@@ -148,7 +149,18 @@ namespace Wing.WeiXin.MP.SDK
                         encodingAESKey = v.EncodingAESKey,
                         appID = v.AppID
                     });
-        } 
+        }
+        #endregion
+
+        #region 导入事件模板 public static void LoadEventTemplate(EventTemplateManager eventTemplateManager)
+        /// <summary>
+        /// 导入事件模板
+        /// </summary>
+        /// <param name="eventTemplateManager">事件模板管理类</param>
+        public static void LoadEventTemplate(EventTemplateManager eventTemplateManager)
+        {
+            eventTemplateManager.SetEvent(ConfigManager.EventConfig.EventTemplateList.GetEventTemplateList());
+        }
         #endregion
 
         #region 获取首个账号 public static WXAccount GetFirstAccount()
@@ -170,7 +182,7 @@ namespace Wing.WeiXin.MP.SDK
         public static WXAccount GetFirstServiceAccount()
         {
             return ConfigManager.BaseConfig.AccountList.GetWXAccountFirst(WeixinMPType.Service);
-        } 
+        }
         #endregion
 
         #region 获取首个订阅号账号 public static WXAccount GetFirstSubscriptionAccount()
@@ -197,7 +209,7 @@ namespace Wing.WeiXin.MP.SDK
             LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
 
             return result;
-        } 
+        }
         #endregion
 
         #region 检测是否初始化 public static void CheckInit()
@@ -209,7 +221,7 @@ namespace Wing.WeiXin.MP.SDK
             LogManager.WriteSystem("检测是否初始化");
             if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
             LogManager.WriteSystem("确认已初始化");
-        } 
+        }
         #endregion
     }
 }
