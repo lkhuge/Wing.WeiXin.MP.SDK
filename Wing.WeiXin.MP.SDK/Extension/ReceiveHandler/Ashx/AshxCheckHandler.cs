@@ -16,7 +16,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     /// 
     /// 测试方案：
     ///     1 全局测试
-    ///       1.1 [Warn]运行环境（是否为生产模式）
     ///     2 配置测试
     ///       2.1 [Error]类库是否可用
     ///       2.2 [Error]是否已经初始化 （GlobalManager.IsInit）
@@ -47,14 +46,14 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// 用于测试的文本请求对象
         /// </summary>
         private readonly static Request TestFirstRequest = new Request(
-            "8ac851d98409acb47f597d5ff573e9057bdfb833",
+            GetNewSignature(),
             "1234567890", "nonce", "echostr", null);
 
         /// <summary>
         /// 用于测试的文本请求对象
         /// </summary>
         private readonly static Request TestTextRequest = new Request(
-            "8ac851d98409acb47f597d5ff573e9057bdfb833",
+            GetNewSignature(),
             "1234567890", "nonce", null, 
             String.Format(@"<xml>
                                 <ToUserName><![CDATA[{0}]]></ToUserName>
@@ -71,22 +70,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private readonly Dictionary<string, AshxCheckItem[]> CheckItemList = new Dictionary<string, AshxCheckItem[]>
         {
-            {"全局测试", new[]
-            {
-                new AshxCheckItem
-                {
-                    Type = AshxCheckItem.AshxCheckItemType.Warn,
-                    Text = "运行环境",
-                    Check = () =>
-                    {
-                        int IsDebug = 0;
-                        #if DEBUG
-                            IsDebug = 1;
-                        #endif
-                        return IsDebug == 1 ? "建议使用Release模式编译以获得最佳性能" : null;
-                    }
-                }
-            }},
+            {"全局测试", new AshxCheckItem[] {}},
             {"配置测试", new []
             {
                 new AshxCheckItem
@@ -210,6 +194,24 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 String.Format("<span style='color:{1}'>{0}</span>",
                     result ?? "通过",
                     result == null ? "green" : "red");
+        } 
+        #endregion
+
+        #region 获取新的Signature private static string GetNewSignature()
+        /// <summary>
+        /// 获取新的Signature
+        /// </summary>
+        /// <returns>新的Signature</returns>
+        private static string GetNewSignature()
+        {
+            string[] arr = new[] 
+            { 
+                GlobalManager.ConfigManager.BaseConfig.Token, 
+                "1234567890", 
+                "nonce"
+            }.OrderBy(z => z).ToArray();
+
+            return LibManager.SecurityHelper.SHA1_Encrypt(string.Join("", arr));
         } 
         #endregion
 

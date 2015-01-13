@@ -48,7 +48,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         public void AddTempReceiveEvent(string toUserName, string fromUserName, Func<Request, Response> receiveEvent)
         {
-            toUserName = CheckToUserName(toUserName);
+            toUserName = CheckToUserName(toUserName, false);
             if (String.IsNullOrEmpty(toUserName))
                 throw WXException.GetInstance("开发者微信号不能为空", toUserName);
             if (!TempReceiveEvent.ContainsKey(toUserName))
@@ -67,7 +67,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         internal void AddSystemReceiveEvent(string toUserName, Func<Request, Response> receiveEvent)
         {
-            toUserName = CheckToUserName(toUserName);
+            toUserName = CheckToUserName(toUserName, false);
             if (String.IsNullOrEmpty(toUserName)) toUserName = "";
             if (!SystemReceiveEvent.ContainsKey(toUserName))
             {
@@ -381,20 +381,21 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 检测开发者微信号 private void CheckToUserName(string toUserName)
+        #region 检测开发者微信号 private void CheckToUserName(string toUserName, bool isCheckToUserName = true)
         /// <summary>
         /// 检测开发者微信号
         /// </summary>
         /// <param name="toUserName">开发者微信号</param>
+        /// <param name="isCheckToUserName">是否检测开发者微信号</param>
         /// <returns>开发者微信号</returns>
-        private string CheckToUserName(string toUserName)
+        private string CheckToUserName(string toUserName, bool isCheckToUserName = true)
         {
-            if (!GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any())
+            if (isCheckToUserName && !GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any())
                 throw WXException.GetInstance("未发现任何微信公众平台账号", Settings.Default.SystemUsername);
             if (String.IsNullOrEmpty(toUserName)) return toUserName;
             if (toUserName.Equals(Settings.Default.FirstAccountToUserNameSign)) 
                 toUserName = GlobalManager.GetFirstAccount().ID;
-            if(!GlobalManager.ConfigManager.BaseConfig.AccountList
+            if (isCheckToUserName && !GlobalManager.ConfigManager.BaseConfig.AccountList
                 .GetWXAccountList().Any(w => w.ID.Equals(toUserName)))
                 throw WXException.GetInstance(String.Format("微信公众平台账号ID({0})不存在", toUserName), Settings.Default.SystemUsername);
 

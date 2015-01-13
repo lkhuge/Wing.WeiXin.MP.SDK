@@ -78,9 +78,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>加密后的消息</returns>
         private string GetCryptMessage(string text, Request request)
         {
-            if (!GlobalManager.CryptList.ContainsKey(request.ToUserName)) return text;
+            string toUserName = request.ToUserName ?? "";
+            if (!GlobalManager.CryptList.ContainsKey(toUserName)) return text;
             string encryptMsg = null;
-            if(GlobalManager.CryptList[request.ToUserName].EncryptMsg(
+            if (GlobalManager.CryptList[toUserName].EncryptMsg(
                 text,
                 LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture), 
                 request.Nonce,

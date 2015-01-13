@@ -24,11 +24,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WeixinMPType Type { get; private set; }
 
         /// <summary>
-        /// Token
-        /// </summary>
-        public string Token { get; private set; }
-
-        /// <summary>
         /// AppID
         /// </summary>
         public string AppID { get; private set; }
@@ -46,7 +41,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount(string id)
         {
             ID = id;
-            Token = GlobalManager.ConfigManager.BaseConfig.Token;
             AccountItemConfigSection config = GlobalManager.ConfigManager.BaseConfig
                 .AccountList.GetAccountItemConfigSection(ID);
             Type = config.WeixinMPType;
@@ -63,9 +57,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount(AccountItemConfigSection config)
         {
             ID = config.WeixinMPID;
-            Token = String.IsNullOrEmpty(GlobalManager.ConfigManager.BaseConfig.Token) 
-                ? config.Token 
-                : GlobalManager.ConfigManager.BaseConfig.Token;
             Type = config.WeixinMPType;
             AppID = config.AppID;
             AppSecret = config.AppSecret;
@@ -90,11 +81,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>账户信息</returns>
         public override string ToString()
         {
-            return String.Format("ID:{1}{0}Type:{2}{0}Token:{3}{0}AppID:{4}{0}AppSecret:{5}",
+            return String.Format("ID:{1}{0}Type:{2}{0}{0}AppID:{3}{0}AppSecret:{4}",
                 Environment.NewLine,
                 ID,
                 Type,
-                Token,
                 AppID,
                 AppSecret);
         } 

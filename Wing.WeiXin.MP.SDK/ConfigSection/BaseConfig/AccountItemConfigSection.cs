@@ -34,17 +34,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
-        #region Token public string Token
-        /// <summary>
-        /// Token
-        /// </summary>
-        [ConfigurationProperty("Token")]
-        public string Token
-        {
-            get { return Convert.ToString(this["Token"]); }
-        }
-        #endregion
-
         #region AppID public string AppID
         /// <summary>
         /// AppID
