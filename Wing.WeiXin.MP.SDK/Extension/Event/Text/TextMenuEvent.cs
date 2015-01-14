@@ -45,16 +45,15 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         }
         #endregion
 
-        #region 开始捕获菜单事件并且显示菜单 public static Response Start(string openID, TextMenuItem item, Request request)
+        #region 开始捕获菜单事件并且显示菜单 public static Response Start(TextMenuItem item, Request request)
         /// <summary>
         /// 开始捕获菜单事件并且显示菜单
         /// </summary>
-        /// <param name="openID">用户OpenID</param>
         /// <param name="item">菜单对象</param>
         /// <param name="request">请求对象</param>
-        public static Response Start(string openID, TextMenuItem item, Request request)
+        public static Response Start(TextMenuItem item, Request request)
         {
-            Start(openID, item);
+            Start(request.FromUserName, item);
             return ShowMeun(item, request);
         }
         #endregion
@@ -86,14 +85,14 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         }
         #endregion
 
-        #region 菜单后退并且显示菜单 public static Response GoBack(string openID, Request request)
+        #region 菜单后退并且显示菜单 public static Response GoBack(Request request)
         /// <summary>
         /// 菜单后退并且显示菜单
         /// </summary>
-        /// <param name="openID">用户OpenID</param>
         /// <param name="request">请求对象</param>
-        public static Response GoBack(string openID, Request request)
+        public static Response GoBack(Request request)
         {
+            string openID = request.FromUserName;
             if (!CheckTimeout(openID)) return null;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
             if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
@@ -105,15 +104,15 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         }
         #endregion
 
-        #region 获取菜单信息 public static Response ShowMeun(string openID, Request request)
+        #region 获取菜单信息 public static Response ShowMeun(Request request)
         /// <summary>
         /// 获取菜单信息
         /// </summary>
-        /// <param name="openID">用户OpenID</param>
         /// <param name="request">请求对象</param>
         /// <returns>菜单信息</returns>
-        public static Response ShowMeun(string openID, Request request)
+        public static Response ShowMeun(Request request)
         {
+            string openID = request.FromUserName;
             if (!CheckTimeout(openID)) return null;
             object itemObj = GlobalManager.WXSessionManager.Get(openID, Settings.Default.TextMenuEventListSign);
             if (itemObj == null) throw WXException.GetInstance("菜单未设置", openID);
@@ -170,12 +169,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         }
         #endregion
 
-        #region 设置文本菜单事件列表 public static void SetEvent(string toUserName)
+        #region 添加文本菜单事件 public static void AddEvent(string toUserName)
         /// <summary>
-        /// 设置文本菜单事件列表
+        /// 添加文本菜单事件
         /// </summary>
         /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
-        public static void SetEvent(string toUserName)
+        public static void AddEvent(string toUserName)
         {
             GlobalManager.EventManager.AddSystemReceiveEvent(toUserName, request =>
             {

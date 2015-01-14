@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -16,14 +18,15 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     /// 
     /// 测试方案：
     ///     1 全局测试
+    ///       1.1 运行环境
     ///     2 配置测试
-    ///       2.1 [Error]类库是否可用
-    ///       2.2 [Error]是否已经初始化 （GlobalManager.IsInit）
-    ///       2.3 [Warn]是否存在微信公众平台账号
-    ///       2.4 [Warn]微信用户会话管理类是否可用
+    ///       2.1 类库是否可用
+    ///       2.2 是否已经初始化 （GlobalManager.IsInit）
+    ///       2.3 是否存在微信公众平台账号
+    ///       2.4 微信用户会话管理类是否可用
     ///     3 模拟测试
-    ///       3.1 [Error]对首次验证进行测试
-    ///       3.2 [Error]添加测试事件到临时事件列表进行测试
+    ///       3.1 对首次验证进行测试
+    ///       3.2 添加测试事件到临时事件列表进行测试
     /// </summary>
     public class AshxCheckHandler : IHttpHandler
     {
@@ -43,26 +46,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         private const string TestText = "Hello World";
 
         /// <summary>
-        /// 用于测试的文本请求对象
+        /// 运行时程序集
         /// </summary>
-        private readonly static Request TestFirstRequest = new Request(
-            GetNewSignature(),
-            "1234567890", "nonce", "echostr", null);
+        private static Assembly RuntimeAssembly;
 
         /// <summary>
-        /// 用于测试的文本请求对象
+        /// 初始化
         /// </summary>
-        private readonly static Request TestTextRequest = new Request(
-            GetNewSignature(),
-            "1234567890", "nonce", null, 
-            String.Format(@"<xml>
-                                <ToUserName><![CDATA[{0}]]></ToUserName>
-                                <FromUserName><![CDATA[{1}]]></FromUserName>
-                                <CreateTime>1348831860</CreateTime>
-                                <MsgType><![CDATA[text]]></MsgType>
-                                <Content><![CDATA[{2}]]></Content>
-                                <MsgId>1234567890123456</MsgId>
-                            </xml>", TestToUserName, TestFromUserName, TestText));
+        public AshxCheckHandler()
+        {
+            RuntimeAssembly = Assembly.GetCallingAssembly();
+        }
 
         #region 测试项列表 private Dictionary<string, AshxCheckItem[]> CheckItemList = new Dictionary<string, AshxCheckItem[]>
         /// <summary>
@@ -70,12 +64,24 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private readonly Dictionary<string, AshxCheckItem[]> CheckItemList = new Dictionary<string, AshxCheckItem[]>
         {
-            {"全局测试", new AshxCheckItem[] {}},
+            {"全局测试", new []
+            {
+                new AshxCheckItem
+                {
+                    Text = "运行环境",
+                    Check = () =>
+                    {
+                        object[] list = RuntimeAssembly.GetCustomAttributes(typeof(DebuggableAttribute), false);
+                        if (list.Length == 0) return RuntimeAssembly.FullName;
+                        DebuggableAttribute attr = (DebuggableAttribute)list[0];
+                        return attr.IsJITTrackingEnabled ? "建议使用Release模式编译以获得最佳性能" : null;
+                    }
+                }
+            }},
             {"配置测试", new []
             {
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
                     Text = "类库是否可用",
                     Check = () =>
                     {
@@ -89,20 +95,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 },
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
                     Text = "是否已经初始化",
                     Check = () => GlobalManager.IsInit ? null : "未初始化完成"
                 },
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "是否存在微信公众平台账号",
                     Check = () => !GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any() 
                         ? "未发现任何微信公众平台账号" : null
                 },
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "微信用户会话管理类是否可用",
                     Check = () => GlobalManager.WXSessionManager == null 
                         ? "未创建微信用户会话管理类" : null
@@ -112,10 +115,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             {
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
                     Text = "对首次验证进行测试",
                     Check = () =>
                     {
+                        Request TestFirstRequest = new Request(
+                            GetNewSignature(),
+                            "1234567890", "nonce", "echostr", null);
                         Response response = new ReceiveController().Action(TestFirstRequest);
 
                         return response.Text.Equals(TestFirstRequest.Echostr)
@@ -124,22 +129,33 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 },
                 new AshxCheckItem
                 {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
                     Text = "添加测试事件到临时事件列表进行模拟测试",
                     Check = () =>
                     {
+                        Request TestTextRequest = new Request(
+                            GetNewSignature(),
+                            "1234567890", "nonce", null, 
+                            String.Format(@"<xml>
+                                                <ToUserName><![CDATA[{0}]]></ToUserName>
+                                                <FromUserName><![CDATA[{1}]]></FromUserName>
+                                                <CreateTime>1348831860</CreateTime>
+                                                <MsgType><![CDATA[text]]></MsgType>
+                                                <Content><![CDATA[{2}]]></Content>
+                                                <MsgId>{3}</MsgId>
+                                            </xml>", TestToUserName, TestFromUserName, TestText, 
+                                            LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now)));
+
                         GlobalManager.EventManager.AddTempReceiveEvent(
                             TestToUserName, 
                             TestFromUserName,
                             re => re.GetTextResponse(TestText));
                         Response response = new ReceiveController().Action(TestTextRequest);
-
-                        return response.Text.Equals(TestTextRequest.GetTextResponse(TestText).Text) 
+                        return response == null || response.Text.Equals(TestTextRequest.GetTextResponse(TestText).Text) 
                             ? null : "临时事件模拟测试异常";
                     }
                 }
             }},
-        };  
+        };
         #endregion
 
         #region 响应事件 public void ProcessRequest(HttpContext context)
@@ -162,9 +178,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         private string GetResponse()
         {
             return String.Join(
-                Environment.NewLine, 
+                Environment.NewLine,
                 CheckItemList.Select(l => GetListResult(l.Key, l.Value)));
-        } 
+        }
         #endregion
 
         #region 获取列表测试结果 private string GetListResult(string key, IEnumerable<AshxCheckItem> list)
@@ -176,9 +192,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// <returns>列表测试结果</returns>
         private string GetListResult(string key, IEnumerable<AshxCheckItem> list)
         {
-            return String.Format("<h1>{0}</h1>", key) + Environment.NewLine + 
+            return String.Format("<h1>{0}</h1>", key) + Environment.NewLine +
                 String.Join(Environment.NewLine, list.Select(GetResult));
-        } 
+        }
         #endregion
 
         #region 获取测试结果 private string GetResult(AshxCheckItem item)
@@ -190,11 +206,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         private string GetResult(AshxCheckItem item)
         {
             string result = item.Check();
-            return String.Format("<h2>{0}</h2>", item.Text) + Environment.NewLine +
+            return String.Format("<h4>{0}</h4>", item.Text) + Environment.NewLine +
                 String.Format("<span style='color:{1}'>{0}</span>",
                     result ?? "通过",
                     result == null ? "green" : "red");
-        } 
+        }
         #endregion
 
         #region 获取新的Signature private static string GetNewSignature()
@@ -212,7 +228,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             }.OrderBy(z => z).ToArray();
 
             return LibManager.SecurityHelper.SHA1_Encrypt(string.Join("", arr));
-        } 
+        }
         #endregion
 
         /// <summary>
@@ -225,27 +241,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private class AshxCheckItem
         {
-            /// <summary>
-            /// 测试项类型
-            /// </summary>
-            public enum AshxCheckItemType
-            {
-                /// <summary>
-                /// 警告
-                /// </summary>
-                Warn,
-
-                /// <summary>
-                /// 严重错误
-                /// </summary>
-                Error
-            }
-
-            /// <summary>
-            /// 测试项类型
-            /// </summary>
-            public AshxCheckItemType Type { get; set; }
-
             /// <summary>
             /// 测试说明
             /// </summary>

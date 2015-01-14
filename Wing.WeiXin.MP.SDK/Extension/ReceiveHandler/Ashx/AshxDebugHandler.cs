@@ -28,6 +28,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     ///         "Account" : 账号ID，如果为空，则为账号列表的第一个账号
     ///         "User"    : 用户OpenID，如果为空，则为"TestUser"
     ///     文本消息内容在"Param"参数中设置
+    /// 3."Restart" 重启服务器程序
     /// </summary>
     public class AshxDebugHandler : IHttpHandler
     {
@@ -64,7 +65,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 String.IsNullOrEmpty(p.QueryString["User"]) ? "TestUser" : p.QueryString["User"],
                 LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now),
                 p.QueryString["Message"]))
-            }
+            },
+            {"Restart", p =>
+            {
+                HttpRuntime.UnloadAppDomain();
+                return "下次请求将会重启服务器程序";
+            }}
         };
         #endregion
 

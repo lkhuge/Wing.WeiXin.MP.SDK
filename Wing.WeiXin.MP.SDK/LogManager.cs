@@ -90,13 +90,13 @@ namespace Wing.WeiXin.MP.SDK
         public static void AddWriteCallback(Action<string> callback)
         {
             Info += (m, u) => callback(String.Format("[{0}]({1}){2}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m));
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m));
             System += m => callback(String.Format("[{0}]{1}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), m));
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), m));
             Warn += (m, u) => callback(String.Format("[{0}]({1}){2}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m));
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m));
             Error += (m, e, u) => callback(String.Format("[{0}]({1}){2}{3}{4}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), u, m, Environment.NewLine, e.Message));
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m, Environment.NewLine, e.Message));
         }
         #endregion
     }

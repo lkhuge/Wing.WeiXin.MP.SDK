@@ -58,15 +58,6 @@
     <Compile Include="Common\AccessTokenManager\StaticAccessTokenManager.cs" />
     <Compile Include="Common\AccessTokenManager\WXSessionAccessTokenManager.cs" />
     <Compile Include="Common\EntityBuilder.cs" />
-    <Compile Include="Common\EventTemplate\Default\EventTemplate\FileEventTemplate.cs" />
-    <Compile Include="Common\EventTemplate\Default\EventTemplate\TOJSONFileEventTemplate.cs" />
-    <Compile Include="Common\EventTemplate\Default\Mapping\TransObject\EventTemplateObject.cs" />
-    <Compile Include="Common\EventTemplate\Default\Mapping\TransObject\TransObjectHelper.cs" />
-    <Compile Include="Common\EventTemplate\EventTemplateManager.cs" />
-    <Compile Include="Common\EventTemplate\IEventTemplate.cs" />
-    <Compile Include="Common\EventTemplate\Item\EventItem.cs" />
-    <Compile Include="Common\EventTemplate\Item\GlobalEventItem.cs" />
-    <Compile Include="Common\EventTemplate\Item\ReceiveEventItem.cs" />
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -90,8 +81,6 @@
     <Compile Include="ConfigSection\EventConfig\EventConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs" />
-    <Compile Include="ConfigSection\EventConfig\EventTemplateConfigSection.cs" />
-    <Compile Include="ConfigSection\EventConfig\EventTemplateListConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemListConfigSection.cs" />
     <Compile Include="Controller\CSController.cs" />

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
-using Wing.WeiXin.MP.SDK.Common.EventTemplate;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
@@ -149,17 +148,6 @@ namespace Wing.WeiXin.MP.SDK
                         encodingAESKey = v.EncodingAESKey,
                         appID = v.AppID
                     });
-        }
-        #endregion
-
-        #region 导入事件模板 public static void LoadEventTemplate(EventTemplateManager eventTemplateManager)
-        /// <summary>
-        /// 导入事件模板
-        /// </summary>
-        /// <param name="eventTemplateManager">事件模板管理类</param>
-        public static void LoadEventTemplate(EventTemplateManager eventTemplateManager)
-        {
-            eventTemplateManager.SetEvent(ConfigManager.EventConfig.EventTemplateList.GetEventTemplateList());
         }
         #endregion
 
