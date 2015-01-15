@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
     /// </summary>
     public class ReceiveController
     {
+        /// <summary>
+        /// 是否计算请求响应时长
+        /// </summary>
+        public static bool IsSumRunTime = false;
+
         /// <summary>
         /// 接收开始事件
         /// </summary>
@@ -67,9 +73,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
             }
             catch (Exception e)
             {
-                LogManager.WriteSystem("触发接收异常事件");
-                if (ReceiveException != null) ReceiveException(request, e);
-                LogManager.WriteSystem("接收异常事件结束");
+                if (ReceiveException != null)
+                {
+                    LogManager.WriteSystem("触发接收异常事件");
+                    ReceiveException(request, e);
+                    LogManager.WriteSystem("接收异常事件结束");
+                }
                 return new Response(e);
             }
         }
@@ -97,7 +106,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             GlobalManager.WXSessionManager.Set(request.FromUserName, "LastMsgID", msgID);
             LogManager.WriteSystem("检测MsgID未通过");
             return false;
-        } 
+        }
         #endregion
     }
 }

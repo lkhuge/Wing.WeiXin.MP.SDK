@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Common.WXSession
 {
@@ -22,8 +24,10 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <param name="wxSession">微信会话类</param>
         public WXSessionManager(IWXSession wxSession)
         {
+            if (wxSession == null)
+                throw WXException.GetInstance("微信会话类不能为空", Settings.Default.SystemUsername);
             this.wxSession = wxSession;
-        } 
+        }
         #endregion
 
         #region 获取数据 public object Get(string user, string key)
@@ -36,7 +40,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public object Get(string user, string key)
         {
             return wxSession.Get(user, key);
-        } 
+        }
         #endregion
 
         #region 设置对象数据 public void Set(string user, string key, object value)
@@ -49,7 +53,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public void Set(string user, string key, object value)
         {
             wxSession.Set(user, key, value);
-        } 
+        }
         #endregion
 
         #region 删除数据 public void Delete(string user, string key)
@@ -61,7 +65,7 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         public void Delete(string user, string key)
         {
             wxSession.Delete(user, key);
-        } 
+        }
         #endregion
     }
 }

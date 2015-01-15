@@ -14,6 +14,21 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// </summary>
     public class Response
     {
+        /// <summary>
+        /// 运行时长
+        /// </summary>
+        public long RunTime { get; private set; }
+
+        /// <summary>
+        /// 响应类型
+        /// </summary>
+        public string ContentType { get; private set; }
+
+        /// <summary>
+        /// 响应内容
+        /// </summary>
+        public string Text { get; private set; }
+
         #region 类型
         /// <summary>
         /// JSON类型
@@ -29,18 +44,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// 文本类型
         /// </summary>
         public static string TEXT = "text/plain";
-        #endregion
-
-        #region 成员变量
-        /// <summary>
-        /// 响应类型
-        /// </summary>
-        public string ContentType { get; private set; }
-
-        /// <summary>
-        /// 响应内容
-        /// </summary>
-        public string Text { get; private set; }
         #endregion
 
         #region 根据异常实例化文本类型对象 public Response(Exception e)
@@ -66,6 +69,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             Text = GetCryptMessage(text, request);
             ContentType = type;
+            RunTime = request.GetRunTime();
         }
         #endregion
 
@@ -83,13 +87,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
             string encryptMsg = null;
             if (GlobalManager.CryptList[toUserName].EncryptMsg(
                 text,
-                LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture), 
+                LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture),
                 request.Nonce,
                 ref encryptMsg) != 0)
                 throw WXException.GetInstance(String.Format("消息加密失败，原文：{0}", text), "[CryptMessage]Account:" + request.ToUserName);
 
             return encryptMsg;
-        } 
+        }
         #endregion
 
         #region 获取完整响应信息 public override string ToString()

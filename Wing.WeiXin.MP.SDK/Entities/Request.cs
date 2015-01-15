@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -62,7 +64,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 消息创建时间 （整型）
         /// </summary>
-        public DateTime CreateTime 
+        public DateTime CreateTime
         {
             get
             {
@@ -71,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                     createTime = LibManager.DateTimeHelper.GetDateTimeByLongTime(GetPostData("CreateTime"));
                 }
                 return createTime;
-            } 
+            }
         }
 
         /// <summary>
@@ -92,10 +94,15 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 账号对象
         /// </summary>
-        public WXAccount WXAccount 
+        public WXAccount WXAccount
         {
             get { return wxAccount ?? (wxAccount = new WXAccount(ToUserName)); }
         }
+
+        /// <summary>
+        /// 运行时长计时器
+        /// </summary>
+        private static Stopwatch Stopwatch;
 
         #region 实例化请求对象 public Request(string signature, string timestamp, string nonce, string echostr, string postData)
         /// <summary>
@@ -107,13 +114,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="echostr">随机字符串</param>
         /// <param name="postData">POST数据</param>
         public Request(string signature, string timestamp, string nonce, string echostr, string postData)
+            : this(postData)
         {
             Signature = signature;
             Timestamp = timestamp;
             Nonce = nonce;
             Echostr = echostr;
-            PostData = postData;
-        } 
+        }
         #endregion
 
         #region 实例化请求对象 public Request(string postData)
@@ -124,6 +131,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public Request(string postData)
         {
             PostData = postData;
+            if (!ReceiveController.IsSumRunTime) return;
+            if (Stopwatch == null) Stopwatch = new Stopwatch();
+            Stopwatch.Restart();
         }
         #endregion
 
@@ -135,10 +145,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public void Check()
         {
             LogManager.WriteSystem("验证请求头部");
-            if (!CheckSignature(Nonce)) 
+            if (!CheckSignature(Nonce))
             {
                 LogManager.WriteSystem("验证请求头部未通过");
-                throw WXException.GetInstance( "验证未通过\nRequest:" +
+                throw WXException.GetInstance("验证未通过\nRequest:" +
                 String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
                     Signature, Timestamp, Nonce, Echostr, PostData), Settings.Default.SystemUsername);
             }
@@ -149,7 +159,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 LogManager.WriteSystem("首次验证");
                 throw WXException.GetInstance(Echostr, Settings.Default.SystemUsername);
             }
-        } 
+        }
         #endregion
 
         #region 验证signature是否有效 private bool CheckSignature(string nonce)
@@ -191,7 +201,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (!Enum.TryParse(MsgTypeName, out Temp)) throw WXException.GetInstance("XML格式错误（未知消息类型）", Settings.Default.SystemUsername, MsgTypeName);
             MsgType = Temp;
             LogManager.WriteSystem("确认为消息类型为：" + MsgType);
-        } 
+        }
         #endregion
 
         #region 解密数据 private XElement EncodingData()
@@ -213,7 +223,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), weixinID);
 
             return XDocument.Parse(outMsg).Element("xml");
-        } 
+        }
         #endregion
 
         #region 获取XML数据 public string GetPostData(string key)
@@ -228,7 +238,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key), Settings.Default.SystemUsername);
 
             return element.Value;
-        } 
+        }
         #endregion
 
         #region 获取XML数据（二级数据） public string GetPostData(string key1, string key2)
@@ -246,7 +256,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (element2 == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key2), Settings.Default.SystemUsername);
 
             return element2.Value;
-        } 
+        }
         #endregion
 
         #region 是否存在XML数据 public bool HasPostData(string key)
@@ -260,7 +270,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             XElement element = RootElement.Element(key);
 
             return element != null;
-        } 
+        }
         #endregion
 
         #region 获取消息id，64位整型 public string GetMsgId()
@@ -271,7 +281,20 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string GetMsgId()
         {
             return GetPostData("MsgId");
-        } 
+        }
+        #endregion
+
+        #region 获取运行时长 public long GetRunTime()
+        /// <summary>
+        /// 获取运行时长
+        /// </summary>
+        /// <returns>运行时长</returns>
+        public long GetRunTime()
+        {
+            if (!ReceiveController.IsSumRunTime) return 0;
+            Stopwatch.Stop();
+            return Stopwatch.ElapsedMilliseconds;
+        }
         #endregion
     }
 }

@@ -31,6 +31,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         /// </summary>
         public static uint ExpiresSecond { get; set; }
 
+        static TextMenuEvent()
+        {
+            if (GlobalManager.WXSessionManager == null)
+                throw WXException.GetInstance("该模块依赖于微信用户会话管理类", Settings.Default.SystemUsername);
+        }
+
         #region 开始捕获菜单事件 public static void Start(string openID, TextMenuItem item)
         /// <summary>
         /// 开始捕获菜单事件
