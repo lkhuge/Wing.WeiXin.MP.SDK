@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,21 +7,21 @@ using System.Web;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
 
-namespace Wing.WeiXin.MP.SDK.Lib.Net
+namespace Wing.WeiXin.MP.SDK.Lib
 {
     /// <summary>
-    /// 默认HTTP工具类
+    /// HTTP工具类
     /// </summary>
-    public class DefaultHTTPHelper : IHTTPHelper
+    public static class HTTPHelper
     {
-        #region 使用Get方法获取字符串结果 public string Get(string url, Encoding encoding = null)
+        #region 使用Get方法获取字符串结果 public static string Get(string url, Encoding encoding = null)
         /// <summary>
         /// 使用Get方法获取字符串结果
         /// </summary>
         /// <param name="url">地址</param>
         /// <param name="encoding">编码</param>
         /// <returns></returns>
-        public string Get(string url, Encoding encoding = null)
+        public static string Get(string url, Encoding encoding = null)
         {
             WebClient wc = new WebClient
             {
@@ -32,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
         }
         #endregion
 
-        #region 使用Post方法获取字符串结果 public string Post(string url, string data, Encoding encoding = null)
+        #region 使用Post方法获取字符串结果 public static string Post(string url, string data, Encoding encoding = null)
         /// <summary>
         /// 使用Post方法获取字符串结果
         /// </summary>
@@ -40,40 +39,24 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
         /// <param name="data">请求</param>
         /// <param name="encoding">编码</param>
         /// <returns>结果</returns>
-        public string Post(string url, string data, Encoding encoding = null)
+        public static string Post(string url, string data, Encoding encoding = null)
         {
-            encoding = encoding ?? Encoding.UTF8;
-            byte[] postData = encoding.GetBytes(data);
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            if (request == null) return "";
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            using (Stream outstream = request.GetRequestStream())
+            WebClient wc = new WebClient
             {
-                outstream.Write(postData, 0, postData.Length);
-                outstream.Flush();
-            }
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            if (response == null) return "";
-            using (Stream instream = response.GetResponseStream())
-            {
-                if (instream == null) return "";
-                using (StreamReader sr = new StreamReader(instream, encoding))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
+                Encoding = encoding ?? Encoding.UTF8,
+            };
+            return wc.UploadString(url, data);
         }
         #endregion
 
-        #region 下载文件 public string DownloadFile(string url, string pathname)
+        #region 下载文件 public static string DownloadFile(string url, string pathname)
         /// <summary>
         /// 下载文件
         /// </summary>
         /// <param name="url">下载文件地址</param>
         /// <param name="pathname">下载后的存放地址以及文件名</param>
         /// <returns>响应内容</returns>
-        public string DownloadFile(string url, string pathname)
+        public static string DownloadFile(string url, string pathname)
         {
             HttpWebRequest webRequest = WebRequest.Create(url) as HttpWebRequest;
             if (webRequest == null) throw new NullReferenceException();
@@ -106,7 +89,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
         }
         #endregion
 
-        #region 上传文件 public string Upload(string address, string path, string name, string method = "POST")
+        #region 上传文件 public static string Upload(string address, string path, string name, string method = "POST")
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -115,7 +98,7 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
         /// <param name="name">文件上传后的名称</param>
         /// <param name="method">上传方式</param>
         /// <returns>成功返回1，失败返回0</returns>
-        public string Upload(string address, string path, string name, string method = "POST")
+        public static string Upload(string address, string path, string name, string method = "POST")
         {
             string strBoundary = "----------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + strBoundary + "\r\n");
@@ -161,14 +144,14 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
         }
         #endregion
 
-        #region 获取Post请求流 public string GetPostStream(HttpContext httpContext, Encoding encoding = null)
+        #region 获取Post请求流 public static string GetPostStream(HttpContext httpContext, Encoding encoding = null)
         /// <summary>
         /// 获取Post请求流
         /// </summary>
         /// <param name="httpContext">上下文</param>
         /// <param name="encoding">编码</param>
         /// <returns>Post请求流字符串</returns>
-        public string GetPostStream(HttpContext httpContext, Encoding encoding = null)
+        public static string GetPostStream(HttpContext httpContext, Encoding encoding = null)
         {
             try
             {
@@ -181,6 +164,30 @@ namespace Wing.WeiXin.MP.SDK.Lib.Net
                 return null;
             }
         }
+        #endregion
+
+        #region 获取请求IP public static string GetRequestIP(HttpRequest request)
+        /// <summary>
+        /// 获取请求IP
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>真实请求IP</returns>
+        public static string GetRequestIP(HttpRequest request)
+        {
+            string result = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (!String.IsNullOrEmpty(result))
+            {
+                if (result.IndexOf(".") == -1) return null;
+                if (result.IndexOf(",") == -1) return result;
+                return result.Split(',').FirstOrDefault(i => 
+                    !i.StartsWith("192.168") && !i.StartsWith("10") && !i.StartsWith("172.16"));
+            }
+            result = request.ServerVariables["REMOTE_ADDR"];
+            return !String.IsNullOrEmpty(result) 
+                ? result
+                : request.UserHostAddress;
+        }
+
         #endregion
     }
 }

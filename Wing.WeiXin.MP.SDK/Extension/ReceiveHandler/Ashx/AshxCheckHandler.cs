@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Web;
-using System.Xml;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -20,10 +18,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     ///     1 全局测试
     ///       1.1 [Warn]运行环境
     ///     2 配置测试
-    ///       2.1 [Error]类库是否可用
-    ///       2.2 [Error]是否已经初始化 （GlobalManager.IsInit）
-    ///       2.3 [Warn]是否存在微信公众平台账号
-    ///       2.4 [Warn]微信用户会话管理类是否可用
+    ///       2.1 [Error]是否已经初始化 （GlobalManager.IsInit）
+    ///       2.2 [Warn]是否存在微信公众平台账号
+    ///       2.3 [Warn]微信用户会话管理类是否可用
     ///     3 模拟测试
     ///       3.1 [Error]对首次验证进行测试
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
@@ -82,20 +79,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             }},
             {"配置测试", new []
             {
-                new AshxCheckItem
-                {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
-                    Text = "类库是否可用",
-                    Check = () =>
-                    {
-                        if (LibManager.DateTimeHelper == null) return "DateTime工具栏不可用";
-                        if (LibManager.HTTPHelper == null) return "HTTP工具栏不可用";
-                        if (LibManager.JSONHelper == null) return "JSON工具栏不可用";
-                        if (LibManager.SecurityHelper == null) return "Security工具栏不可用";
-
-                        return null;
-                    }
-                },
                 new AshxCheckItem
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Error,
@@ -284,14 +267,14 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 "nonce"
             }.OrderBy(z => z).ToArray();
 
-            return LibManager.SecurityHelper.SHA1_Encrypt(string.Join("", arr));
+            return SecurityHelper.SHA1_Encrypt(string.Join("", arr));
         }
         #endregion
 
         /// <summary>
         /// 是否重用
         /// </summary>
-        public bool IsReusable { get; private set; }
+        public bool IsReusable { get { return false; } }
 
         /// <summary>
         /// 测试项

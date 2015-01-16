@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
@@ -45,13 +42,13 @@ namespace Wing.WeiXin.MP.SDK.Controller
         protected T ActionWithoutAccessToken<T>(string url, WXAccount account, bool isNeedCheckService = false, bool IsNeedCheckErrorMsg = true)
         {
             if (isNeedCheckService) account.CheckIsService();
-            string result = LibManager.HTTPHelper.Get(url);
-            if (IsNeedCheckErrorMsg && LibManager.JSONHelper.HasKey(result, "errcode"))
+            string result = HTTPHelper.Get(url);
+            if (IsNeedCheckErrorMsg && JSONHelper.HasKey(result, "errcode"))
             {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
-            return LibManager.JSONHelper.JSONDeserialize<T>(result);
+            return JSONHelper.JSONDeserialize<T>(result);
         }
         #endregion
 
@@ -69,16 +66,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
         protected T Action<T>(string url, object messageObj, WXAccount account, bool isNeedCheckService = false, bool IsNeedCheckErrorMsg = true)
         {
             if (isNeedCheckService) account.CheckIsService();
-            string result = LibManager.HTTPHelper.Post(String.Format(
+            string result = HTTPHelper.Post(String.Format(
                     url,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                    LibManager.JSONHelper.JSONSerialize(messageObj));
-            if (IsNeedCheckErrorMsg && LibManager.JSONHelper.HasKey(result, "errcode"))
+                    JSONHelper.JSONSerialize(messageObj));
+            if (IsNeedCheckErrorMsg && JSONHelper.HasKey(result, "errcode"))
             {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
-            return LibManager.JSONHelper.JSONDeserialize<T>(result);
+            return JSONHelper.JSONDeserialize<T>(result);
         } 
         #endregion
     }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
@@ -16,6 +14,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
     /// </summary>
     public class Request
     {
+        /// <summary>
+        /// 请求者服务器IP
+        /// </summary>
+        public string IP { get; private set; }
+
         /// <summary>
         /// 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
         /// </summary>
@@ -70,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             {
                 if (createTime == default(DateTime))
                 {
-                    createTime = LibManager.DateTimeHelper.GetDateTimeByLongTime(GetPostData("CreateTime"));
+                    createTime = DateTimeHelper.GetDateTimeByLongTime(GetPostData("CreateTime"));
                 }
                 return createTime;
             }
@@ -104,7 +107,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         private static Stopwatch Stopwatch;
 
-        #region 实例化请求对象 public Request(string signature, string timestamp, string nonce, string echostr, string postData)
+        #region 实例化请求对象 public Request(string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
         /// <summary>
         /// 实例化请求对象
         /// </summary>
@@ -113,8 +116,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="nonce">随机数</param>
         /// <param name="echostr">随机字符串</param>
         /// <param name="postData">POST数据</param>
-        public Request(string signature, string timestamp, string nonce, string echostr, string postData)
-            : this(postData)
+        /// <param name="ip">请求者服务器IP</param>
+        public Request(string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
+            : this(postData, ip)
         {
             Signature = signature;
             Timestamp = timestamp;
@@ -123,14 +127,16 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 实例化请求对象 public Request(string postData)
+        #region 实例化请求对象 public Request(string postData, string ip = null)
         /// <summary>
         /// 实例化请求对象
         /// </summary>
         /// <param name="postData">POST数据</param>
-        public Request(string postData)
+        /// <param name="ip">请求者服务器IP</param>
+        public Request(string postData, string ip = null)
         {
             PostData = postData;
+            IP = ip;
             if (!ReceiveController.IsSumRunTime) return;
             if (Stopwatch == null) Stopwatch = new Stopwatch();
             Stopwatch.Restart();
@@ -177,7 +183,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 nonce
             }.OrderBy(z => z).ToArray();
 
-            return LibManager.SecurityHelper.SHA1_Encrypt(string.Join("", arr)).Equals(Signature);
+            return SecurityHelper.SHA1_Encrypt(string.Join("", arr)).Equals(Signature);
         }
         #endregion
 

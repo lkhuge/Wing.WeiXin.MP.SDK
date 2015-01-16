@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
@@ -65,12 +61,12 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         private AccessToken GetNewAccessToken(WXAccount account)
         {
             if (NewAccessToken != null) NewAccessToken(account);
-            string result = LibManager.HTTPHelper.Get(String.Format(Url, account.AppID, account.AppSecret));
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
+            string result = HTTPHelper.Get(String.Format(Url, account.AppID, account.AppSecret));
+            if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
+                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
             }
-            AccessToken accessTokenNew = LibManager.JSONHelper.JSONDeserialize<AccessToken>(result);
+            AccessToken accessTokenNew = JSONHelper.JSONDeserialize<AccessToken>(result);
             accessTokenManager.SetAccessToken(account, accessTokenNew);
             accessTokenManager.SetExpiresDateTime(account, DateTime.Now + new TimeSpan(0, 0, accessTokenNew.expires_in));
 

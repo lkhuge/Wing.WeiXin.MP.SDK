@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
@@ -8,7 +7,6 @@ using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
@@ -65,7 +63,6 @@ namespace Wing.WeiXin.MP.SDK
         public static void Init()
         {
             InitBase();
-            LibManager.InitLibByDefault();
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
 

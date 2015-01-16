@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.DKF;
-using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
-using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -90,7 +85,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return Action<ErrorMsg>(
                 UrlAddDKF,
-                new { kf_account, nickname, password = LibManager.SecurityHelper.MD5(password) },
+                new { kf_account, nickname, password = SecurityHelper.MD5(password) },
                 account, false, false);
         } 
         #endregion
@@ -111,7 +106,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return Action<ErrorMsg>(
                 UrlSetDKF,
-                new { kf_account, nickname, password = LibManager.SecurityHelper.MD5(password) },
+                new { kf_account, nickname, password = SecurityHelper.MD5(password) },
                 account, false, false);
         } 
         #endregion
@@ -130,12 +125,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg UploadDKFPic(WXAccount account, string kf_account, string path, string name)
         {
-            string result = LibManager.HTTPHelper.Upload(String.Format(
+            string result = HTTPHelper.Upload(String.Format(
                 UrlUploadDKFPic,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 kf_account), path, name);
 
-            return LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            return JSONHelper.JSONDeserialize<ErrorMsg>(result);
         } 
         #endregion
 
@@ -172,8 +167,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return Action<DKFrecordList>(UrlGetDKFrecordList, new
                     {
-                        starttime = LibManager.DateTimeHelper.GetLongTimeByDateTime(starttime),
-                        endtime = LibManager.DateTimeHelper.GetLongTimeByDateTime(endtime),
+                        starttime = DateTimeHelper.GetLongTimeByDateTime(starttime),
+                        endtime = DateTimeHelper.GetLongTimeByDateTime(endtime),
                         openid, pagesize, pageindex
                     }, account, true);
         } 

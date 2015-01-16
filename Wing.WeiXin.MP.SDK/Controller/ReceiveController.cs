@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Xml.Linq;
-using Wing.WeiXin.MP.SDK.Common;
+using System.Configuration;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Enumeration;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -21,6 +14,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 是否计算请求响应时长
         /// </summary>
         public static bool IsSumRunTime = false;
+
+        /// <summary>
+        /// 是否检查微信服务器IP
+        /// </summary>
+        private static WXServerIPList WXServerIPList;
 
         /// <summary>
         /// 接收开始事件
@@ -47,6 +45,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Response Action(Request request, bool needCheck = true)
         {
             GlobalManager.CheckInit();
+            
             if (ReceiveStart != null)
             {
                 LogManager.WriteSystem("触发接收开始事件");
@@ -58,6 +57,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 if (needCheck) request.Check();
                 request.ParsePostData();
                 if (needCheck && CheckMsgID(request)) return null;
+                if (needCheck) CheckRequestIP(request);
                 Response response = GlobalManager.EventManager.ActionEvent(request);
                 if (ReceiveEnd != null)
                 {
@@ -107,6 +107,39 @@ namespace Wing.WeiXin.MP.SDK.Controller
             LogManager.WriteSystem("检测MsgID未通过");
             return false;
         }
+        #endregion
+
+        #region 检测请求IP private void CheckRequestIP(Request request)
+        /// <summary>
+        /// 检测请求IP
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        private void CheckRequestIP(Request request)
+        {
+            if (WXServerIPList == null || String.IsNullOrEmpty(request.IP)) return;
+            LogManager.WriteSystem(String.Format("触发检查微信服务器IP（请求者IP:{0}）", request.IP));
+            bool result = WXServerIPList.ip_list.Contains(request.IP);
+            LogManager.WriteSystem("检查微信服务器IP" + (result ? "通过" : "不通过"));
+            if (!result) throw WXException.GetInstance(
+                String.Format("检查微信服务器IP不通过（请求者IP:{0}）", request.IP), request.ToUserName);
+        } 
+        #endregion
+
+        #region 检查微信服务器IP public static void CheckWXServerIP(string toUserName)
+        /// <summary>
+        /// 检查微信服务器IP
+        /// 由于部分服务器的外层存在代理，因此该方法不一定能够获取到真正请求IP
+        /// </summary>
+        /// <param name="toUserName">微信公共平台账号ID</param>
+        public static void CheckWXServerIP(string toUserName)
+        {
+            WXServerIPList = new SecurityController().GetWXServerIPList(
+                Settings.Default.FirstAccountToUserNameSign.Equals(toUserName) 
+                ? GlobalManager.GetFirstAccount() 
+                : new WXAccount(toUserName));
+            LogManager.WriteSystem(String.Format("微信服务器IP列表：【{0}】", 
+                String.Join(";", WXServerIPList.ip_list)));
+        } 
         #endregion
     }
 }

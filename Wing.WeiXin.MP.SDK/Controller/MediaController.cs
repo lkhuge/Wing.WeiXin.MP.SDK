@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.User.User;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
@@ -41,16 +36,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media Upload(WXAccount account, UploadMediaType type, string path, string name)
         {
-            string result = LibManager.HTTPHelper.Upload(String.Format(
+            string result = HTTPHelper.Upload(String.Format(
                 UrlUpload,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, 
                 type), path, name);
-            if (LibManager.JSONHelper.HasKey(result, "errcode"))
+            if (JSONHelper.HasKey(result, "errcode"))
             {
-                throw WXException.GetInstance(LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
 
-            return LibManager.JSONHelper.JSONDeserialize<Media>(result);
+            return JSONHelper.JSONDeserialize<Media>(result);
         } 
         #endregion
 
@@ -84,12 +79,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">下载路径加文件名</param>
         public void DownLoad(WXAccount account, string media_id, string pathName)
         {
-            string result = LibManager.HTTPHelper.DownloadFile(String.Format(
+            string result = HTTPHelper.DownloadFile(String.Format(
                 UrlDownLoad,
                 GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
                 media_id), pathName);
             if (!String.IsNullOrEmpty(result)) throw WXException.GetInstance(
-                LibManager.JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID);
+                JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID);
         } 
         #endregion
     }

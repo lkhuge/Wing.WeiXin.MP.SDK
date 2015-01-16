@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -63,7 +62,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             {"TextMessageTest", p => MessageRequest(String.Format(textMessageFormat,
                 String.IsNullOrEmpty(p.QueryString["Account"]) ? GlobalManager.GetFirstAccount().ID : p.QueryString["Account"],
                 String.IsNullOrEmpty(p.QueryString["User"]) ? "TestUser" : p.QueryString["User"],
-                LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now),
+                DateTimeHelper.GetLongTimeByDateTime(DateTime.Now),
                 p.QueryString["Message"]))
             },
             {"Restart", p =>
@@ -102,7 +101,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             if (!actionList.ContainsKey(mode))
             {
                 Response response = receiveController.Action(
-                    new Request(LibManager.HTTPHelper.GetPostStream(context)),
+                    new Request(
+                        HTTPHelper.GetPostStream(context),
+                        HTTPHelper.GetRequestIP(context.Request)),
                     false);
                 context.Response.Write(response == null ? "" : response.Text);
                 return;
@@ -150,6 +151,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// <summary>
         /// 是否重用
         /// </summary>
-        public bool IsReusable { get; private set; }
+        public bool IsReusable { get { return false; } }
     }
 }

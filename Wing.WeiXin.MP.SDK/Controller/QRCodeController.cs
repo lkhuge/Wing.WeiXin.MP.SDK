@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Common;
-using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;
-using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -53,7 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">保存路径</param>
         public void GetQRCode(string ticket, string pathName)
         {
-            LibManager.HTTPHelper.DownloadFile(String.Format(
+            HTTPHelper.DownloadFile(String.Format(
                 UrlGetQRCode,
                 HttpUtility.UrlEncode(ticket)), pathName);
         } 

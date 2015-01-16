@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml.Linq;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Entities
@@ -87,7 +88,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             string encryptMsg = null;
             if (GlobalManager.CryptList[toUserName].EncryptMsg(
                 text,
-                LibManager.DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture),
+                DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture),
                 request.Nonce,
                 ref encryptMsg) != 0)
                 throw WXException.GetInstance(String.Format("消息加密失败，原文：{0}", text), "[CryptMessage]Account:" + request.ToUserName);
