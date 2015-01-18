@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
@@ -45,6 +46,23 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
         public void DownloadImage(WXAccount account, string pathName)
         {
             new MediaController().DownLoad(account, MediaId, pathName);
+        }
+        #endregion
+
+        #region 下载图片（异步） public void DownloadImageAsync(WXAccount account, string pathName, Action callback)
+        /// <summary>
+        /// 下载图片（异步）
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="pathName">下载路径加文件名</param>
+        /// <param name="callback">回调方法</param>
+        public void DownloadImageAsync(WXAccount account, string pathName, Action callback)
+        {
+            ThreadPool.QueueUserWorkItem(obj =>
+            {
+                DownloadImage(account, pathName);
+                if (callback != null) callback();
+            });
         }
         #endregion
     }

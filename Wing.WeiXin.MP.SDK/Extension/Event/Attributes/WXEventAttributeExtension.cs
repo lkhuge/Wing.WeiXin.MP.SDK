@@ -30,10 +30,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                 ParameterInfo arg = GetParameterInfo(methodInfo, receiveEvent.GetType(), attList[0]);
                 if (arg.ParameterType == typeof(Request))
                 {
+                    MethodInfo info = methodInfo;
                     eventManager.AddGloablReceiveEvent(
                         attList[0].EventName,
                         attList[0].ToUserName,
-                        (Func<Request, Response>)Delegate.CreateDelegate(typeof(Func<Request, Response>), methodInfo));
+                        request => (Response)info.Invoke(receiveEvent, new object[] { request }),
+                        attList[0].Priority);
                     continue;
                 }
                 if (typeof(RequestAMessage).IsAssignableFrom(arg.ParameterType))
@@ -47,7 +49,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                         ((RequestAMessage)constructorInfo.Invoke(null)).ReceiveEntityType,
                         attList[0].EventName,
                         attList[0].ToUserName,
-                        request => (Response)info.Invoke(receiveEvent, new[] { methodInfoGen.Invoke(null, new object[] { request }) }));
+                        request => (Response)info.Invoke(receiveEvent, new[] { methodInfoGen.Invoke(null, new object[] { request }) }),
+                        attList[0].Priority);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Common.MsgCrypt
     /// <summary>
     /// 微信加解密编码工具
     /// </summary>
-    public class Cryptography
+    internal class Cryptography
     {
         private static Int32 HostToNetworkOrder(Int32 inval)
         {

@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Common
     /// <summary>
     /// 快速配置回复消息管理类
     /// </summary>
-    public static class QuickConfigReturnMessageManager
+    internal static class QuickConfigReturnMessageManager
     {
         #region 解析Key-Value数据方法 private delegate Response GetReturnMessageHandler(Dictionary<string, string> kvList, Request request);
         /// <summary>

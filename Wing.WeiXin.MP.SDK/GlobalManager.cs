@@ -49,7 +49,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 微信加解密工具类列表
         /// </summary>
-        public static Dictionary<string, WXBizMsgCrypt> CryptList;
+        internal static Dictionary<string, WXBizMsgCrypt> CryptList;
 
         /// <summary>
         /// 是否已经初始化

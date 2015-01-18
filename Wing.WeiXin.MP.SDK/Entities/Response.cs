@@ -21,6 +21,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public long RunTime { get; private set; }
 
         /// <summary>
+        /// 执行的事件名称
+        /// </summary>
+        public string ActionEventName { get; internal set; }
+
+        /// <summary>
         /// 响应类型
         /// </summary>
         public string ContentType { get; private set; }

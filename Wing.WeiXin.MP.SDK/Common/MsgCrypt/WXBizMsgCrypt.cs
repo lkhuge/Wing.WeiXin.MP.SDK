@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Common.MsgCrypt
     /// <summary>
     /// 微信加解密工具类
     /// </summary>
-    public class WXBizMsgCrypt
+    internal class WXBizMsgCrypt
     {
         /// <summary>
         /// 公众平台上，开发者设置的Token

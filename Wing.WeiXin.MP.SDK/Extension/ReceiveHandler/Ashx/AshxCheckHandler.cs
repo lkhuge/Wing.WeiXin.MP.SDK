@@ -17,10 +17,13 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     /// 测试方案：
     ///     1 全局测试
     ///       1.1 [Warn]运行环境
+    ///       1.2 [Info]SDK版本
     ///     2 配置测试
     ///       2.1 [Error]是否已经初始化 （GlobalManager.IsInit）
     ///       2.2 [Warn]是否存在微信公众平台账号
     ///       2.3 [Warn]微信用户会话管理类是否可用
+    ///       2.4 [Info]全局事件列表
+    ///       2.5 [Info]普通事件列表
     ///     3 模拟测试
     ///       3.1 [Error]对首次验证进行测试
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
@@ -75,6 +78,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                         DebuggableAttribute attr = (DebuggableAttribute)list[0];
                         return attr.IsJITTrackingEnabled ? "建议使用Release模式编译以获得最佳性能" : null;
                     }
+                },
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Info,
+                    Text = "SDK版本",
+                    Check = () => Assembly.GetExecutingAssembly().GetName().Version.ToString()
                 }
             }},
             {"配置测试", new []
@@ -98,6 +107,20 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "微信用户会话管理类是否可用",
                     Check = () => GlobalManager.WXSessionManager == null 
                         ? "未创建微信用户会话管理类（将会影响排除重复消息和文本菜单等功能）" : null
+                },
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Info,
+                    Text = "全局事件列表",
+                    Check = () => String.Join("</br>", 
+                        GlobalManager.EventManager.GetGloablReceiveEventInfoList())
+                },
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Info,
+                    Text = "普通事件列表",
+                    Check = () => String.Join("</br>", 
+                        GlobalManager.EventManager.GetReceiveEventInfoList())
                 }
             }},
             {"模拟测试", new []

@@ -143,12 +143,12 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 验证数据 public void Check()
+        #region 验证数据 internal void Check()
         /// <summary>
         /// 验证数据
         /// </summary>
         /// <returns>结果（空则验证通过）</returns>
-        public void Check()
+        internal void Check()
         {
             LogManager.WriteSystem("验证请求头部");
             if (!CheckSignature(Nonce))
@@ -187,11 +187,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 解析POST数据 public void ParsePostData()
+        #region 解析POST数据 internal void ParsePostData()
         /// <summary>
         /// 解析POST数据
         /// </summary>
-        public void ParsePostData()
+        internal void ParsePostData()
         {
             LogManager.WriteSystem("解析POST数据");
             RootElement = EncodingData();
@@ -232,13 +232,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取XML数据 public string GetPostData(string key)
+        #region 获取XML数据 internal string GetPostData(string key)
         /// <summary>
         /// 获取XML数据
         /// </summary>
         /// <param name="key">数据名称</param>
         /// <returns>XML数据</returns>
-        public string GetPostData(string key)
+        internal string GetPostData(string key)
         {
             XElement element = RootElement.Element(key);
             if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key), Settings.Default.SystemUsername);
@@ -247,14 +247,14 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取XML数据（二级数据） public string GetPostData(string key1, string key2)
+        #region 获取XML数据（二级数据） internal string GetPostData(string key1, string key2)
         /// <summary>
         /// 获取XML数据（二级数据）
         /// </summary>
         /// <param name="key1">一级数据名称</param>
         /// <param name="key2">二级数据名称</param>
         /// <returns>XML数据</returns>
-        public string GetPostData(string key1, string key2)
+        internal string GetPostData(string key1, string key2)
         {
             XElement element = RootElement.Element(key1);
             if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key1), Settings.Default.SystemUsername);
@@ -265,13 +265,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 是否存在XML数据 public bool HasPostData(string key)
+        #region 是否存在XML数据 internal bool HasPostData(string key)
         /// <summary>
         /// 是否存在XML数据
         /// </summary>
         /// <param name="key">数据名称</param>
         /// <returns>是否存在XML数据</returns>
-        public bool HasPostData(string key)
+        internal bool HasPostData(string key)
         {
             XElement element = RootElement.Element(key);
 
@@ -279,12 +279,12 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取消息id，64位整型 public string GetMsgId()
+        #region 获取消息id，64位整型 internal string GetMsgId()
         /// <summary>
         /// 获取消息id，64位整型
         /// </summary>
         /// <returns>消息id，64位整型</returns>
-        public string GetMsgId()
+        internal string GetMsgId()
         {
             return GetPostData("MsgId");
         }
