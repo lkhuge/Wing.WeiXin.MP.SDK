@@ -41,11 +41,6 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         voice,
 
         /// <summary>
-        /// 将消息转发到多客服
-        /// </summary>
-        transfer_customer_service,
-
-        /// <summary>
         /// 点击菜单拉取消息时的事件
         /// </summary>
         CLICK,

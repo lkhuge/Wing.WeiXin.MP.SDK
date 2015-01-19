@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
@@ -69,7 +66,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (!kvList.ContainsKey("MediaId")) throw WXException.GetInstance("回复图片消息格式错误（缺少‘MediaId’）", request.FromUserName);
 
-            return EntityBuilder.GetMessageImage(request, kvList["MediaId"]);
+            return request.GetImageResponse(kvList["MediaId"]);
         }
         #endregion
 
@@ -84,7 +81,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (!kvList.ContainsKey("ThumbMediaId")) throw WXException.GetInstance("回复音乐消息格式错误（缺少‘ThumbMediaId’）", request.FromUserName);
 
-            return EntityBuilder.GetMessageMusic(request,
+            return request.GetMusicResponse(
                 kvList.ContainsKey("Title") ? kvList["Title"] : "",
                 kvList.ContainsKey("Description") ? kvList["Description"] : "",
                 kvList.ContainsKey("MusicURL") ? kvList["MusicURL"] : "",
@@ -119,7 +116,7 @@ namespace Wing.WeiXin.MP.SDK.Common
             }
             if (titleList.Count == 0) throw WXException.GetInstance("回复图文消息项目数量不能为空", request.FromUserName);
 
-            return EntityBuilder.GetMessageNews(request,
+            return request.GetNewsResponse(
                 titleList,
                 descriptionList,
                 picUrlList,
@@ -138,7 +135,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (!kvList.ContainsKey("Content")) throw WXException.GetInstance("回复文本消息格式错误（缺少‘Content’）", request.FromUserName);
 
-            return EntityBuilder.GetMessageText(request, kvList["Content"]);
+            return request.GetTextResponse(kvList["Content"]);
         }
         #endregion
 
@@ -153,7 +150,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (!kvList.ContainsKey("MediaId")) throw WXException.GetInstance("回复视频消息格式错误（缺少‘MediaId’）", request.FromUserName);
 
-            return EntityBuilder.GetMessageVideo(request,
+            return request.GetVideoResponse(
                 kvList["MediaId"],
                 kvList.ContainsKey("Title") ? kvList["Title"] : "",
                 kvList.ContainsKey("Description") ? kvList["Description"] : "");
@@ -171,7 +168,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (!kvList.ContainsKey("MediaId")) throw WXException.GetInstance("回复语音消息格式错误（缺少‘MediaId’）", request.FromUserName);
 
-            return EntityBuilder.GetMessageVoice(request, kvList["MediaId"]);
+            return request.GetVoiceResponse(kvList["MediaId"]);
         }
         #endregion
 
@@ -184,7 +181,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>回复转发多客服消息</returns>
         private static Response GetReturnMessageTCS(Dictionary<string, string> kvList, Request request)
         {
-            return EntityBuilder.GetMessageTCS(request);
+            return request.GetTCSResponse();
         }
         #endregion
     }

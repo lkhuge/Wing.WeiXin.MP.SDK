@@ -7,7 +7,6 @@ using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
 {
@@ -31,16 +30,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     /// </summary>
     public class AshxCheckHandler : IHttpHandler
     {
-        /// <summary>
-        /// 用于测试的微信号
-        /// </summary>
-        private const string TestToUserName = "TestToUserName";
-
-        /// <summary>
-        /// 用于测试的OpenID
-        /// </summary>
-        private const string TestFromUserName = "TestFromUserName";
-
         /// <summary>
         /// 用于测试的文本
         /// </summary>
@@ -131,9 +120,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "对首次验证进行测试",
                     Check = () =>
                     {
-                        Request TestFirstRequest = new Request(
-                            GetNewSignature(),
-                            "1234567890", "nonce", "echostr", null);
+                        Request TestFirstRequest = RequestBuilder.GetRequest();
                         Response response = new ReceiveController().Action(TestFirstRequest);
 
                         return response.Text.Equals(TestFirstRequest.Echostr)
@@ -146,22 +133,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "添加测试事件到临时事件列表进行模拟测试",
                     Check = () =>
                     {
-                        Request TestTextRequest = new Request(
-                            GetNewSignature(),
-                            "1234567890", "nonce", null, 
-                            String.Format(@"<xml>
-                                                <ToUserName><![CDATA[{0}]]></ToUserName>
-                                                <FromUserName><![CDATA[{1}]]></FromUserName>
-                                                <CreateTime>1348831860</CreateTime>
-                                                <MsgType><![CDATA[text]]></MsgType>
-                                                <Content><![CDATA[{2}]]></Content>
-                                                <MsgId>{3}</MsgId>
-                                            </xml>", TestToUserName, TestFromUserName, TestText, 
-                                            Guid.NewGuid()));
+                        Request TestTextRequest = RequestBuilder.GetMessageText(TestText);
 
                         GlobalManager.EventManager.AddTempReceiveEvent(
-                            TestToUserName, 
-                            TestFromUserName,
+                            RequestBuilder.TestToUserName,
+                            RequestBuilder.TestFromUserName,
                             re => re.GetTextResponse(TestText));
                         Response response = new ReceiveController().Action(TestTextRequest);
                         return response == null || response.Text.Equals(TestTextRequest.GetTextResponse(TestText).Text) 
@@ -176,21 +152,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     {
                         bool tempState = ReceiveController.IsSumRunTime;
                         ReceiveController.IsSumRunTime = true;
-                        Request TestTextRequest = new Request(
-                            GetNewSignature(),
-                            "1234567890", "nonce", null, 
-                            String.Format(@"<xml>
-                                                <ToUserName><![CDATA[{0}]]></ToUserName>
-                                                <FromUserName><![CDATA[{1}]]></FromUserName>
-                                                <CreateTime>1348831860</CreateTime>
-                                                <MsgType><![CDATA[text]]></MsgType>
-                                                <Content><![CDATA[{2}]]></Content>
-                                                <MsgId>{3}</MsgId>
-                                            </xml>", TestToUserName, TestFromUserName, TestText,
-                                            Guid.NewGuid()));
+                        Request TestTextRequest = RequestBuilder.GetMessageText(TestText);
                         GlobalManager.EventManager.AddTempReceiveEvent(
-                            TestToUserName, 
-                            TestFromUserName,
+                            RequestBuilder.TestToUserName,
+                            RequestBuilder.TestFromUserName,
                             re => re.GetTextResponse(TestText));
                         Response response = new ReceiveController().Action(TestTextRequest);
                         ReceiveController.IsSumRunTime = tempState;
@@ -273,24 +238,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
             if (type == AshxCheckItem.AshxCheckItemType.Warn) return "gold";
 
             return "red";
-        }
-        #endregion
-
-        #region 获取新的Signature private static string GetNewSignature()
-        /// <summary>
-        /// 获取新的Signature
-        /// </summary>
-        /// <returns>新的Signature</returns>
-        private static string GetNewSignature()
-        {
-            string[] arr = new[] 
-            { 
-                GlobalManager.ConfigManager.BaseConfig.Token, 
-                "1234567890", 
-                "nonce"
-            }.OrderBy(z => z).ToArray();
-
-            return SecurityHelper.SHA1_Encrypt(string.Join("", arr));
         }
         #endregion
 

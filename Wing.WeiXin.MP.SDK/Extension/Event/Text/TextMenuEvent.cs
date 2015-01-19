@@ -138,7 +138,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         {
             if (MenuFormat != null) return MenuFormat(item, request);
 
-            return EntityBuilder.GetMessageText(request,
+            return request.GetTextResponse(
                 String.Join("\n", item.SubItem.Select(i => String.Format("{0} ： {1}", i.Key, i.Text))));
         }
         #endregion

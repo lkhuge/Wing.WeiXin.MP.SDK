@@ -54,15 +54,5 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             Assert.IsNotNull(result);
         } 
         #endregion
-
-        public Response E2(RequestEventClick r)
-        {
-            return EntityBuilder.GetMessageText(r.Request, "qwe");
-        }
-
-        public Response E3(string content,Request r)
-        {
-            return EntityBuilder.GetMessageText(r, content);
-        }
     }
 }

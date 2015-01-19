@@ -8,7 +8,7 @@ using Wing.WeiXin.MP.SDK.Enumeration;
 namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event.Menu
 {
     /// <summary>
-    /// 点击菜单跳转链接时的事件请求
+    /// 弹出拍照或者相册发图的事件请求
     /// </summary>
     public class RequestEventPicPhotoOrAlbum : RequestAMessage
     {

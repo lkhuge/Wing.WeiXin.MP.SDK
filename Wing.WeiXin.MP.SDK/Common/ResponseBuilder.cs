@@ -9,9 +9,9 @@ using Wing.WeiXin.MP.SDK.Lib;
 namespace Wing.WeiXin.MP.SDK.Common
 {
     /// <summary>
-    /// 实体创建工具类
+    /// 响应创建工具类
     /// </summary>
-    public static class EntityBuilder
+    public static class ResponseBuilder
     {
         #region 图片响应内容
         /// <summary>
@@ -85,9 +85,9 @@ namespace Wing.WeiXin.MP.SDK.Common
             "<xml><ToUserName>{ToUserName}</ToUserName><FromUserName>{FromUserName}</FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType>transfer_customer_service</MsgType><TransInfo><KfAccount>{0}</KfAccount></TransInfo></xml>";
         #endregion
 
-        #region 获取图片消息 public static Response GetMessageImage(Request request, string mediaId)
+        #region 获取图片响应对象 public static Response GetMessageImage(Request request, string mediaId)
         /// <summary>
-        /// 获取图片消息
+        /// 获取图片响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -98,9 +98,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取音乐消息 public static Response GetMessageMusic(Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
+        #region 获取音乐响应对象 public static Response GetMessageMusic(Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
         /// <summary>
-        /// 获取音乐消息
+        /// 获取音乐响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="title">音乐标题</param>
@@ -115,9 +115,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取图文消息 public static Response GetMessageNews(Request request, List<string> titleList, List<string> descriptionList, List<string> picUrlList, List<string> urlList)
+        #region 获取图文响应对象 public static Response GetMessageNews(Request request, List<string> titleList, List<string> descriptionList, List<string> picUrlList, List<string> urlList)
         /// <summary>
-        /// 获取图文消息
+        /// 获取图文响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="titleList">图文消息标题</param>
@@ -148,9 +148,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取文本消息 public static Response GetMessageText(Request request, string content)
+        #region 获取文本响应对象 public static Response GetMessageText(Request request, string content)
         /// <summary>
-        /// 获取文本消息
+        /// 获取文本响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="content">回复的消息内容（换行：在content中能够换行，微信客户端就支持换行显示）</param>
@@ -161,9 +161,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取视频消息 public static Response GetMessageVideo(Request request, string mediaId, string title, string description)
+        #region 获取视频响应对象 public static Response GetMessageVideo(Request request, string mediaId, string title, string description)
         /// <summary>
-        /// 获取视频消息
+        /// 获取视频响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -176,9 +176,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取语音消息 public static Response GetMessageVoice(Request request, string mediaId)
+        #region 获取语音响应对象 public static Response GetMessageVoice(Request request, string mediaId)
         /// <summary> 
-        /// 获取语音消息
+        /// 获取语音响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -189,9 +189,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取转发多客服消息 public static Response GetMessageTCS(Request request)
+        #region 获取转发多客服响应对象 public static Response GetMessageTCS(Request request)
         /// <summary> 
-        /// 获取转发多客服消息
+        /// 获取转发多客服响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <returns>响应对象</returns>
@@ -201,9 +201,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取转发指定多客服消息 public static Response GetMessageTCSForOne(Request request, string csID)
+        #region 获取转发指定多客服响应对象 public static Response GetMessageTCSForOne(Request request, string csID)
         /// <summary> 
-        /// 获取转发指定多客服消息
+        /// 获取转发指定多客服响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="csID">客服ID</param>
@@ -214,9 +214,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 从其他服务器上获取消息 public static Response GetMessageFromFriend(Request request, string apiUrl)
+        #region 从其他服务器上获取响应对象 public static Response GetMessageFromFriend(Request request, string apiUrl)
         /// <summary>
-        /// 从其他服务器上获取消息
+        /// 从其他服务器上获取响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="apiUrl">接口名称</param>
@@ -231,9 +231,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 从快速配置回复消息上获取消息 public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
+        #region 从快速配置回复消息上获取响应对象 public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
         /// <summary>
-        /// 从快速配置回复消息上获取消息
+        /// 从快速配置回复消息上获取响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="filename">文件名</param>
@@ -259,14 +259,14 @@ namespace Wing.WeiXin.MP.SDK.Common
             return new Response(String.Format(content
                     .Replace("{ToUserName}", request.FromUserName)
                     .Replace("{FromUserName}", request.ToUserName)
-                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString(CultureInfo.InvariantCulture)),
+                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString()),
                 paramList), request, Response.XML);
         }
         #endregion
 
-        #region 获取图片消息 public static Response GetImageResponse(this Request request, string mediaId)
+        #region 获取图片响应对象 public static Response GetImageResponse(this Request request, string mediaId)
         /// <summary>
-        /// 获取图片消息
+        /// 获取图片响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -277,9 +277,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取音乐消息 public static Response GetMusicResponse(this Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
+        #region 获取音乐响应对象 public static Response GetMusicResponse(this Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
         /// <summary>
-        /// 获取音乐消息
+        /// 获取音乐响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="title">音乐标题</param>
@@ -294,9 +294,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取图文消息 public static Response GetNewsResponse(this Request request, List<string> titleList, List<string> descriptionList, List<string> picUrlList, List<string> urlList)
+        #region 获取图文响应对象 public static Response GetNewsResponse(this Request request, List<string> titleList, List<string> descriptionList, List<string> picUrlList, List<string> urlList)
         /// <summary>
-        /// 获取图文消息
+        /// 获取图文响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="titleList">图文消息标题</param>
@@ -310,9 +310,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取文本消息 public static Response GetTextResponse(this Request request, string content)
+        #region 获取文本响应对象 public static Response GetTextResponse(this Request request, string content)
         /// <summary>
-        /// 获取文本消息
+        /// 获取文本响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="content">回复的消息内容（换行：在content中能够换行，微信客户端就支持换行显示）</param>
@@ -323,9 +323,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取视频消息 public static Response GetVideoResponse(this Request request, string mediaId, string title, string description)
+        #region 获取视频响应对象 public static Response GetVideoResponse(this Request request, string mediaId, string title, string description)
         /// <summary>
-        /// 获取视频消息
+        /// 获取视频响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -338,9 +338,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取语音消息 public static Response GetVoiceResponse(this Request request, string mediaId)
+        #region 获取语音响应对象 public static Response GetVoiceResponse(this Request request, string mediaId)
         /// <summary> 
-        /// 获取语音消息
+        /// 获取语音响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="mediaId">通过上传多媒体文件，得到的id。</param>
@@ -351,9 +351,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取转发多客服消息 public static Response GetTCSResponse(this Request request)
+        #region 获取转发多客服响应对象 public static Response GetTCSResponse(this Request request)
         /// <summary> 
-        /// 获取转发多客服消息
+        /// 获取转发多客服响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <returns>响应对象</returns>
@@ -363,9 +363,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取转发指定多客服消息 public static Response GetTCSForOneResponse(this Request request, string csID)
+        #region 获取转发指定多客服响应对象 public static Response GetTCSForOneResponse(this Request request, string csID)
         /// <summary> 
-        /// 获取转发指定多客服消息
+        /// 获取转发指定多客服响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="csID">客服ID</param>
@@ -376,9 +376,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 从其他服务器上获取消息 public static Response GetFromFriendResponse(this Request request, string apiUrl)
+        #region 从其他服务器上获取响应对象 public static Response GetFromFriendResponse(this Request request, string apiUrl)
         /// <summary>
-        /// 从其他服务器上获取消息
+        /// 从其他服务器上获取响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="apiUrl">接口名称</param>
@@ -389,9 +389,9 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 从快速配置回复消息上获取消息 public static Response GetFromQuickConfigReturnMessageResponse(this Request request, string filename)
+        #region 从快速配置回复消息上获取响应对象 public static Response GetFromQuickConfigReturnMessageResponse(this Request request, string filename)
         /// <summary>
-        /// 从快速配置回复消息上获取消息
+        /// 从快速配置回复消息上获取响应对象
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <param name="filename">文件名</param>

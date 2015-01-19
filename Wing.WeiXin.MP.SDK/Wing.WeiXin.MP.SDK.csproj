@@ -53,12 +53,13 @@
     <Compile Include="Common\AccessTokenManager\IAccessTokenManager.cs" />
     <Compile Include="Common\AccessTokenManager\StaticAccessTokenManager.cs" />
     <Compile Include="Common\AccessTokenManager\WXSessionAccessTokenManager.cs" />
-    <Compile Include="Common\EntityBuilder.cs" />
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\MsgCrypt\Cryptography.cs" />
     <Compile Include="Common\MsgCrypt\WXBizMsgCrypt.cs" />
+    <Compile Include="Common\RequestBuilder.cs" />
+    <Compile Include="Common\ResponseBuilder.cs" />
     <Compile Include="Common\WXSession\IWXSession.cs" />
     <Compile Include="Common\WXSession\StaticWXSession.cs" />
     <Compile Include="Common\WXSession\WXSessionManager.cs" />
@@ -126,7 +127,6 @@
     <Compile Include="Entities\RequestMessage\Message\RequestLink.cs" />
     <Compile Include="Entities\RequestMessage\Message\RequestLocation.cs" />
     <Compile Include="Entities\RequestMessage\Message\RequestText.cs" />
-    <Compile Include="Entities\RequestMessage\RequestTransferCustomerService.cs" />
     <Compile Include="Entities\RequestMessage\Message\RequestVideo.cs" />
     <Compile Include="Entities\RequestMessage\Message\RequestVoice.cs" />
     <Compile Include="Entities\Response.cs" />
