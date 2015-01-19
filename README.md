@@ -5,7 +5,11 @@ Wing.WeiXin.MP.SDK
 ```
 目前已经初步支持微信公共平台的全部API。
 今后可能会进一步的改进优化这个SDK，欢迎大家交流
-QQ群：203230922
+```
+
+```
+Nuget安装命令：
+PM> Install-Package Wing.WeiXin.MP.SDK
 ```
 
 ```
