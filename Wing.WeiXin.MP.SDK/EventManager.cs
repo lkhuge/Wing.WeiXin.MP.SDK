@@ -301,7 +301,8 @@ namespace Wing.WeiXin.MP.SDK
             if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
             LogManager.WriteSystem("触发普通事件");
             Response response = ReceiveEventPriorityList
-                .Where(e => GlobalManager.CheckEventAction(e.Key))
+                .Where(e => ReceiveEvent[request.ToUserName][request.MsgType].ContainsKey(e.Key) && 
+                    GlobalManager.CheckEventAction(e.Key))
                 .OrderByDescending(e => e.Value)
                 .Select(e =>
                 {

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.RequestMessage;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
@@ -30,27 +29,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                 ParameterInfo arg = GetParameterInfo(methodInfo, receiveEvent.GetType(), attList[0]);
                 if (arg.ParameterType == typeof(Request))
                 {
-                    MethodInfo info = methodInfo;
-                    eventManager.AddGloablReceiveEvent(
-                        attList[0].EventName,
-                        attList[0].ToUserName,
-                        request => (Response)info.Invoke(receiveEvent, new object[] { request }),
-                        attList[0].Priority);
+                    ToAddGlobalReceiveEvent(eventManager, methodInfo, attList[0], receiveEvent);
                     continue;
                 }
                 if (typeof(RequestAMessage).IsAssignableFrom(arg.ParameterType))
                 {
-                    ConstructorInfo constructorInfo = arg.ParameterType.GetConstructor(Type.EmptyTypes);
-                    if (constructorInfo == null)
-                        throw WXException.GetInstance(String.Format("无法获取{0}构造方法", arg.ParameterType.Name), Settings.Default.SystemUsername);
-                    MethodInfo methodInfoGen = typeof(RequestAMessage).GetMethod("GetRequestAMessage").MakeGenericMethod(arg.ParameterType);
-                    MethodInfo info = methodInfo;
-                    eventManager.AddReceiveEvent(
-                        ((RequestAMessage)constructorInfo.Invoke(null)).ReceiveEntityType,
-                        attList[0].EventName,
-                        attList[0].ToUserName,
-                        request => (Response)info.Invoke(receiveEvent, new[] { methodInfoGen.Invoke(null, new object[] { request }) }),
-                        attList[0].Priority);
+                    ToAddReceiveEvent(eventManager, methodInfo, attList[0], receiveEvent, arg);
                 }
             }
         }
@@ -82,6 +66,58 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                     type.Name, methodInfo.Name), attr.ToUserName);
 
             return argList[0];
+        }
+        #endregion
+
+        #region 执行添加全局接收事件 private static void ToAddGlobalReceiveEvent(EventManager eventManager, MethodInfo methodInfo, WXEventAttribute attr, object receiveEvent)
+        /// <summary>
+        /// 执行添加全局接收事件
+        /// </summary>
+        /// <param name="eventManager">事件管理类</param>
+        /// <param name="methodInfo">事件方法</param>
+        /// <param name="attr">事件方法的特性</param>
+        /// <param name="receiveEvent">接收事件对象</param>
+        private static void ToAddGlobalReceiveEvent(EventManager eventManager, MethodInfo methodInfo, WXEventAttribute attr, object receiveEvent)
+        {
+            Func<Request, Response> gloablReceiveEvent =
+                request => (Response)methodInfo.Invoke(receiveEvent, new object[] { request });
+            gloablReceiveEvent = attr.PackageEventByLimitKey(gloablReceiveEvent);
+            gloablReceiveEvent = attr.PackageEventByLimitType(gloablReceiveEvent);
+            eventManager.AddGloablReceiveEvent(
+                attr.EventName,
+                attr.ToUserName,
+                gloablReceiveEvent,
+                attr.Priority);
+        } 
+        #endregion
+
+        #region 执行添加普通接收事件 private static void ToAddReceiveEvent(EventManager eventManager, MethodInfo methodInfo, WXEventAttribute attr, object receiveEvent, ParameterInfo arg)
+        /// <summary>
+        /// 执行添加普通接收事件
+        /// </summary>
+        /// <param name="eventManager">事件管理类</param>
+        /// <param name="methodInfo">事件方法</param>
+        /// <param name="attr">事件方法的特性</param>
+        /// <param name="receiveEvent">接收事件对象</param>
+        /// <param name="arg">参数信息</param>
+        private static void ToAddReceiveEvent(EventManager eventManager, MethodInfo methodInfo, WXEventAttribute attr, object receiveEvent, ParameterInfo arg)
+        {
+            ConstructorInfo constructorInfo = arg.ParameterType.GetConstructor(Type.EmptyTypes);
+            if (constructorInfo == null)
+                throw WXException.GetInstance(String.Format("无法获取{0}构造方法", arg.ParameterType.Name), Settings.Default.SystemUsername);
+            MethodInfo methodInfoGen = typeof(RequestAMessage).GetMethod("GetRequestAMessage").MakeGenericMethod(arg.ParameterType);
+            Func<Request, Response> receiveEventTemp =
+                request =>
+                    (Response)
+                        methodInfo.Invoke(receiveEvent, new[] {methodInfoGen.Invoke(null, new object[] {request})});
+            ReceiveEntityType type = ((RequestAMessage) constructorInfo.Invoke(null)).ReceiveEntityType;
+            receiveEventTemp = attr.PackageEventByLimitKey(receiveEventTemp, type);
+            eventManager.AddReceiveEvent(
+                type,
+                attr.EventName,
+                attr.ToUserName,
+                receiveEventTemp,
+                attr.Priority);
         } 
         #endregion
 
