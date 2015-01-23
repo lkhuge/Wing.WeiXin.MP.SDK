@@ -106,8 +106,8 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             if (lb.Name.Length == 4)
             {
                 if (lbList[index.ToString(CultureInfo.InvariantCulture)].Tag == null) return false;
-                dynamic tag = lbList[index.ToString(CultureInfo.InvariantCulture)].Tag;
-                if (tag.Index != -1) return false;
+                Dictionary<string, object> tag = (Dictionary<string, object>)lbList[index.ToString(CultureInfo.InvariantCulture)].Tag;
+                if ((int)tag["Index"] != -1) return false;
                 int index2 = Int32.Parse(lb.Name.Substring(3, 1));
                 if (index2 != 1 && lbList[index + "" + (index2 - 1)].Tag == null) return false;
                 return true;
@@ -209,7 +209,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 "{0};{1};{2}", 
                 kv.Key, 
                 kv.Value.Text.Replace("\n", "{LF}"),
-                LibManager.JSONHelper.JSONSerialize(kv.Value.Tag))));
+                JSONHelper.JSONSerialize(kv.Value.Tag))));
             MessageBox.Show("导出完成");
         } 
         #endregion
@@ -238,7 +238,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
             {
                 string[] info = l.Split(';');
                 lbList[info[0]].Text = info[1].Replace("{LF}", "\n");
-                lbList[info[0]].Tag = LibManager.JSONHelper.JSONDeserialize(info[2]);
+                lbList[info[0]].Tag = JSONHelper.JSONDeserialize<Object>(info[2]);
             }
             MessageBox.Show("导入完成");
         } 
@@ -368,12 +368,14 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
         {
             string id = index + (index2 == 0 ? "" : index2.ToString(CultureInfo.InvariantCulture));
             if (lbList[id].Tag == null) return;
-            dynamic tag = lbList[id].Tag;
-            if (tag.Index == -1)
+            Dictionary<string, object> tag = (Dictionary<string, object>)lbList[id].Tag;
+            int tagIndex = (int) tag["Index"];
+            string tagName = tag["Name"].ToString();
+            if (tagIndex == -1)
             {
                 MenuList mainButton = new MenuList
                 {
-                    name = tag.Name,
+                    name = tagName,
                     sub_button = new List<AMenuItem>()
                 };
                 for (int i = 1; i <= MaxSubMenu; i++)
@@ -382,68 +384,68 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 }
                 subButton.Add(mainButton);
             }
-            if (tag.Index == 0)
+            if (tagIndex == 0)
             {
                 subButton.Add(new MenuButtonClick
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 1)
+            if (tagIndex == 1)
             {
                 subButton.Add(new MenuButtonView
                 {
-                    name = tag.Name,
-                    url = tag.Key
+                    name = tagName,
+                    url = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 2)
+            if (tagIndex == 2)
             {
                 subButton.Add(new MenuButtonScanCodePush
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 3)
+            if (tagIndex == 3)
             {
                 subButton.Add(new MenuButtonScanCodeWaitMsg
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 4)
+            if (tagIndex == 4)
             {
                 subButton.Add(new MenuButtonPicSysPhoto
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 5)
+            if (tagIndex == 5)
             {
                 subButton.Add(new MenuButtonPicPhotoOrAlbum
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 6)
+            if (tagIndex == 6)
             {
                 subButton.Add(new MenuButtonPicWeixin
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
-            if (tag.Index == 7)
+            if (tagIndex == 7)
             {
                 subButton.Add(new MenuButtonLocationSelect
                 {
-                    name = tag.Name,
-                    key = tag.Key
+                    name = tagName,
+                    key = tag["Key"].ToString()
                 });
             }
         } 

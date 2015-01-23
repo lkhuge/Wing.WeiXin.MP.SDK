@@ -42,9 +42,6 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
             <add Name="Event1" IsAction="True" />
             <add Name="Event2" IsAction="True" />
         </EventList>
-        <QuickConfigReturnMessageList>
-            <add Key="gh_7f215c8b1c91:Text:" Path="C:\"/>
-        </QuickConfigReturnMessageList>
     </Event>
 </WeiXinMPSDKConfigGroup>
 ```
@@ -100,7 +97,7 @@ private Response E2(RequestEventClick request)
 ----------------
 ###事件处理优先级
 ```
-全局事件 > 自定义事件 > 快速配置回复事件
+全局事件 > 自定义事件
 ```
 
 配置说明
@@ -133,20 +130,6 @@ private Response E2(RequestEventClick request)
             <add Name="Event1" IsAction="True" />
             <add Name="Event2" IsAction="True" />
         </EventList>
-        <!-- 快速配置回复事件列表 -->
-        <!-- Key：事件Key，格式为：ID:Type:Key -->
-        <!--     ID：微信公众平台帐号ID -->
-        <!--     Type：事件类型，目前 仅支持Text和Click类型 -->
-        <!--        Text：文本消息 -->
-        <!--        Click：菜单点击事件 -->
-        <!--     Key：事件关键字，如果为不填则遍历目录，进行匹配 -->
-        <!--        Text：关键字为文本消息 -->
-        <!--        Click：关键字为菜单事件的Key -->
-        <!-- Path：路径，配置文件的文件名，如果上者必填，则为路径-->
-        <QuickConfigReturnMessageList>s
-            <add Key="xxxxxx:111" Path="C:\" />
-            <add Key="xxxxxx:222" Path="C:\" />
-        </QuickConfigReturnMessageList>
     </Event>
 </WeiXinMPSDKConfigGroup>
 ```

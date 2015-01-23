@@ -18,16 +18,5 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             get { return this["EventList"] as EventItemListConfigSection; }
         }
         #endregion
-
-        #region 快速配置回复消息列表 public QuickConfigReturnMessageItemListConfigSection QuickConfigReturnMessageList
-        /// <summary>
-        /// 快速配置回复消息列表
-        /// </summary>
-        [ConfigurationProperty("QuickConfigReturnMessageList")]
-        public QuickConfigReturnMessageItemListConfigSection QuickConfigReturnMessageList
-        {
-            get { return this["QuickConfigReturnMessageList"] as QuickConfigReturnMessageItemListConfigSection; }
-        }
-        #endregion
     }
 }

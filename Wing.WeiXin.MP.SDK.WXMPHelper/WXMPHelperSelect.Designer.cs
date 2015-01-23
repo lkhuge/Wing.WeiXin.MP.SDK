@@ -31,47 +31,46 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btSave = new System.Windows.Forms.Button();
             this.tbClick = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tbView = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tbScanCodePush = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tbScanCodeWaitMsg = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tbPicSysPhoto = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tbPicPhotoOrAlbum = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tbPicWeixin = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.tbLocationSelect = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btClear = new System.Windows.Forms.Button();
             this.btYesMain = new System.Windows.Forms.Button();
             this.btYes = new System.Windows.Forms.Button();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.tbScanCodePush = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbScanCodeWaitMsg = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbPicSysPhoto = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbPicPhotoOrAlbum = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tbPicWeixin = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbLocationSelect = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -108,7 +107,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.btSave);
             this.tabPage1.Controls.Add(this.tbClick);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -118,16 +116,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "事件按钮";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // btSave
-            // 
-            this.btSave.Location = new System.Drawing.Point(203, 61);
-            this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(94, 23);
-            this.btSave.TabIndex = 5;
-            this.btSave.Text = "生成事件文件";
-            this.btSave.UseVisualStyleBackColor = true;
-            this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
             // tbClick
             // 
@@ -173,6 +161,174 @@
             this.label3.Size = new System.Drawing.Size(35, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "URL：";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.tbScanCodePush);
+            this.tabPage3.Controls.Add(this.label4);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(770, 99);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "扫码";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tbScanCodePush
+            // 
+            this.tbScanCodePush.Location = new System.Drawing.Point(155, 28);
+            this.tbScanCodePush.Name = "tbScanCodePush";
+            this.tbScanCodePush.Size = new System.Drawing.Size(158, 21);
+            this.tbScanCodePush.TabIndex = 6;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(60, 30);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "事件编号：";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.tbScanCodeWaitMsg);
+            this.tabPage4.Controls.Add(this.label5);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(770, 99);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "扫码且弹框";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tbScanCodeWaitMsg
+            // 
+            this.tbScanCodeWaitMsg.Location = new System.Drawing.Point(186, 33);
+            this.tbScanCodeWaitMsg.Name = "tbScanCodeWaitMsg";
+            this.tbScanCodeWaitMsg.Size = new System.Drawing.Size(158, 21);
+            this.tbScanCodeWaitMsg.TabIndex = 8;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(91, 35);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "事件编号：";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.tbPicSysPhoto);
+            this.tabPage5.Controls.Add(this.label6);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(770, 99);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "系统拍照发图";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tbPicSysPhoto
+            // 
+            this.tbPicSysPhoto.Location = new System.Drawing.Point(168, 27);
+            this.tbPicSysPhoto.Name = "tbPicSysPhoto";
+            this.tbPicSysPhoto.Size = new System.Drawing.Size(158, 21);
+            this.tbPicSysPhoto.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(73, 29);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "事件编号：";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.tbPicPhotoOrAlbum);
+            this.tabPage6.Controls.Add(this.label7);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(770, 99);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "弹拍照或相册发图";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // tbPicPhotoOrAlbum
+            // 
+            this.tbPicPhotoOrAlbum.Location = new System.Drawing.Point(167, 26);
+            this.tbPicPhotoOrAlbum.Name = "tbPicPhotoOrAlbum";
+            this.tbPicPhotoOrAlbum.Size = new System.Drawing.Size(158, 21);
+            this.tbPicPhotoOrAlbum.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(72, 28);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 12);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "事件编号：";
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.tbPicWeixin);
+            this.tabPage7.Controls.Add(this.label8);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(770, 99);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "弹微信相册发图器";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // tbPicWeixin
+            // 
+            this.tbPicWeixin.Location = new System.Drawing.Point(155, 27);
+            this.tbPicWeixin.Name = "tbPicWeixin";
+            this.tbPicWeixin.Size = new System.Drawing.Size(158, 21);
+            this.tbPicWeixin.TabIndex = 8;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(60, 29);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(65, 12);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "事件编号：";
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.tbLocationSelect);
+            this.tabPage8.Controls.Add(this.label9);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(770, 99);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "弹地理位置选择器";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // tbLocationSelect
+            // 
+            this.tbLocationSelect.Location = new System.Drawing.Point(155, 30);
+            this.tbLocationSelect.Name = "tbLocationSelect";
+            this.tbLocationSelect.Size = new System.Drawing.Size(158, 21);
+            this.tbLocationSelect.TabIndex = 8;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(60, 32);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 12);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "事件编号：";
             // 
             // groupBox1
             // 
@@ -236,174 +392,6 @@
             this.btYes.UseVisualStyleBackColor = true;
             this.btYes.Click += new System.EventHandler(this.btYes_Click);
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.tbScanCodePush);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(770, 99);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "扫码";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.tbScanCodeWaitMsg);
-            this.tabPage4.Controls.Add(this.label5);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(770, 99);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "扫码且弹框";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.tbPicSysPhoto);
-            this.tabPage5.Controls.Add(this.label6);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(770, 99);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "系统拍照发图";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.tbPicPhotoOrAlbum);
-            this.tabPage6.Controls.Add(this.label7);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(770, 99);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "弹拍照或相册发图";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.tbPicWeixin);
-            this.tabPage7.Controls.Add(this.label8);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(770, 99);
-            this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "弹微信相册发图器";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // tabPage8
-            // 
-            this.tabPage8.Controls.Add(this.tbLocationSelect);
-            this.tabPage8.Controls.Add(this.label9);
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(770, 99);
-            this.tabPage8.TabIndex = 7;
-            this.tabPage8.Text = "弹地理位置选择器";
-            this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // tbScanCodePush
-            // 
-            this.tbScanCodePush.Location = new System.Drawing.Point(155, 28);
-            this.tbScanCodePush.Name = "tbScanCodePush";
-            this.tbScanCodePush.Size = new System.Drawing.Size(158, 21);
-            this.tbScanCodePush.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(60, 30);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "事件编号：";
-            // 
-            // tbScanCodeWaitMsg
-            // 
-            this.tbScanCodeWaitMsg.Location = new System.Drawing.Point(186, 33);
-            this.tbScanCodeWaitMsg.Name = "tbScanCodeWaitMsg";
-            this.tbScanCodeWaitMsg.Size = new System.Drawing.Size(158, 21);
-            this.tbScanCodeWaitMsg.TabIndex = 8;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(91, 35);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 12);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "事件编号：";
-            // 
-            // tbPicSysPhoto
-            // 
-            this.tbPicSysPhoto.Location = new System.Drawing.Point(168, 27);
-            this.tbPicSysPhoto.Name = "tbPicSysPhoto";
-            this.tbPicSysPhoto.Size = new System.Drawing.Size(158, 21);
-            this.tbPicSysPhoto.TabIndex = 8;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(73, 29);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 12);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "事件编号：";
-            // 
-            // tbPicPhotoOrAlbum
-            // 
-            this.tbPicPhotoOrAlbum.Location = new System.Drawing.Point(167, 26);
-            this.tbPicPhotoOrAlbum.Name = "tbPicPhotoOrAlbum";
-            this.tbPicPhotoOrAlbum.Size = new System.Drawing.Size(158, 21);
-            this.tbPicPhotoOrAlbum.TabIndex = 8;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(72, 28);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(65, 12);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "事件编号：";
-            // 
-            // tbPicWeixin
-            // 
-            this.tbPicWeixin.Location = new System.Drawing.Point(155, 27);
-            this.tbPicWeixin.Name = "tbPicWeixin";
-            this.tbPicWeixin.Size = new System.Drawing.Size(158, 21);
-            this.tbPicWeixin.TabIndex = 8;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(60, 29);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(65, 12);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "事件编号：";
-            // 
-            // tbLocationSelect
-            // 
-            this.tbLocationSelect.Location = new System.Drawing.Point(155, 30);
-            this.tbLocationSelect.Name = "tbLocationSelect";
-            this.tbLocationSelect.Size = new System.Drawing.Size(158, 21);
-            this.tbLocationSelect.TabIndex = 8;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(60, 32);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 12);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "事件编号：";
-            // 
             // WXMPHelperSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -420,8 +408,6 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -434,6 +420,8 @@
             this.tabPage7.PerformLayout();
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -454,7 +442,6 @@
         private System.Windows.Forms.TextBox tbView;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btYesMain;
-        private System.Windows.Forms.Button btSave;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;

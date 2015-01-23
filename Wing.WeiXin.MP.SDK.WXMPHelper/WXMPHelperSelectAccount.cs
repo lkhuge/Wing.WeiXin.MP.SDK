@@ -46,7 +46,7 @@ namespace Wing.WeiXin.MP.SDK.WXMPHelper
                 dgv.Rows.Add(
                     a.ID, 
                     a.Type == WeixinMPType.Service ? "服务号" : "订阅号",
-                    a.Token,
+                    GlobalManager.ConfigManager.BaseConfig.Token,
                     a.AppID,
                     a.AppSecret);
             }

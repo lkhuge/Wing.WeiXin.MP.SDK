@@ -78,8 +78,6 @@
     <Compile Include="ConfigSection\EventConfig\EventConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemConfigSection.cs" />
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs" />
-    <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemConfigSection.cs" />
-    <Compile Include="ConfigSection\EventConfig\QuickConfigReturnMessageItemListConfigSection.cs" />
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\DKFController.cs" />
     <Compile Include="Controller\MediaController.cs" />

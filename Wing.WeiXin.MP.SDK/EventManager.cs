@@ -192,12 +192,8 @@ namespace Wing.WeiXin.MP.SDK
             result = ActionSystemEvent(request);
             if (result != null) return result;
             result = ActionGlobalEvent(request);
-            if (result != null) return result;
-            result = ActionReceiveEvent(request);
-            if (result != null) return result;
 
-            return GlobalManager.ConfigManager.EventConfig.QuickConfigReturnMessageList
-                .GetQuickConfigReturnMessage(request);
+            return result ?? ActionReceiveEvent(request);
         }
         #endregion
 
