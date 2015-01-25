@@ -23,5 +23,11 @@
     <Setting Name="FirstAccountToUserNameSign" Type="System.String" Scope="Application">
       <Value Profile="(Default)">$</Value>
     </Setting>
+    <Setting Name="RepetitionMessageTextSign" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">RMT_</Value>
+    </Setting>
+    <Setting Name="RepetitionMessageCountSign" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">RMC_</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -40,9 +40,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.2.2.19, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wing.WeiXin.MP.SDK, Version=2.2.2.21, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.2.2.19\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
+      <HintPath>..\packages\Wing.WeiXin.MP.SDK.2.2.2.21\lib\net40\Wing.WeiXin.MP.SDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

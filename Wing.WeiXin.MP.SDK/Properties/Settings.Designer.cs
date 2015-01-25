@@ -85,5 +85,23 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["FirstAccountToUserNameSign"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RMT_")]
+        public string RepetitionMessageTextSign {
+            get {
+                return ((string)(this["RepetitionMessageTextSign"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("RMC_")]
+        public string RepetitionMessageCountSign {
+            get {
+                return ((string)(this["RepetitionMessageCountSign"]));
+            }
+        }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\MessageFilter\RepetitionMessageFilter.cs" />
     <Compile Include="Common\MsgCrypt\Cryptography.cs" />
     <Compile Include="Common\MsgCrypt\WXBizMsgCrypt.cs" />
     <Compile Include="Common\RequestBuilder.cs" />
