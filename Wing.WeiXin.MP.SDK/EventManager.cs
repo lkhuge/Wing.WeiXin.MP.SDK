@@ -329,15 +329,15 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>开发者微信号</returns>
         private string CheckToUserName(string toUserName, bool isCheckToUserName = true)
         {
-            if (isCheckToUserName && !GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any())
+            if (isCheckToUserName && !GlobalManager.ConfigManager.HasAccount())
                 throw WXException.GetInstance("未发现任何微信公众平台账号", Settings.Default.SystemUsername);
             if (String.IsNullOrEmpty(toUserName))
                 throw WXException.GetInstance("微信公众账号不能为空", toUserName);
             if (toUserName.Equals(Settings.Default.FirstAccountToUserNameSign)) 
                 toUserName = GlobalManager.GetFirstAccount().ID;
-            if (isCheckToUserName && !GlobalManager.ConfigManager.BaseConfig.AccountList
-                .GetWXAccountList().Any(w => w.ID.Equals(toUserName)))
-                throw WXException.GetInstance(String.Format("微信公众平台账号ID({0})不存在", toUserName), Settings.Default.SystemUsername);
+            if (isCheckToUserName && GlobalManager.ConfigManager.GetWXAccountByID(toUserName) == null)
+                throw WXException.GetInstance(String.Format("微信公众平台账号ID({0})不存在", toUserName), 
+                    Settings.Default.SystemUsername);
 
             return toUserName;
         } 

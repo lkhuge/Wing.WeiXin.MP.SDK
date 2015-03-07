@@ -87,7 +87,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "是否存在微信公众平台账号",
-                    Check = () => !GlobalManager.ConfigManager.BaseConfig.AccountList.GetWXAccountList().Any() 
+                    Check = () => !GlobalManager.ConfigManager.HasAccount()
                         ? "未发现任何微信公众平台账号" : null
                 },
                 new AshxCheckItem

@@ -37,34 +37,5 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
             return config.WeixinMPID;
         }
         #endregion
-
-        #region 获取公共平台账号项目配置节点 public AccountItemConfigSection GetAccountItemConfigSection(string weixinMPID)
-        /// <summary>
-        /// 获取公共平台账号项目配置节点
-        /// </summary>
-        /// <param name="weixinMPID">公共平台账号ID</param>
-        /// <returns>公共平台账号项目配置节点</returns>
-        public AccountItemConfigSection GetAccountItemConfigSection(string weixinMPID)
-        {
-            AccountItemConfigSection config =
-                this.Cast<AccountItemConfigSection>().FirstOrDefault(a => a.WeixinMPID.Equals(weixinMPID));
-            if (config == null) throw WXException.GetInstance(String.Format("未注册该账号（{0}）", weixinMPID), weixinMPID);
-
-            return config;
-        }
-        #endregion
-
-        #region 获取账号列表 public List<WXAccount> GetWXAccountList()
-        /// <summary>
-        /// 获取账号列表
-        /// </summary>
-        /// <returns>账号列表</returns>
-        public List<WXAccount> GetWXAccountList()
-        {
-            return this.Cast<AccountItemConfigSection>()
-                .Select(a => new WXAccount(a))
-                .ToList();
-        }
-        #endregion
     }
 }

@@ -99,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public WXAccount WXAccount
         {
-            get { return wxAccount ?? (wxAccount = new WXAccount(ToUserName)); }
+            get { return wxAccount ?? (wxAccount = GlobalManager.ConfigManager.GetWXAccountByID(ToUserName)); }
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             string[] arr = new[] 
             { 
-                GlobalManager.ConfigManager.BaseConfig.Token, 
+                GlobalManager.ConfigManager.Config.Base.Token, 
                 Timestamp, 
                 nonce
             }.OrderBy(z => z).ToArray();

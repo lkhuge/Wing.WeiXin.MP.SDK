@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Properties;
 
@@ -14,47 +13,29 @@ namespace Wing.WeiXin.MP.SDK.Entities
     public class WXAccount
     {
         /// <summary>
-        /// 账号ID
+        /// 微信公共平台ID
         /// </summary>
-        public string ID { get; private set; }
+        public string ID { get; set; }
 
         /// <summary>
         /// AppID
         /// </summary>
-        public string AppID { get; private set; }
+        public string AppID { get; set; }
 
         /// <summary>
         /// AppSecret
         /// </summary>
-        public string AppSecret { get; private set; }
+        public string AppSecret { get; set; }
 
-        #region 根据微信账号ID实例化 public WXAccount(string id)
         /// <summary>
-        /// 根据微信账号ID实例化
+        /// 是否需要加密
         /// </summary>
-        /// <param name="id">微信账号ID</param>
-        public WXAccount(string id)
-        {
-            ID = id;
-            AccountItemConfigSection config = GlobalManager.ConfigManager.BaseConfig
-                .AccountList.GetAccountItemConfigSection(ID);
-            AppID = config.AppID;
-            AppSecret = config.AppSecret;
-        } 
-        #endregion
+        public bool NeedEncoding { get; set; }
 
-        #region 根据配置节点实例化 public WXAccount(AccountItemConfigSection config)
         /// <summary>
-        /// 根据配置节点实例化
+        /// 加密密钥
         /// </summary>
-        /// <param name="config">配置节点</param>
-        public WXAccount(AccountItemConfigSection config)
-        {
-            ID = config.WeixinMPID;
-            AppID = config.AppID;
-            AppSecret = config.AppSecret;
-        }
-        #endregion
+        public string EncodingAESKey { get; set; }
 
         #region 获取账户信息 public override string ToString()
         /// <summary>

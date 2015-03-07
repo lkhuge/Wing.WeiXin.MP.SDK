@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using Wing.WeiXin.MP.SDK.ConfigSection;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.Config;
+using Wing.WeiXin.MP.SDK.Entities.Config.Base;
+using Wing.WeiXin.MP.SDK.Entities.Config.Event;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
@@ -15,46 +19,135 @@ namespace Wing.WeiXin.MP.SDK
     public class ConfigManager
     {
         /// <summary>
-        /// 基础配置节点
+        /// 配置信息
         /// </summary>
-        public BaseConfigSection BaseConfig { get; private set; }
+        public ConfigInfo Config { get; set; }
 
+        #region 根据本地配置节点实例化配置管理类 public ConfigManager()
         /// <summary>
-        /// 事件配置节点
-        /// </summary>
-        public EventConfigSection EventConfig { get; private set; }
-
-        #region 实例化配置管理类 public ConfigManager()
-        /// <summary>
-        /// 实例化配置管理类
+        /// 根据本地配置节点实例化配置管理类
         /// </summary>
         public ConfigManager()
         {
-            LoadBaseConfigSection();
-            LoadEventConfigSection();
+            LoadFromConfigSection();
         }
         #endregion
 
-        #region 加载基础配置 private void LoadBaseConfigSection()
+        #region 根据配置信息实例化配置管理类 public ConfigManager(ConfigInfo config)
         /// <summary>
-        /// 加载基础配置
+        /// 根据配置信息实例化配置管理类
         /// </summary>
-        private void LoadBaseConfigSection()
+        /// <param name="config">配置信息</param>
+        public ConfigManager(ConfigInfo config)
         {
-            BaseConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Base") as BaseConfigSection;
-            if (BaseConfig == null) throw WXException.GetInstance("未发现基础配置", Settings.Default.SystemUsername);
+            Config = config;
         }
         #endregion
 
-        #region 加载事件配置 private void LoadEventConfigSection()
+        #region 是否存在账户 public bool HasAccount()
         /// <summary>
-        /// 加载事件配置
+        /// 是否存在账户
         /// </summary>
-        private void LoadEventConfigSection()
+        /// <returns>是否存在账户</returns>
+        public bool HasAccount()
         {
-            EventConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Event") as EventConfigSection;
-            if (EventConfig == null) throw WXException.GetInstance("未发现事件配置", Settings.Default.SystemUsername);
+            return Config.Base != null 
+                && Config.Base.AccountList != null 
+                && Config.Base.AccountList.Count > 0;
         }
+        #endregion
+
+        #region 根据账号ID获取账号信息 public WXAccount GetWXAccountByID(string id)
+        /// <summary>
+        /// 根据账号ID获取账号信息
+        /// </summary>
+        /// <param name="id">账号ID</param>
+        /// <returns>账号信息</returns>
+        public WXAccount GetWXAccountByID(string id)
+        {
+            return Config.Base.AccountList.FirstOrDefault(a => a.ID.Equals(id));
+        }
+        #endregion
+
+        #region 检测事件是否生效 prublic bool CheckEvent(string eventKey)
+        /// <summary>
+        /// 检测事件是否生效
+        /// </summary>
+        /// <param name="eventKey">事件ID</param>
+        /// <returns>是否生效</returns>
+        public bool CheckEvent(string eventKey)
+        {
+            return Config.Event.EventInfoList.
+                Any(c =>
+                    c.Name.Equals(eventKey)
+                    && c.IsAction);
+        }
+        #endregion
+
+        #region 通过本地配置节点载入配置 private void LoadFromConfigSection()
+        /// <summary>
+        /// 通过本地配置节点载入配置
+        /// </summary>
+        private void LoadFromConfigSection()
+        {
+            Config = new ConfigInfo
+            {
+                Base = GetBaseConfigSection(),
+                Event = GetEventConfigSection()
+            };
+        } 
+        #endregion
+
+        #region 获取基础配置节点 private BaseConfigInfo GetBaseConfigSection()
+        /// <summary>
+        /// 获取基础配置节点
+        /// </summary>
+        /// <returns>基础配置节点</returns>
+        private BaseConfigInfo GetBaseConfigSection()
+        {
+            BaseConfigSection baseConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Base") as BaseConfigSection;
+            if (baseConfig == null) throw WXException.GetInstance("未发现基础配置", Settings.Default.SystemUsername);
+
+            return new BaseConfigInfo
+            {
+                Token = baseConfig.Token,
+                AccountList = baseConfig.AccountList
+                    .Cast<AccountItemConfigSection>()
+                    .Select(a => new WXAccount
+                    {
+                        ID = a.WeixinMPID,
+                        AppID = a.AppID,
+                        AppSecret = a.AppSecret,
+                        NeedEncoding = a.NeedEncoding,
+                        EncodingAESKey = a.EncodingAESKey
+                    })
+                    .ToList()
+            };
+        } 
+        #endregion
+
+        #region 获取事件配置节点 private EventConfigInfo GetEventConfigSection()
+        /// <summary>
+        /// 获取事件配置节点
+        /// </summary>
+        /// <returns>事件配置节点</returns>
+        private EventConfigInfo GetEventConfigSection()
+        {
+            EventConfigSection eventConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Event") as EventConfigSection;
+            if (eventConfig == null) throw WXException.GetInstance("未发现事件配置", Settings.Default.SystemUsername);
+
+            return new EventConfigInfo
+            {
+                EventInfoList = eventConfig.EventList
+                    .Cast<EventItemConfigSection>()
+                    .Select(e => new EventInfoConfigInfo
+                    {
+                        Name = e.Name,
+                        IsAction = e.IsAction
+                    })
+                    .ToList()
+            };
+        } 
         #endregion
     }
 }

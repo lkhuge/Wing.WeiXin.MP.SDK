@@ -4,7 +4,6 @@ using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
-using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
 
@@ -61,23 +60,12 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void Init()
         {
-            InitBase();
+            InitConfig(new ConfigManager());
+            InitEvent(new EventManager());
             InitWXSessionManager(new StaticWXSession());
             InitAccessTokenContainer(new WXSessionAccessTokenManager());
 
             IsInit = true;
-        }
-        #endregion
-
-        #region 初始化基础配置 public static void InitBase()
-        /// <summary>
-        /// 初始化基础配置
-        /// </summary>
-        public static void InitBase()
-        {
-            InitConfig(new ConfigManager());
-            InitCryptList();
-            InitEvent(new EventManager());
         }
         #endregion
 
@@ -90,6 +78,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (ConfigLoad != null) ConfigLoad();
             ConfigManager = configManager;
+            InitCryptList();
         }
         #endregion
 
@@ -133,11 +122,11 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void InitCryptList()
         {
-            string token = ConfigManager.BaseConfig.Token;
-            CryptList = ConfigManager.BaseConfig.AccountList.Cast<AccountItemConfigSection>()
-                .Where(w => w.NeedEncoding)
+            string token = ConfigManager.Config.Base.Token;
+            CryptList = ConfigManager.Config.Base.AccountList
+                .Where(n => n.NeedEncoding)
                 .ToDictionary(
-                    k => k.WeixinMPID,
+                    k => k.ID,
                     v => new WXBizMsgCrypt
                     {
                         token = token,
@@ -154,7 +143,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>首个账号</returns>
         public static WXAccount GetFirstAccount()
         {
-            return ConfigManager.BaseConfig.AccountList.GetWXAccountList().FirstOrDefault();
+            return ConfigManager.Config.Base.AccountList.FirstOrDefault();
         }
         #endregion
 
@@ -167,7 +156,7 @@ namespace Wing.WeiXin.MP.SDK
         public static bool CheckEventAction(string actionKey)
         {
             LogManager.WriteSystem(String.Format("检测事件({0})是否可以执行", actionKey));
-            bool result = ConfigManager.EventConfig.EventList.CheckEvent(actionKey);
+            bool result = ConfigManager.CheckEvent(actionKey);
             LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
 
             return result;

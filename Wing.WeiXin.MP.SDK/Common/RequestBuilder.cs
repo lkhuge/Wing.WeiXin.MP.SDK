@@ -558,7 +558,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             string[] arr = new[] 
             { 
-                GlobalManager.ConfigManager.BaseConfig.Token, 
+                GlobalManager.ConfigManager.Config.Base.Token, 
                 TestTimestamp, 
                 TestNonce
             }.OrderBy(z => z).ToArray();

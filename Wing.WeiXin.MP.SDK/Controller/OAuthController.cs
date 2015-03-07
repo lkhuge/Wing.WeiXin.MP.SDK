@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
-using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;

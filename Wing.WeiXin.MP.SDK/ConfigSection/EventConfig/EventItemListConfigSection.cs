@@ -36,20 +36,5 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
             return config.Name;
         } 
         #endregion
-
-        #region 检测事件是否生效 prublic bool CheckEvent(string eventKey)
-        /// <summary>
-        /// 检测事件是否生效
-        /// </summary>
-        /// <param name="eventKey">事件ID</param>
-        /// <returns>是否生效</returns>
-        public bool CheckEvent(string eventKey)
-        {
-            return this.Cast<EventItemConfigSection>().
-                Any(config =>
-                    config.Name.Equals(eventKey)
-                    && config.IsAction);
-        }
-        #endregion
     }
 }

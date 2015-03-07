@@ -138,8 +138,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             WXServerIPList = new SecurityController().GetWXServerIPList(
                 Settings.Default.FirstAccountToUserNameSign.Equals(toUserName) 
-                ? GlobalManager.GetFirstAccount() 
-                : new WXAccount(toUserName));
+                ? GlobalManager.GetFirstAccount()
+                : GlobalManager.ConfigManager.GetWXAccountByID(toUserName));
             LogManager.WriteSystem(String.Format("微信服务器IP列表：【{0}】", 
                 String.Join(";", WXServerIPList.ip_list)));
         } 
