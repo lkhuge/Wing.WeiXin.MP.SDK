@@ -35,7 +35,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>二维码ticket</returns>
         public QRCodeTicket GetQRCodeTicket(WXAccount account, QRCodeTicketRequest qrCodeTicketRequest)
         {
-            return Action<QRCodeTicket>(UrlGetQRCodeTicket, qrCodeTicketRequest, account, true);
+            return Action<QRCodeTicket>(UrlGetQRCodeTicket, qrCodeTicketRequest, account);
         } 
         #endregion
 
@@ -65,9 +65,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ShortUrl>(
                 UrlGetShortURL,
                 new { action = "long2short", long_url = url },
-                account, 
-                false, 
-                false).short_url;
+                account).short_url;
         }
         #endregion
     }

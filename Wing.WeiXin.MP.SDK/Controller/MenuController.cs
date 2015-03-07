@@ -37,7 +37,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         {
-            return Action<ErrorMsg>(UrlCreateMenu, menu, account, false, false);
+            return Action<ErrorMsg>(UrlCreateMenu, menu, account);
         } 
         #endregion
 
@@ -61,7 +61,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg DeleteMenu(WXAccount account)
         {
-            return Action<ErrorMsg>(UrlDeleteMenu, null, account, false, false);
+            return Action<ErrorMsg>(UrlDeleteMenu, null, account);
         } 
         #endregion
     }

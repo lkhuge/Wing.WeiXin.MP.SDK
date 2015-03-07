@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
 {
@@ -20,17 +19,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         public string WeixinMPID
         {
             get { return Convert.ToString(this["WeixinMPID"]); }
-        }
-        #endregion
-
-        #region 微信公共平台类型 public WeixinMPType WeixinMPType
-        /// <summary>
-        /// 微信公共平台类型
-        /// </summary>
-        [ConfigurationProperty("WeixinMPType", IsRequired = true)]
-        public WeixinMPType WeixinMPType
-        {
-            get { return (WeixinMPType)this["WeixinMPType"]; }
         }
         #endregion
 

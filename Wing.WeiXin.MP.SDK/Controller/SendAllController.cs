@@ -47,7 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         public Media UploadNews(WXAccount account, SendAllMessageNews news)
         {
-            return Action<Media>(UrlUploadNews, news, account, true);
+            return Action<Media>(UrlUploadNews, news, account);
         } 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>群发回复消息</returns>
         public ReturnMessage SendAllByGroup(WXAccount account, SendAllByGroup group)
         {
-            return Action<ReturnMessage>(UrlSendAllByGroup, group, account, true, false);
+            return Action<ReturnMessage>(UrlSendAllByGroup, group, account);
         } 
         #endregion
 
@@ -73,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>群发回复消息</returns>
         public ReturnMessage SendAllByOpenIDList(WXAccount account, SendAllByOpenIDList openIDList)
         {
-            return Action<ReturnMessage>(UrlSendAllByOpenIDList, openIDList, account, true, false);
+            return Action<ReturnMessage>(UrlSendAllByOpenIDList, openIDList, account);
         }
         #endregion
 
@@ -86,7 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>返回码对象</returns>
         public ErrorMsg DeleteSendAll(WXAccount account, SendAllDelete delete)
         {
-            return Action<ErrorMsg>(UrlDeleteSendAll, delete, account, true, false);
+            return Action<ErrorMsg>(UrlDeleteSendAll, delete, account);
         } 
         #endregion
     }

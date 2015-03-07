@@ -53,7 +53,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>客服基本信息</returns>
         public DKFList GetDKFList(WXAccount account)
         {
-            return Action<DKFList>(UrlGetDKFList, account, true);
+            return Action<DKFList>(UrlGetDKFList, account);
         } 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>在线客服接待信息</returns>
         public DKFOnlineList GetDKFOnlineList(WXAccount account)
         {
-            return Action<DKFOnlineList>(UrlGetDKFOnlineList, account, true);
+            return Action<DKFOnlineList>(UrlGetDKFOnlineList, account);
         } 
         #endregion
 
@@ -86,7 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ErrorMsg>(
                 UrlAddDKF,
                 new { kf_account, nickname, password = SecurityHelper.MD5(password) },
-                account, false, false);
+                account);
         } 
         #endregion
 
@@ -107,7 +107,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ErrorMsg>(
                 UrlSetDKF,
                 new { kf_account, nickname, password = SecurityHelper.MD5(password) },
-                account, false, false);
+                account);
         } 
         #endregion
 
@@ -148,7 +148,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return ActionWithoutAccessToken<ErrorMsg>(
                 String.Format(UrlDeleteDKF, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, kf_account),
-                account, false, false);
+                account);
         } 
         #endregion
 
@@ -170,7 +170,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                         starttime = DateTimeHelper.GetLongTimeByDateTime(starttime),
                         endtime = DateTimeHelper.GetLongTimeByDateTime(endtime),
                         openid, pagesize, pageindex
-                    }, account, true);
+                    }, account);
         } 
         #endregion
     }

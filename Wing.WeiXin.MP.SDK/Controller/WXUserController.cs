@@ -190,9 +190,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ErrorMsg>(
                 UrlModityGroupName,
                 group,
-                account,
-                false,
-                false);
+                account);
         } 
         #endregion
 
@@ -209,9 +207,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ErrorMsg>(
                 UrlMoveGroup,
                 new { openid, to_groupid },
-                account,
-                false,
-                false);
+                account);
         }
         #endregion
 
@@ -228,9 +224,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             return Action<ErrorMsg>(
                 UrlModityRemark,
                 new { openid, remark },
-                account,
-                false,
-                false);
+                account);
         } 
         #endregion
     }

@@ -49,7 +49,6 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>取得Code的URL</returns>
         public string GetURLForOAuthGetCode(WXAccount account, string redirectURL, OAuthScope scope, string state)
         {
-            account.CheckIsService();
             return String.Format(
                 UrlGetURLForOAuthGetCode,
                 account.AppID, HttpUtility.UrlEncode(redirectURL), scope, state);
@@ -67,8 +66,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return ActionWithoutAccessToken<OAuthAccessToken>(
                 String.Format(UrlGetAccessTokenByCode, account.AppID, account.AppSecret, code),
-                account,
-                true);
+                account);
         } 
         #endregion
 
@@ -83,8 +81,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return ActionWithoutAccessToken<OAuthAccessToken>(
                 String.Format(UrlRefreshAccessTokenByRefreshToken, account.AppID, refresh_token),
-                account,
-                true);
+                account);
         }
         #endregion
 
@@ -100,8 +97,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return ActionWithoutAccessToken<OAuthUser>(
                 String.Format(UrlGetOAuthUser, accessToken.access_token, accessToken.openid, language), 
-                account, 
-                true);
+                account);
         } 
         #endregion
     }

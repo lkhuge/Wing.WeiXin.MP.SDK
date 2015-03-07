@@ -63,7 +63,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Check = () =>
                     {
                         object[] list = RuntimeAssembly.GetCustomAttributes(typeof(DebuggableAttribute), false);
-                        if (list.Length == 0) return RuntimeAssembly.FullName;
+                        if (list.Length == 0) return "无法获取编译方式（可能是未运行于32位模式造成的，对程序没有影响）";
                         DebuggableAttribute attr = (DebuggableAttribute)list[0];
                         return attr.IsJITTrackingEnabled ? "建议使用Release模式编译以获得最佳性能" : null;
                     }

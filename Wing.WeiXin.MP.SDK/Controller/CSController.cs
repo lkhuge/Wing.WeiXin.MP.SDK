@@ -30,7 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         {
-            return Action<ErrorMsg>(Url, csmessage, account, true, false);
+            return Action<ErrorMsg>(Url, csmessage, account);
         } 
         #endregion
     }

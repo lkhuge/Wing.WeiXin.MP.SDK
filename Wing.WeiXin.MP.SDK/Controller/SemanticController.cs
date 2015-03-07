@@ -29,7 +29,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public T GetSemantic<T>(WXAccount account, SemanticRequest request) where T : SemanticResponse
         {
             request.appid = account.AppID;
-            return Action<T>(Url, request, account, false, false);
+            return Action<T>(Url, request, account);
         } 
         #endregion
     }

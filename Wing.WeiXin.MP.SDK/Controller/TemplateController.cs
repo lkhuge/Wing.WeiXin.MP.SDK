@@ -27,7 +27,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns></returns>
         public ReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
         {
-            return Action<ReturnMessage>(UrlSendMessageTemplate, messageTemplate, account, true, false);
+            return Action<ReturnMessage>(UrlSendMessageTemplate, messageTemplate, account);
         } 
         #endregion
     }

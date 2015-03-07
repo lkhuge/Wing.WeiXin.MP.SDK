@@ -19,11 +19,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string ID { get; private set; }
 
         /// <summary>
-        /// 账号类型
-        /// </summary>
-        public WeixinMPType Type { get; private set; }
-
-        /// <summary>
         /// AppID
         /// </summary>
         public string AppID { get; private set; }
@@ -43,7 +38,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
             ID = id;
             AccountItemConfigSection config = GlobalManager.ConfigManager.BaseConfig
                 .AccountList.GetAccountItemConfigSection(ID);
-            Type = config.WeixinMPType;
             AppID = config.AppID;
             AppSecret = config.AppSecret;
         } 
@@ -57,21 +51,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount(AccountItemConfigSection config)
         {
             ID = config.WeixinMPID;
-            Type = config.WeixinMPType;
             AppID = config.AppID;
             AppSecret = config.AppSecret;
         }
-        #endregion
-
-        #region 检测是否为服务号 public void CheckIsService()
-        /// <summary>
-        /// 检测是否为服务号
-        /// </summary>
-        public void CheckIsService()
-        {
-            if (Type == WeixinMPType.Service) return;
-            throw WXException.GetInstance("只有服务号支持此操作", Settings.Default.SystemUsername);
-        } 
         #endregion
 
         #region 获取账户信息 public override string ToString()
@@ -81,10 +63,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>账户信息</returns>
         public override string ToString()
         {
-            return String.Format("ID:{1}{0}Type:{2}{0}{0}AppID:{3}{0}AppSecret:{4}",
+            return String.Format("ID:{1}{0}{0}{0}AppID:{2}{0}AppSecret:{3}",
                 Environment.NewLine,
                 ID,
-                Type,
                 AppID,
                 AppSecret);
         } 
