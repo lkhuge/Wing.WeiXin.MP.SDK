@@ -77,6 +77,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>是否生效</returns>
         public bool CheckEvent(string eventKey)
         {
+            if (Config.Event.EventInfoList == null) return false;
             return Config.Event.EventInfoList.
                 Any(c =>
                     c.Name.Equals(eventKey)

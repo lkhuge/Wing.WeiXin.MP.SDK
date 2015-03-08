@@ -127,6 +127,7 @@ namespace Wing.WeiXin.MP.SDK
         public static void InitCryptList()
         {
             string token = ConfigManager.Config.Base.Token;
+            if (ConfigManager.Config.Base.AccountList == null) return;
             CryptList = ConfigManager.Config.Base.AccountList
                 .Where(n => n.NeedEncoding)
                 .ToDictionary(
