@@ -126,7 +126,6 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void InitCryptList()
         {
-            string token = ConfigManager.Config.Base.Token;
             if (ConfigManager.Config.Base.AccountList == null) return;
             CryptList = ConfigManager.Config.Base.AccountList
                 .Where(n => n.NeedEncoding)
@@ -134,7 +133,7 @@ namespace Wing.WeiXin.MP.SDK
                     k => k.ID,
                     v => new WXBizMsgCrypt
                     {
-                        token = token,
+                        token = ConfigManager.Config.Base.Token,
                         encodingAESKey = v.EncodingAESKey,
                         appID = v.AppID
                     });

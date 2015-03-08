@@ -40,6 +40,18 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="config">配置信息</param>
         public ConfigManager(ConfigInfo config)
         {
+            if (config == null) 
+                throw WXException.GetInstance("配置信息不能为空", Settings.Default.SystemUsername);
+            if (config.Base == null) 
+                throw WXException.GetInstance("基本配置信息（ConfigInfo.Base）不能为空", Settings.Default.SystemUsername);
+            if (String.IsNullOrEmpty(config.Base.Token)) 
+                throw WXException.GetInstance("Token（ConfigInfo.Base.Token）不能为空", Settings.Default.SystemUsername);
+            if (config.Base.AccountList == null) 
+                config.Base.AccountList = new List<WXAccount>();
+            if (config.Event == null)
+                config.Event = new EventConfigInfo { EventInfoList = new List<EventInfoConfigInfo>() };
+            if (config.Event.EventInfoList == null)
+                config.Event.EventInfoList = new List<EventInfoConfigInfo>();
             Config = config;
         }
         #endregion
@@ -77,7 +89,6 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>是否生效</returns>
         public bool CheckEvent(string eventKey)
         {
-            if (Config.Event.EventInfoList == null) return false;
             return Config.Event.EventInfoList.
                 Any(c =>
                     c.Name.Equals(eventKey)
