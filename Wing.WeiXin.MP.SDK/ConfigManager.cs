@@ -21,7 +21,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 配置信息
         /// </summary>
-        public ConfigInfo Config { get; set; }
+        public ConfigInfo Config { get; protected set; }
 
         #region 根据本地配置节点实例化配置管理类 public ConfigManager()
         /// <summary>

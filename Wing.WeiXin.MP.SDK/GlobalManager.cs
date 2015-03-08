@@ -5,6 +5,7 @@ using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.Config;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
@@ -54,16 +55,19 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         internal static bool IsInit;
 
-        #region 初始化 public static void Init()
+        #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null, IAccessTokenManager accessTokenManager = null)
         /// <summary>
         /// 初始化
         /// </summary>
-        public static void Init()
+        /// <param name="config">配置信息</param>
+        /// <param name="wxSession">微信会话接口</param>
+        /// <param name="accessTokenManager">AccessToken管理类接口</param>
+        public static void Init(ConfigInfo config = null, IWXSession wxSession = null, IAccessTokenManager accessTokenManager = null)
         {
-            InitConfig(new ConfigManager());
+            InitConfig(config == null ? new ConfigManager() : new ConfigManager(config));
+            InitWXSessionManager(wxSession ?? new StaticWXSession());
+            InitAccessTokenContainer(accessTokenManager ?? new WXSessionAccessTokenManager());
             InitEvent(new EventManager());
-            InitWXSessionManager(new StaticWXSession());
-            InitAccessTokenContainer(new WXSessionAccessTokenManager());
 
             IsInit = true;
         }
