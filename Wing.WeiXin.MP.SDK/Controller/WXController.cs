@@ -19,9 +19,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>类型为T的对象</returns>
         protected T Action<T>(string url, WXAccount account)
         {
-            return ActionWithoutAccessToken<T>(
-                String.Format(url, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
-                account);
+            string result = HTTPHelper.Get(String.Format(
+                url,
+                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token));
+            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
+            {
+                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+            }
+
+            return JSONHelper.JSONDeserialize<T>(result);
         } 
         #endregion
 
@@ -36,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         protected T ActionWithoutAccessToken<T>(string url, WXAccount account)
         {
             string result = HTTPHelper.Get(url);
-            if (typeof(T) != typeof(ErrorMsg) && JSONHelper.HasKey(result, "errcode"))
+            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
             {
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }
@@ -60,7 +66,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                     url,
                     GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token),
                     JSONHelper.JSONSerialize(messageObj));
-            if (typeof(T) != typeof(ErrorMsg) && JSONHelper.HasKey(result, "errcode"))
+            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
             {
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
             }

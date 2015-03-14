@@ -89,6 +89,7 @@
     <Compile Include="Controller\SendAllController.cs" />
     <Compile Include="Controller\StatisticsController.cs" />
     <Compile Include="Controller\TemplateController.cs" />
+    <Compile Include="Controller\JSController.cs" />
     <Compile Include="Controller\WXController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="Entities\AccessToken.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="Entities\DKF\DKFrecordList.cs" />
     <Compile Include="Entities\DKF\DKFOnlineList.cs" />
     <Compile Include="Entities\DKF\DKFList.cs" />
+    <Compile Include="Entities\JS\JSAPITicket.cs" />
+    <Compile Include="Entities\JS\JSWeixinConfig.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonScanCodePush.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonScanCodeWaitMsg.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicSysPhoto.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="Entities\User\User\WXUserList.cs" />
     <Compile Include="Entities\WXServerIPList.cs" />
     <Compile Include="Enumeration\OAuthScope.cs" />
+    <Compile Include="Enumeration\UDStringType.cs" />
     <Compile Include="Enumeration\WXBizMsgCryptErrorCode.cs" />
     <Compile Include="Enumeration\WXLanguageType.cs" />
     <Compile Include="Enumeration\QRCodeType.cs" />
@@ -219,9 +223,11 @@
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="Lib\DateTimeHelper.cs" />
+    <Compile Include="Lib\HTMLHelper.cs" />
     <Compile Include="Lib\HTTPHelper.cs" />
     <Compile Include="Lib\JSONHelper.cs" />
     <Compile Include="Lib\SecurityHelper.cs" />
+    <Compile Include="Lib\StringHelper.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

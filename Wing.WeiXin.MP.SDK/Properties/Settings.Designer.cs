@@ -103,5 +103,23 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["RepetitionMessageCountSign"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("JSAPIT_")]
+        public string JSAPITicketHead {
+            get {
+                return ((string)(this["JSAPITicketHead"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("JSAPITT_")]
+        public string JSAPITicketTimeHead {
+            get {
+                return ((string)(this["JSAPITicketTimeHead"]));
+            }
+        }
     }
 }

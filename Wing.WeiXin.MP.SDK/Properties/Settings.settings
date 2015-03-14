@@ -29,5 +29,11 @@
     <Setting Name="RepetitionMessageCountSign" Type="System.String" Scope="Application">
       <Value Profile="(Default)">RMC_</Value>
     </Setting>
+    <Setting Name="JSAPITicketHead" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">JSAPIT_</Value>
+    </Setting>
+    <Setting Name="JSAPITicketTimeHead" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">JSAPITT_</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

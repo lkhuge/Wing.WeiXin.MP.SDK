@@ -60,6 +60,7 @@
     <Compile Include="Controller\ReceiveControllerTest.cs" />
     <Compile Include="Controller\SemanticControllerTests.cs" />
     <Compile Include="Controller\SendAllControllerTest.cs" />
+    <Compile Include="Controller\JSControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
