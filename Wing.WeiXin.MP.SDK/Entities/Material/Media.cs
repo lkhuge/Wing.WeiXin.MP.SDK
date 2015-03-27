@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Enumeration;
 
-namespace Wing.WeiXin.MP.SDK.Entities
+namespace Wing.WeiXin.MP.SDK.Entities.Material
 {
     /// <summary>
     /// 多媒体
@@ -13,12 +14,17 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb，主要用于视频与音乐格式的缩略图）
         /// </summary>
-        public string type { get; set; }
+        public UploadMediaType type { get; set; }
 
         /// <summary>
         /// 媒体文件上传后，获取时的唯一标识
         /// </summary>
         public string media_id { get; set; }
+
+        /// <summary>
+        /// 缩略图的唯一标识
+        /// </summary>
+        public string thumb_media_id { get; set; }
 
         /// <summary>
         /// 媒体文件上传时间戳

@@ -16,17 +16,9 @@ using Wing.WeiXin.MP.SDK.Extension.Event.Text;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
-    /// <summary>
-    ///这是 ReceiveControllerTest 的测试类，旨在
-    ///包含所有 ReceiveControllerTest 单元测试
-    ///</summary>
     [TestClass]
     public class ReceiveControllerTest : BaseTest
     {
-        #region Action 的测试 public void ActionTest()
-        /// <summary>
-        /// Action 的测试
-        ///</summary>
         [TestMethod]
         public void ActionTest()
         {
@@ -53,6 +45,5 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             Response result = new ReceiveController().Action(messageText, false);
             Assert.IsNotNull(result);
         } 
-        #endregion
     }
 }

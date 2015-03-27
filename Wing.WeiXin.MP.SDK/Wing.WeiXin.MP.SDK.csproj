@@ -79,7 +79,7 @@
     </Compile>
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\DKFController.cs" />
-    <Compile Include="Controller\MediaController.cs" />
+    <Compile Include="Controller\MaterialController.cs" />
     <Compile Include="Controller\MenuController.cs" />
     <Compile Include="Controller\OAuthController.cs" />
     <Compile Include="Controller\QRCodeController.cs" />
@@ -102,6 +102,11 @@
     <Compile Include="Entities\DKF\DKFList.cs" />
     <Compile Include="Entities\JS\JSAPITicket.cs" />
     <Compile Include="Entities\JS\JSWeixinConfig.cs" />
+    <Compile Include="Entities\Material\MediaCount.cs" />
+    <Compile Include="Entities\Material\MediaList.cs" />
+    <Compile Include="Entities\Material\MediaNews.cs" />
+    <Compile Include="Entities\Material\MediaNewsList.cs" />
+    <Compile Include="Entities\Material\NewsArticles.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonScanCodePush.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonScanCodeWaitMsg.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicSysPhoto.cs" />
@@ -175,7 +180,7 @@
     <Compile Include="Entities\CSMessages\CSMessageVideo.cs" />
     <Compile Include="Entities\CSMessages\CSMessageVoice.cs" />
     <Compile Include="Entities\ErrorMsg.cs" />
-    <Compile Include="Entities\Media.cs" />
+    <Compile Include="Entities\Material\Media.cs" />
     <Compile Include="Entities\Menu\AMenuButton.cs" />
     <Compile Include="Entities\Menu\AMenuItem.cs" />
     <Compile Include="Entities\Menu\ForGet\MenuButtonForGet.cs" />
@@ -220,6 +225,7 @@
     <Compile Include="Extension\JS\WeixinConfig.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\AshxOAuthHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />
     <Compile Include="GlobalManager.cs" />

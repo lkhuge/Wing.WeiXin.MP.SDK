@@ -54,13 +54,13 @@
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
     <Compile Include="Controller\CSControllerTest.cs" />
-    <Compile Include="Controller\MediaControllerTest.cs" />
     <Compile Include="Controller\MenuControllerTest.cs" />
     <Compile Include="Controller\QRCodeControllerTest.cs" />
     <Compile Include="Controller\ReceiveControllerTest.cs" />
     <Compile Include="Controller\SemanticControllerTests.cs" />
     <Compile Include="Controller\SendAllControllerTest.cs" />
     <Compile Include="Controller\JSControllerTest.cs" />
+    <Compile Include="Controller\MaterialControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

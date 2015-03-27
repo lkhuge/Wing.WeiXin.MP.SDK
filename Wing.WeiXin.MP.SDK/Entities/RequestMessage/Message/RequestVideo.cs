@@ -45,7 +45,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
         /// <param name="pathName">下载路径加文件名</param>
         public void DownloadVideo(WXAccount account, string pathName)
         {
-            new MediaController().DownLoad(account, MediaId, pathName);
+            new MaterialController().GetTemp(account, MediaId, pathName);
         }
         #endregion
 

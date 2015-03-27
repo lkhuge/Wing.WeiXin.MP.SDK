@@ -12,10 +12,6 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class SemanticControllerTests : BaseTest
     {
-        #region GetSemantic的测试 public void GetSemanticTest()
-        /// <summary>
-        /// GetSemantic的测试
-        /// </summary>
         [TestMethod]
         public void GetSemanticTest()
         {
@@ -29,6 +25,5 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                     uid = "orImOuC33jQiJFrVelQGGTmwPSFE"
                 });
         } 
-        #endregion
     }
 }

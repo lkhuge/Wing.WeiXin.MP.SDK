@@ -49,17 +49,28 @@ namespace Wing.WeiXin.MP.SDK.Lib
         }
         #endregion
 
-        #region 下载文件 public static string DownloadFile(string url, string pathname)
+        #region 下载文件 public static string DownloadFile(string url, string pathname, string data = null)
         /// <summary>
         /// 下载文件
         /// </summary>
         /// <param name="url">下载文件地址</param>
         /// <param name="pathname">下载后的存放地址以及文件名</param>
+        /// <param name="data">POST参数（如果该参数不为空则使用POST方式下载）</param>
         /// <returns>响应内容</returns>
-        public static string DownloadFile(string url, string pathname)
+        public static string DownloadFile(string url, string pathname, string data = null)
         {
             HttpWebRequest webRequest = WebRequest.Create(url) as HttpWebRequest;
             if (webRequest == null) throw new NullReferenceException();
+            bool isGet = String.IsNullOrEmpty(data);
+            webRequest.Method = isGet ? "GET" : "POST";
+            if (!isGet)
+            {
+                using (Stream requestStream = webRequest.GetRequestStream())
+                {
+                    byte[] dataArray = Encoding.UTF8.GetBytes(data);
+                    requestStream.Write(dataArray, 0, dataArray.Length);
+                }
+            }
             HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
             if (webResponse == null) throw new NullReferenceException();
             using (Stream webStream = webResponse.GetResponseStream())
@@ -89,56 +100,60 @@ namespace Wing.WeiXin.MP.SDK.Lib
         }
         #endregion
 
-        #region 上传文件 public static string Upload(string address, string path, string name, string method = "POST")
+        #region 上传文件 public static string Upload(string url, string path, string name)
         /// <summary>
         /// 上传文件
         /// </summary>
-        /// <param name="address">文件上传到的服务器</param>
+        /// <param name="url">文件上传到的服务器</param>
         /// <param name="path">要上传的本地文件路径</param>
         /// <param name="name">文件上传后的名称</param>
-        /// <param name="method">上传方式</param>
         /// <returns>成功返回1，失败返回0</returns>
-        public static string Upload(string address, string path, string name, string method = "POST")
+        public static string Upload(string url, string path, string name)
         {
-            string strBoundary = "----------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + strBoundary + "\r\n");
-            const string h = "--{0}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
-            string header = String.Format(h, strBoundary, name);
-            byte[] postHeaderBytes = Encoding.UTF8.GetBytes(header);
-            HttpWebRequest httpReq = WebRequest.Create(new Uri(address)) as HttpWebRequest;
-            if (httpReq == null) return "";
-            httpReq.Method = method;
-            httpReq.AllowWriteStreamBuffering = false;
-            httpReq.Timeout = 300000;
-            httpReq.ContentType = "multipart/form-data; boundary=" + strBoundary;
-            using (FileStream fs = new FileStream(String.Format("{0}/{1}", path, name), FileMode.Open, FileAccess.Read))
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "POST";
+            request.Timeout = 60000;
+            using (MemoryStream postStream = new MemoryStream())
             {
-                long length = fs.Length + postHeaderBytes.Length + boundaryBytes.Length;
-                httpReq.ContentLength = length;
-                using (BinaryReader r = new BinaryReader(fs))
+                string boundary = "----" + DateTime.Now.Ticks.ToString("x");
+                string fileName = String.Format("{0}/{1}", path, name);
+                using (FileStream fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    const int bufferLength = 4096;
-                    byte[] buffer = new byte[bufferLength];
-                    int size = r.Read(buffer, 0, bufferLength);
-                    using (Stream postStream = httpReq.GetRequestStream())
+                    string formdata = String.Format("\r\n--{0}\r\nContent-Disposition: form-data; name=\"media\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n", boundary, fileName);
+                    byte[] formdataBytes = Encoding.ASCII.GetBytes(postStream.Length == 0 ? formdata.Substring(2, formdata.Length - 2) : formdata);
+                    postStream.Write(formdataBytes, 0, formdataBytes.Length);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
                     {
-                        postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
-                        while (size > 0)
-                        {
-                            postStream.Write(buffer, 0, size);
-                            size = r.Read(buffer, 0, bufferLength);
-                        }
-                        postStream.Write(boundaryBytes, 0, boundaryBytes.Length);
-                        postStream.Close();
-                        using (Stream s = httpReq.GetResponse().GetResponseStream())
-                        {
-                            if (s == null) return "";
-                            using (StreamReader sr = new StreamReader(s))
-                            {
-                                return sr.ReadLine();
-                            }
-                        }
+                        postStream.Write(buffer, 0, bytesRead);
                     }
+                }
+                byte[] footer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                postStream.Write(footer, 0, footer.Length);
+                request.ContentType = String.Format("multipart/form-data; boundary={0}", boundary);
+                request.ContentLength = postStream.Length;
+                request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+                request.KeepAlive = true;
+                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
+                postStream.Position = 0;
+                using (Stream requestStream = request.GetRequestStream())
+                {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = postStream.Read(buffer, 0, buffer.Length)) != 0)
+                    {
+                        requestStream.Write(buffer, 0, bytesRead);
+                    }
+                }
+            }
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            using (Stream responseStream = response.GetResponseStream())
+            {
+                if (responseStream == null) throw new Exception("GetResponseStream Is Null");
+                using (StreamReader myStreamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")))
+                {
+                    return myStreamReader.ReadToEnd();
                 }
             }
         }

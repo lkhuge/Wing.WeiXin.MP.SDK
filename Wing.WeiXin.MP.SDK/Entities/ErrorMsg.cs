@@ -21,6 +21,17 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public string errmsg { get; set; }
 
+        #region 获取错误码枚举对象 public ReturnCode GetReturnCode()
+        /// <summary>
+        /// 获取错误码枚举对象
+        /// </summary>
+        /// <returns>错误码枚举对象</returns>
+        public ReturnCode GetReturnCode()
+        {
+            return (ReturnCode)Enum.Parse(typeof(ReturnCode), errcode);
+        } 
+        #endregion
+
         #region 获取错误说明 public string GetIntroduce()
         /// <summary>
         /// 获取错误说明

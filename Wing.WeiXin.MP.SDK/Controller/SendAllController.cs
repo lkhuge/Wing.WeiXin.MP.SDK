@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.Material;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList;
