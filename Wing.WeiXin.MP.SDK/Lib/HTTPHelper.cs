@@ -14,6 +14,15 @@ namespace Wing.WeiXin.MP.SDK.Lib
     /// </summary>
     public static class HTTPHelper
     {
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        static HTTPHelper()
+        {
+            ServicePointManager.ServerCertificateValidationCallback =
+                (sender, certificate, chain, sslPolicyErrors) => true;
+        } 
+
         #region 使用Get方法获取字符串结果 public static string Get(string url, Encoding encoding = null)
         /// <summary>
         /// 使用Get方法获取字符串结果

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -30,12 +31,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         /// 0则表示无没有限制
         /// </summary>
         public static uint ExpiresSecond { get; set; }
-
-        static TextMenuEvent()
-        {
-            if (GlobalManager.WXSessionManager == null)
-                throw WXException.GetInstance("该模块依赖于微信用户会话管理类", Settings.Default.SystemUsername);
-        }
 
         #region 开始捕获菜单事件 public static void Start(string openID, TextMenuItem item)
         /// <summary>
@@ -191,7 +186,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 TextMenuItem item = (TextMenuItem)itemObj;
                 TextMenuItem subItem = item.SubItem.FirstOrDefault(i => i.Key.Equals(request.GetPostData("Content")));
                 if (subItem == null) return GetMenuErrorMessage(item, request);
-                if (subItem.Event != null) return subItem.Event(request);
+                if (!String.IsNullOrEmpty(subItem.Event)) return GetEvent(subItem.Event)(request);
                 if (subItem.SubItem == null || subItem.SubItem.Length == 0) return ShowMeun(item, request);
                 subItem.ParentItem = item;
                 GlobalManager.WXSessionManager.Set(request.FromUserName, Settings.Default.TextMenuEventListSign, subItem);
@@ -199,6 +194,29 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 return ShowMeun(subItem, request);
             });
         }
+        #endregion
+
+        #region 根据事件名称获取事件对象 private static Func<Request, Response> GetEvent(string eventName)
+        /// <summary>
+        /// 根据事件名称获取事件对象
+        /// </summary>
+        /// <param name="eventName">事件名称</param>
+        /// <returns>事件对象</returns>
+        private static Func<Request, Response> GetEvent(string eventName)
+        {
+            string[] eventNameList = eventName.Split(';');
+            if (eventNameList.Length != 2) 
+                throw WXException.GetInstance("事件名称格式不正确（格式： 完整类名;方法名）", Settings.Default.SystemUsername);
+            Type objType = Assembly.GetCallingAssembly().GetTypes()
+                .FirstOrDefault(o => o.FullName.Equals(eventNameList[0]));
+            if (objType == null) throw WXException.GetInstance("找不到事件对应的类", Settings.Default.SystemUsername);
+            ConstructorInfo obj = objType.GetConstructors().FirstOrDefault(c => c.IsPublic && !c.GetParameters().Any());
+            if (obj == null) 
+                throw WXException.GetInstance("无法实例化（必须存在一个公共没有参数的构造方法）", Settings.Default.SystemUsername);
+            MethodInfo methodInfo = objType.GetMethod(eventNameList[1]);
+
+            return request => (Response)methodInfo.Invoke(obj.Invoke(null), new object[] { request });
+        } 
         #endregion
 
         /// <summary>
@@ -219,8 +237,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             /// <summary>
             /// 叶子节点
             /// 执行事件
+            /// 格式： 完整类名;方法名
             /// </summary>
-            public Func<Request, Response> Event { get; set; }
+            public string Event { get; set; }
 
             /// <summary>
             /// 子节点

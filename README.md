@@ -1,4 +1,4 @@
-微信公共平台SDK(c# .Net4.0)
+微信公共平台SDK(c# .Net4.0 Mono)
 ==================
 Wing.WeiXin.MP.SDK
 ==================
@@ -47,7 +47,7 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 ```
 
 3.添加接收事件处理配置(configuration)
-IIS 6.0
+IIS 6.0 Or Mono(jexus)
 ```
 <system.web>
     <httpHandlers>
@@ -93,12 +93,6 @@ private Response E2(RequestEventClick request)
 }
 ```
 
-事件处理
-----------------
-###事件处理优先级
-```
-全局事件 > 自定义事件
-```
 
 配置说明
 ----------------

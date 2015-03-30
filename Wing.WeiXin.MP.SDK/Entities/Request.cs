@@ -103,6 +103,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
 
         /// <summary>
+        /// 请求标记对象
+        /// </summary>
+        public object Tag { get; set; }
+
+        /// <summary>
         /// 运行时长计时器
         /// </summary>
         private static Stopwatch Stopwatch;
