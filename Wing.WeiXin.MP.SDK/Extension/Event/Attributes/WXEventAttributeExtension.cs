@@ -121,19 +121,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         } 
         #endregion
 
-        #region 自动添加接收事件 public static void AutoAddReceiveEvent(this EventManager eventManager, string namespaceName, Assembly assembly = null)
+        #region 自动添加接收事件 public static void AutoAddReceiveEvent(this EventManager eventManager, string namespaceName)
         /// <summary>
         /// 自动添加接收事件
         /// </summary>
         /// <param name="eventManager">事件管理类</param>
         /// <param name="namespaceName">命名空间</param>
-        /// <param name="assembly">指定程序集</param>
-        public static void AutoAddReceiveEvent(this EventManager eventManager, string namespaceName, Assembly assembly = null)
+        public static void AutoAddReceiveEvent(this EventManager eventManager, string namespaceName)
         {
-            assembly = assembly ?? Assembly.GetCallingAssembly();
             namespaceName = namespaceName
-                .Replace("%Namespace%", assembly.FullName.Split(',')[0]);
-            assembly.GetTypes()
+                .Replace("%Namespace%", GlobalManager.CallingAssembly.FullName.Split(',')[0]);
+            GlobalManager.CallingAssembly.GetTypes()
                 .Where(t => t.Namespace != null && t.Namespace.StartsWith(namespaceName))
                 .Select(s => s.GetConstructors().FirstOrDefault(c => c.IsPublic && !c.GetParameters().Any()))
                 .Where(c => c != null)

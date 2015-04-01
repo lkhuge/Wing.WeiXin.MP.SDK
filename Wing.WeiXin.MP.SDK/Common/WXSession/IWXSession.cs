@@ -13,18 +13,20 @@ namespace Wing.WeiXin.MP.SDK.Common.WXSession
         /// <summary>
         /// 获取数据
         /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
         /// <param name="user">用户编号</param>
         /// <param name="key">Key值</param>
         /// <returns>数据</returns>
-        object Get(string user, string key);
+        T Get<T>(string user, string key);
 
         /// <summary>
         /// 设置对象数据
         /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
         /// <param name="user">用户编号</param>
         /// <param name="key">Key值</param>
         /// <param name="value">对象数据</param>
-        void Set(string user, string key, object value);
+        void Set<T>(string user, string key, T value);
 
         /// <summary>
         /// 删除数据

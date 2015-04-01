@@ -27,13 +27,13 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>JS接口票据</returns>
         public JSAPITicket GetJSAPITicket(WXAccount account)
         {
-            object result = GlobalManager.WXSessionManager.Get(
+            JSAPITicket result = GlobalManager.WXSessionManager.Get<JSAPITicket>(
                 Settings.Default.SystemUsername, 
                 Settings.Default.JSAPITicketHead + account.ID);
-            object resultDatetime = GlobalManager.WXSessionManager.Get(
+            DateTime resultDatetime = GlobalManager.WXSessionManager.Get<DateTime>(
                 Settings.Default.SystemUsername, 
                 Settings.Default.JSAPITicketTimeHead + account.ID);
-            if (result == null || resultDatetime == null || ((DateTime)resultDatetime).AddSeconds(((JSAPITicket)result).expires_in) > DateTime.Now)
+            if (result == null || resultDatetime == default(DateTime) || resultDatetime.AddSeconds(result.expires_in) > DateTime.Now)
             {
                 JSAPITicket jsAPITicket = Action<JSAPITicket>(UrlGetJSAPITicket, account);
                 GlobalManager.WXSessionManager.Set(
@@ -47,7 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 return jsAPITicket;
             }
 
-            return (JSAPITicket)result;
+            return result;
         }
         #endregion
 

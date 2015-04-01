@@ -20,9 +20,9 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken</returns>
         public AccessToken GetAccessToken(WXAccount account)
         {
-            return GlobalManager.WXSessionManager.Get(
+            return GlobalManager.WXSessionManager.Get<AccessToken>(
                 Settings.Default.SystemUsername,
-                Settings.Default.AccessTokenHead + account.ID) as AccessToken;
+                Settings.Default.AccessTokenHead + account.ID);
         } 
         #endregion
 
@@ -49,7 +49,7 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken的截止日期</returns>
         public DateTime GetExpiresDateTime(WXAccount account)
         {
-            return (DateTime)GlobalManager.WXSessionManager.Get(
+            return GlobalManager.WXSessionManager.Get<DateTime>(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenTimeHead + account.ID);
         } 

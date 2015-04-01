@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
+using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 
@@ -35,19 +36,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private const string TestText = "Hello World";
 
-        /// <summary>
-        /// 运行时程序集
-        /// </summary>
-        private static Assembly RuntimeAssembly;
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public AshxCheckHandler()
-        {
-            RuntimeAssembly = Assembly.GetCallingAssembly();
-        }
-
         #region 测试项列表 private Dictionary<string, AshxCheckItem[]> CheckItemList = new Dictionary<string, AshxCheckItem[]>
         /// <summary>
         /// 测试项列表
@@ -62,7 +50,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "运行环境",
                     Check = () =>
                     {
-                        object[] list = RuntimeAssembly.GetCustomAttributes(typeof(DebuggableAttribute), false);
+                        object[] list = GlobalManager.CallingAssembly.GetCustomAttributes(typeof(DebuggableAttribute), false);
                         if (list.Length == 0) return "无法获取编译方式（可能是未运行于32位模式造成的，对程序没有影响）";
                         DebuggableAttribute attr = (DebuggableAttribute)list[0];
                         return attr.IsJITTrackingEnabled ? "建议使用Release模式编译以获得最佳性能" : null;
@@ -94,8 +82,37 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "微信用户会话管理类是否可用",
-                    Check = () => GlobalManager.WXSessionManager == null 
-                        ? "未创建微信用户会话管理类（将会影响排除重复消息和文本菜单等功能）" : null
+                    Check = () =>
+                    {
+                        
+                        const string user = "Test";
+                        const string keyString = "SS";
+                        const string valueString = "SSV";
+                        GlobalManager.WXSessionManager.Set(user, keyString, valueString);
+
+                        const string keyInt = "SI";
+                        const int valueInt = 123;
+                        GlobalManager.WXSessionManager.Set(user, keyInt, valueInt);
+
+                        const string keyDT = "SD";
+                        DateTime valueDT = DateTime.Now;
+                        GlobalManager.WXSessionManager.Set(user, keyDT, valueDT);
+
+                        const string keyObj = "SO";
+                        AccessToken valueObj = new AccessToken
+                        {
+                            access_token = "qwe",
+                            expires_in = 123
+                        };
+                        GlobalManager.WXSessionManager.Set(user, keyObj, valueObj);
+
+                        return (GlobalManager.WXSessionManager.Get<string>(user, keyString).Equals(valueString)
+                                && GlobalManager.WXSessionManager.Get<int>(user, keyInt).Equals(valueInt)
+                                && GlobalManager.WXSessionManager.Get<DateTime>(user, keyDT).Equals(valueDT)
+                                && GlobalManager.WXSessionManager.Get<AccessToken>(user, keyObj).Equals(valueObj))
+                            ? "微信用户会话管理类不可用（将会影响排除重复消息和文本菜单等功能）"
+                            : null;
+                    }
                 },
                 new AshxCheckItem
                 {

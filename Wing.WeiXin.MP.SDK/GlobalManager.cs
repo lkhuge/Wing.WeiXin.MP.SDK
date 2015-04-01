@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
@@ -46,6 +47,11 @@ namespace Wing.WeiXin.MP.SDK
         public static WXSessionManager WXSessionManager { get; private set; }
 
         /// <summary>
+        /// 外部调用的程序集
+        /// </summary>
+        public static Assembly CallingAssembly { get; set; }
+
+        /// <summary>
         /// 微信加解密工具类列表
         /// </summary>
         internal static Dictionary<string, WXBizMsgCrypt> CryptList;
@@ -64,6 +70,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="accessTokenManager">AccessToken管理类接口</param>
         public static void Init(ConfigInfo config = null, IWXSession wxSession = null, IAccessTokenManager accessTokenManager = null)
         {
+            CallingAssembly = Assembly.GetCallingAssembly();
             InitConfig(config == null ? new ConfigManager() : new ConfigManager(config));
             InitWXSessionManager(wxSession ?? new StaticWXSession());
             InitAccessTokenContainer(accessTokenManager ?? new WXSessionAccessTokenManager());

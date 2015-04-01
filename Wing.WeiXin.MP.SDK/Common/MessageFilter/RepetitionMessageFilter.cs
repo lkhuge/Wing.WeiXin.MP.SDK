@@ -39,14 +39,14 @@ namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
                 if (request.MsgType != ReceiveEntityType.text) return null;
                 RequestText requestText = RequestAMessage.GetRequestAMessage<RequestText>(request);
                 string content = RemoveImpurity(requestText.Content);
-                object contentTextTemp = GlobalManager.WXSessionManager.Get(request.FromUserName, Settings.Default.RepetitionMessageTextSign);
-                object contentCountTemp = GlobalManager.WXSessionManager.Get(request.FromUserName, Settings.Default.RepetitionMessageCountSign);
+                string contentTextTemp = GlobalManager.WXSessionManager.Get<string>(request.FromUserName, Settings.Default.RepetitionMessageTextSign);
+                int contentCountTemp = GlobalManager.WXSessionManager.Get<int>(request.FromUserName, Settings.Default.RepetitionMessageCountSign);
                 contentTextTemp = contentTextTemp ?? "";
-                contentCountTemp = contentTextTemp.ToString().Equals(content) ? ((int) contentCountTemp) + 1 : 0;
+                contentCountTemp = contentTextTemp.ToString().Equals(content) ? contentCountTemp + 1 : 0;
                 GlobalManager.WXSessionManager.Set(request.FromUserName, Settings.Default.RepetitionMessageTextSign, content);
                 GlobalManager.WXSessionManager.Set(request.FromUserName, Settings.Default.RepetitionMessageCountSign, contentCountTemp);
 
-                return ((int) contentCountTemp) > MaxRepetition
+                return contentCountTemp > MaxRepetition
                     ? OutRepetitionEvent(request) 
                     : null;
             });

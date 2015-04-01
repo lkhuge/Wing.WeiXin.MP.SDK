@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
+    <Compile Include="Common\WXSessionTest.cs" />
     <Compile Include="Controller\CSControllerTest.cs" />
     <Compile Include="Controller\MenuControllerTest.cs" />
     <Compile Include="Controller\QRCodeControllerTest.cs" />
