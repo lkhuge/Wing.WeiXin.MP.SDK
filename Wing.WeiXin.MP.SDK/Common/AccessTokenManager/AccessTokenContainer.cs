@@ -32,7 +32,6 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <param name="accessTokenManager">AccessToken管理类</param>
         public AccessTokenContainer(IAccessTokenManager accessTokenManager)
         {
-            if (accessTokenManager == null) throw new ArgumentNullException("accessTokenManager");
             this.accessTokenManager = accessTokenManager;
         } 
         #endregion

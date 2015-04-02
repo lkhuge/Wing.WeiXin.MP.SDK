@@ -45,7 +45,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         /// <param name="separatorWord">分割字符</param>
         public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, char separatorWord)
         {
-            if (eventList == null) throw new ArgumentNullException("eventList");
             this.eventList = eventList;
             returnEvent = request =>
             {
@@ -72,7 +71,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         /// <param name="headWordLength">头部字符串长度</param>
         public WordHeadEventList(Dictionary<string, Func<string, Request, Response>> eventList, int headWordLength)
         {
-            if (eventList == null) throw new ArgumentNullException("eventList");
             this.eventList = eventList;
             returnEvent = request =>
             {

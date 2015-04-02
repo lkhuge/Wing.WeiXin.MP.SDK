@@ -11,6 +11,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
     public class WXException : Exception
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public bool IsMessage { get; protected set; }
+
+        /// <summary>
         /// 发送异常的用户
         /// </summary>
         public string ExceptionUser { get; private set; }
@@ -20,9 +25,21 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public object ExceptionTag { get; private set; }
 
-        #region 根据消息实例化异常 protected WXException(string message, string user)
+        #region 根据消息实例化消息类异常 protected WXException(string message)
         /// <summary>
-        /// 根据消息实例化异常
+        /// 根据消息实例化消息类异常
+        /// </summary>
+        /// <param name="message">消息</param>
+        protected WXException(string message)
+            : base(message)
+        {
+            IsMessage = true;
+        }
+        #endregion
+
+        #region 根据消息和发送异常的用户实例化异常 protected WXException(string message, string user)
+        /// <summary>
+        /// 根据消息和发送异常的用户实例化异常
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="user">发送异常的用户</param>
@@ -33,9 +50,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         } 
         #endregion
 
-        #region 根据消息实例化异常 protected WXException(string message, string user, object exceptionTag)
+        #region 根据消息发送异常的用户和异常信息标签实例化异常 protected WXException(string message, string user, object exceptionTag)
         /// <summary>
-        /// 根据消息实例化异常
+        /// 根据消息发送异常的用户和异常信息标签实例化异常
         /// </summary>
         /// <param name="message">消息</param>
         /// <param name="user">发送异常的用户</param>
@@ -48,7 +65,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取异常 public static MessageException GetInstance(string message, string user, object exceptionTag = null)
+        #region 获取异常 public static WXException GetInstance(string message, string user, object exceptionTag = null)
         /// <summary>
         /// 获取异常
         /// </summary>
@@ -74,7 +91,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取异常 public static MessageException GetInstance(ErrorMsg errorMsg, string user)
+        #region 获取异常 public static WXException GetInstance(ErrorMsg errorMsg, string user)
         /// <summary>
         /// 获取异常
         /// </summary>
@@ -84,6 +101,18 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public static WXException GetInstance(ErrorMsg errorMsg, string user)
         {
             return GetInstance(errorMsg.GetIntroduce(), user, errorMsg);
+        }
+        #endregion
+
+        #region 获取异常 public static WXException GetInstance(string message)
+        /// <summary>
+        /// 获取消息类异常
+        /// </summary>
+        /// <param name="message">消息</param>
+        /// <returns>异常</returns>
+        public static WXException GetInstance(string message)
+        {
+            return new WXException(message);
         }
         #endregion
     }

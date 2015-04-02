@@ -97,7 +97,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns></returns>
         public List<WXUser> GetWXUserListFromList(WXAccount account, WXUserList userList, int num = 0)
         {
-            if (num < 0 || num > userList.total) throw new ArgumentOutOfRangeException();
+            if (num < 0 || num > userList.total) throw WXException.GetInstance("获取数量超过范围", account.ID);
             if (userList.total == 0) return null;
             num = num == 0 ? userList.total : num;
             List<WXUser> wxUserList = new List<WXUser>();

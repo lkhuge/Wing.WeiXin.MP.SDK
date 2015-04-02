@@ -168,7 +168,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (!String.IsNullOrEmpty(Echostr))
             {
                 LogManager.WriteSystem("首次验证");
-                throw WXException.GetInstance(Echostr, Settings.Default.SystemUsername);
+                throw WXException.GetInstance(Echostr);
             }
         }
         #endregion

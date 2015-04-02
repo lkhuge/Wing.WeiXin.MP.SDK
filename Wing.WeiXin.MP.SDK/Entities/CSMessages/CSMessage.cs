@@ -36,7 +36,6 @@ namespace Wing.WeiXin.MP.SDK.Entities.CSMessages
         /// <param name="touser">普通用户openid</param>
         public CSMessage(string touser)
         {
-            if (String.IsNullOrEmpty(touser)) throw new ArgumentNullException("touser");
             this.touser = touser;
         } 
         #endregion

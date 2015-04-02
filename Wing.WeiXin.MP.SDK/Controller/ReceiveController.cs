@@ -72,11 +72,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             }
             catch (WXException e)
             {
-                return new Response(e);
-            }
-            catch (Exception e)
-            {
-                if (ReceiveException != null)
+                if (!e.IsMessage && ReceiveException != null)
                 {
                     LogManager.WriteSystem("触发接收异常事件");
                     ReceiveException(request, e);

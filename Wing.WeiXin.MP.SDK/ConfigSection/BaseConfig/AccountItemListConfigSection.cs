@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
 {
@@ -32,7 +33,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         protected override object GetElementKey(ConfigurationElement element)
         {
             AccountItemConfigSection config = element as AccountItemConfigSection;
-            if (config == null) throw new ArgumentException();
+            if (config == null) throw WXException.GetInstance("无法获取公共平台账号项目列表配置节点", Settings.Default.SystemUsername);
 
             return config.WeixinMPID;
         }

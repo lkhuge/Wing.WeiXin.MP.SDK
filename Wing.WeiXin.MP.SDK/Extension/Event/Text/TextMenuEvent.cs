@@ -38,6 +38,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         public static uint ExpiresSecond { get; set; }
 
         /// <summary>
+        /// 事件承载对象
+        /// 当该对象不为空的时 菜单事件将优先从该对象中寻找 如果找不到则使用原先规则
+        /// </summary>
+        public static object EventObject { get; set; }
+
+        /// <summary>
+        /// 事件承载对象方法列表
+        /// </summary>
+        private static Dictionary<string, Func<Request, Response>> EventObjectMethodList;
+
+        /// <summary>
         /// 事件列表
         /// </summary>
         private static readonly Dictionary<string, Func<Request, Response>> EventList =
@@ -216,6 +227,13 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         private static Func<Request, Response> GetEvent(string eventName)
         {
             if (EventList.ContainsKey(eventName)) return EventList[eventName];
+            if (EventObject != null)
+            {
+                if (EventObjectMethodList == null) EventObjectMethodList = EventObject.GetType().GetMethods().ToDictionary(
+                    k => k.Name,
+                    v => (Func<Request, Response>)(request => (Response)v.Invoke(EventObject, new object[] { request })));
+                if (EventObjectMethodList.ContainsKey(eventName)) return EventObjectMethodList[eventName];
+            }
             string[] eventNameList = eventName.Split('-');
             if (eventNameList.Length != 2) 
                 throw WXException.GetInstance("事件名称格式不正确（格式： 完整类名-方法名）", Settings.Default.SystemUsername);
@@ -226,7 +244,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
             if (obj == null) 
                 throw WXException.GetInstance("无法实例化（必须存在一个公共没有参数的构造方法）", Settings.Default.SystemUsername);
             MethodInfo methodInfo = objType.GetMethod(eventNameList[1]);
-
+            if (methodInfo == null)
+                throw WXException.GetInstance(String.Format("找不到（{0}）方法", eventNameList[1]), Settings.Default.SystemUsername);
             return request => (Response)methodInfo.Invoke(obj.Invoke(null), new object[] { request });
         } 
         #endregion

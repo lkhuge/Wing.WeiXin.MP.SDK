@@ -112,6 +112,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="accessTokenManager">AccessToken管理类</param>
         public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
         {
+            if (accessTokenManager == null) throw WXException.GetInstance("AccessToken容器不能为空", Settings.Default.SystemUsername);
             AccessTokenContainer = new AccessTokenContainer(accessTokenManager);
         }
         #endregion

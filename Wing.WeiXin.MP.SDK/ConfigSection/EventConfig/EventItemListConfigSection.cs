@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
 {
@@ -31,7 +33,7 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.EventConfig
         protected override object GetElementKey(ConfigurationElement element)
         {
             EventItemConfigSection config = element as EventItemConfigSection;
-            if (config == null) throw new ArgumentException();
+            if (config == null) throw WXException.GetInstance("无法获取事件项目列表配置节点", Settings.Default.SystemUsername);
 
             return config.Name;
         } 

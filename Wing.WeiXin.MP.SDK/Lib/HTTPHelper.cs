@@ -69,7 +69,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
         public static string DownloadFile(string url, string pathname, string data = null)
         {
             HttpWebRequest webRequest = WebRequest.Create(url) as HttpWebRequest;
-            if (webRequest == null) throw new NullReferenceException();
+            if (webRequest == null) throw WXException.GetInstance("无法获取HttpWebRequest", Settings.Default.SystemUsername);
             bool isGet = String.IsNullOrEmpty(data);
             webRequest.Method = isGet ? "GET" : "POST";
             if (!isGet)
@@ -81,10 +81,10 @@ namespace Wing.WeiXin.MP.SDK.Lib
                 }
             }
             HttpWebResponse webResponse = webRequest.GetResponse() as HttpWebResponse;
-            if (webResponse == null) throw new NullReferenceException();
+            if (webResponse == null) throw WXException.GetInstance("无法获取HttpWebResponse", Settings.Default.SystemUsername);
             using (Stream webStream = webResponse.GetResponseStream())
             {
-                if (webStream == null) throw new NullReferenceException();
+                if (webStream == null) throw WXException.GetInstance("无法获取ResponseStream", Settings.Default.SystemUsername);
                 if (webResponse.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
                     throw WXException.GetInstance("404", Settings.Default.SystemUsername);
@@ -159,7 +159,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             using (Stream responseStream = response.GetResponseStream())
             {
-                if (responseStream == null) throw new Exception("GetResponseStream Is Null");
+                if (responseStream == null) throw WXException.GetInstance("无法获取ResponseStream", Settings.Default.SystemUsername);
                 using (StreamReader myStreamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")))
                 {
                     return myStreamReader.ReadToEnd();
