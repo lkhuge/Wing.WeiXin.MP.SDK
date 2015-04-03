@@ -21,7 +21,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     ///     2 配置测试
     ///       2.1 [Error]是否已经初始化 （GlobalManager.IsInit）
     ///       2.2 [Warn]是否存在微信公众平台账号
-    ///       2.3 [Warn]微信用户会话管理类是否可用
+    ///       2.3 [Warn]微信用户会话接口是否可用
     ///       2.4 [Info]全局事件列表
     ///       2.5 [Info]普通事件列表
     ///     3 模拟测试
@@ -86,22 +86,23 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 new AshxCheckItem
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,
-                    Text = "微信用户会话管理类是否可用",
+                    Text = "微信用户会话接口是否可用",
                     Check = () =>
                     {
-                        
+                        Stopwatch sw = new Stopwatch();
+                        sw.Start();
                         const string user = "Test";
                         const string keyString = "SS";
                         const string valueString = "SSV";
-                        GlobalManager.WXSessionManager.Set(user, keyString, valueString);
+                        GlobalManager.WXSession.Set(user, keyString, valueString);
 
                         const string keyInt = "SI";
                         const int valueInt = 123;
-                        GlobalManager.WXSessionManager.Set(user, keyInt, valueInt);
+                        GlobalManager.WXSession.Set(user, keyInt, valueInt);
 
                         const string keyDT = "SD";
                         DateTime valueDT = DateTime.Now;
-                        GlobalManager.WXSessionManager.Set(user, keyDT, valueDT);
+                        GlobalManager.WXSession.Set(user, keyDT, valueDT);
 
                         const string keyObj = "SO";
                         AccessToken valueObj = new AccessToken
@@ -109,13 +110,20 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                             access_token = "qwe",
                             expires_in = 123
                         };
-                        GlobalManager.WXSessionManager.Set(user, keyObj, valueObj);
+                        GlobalManager.WXSession.Set(user, keyObj, valueObj);
 
-                        return (GlobalManager.WXSessionManager.Get<string>(user, keyString).Equals(valueString)
-                                && GlobalManager.WXSessionManager.Get<int>(user, keyInt).Equals(valueInt)
-                                && GlobalManager.WXSessionManager.Get<DateTime>(user, keyDT).Equals(valueDT)
-                                && GlobalManager.WXSessionManager.Get<AccessToken>(user, keyObj).Equals(valueObj))
-                            ? "微信用户会话管理类不可用（将会影响排除重复消息和文本菜单等功能）"
+                        bool result = GlobalManager.WXSession.Get<string>(user, keyString).Equals(valueString)
+                                      && GlobalManager.WXSession.Get<int>(user, keyInt).Equals(valueInt)
+                                      && GlobalManager.WXSession.Get<DateTime>(user, keyDT).Equals(valueDT)
+                                      && GlobalManager.WXSession.Get<AccessToken>(user, keyObj).Equals(valueObj);
+                        GlobalManager.WXSession.Delete(user, keyString);
+                        GlobalManager.WXSession.Delete(user, keyInt);
+                        GlobalManager.WXSession.Delete(user, keyDT);
+                        GlobalManager.WXSession.Delete(user, keyObj);
+                        sw.Stop();
+                        if (!result) return "微信用户会话接口不可用（将会影响排除重复消息和文本菜单等功能）";
+                        return sw.ElapsedMilliseconds > 1000
+                            ? String.Format("微信用户会话接口运行时间过长（{0}ms）", sw.ElapsedMilliseconds)
                             : null;
                     }
                 },
@@ -172,8 +180,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "运行时长测试",
                     Check = () =>
                     {
-                        bool tempState = ReceiveController.IsSumRunTime;
-                        ReceiveController.IsSumRunTime = true;
+                        bool tempState = Request.IsSumRunTime;
+                        Request.IsSumRunTime = true;
                         Request TestTextRequest = RequestBuilder.GetMessageText(TestText);
                         GlobalManager.EventManager.AddTempReceiveEvent(
                             RequestBuilder.TestToUserName,
@@ -184,7 +192,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                                 return re.GetTextResponse(TestText);
                             });
                         Response response = new ReceiveController().Action(TestTextRequest);
-                        ReceiveController.IsSumRunTime = tempState;
+                        Request.IsSumRunTime = tempState;
 
                         return response.RunTime + 
                             (response.RunTime > 5000 ? "ms（运行时间过长，请适当优化）" : "ms");

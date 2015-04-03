@@ -16,6 +16,16 @@ namespace Wing.WeiXin.MP.SDK
     public class EventManager
     {
         /// <summary>
+        /// 是否检查事件名称
+        /// </summary>
+        internal static bool IsCheckEventName = true;
+
+        /// <summary>
+        /// 是否检查开发者微信号
+        /// </summary>
+        internal static bool IsCheckToUserName = true;
+
+        /// <summary>
         /// 临时接收事件列表
         /// </summary>
         private readonly Dictionary<string, Dictionary<string, Func<Request, Response>>> TempReceiveEvent =
@@ -179,13 +189,13 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 执行事件 public Response ActionEvent(Request request)
+        #region 执行事件 internal Response ActionEvent(Request request)
         /// <summary>
         /// 执行事件
         /// </summary>
         /// <param name="request">请求对象</param>
         /// <returns>响应对象</returns>
-        public Response ActionEvent(Request request)
+        internal Response ActionEvent(Request request)
         {
             Response result = ActionTempEvent(request);
             if (result != null) return result;
@@ -263,7 +273,7 @@ namespace Wing.WeiXin.MP.SDK
             if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
             LogManager.WriteSystem("触发全局单账号事件");
             Response response = GloablReceiveEventPriorityList
-                .Where(e => GlobalManager.CheckEventAction(e.Key))
+                .Where(e => CheckEventAction(e.Key))
                 .OrderByDescending(e => e.Value)
                 .Select(e =>
                 {
@@ -298,7 +308,7 @@ namespace Wing.WeiXin.MP.SDK
             LogManager.WriteSystem("触发普通事件");
             Response response = ReceiveEventPriorityList
                 .Where(e => ReceiveEvent[request.ToUserName][request.MsgType].ContainsKey(e.Key) && 
-                    GlobalManager.CheckEventAction(e.Key))
+                    CheckEventAction(e.Key))
                 .OrderByDescending(e => e.Value)
                 .Select(e =>
                 {
@@ -329,6 +339,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>开发者微信号</returns>
         private string CheckToUserName(string toUserName, bool isCheckToUserName = true)
         {
+            if (!IsCheckToUserName) return toUserName;
             if (isCheckToUserName && !GlobalManager.ConfigManager.HasAccount())
                 throw WXException.GetInstance("未发现任何微信公众平台账号", Settings.Default.SystemUsername);
             if (String.IsNullOrEmpty(toUserName))
@@ -343,6 +354,23 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
+        #region 检测事件是否可以执行 public bool CheckEventAction(string actionKey)
+        /// <summary>
+        /// 检测事件是否可以执行
+        /// </summary>
+        /// <param name="actionKey">事件配置Key</param>
+        /// <returns>事件是否可以执行</returns>
+        public bool CheckEventAction(string actionKey)
+        {
+            if (!IsCheckEventName) return true;
+            LogManager.WriteSystem(String.Format("检测事件({0})是否可以执行", actionKey));
+            bool result = GlobalManager.ConfigManager.CheckEvent(actionKey);
+            LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
+
+            return result;
+        }
+        #endregion
+
         #region 获取全局事件信息列表 internal IEnumerable<string> GetGloablReceiveEventInfoList()
         /// <summary>
         /// 获取全局事件信息列表
@@ -352,7 +380,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return GloablReceiveEvent.SelectMany(g => g.Value.Select(e =>
                 String.Format("账号ID:{0} 事件ID:{1} 优先级:{2} 是否生效:{3}",
-                    g.Key, e.Key, GloablReceiveEventPriorityList[e.Key], GlobalManager.CheckEventAction(e.Key))));
+                    g.Key, e.Key, GloablReceiveEventPriorityList[e.Key], CheckEventAction(e.Key))));
         } 
         #endregion
 
@@ -365,7 +393,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             return ReceiveEvent.SelectMany(g => g.Value.SelectMany(e => e.Value.Select(t =>
                 String.Format("账号ID:{0} 事件类型:{1} 事件ID:{2} 优先级:{3} 是否生效:{4}",
-                    g.Key, e.Key, t.Key, ReceiveEventPriorityList[t.Key], GlobalManager.CheckEventAction(t.Key)))));
+                    g.Key, e.Key, t.Key, ReceiveEventPriorityList[t.Key], CheckEventAction(t.Key)))));
         }
         #endregion
     }

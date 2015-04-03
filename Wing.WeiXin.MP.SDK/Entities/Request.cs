@@ -20,6 +20,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string IP { get; private set; }
 
         /// <summary>
+        /// Token
+        /// </summary>
+        public string Token { get; private set; }
+
+        /// <summary>
         /// 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
         /// </summary>
         public string Signature { get; private set; }
@@ -108,23 +113,30 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public object Tag { get; set; }
 
         /// <summary>
+        /// 是否计算请求响应时长
+        /// </summary>
+        public static bool IsSumRunTime = false;
+
+        /// <summary>
         /// 运行时长计时器
         /// </summary>
         private static Stopwatch Stopwatch;
 
-        #region 实例化请求对象 public Request(string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
+        #region 实例化请求对象 public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
         /// <summary>
         /// 实例化请求对象
         /// </summary>
+        /// <param name="token">Token</param>
         /// <param name="signature">微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <param name="echostr">随机字符串</param>
         /// <param name="postData">POST数据</param>
         /// <param name="ip">请求者服务器IP</param>
-        public Request(string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
+        public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
             : this(postData, ip)
         {
+            Token = token;
             Signature = signature;
             Timestamp = timestamp;
             Nonce = nonce;
@@ -142,7 +154,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             PostData = postData;
             IP = ip;
-            if (!ReceiveController.IsSumRunTime) return;
+            if (!IsSumRunTime) return;
             if (Stopwatch == null) Stopwatch = new Stopwatch();
             Stopwatch.Restart();
         }
@@ -183,7 +195,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             string[] arr = new[] 
             { 
-                GlobalManager.ConfigManager.Config.Base.Token, 
+                Token, 
                 Timestamp, 
                 nonce
             }.OrderBy(z => z).ToArray();
@@ -302,7 +314,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>运行时长</returns>
         public long GetRunTime()
         {
-            if (!ReceiveController.IsSumRunTime) return 0;
+            if (!IsSumRunTime) return 0;
             Stopwatch.Stop();
             return Stopwatch.ElapsedMilliseconds;
         }

@@ -520,6 +520,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         private static Request GetRequest(string content, params object[] paramList)
         {
             return new Request(
+                            GlobalManager.ConfigManager.Config.Base.Token,
                             GetNewSignature(),
                             TestTimestamp, 
                             TestNonce, 
@@ -541,6 +542,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         public static Request GetRequest()
         {
             return new Request(
+                            GlobalManager.ConfigManager.Config.Base.Token,
                             GetNewSignature(),
                             TestTimestamp,
                             TestNonce,

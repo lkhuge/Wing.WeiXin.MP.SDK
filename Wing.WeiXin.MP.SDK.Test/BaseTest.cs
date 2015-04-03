@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
@@ -165,6 +164,7 @@ namespace Wing.WeiXin.MP.SDK.Test
         {
             requestRight = new Request
             (
+                GlobalManager.ConfigManager.Config.Base.Token,
                 "d054e317b56cc26c457981cc3d615f96c72ec230",
                 "1395058361",
                 "929810330",
@@ -174,6 +174,7 @@ namespace Wing.WeiXin.MP.SDK.Test
 
             messageText = new Request
             (
+                GlobalManager.ConfigManager.Config.Base.Token,
                 "743fd2fb0388125a8bdddef91ac25ef13095b33a",
                 "1408023801",
                 "1395465999",
@@ -192,6 +193,7 @@ namespace Wing.WeiXin.MP.SDK.Test
 
             messageClick = new Request 
             (
+                GlobalManager.ConfigManager.Config.Base.Token,
                 "743fd2fb0388125a8bdddef91ac25ef13095b33a",
                 "1408023801",
                 "1395465999",

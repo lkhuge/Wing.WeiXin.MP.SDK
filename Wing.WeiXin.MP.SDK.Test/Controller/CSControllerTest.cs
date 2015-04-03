@@ -14,8 +14,6 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void SendCSMessageTest()
         {
-            GlobalManager.AccessTokenContainer.NewAccessToken += r => Console.WriteLine("new---------------------------------");
-
             ErrorMsg e = new CSController().SendCSMessage(account, csMessageText);
             ErrorMsg e2 = new CSController().SendCSMessage(account, csMessageText);
             Assert.AreEqual(e.errcode, "0");

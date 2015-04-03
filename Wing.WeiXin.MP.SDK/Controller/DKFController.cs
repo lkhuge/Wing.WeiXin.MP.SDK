@@ -127,7 +127,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = HTTPHelper.Upload(String.Format(
                 UrlUploadDKFPic,
-                GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token,
+                AccessTokenContainer.GetAccessToken(account).access_token,
                 kf_account), path, name);
 
             return JSONHelper.JSONDeserialize<ErrorMsg>(result);
@@ -147,7 +147,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public ErrorMsg DeleteDKF(WXAccount account, string kf_account)
         {
             return ActionWithoutAccessToken<ErrorMsg>(
-                String.Format(UrlDeleteDKF, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, kf_account),
+                String.Format(UrlDeleteDKF, AccessTokenContainer.GetAccessToken(account).access_token, kf_account),
                 account);
         } 
         #endregion

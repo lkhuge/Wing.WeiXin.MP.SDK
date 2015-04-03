@@ -60,7 +60,6 @@
     <Compile Include="Common\ResponseBuilder.cs" />
     <Compile Include="Common\WXSession\IWXSession.cs" />
     <Compile Include="Common\WXSession\StaticWXSession.cs" />
-    <Compile Include="Common\WXSession\WXSessionManager.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="ConfigSection\BaseConfig\AccountItemConfigSection.cs">
       <SubType>Code</SubType>
@@ -76,6 +75,7 @@
     </Compile>
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\DKFController.cs" />
+    <Compile Include="Controller\LReceiveController.cs" />
     <Compile Include="Controller\MaterialController.cs" />
     <Compile Include="Controller\MenuController.cs" />
     <Compile Include="Controller\OAuthController.cs" />

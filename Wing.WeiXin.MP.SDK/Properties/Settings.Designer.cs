@@ -121,5 +121,14 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["JSAPITicketTimeHead"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LastMsgID")]
+        public string LastMsgIDKey {
+            get {
+                return ((string)(this["LastMsgIDKey"]));
+            }
+        }
     }
 }

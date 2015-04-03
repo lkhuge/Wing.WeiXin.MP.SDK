@@ -27,20 +27,20 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>JS接口票据</returns>
         public JSAPITicket GetJSAPITicket(WXAccount account)
         {
-            JSAPITicket result = GlobalManager.WXSessionManager.Get<JSAPITicket>(
+            JSAPITicket result = GlobalManager.WXSession.Get<JSAPITicket>(
                 Settings.Default.SystemUsername, 
                 Settings.Default.JSAPITicketHead + account.ID);
-            DateTime resultDatetime = GlobalManager.WXSessionManager.Get<DateTime>(
+            DateTime resultDatetime = GlobalManager.WXSession.Get<DateTime>(
                 Settings.Default.SystemUsername, 
                 Settings.Default.JSAPITicketTimeHead + account.ID);
             if (result == null || resultDatetime == default(DateTime) || resultDatetime.AddSeconds(result.expires_in) > DateTime.Now)
             {
                 JSAPITicket jsAPITicket = Action<JSAPITicket>(UrlGetJSAPITicket, account);
-                GlobalManager.WXSessionManager.Set(
+                GlobalManager.WXSession.Set(
                     Settings.Default.SystemUsername, 
                     Settings.Default.JSAPITicketHead + account.ID, 
                     jsAPITicket);
-                GlobalManager.WXSessionManager.Set(
+                GlobalManager.WXSession.Set(
                     Settings.Default.SystemUsername, 
                     Settings.Default.JSAPITicketTimeHead + account.ID, 
                     DateTime.Now);

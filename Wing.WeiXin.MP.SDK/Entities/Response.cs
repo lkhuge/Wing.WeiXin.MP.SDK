@@ -89,7 +89,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         private string GetCryptMessage(string text, Request request)
         {
             string toUserName = request.ToUserName ?? "";
-            if (!GlobalManager.CryptList.ContainsKey(toUserName)) return text;
+            if (GlobalManager.CryptList == null || !GlobalManager.CryptList.ContainsKey(toUserName)) return text;
             string encryptMsg = null;
             if (GlobalManager.CryptList[toUserName].EncryptMsg(
                 text,

@@ -24,6 +24,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         public void ProcessRequest(HttpContext context)
         {
             Response response = receiveController.Action(new Request(
+                    GlobalManager.ConfigManager.Config.Base.Token,
                     context.Request.QueryString["signature"],
                     context.Request.QueryString["timestamp"],
                     context.Request.QueryString["nonce"],

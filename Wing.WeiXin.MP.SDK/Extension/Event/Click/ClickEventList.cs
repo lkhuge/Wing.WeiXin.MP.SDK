@@ -49,7 +49,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Click
             {
                 string key = request.EventKey;
                 if (!eventList.ContainsKey(key)) return null;
-                if (ActionByConfig && !GlobalManager.CheckEventAction(String.Format("{0}@{1}", ActionNameHead, key))) return null;
+                if (ActionByConfig && !GlobalManager.EventManager.CheckEventAction(String.Format("{0}@{1}", ActionNameHead, key))) return null;
 
                 return eventList[key](request.Request);
             };

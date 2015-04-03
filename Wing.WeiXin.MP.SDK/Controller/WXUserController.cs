@@ -68,7 +68,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         {
             return ActionWithoutAccessToken<WXUser>(
-                String.Format(UrlGetWXUser, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, openID, lang),
+                String.Format(UrlGetWXUser, AccessTokenContainer.GetAccessToken(account).access_token, openID, lang),
                 account);
         } 
         #endregion
@@ -127,7 +127,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             if (userList.total == userList.count || String.IsNullOrEmpty(userList.next_openid)) return userList;
             return ActionWithoutAccessToken<WXUserList>(
-                String.Format(UrlGetWXUserListNext, GlobalManager.AccessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
+                String.Format(UrlGetWXUserListNext, AccessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
                 account);
         }
         #endregion

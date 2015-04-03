@@ -1,9 +1,10 @@
 ﻿using System;
+using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
 
-namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
+namespace Wing.WeiXin.MP.SDK.Common
 {
     /// <summary>
     /// AccessToken容器
@@ -21,6 +22,23 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// </summary>
         public event Action<WXAccount> NewAccessToken;
 
+        /// <summary>
+        /// 微信会话接口
+        /// </summary>
+        private readonly IWXSession wxSession;
+
+        #region 根据微信会话接口实例化 public AccessTokenContainer(IWXSession wxSession)
+        /// <summary>
+        /// 根据微信会话接口实例化
+        /// </summary>
+        /// <param name="wxSession">微信会话接口</param>
+        public AccessTokenContainer(IWXSession wxSession)
+        {
+            if (wxSession == null) throw WXException.GetInstance("微信会话接口不能为空", Settings.Default.SystemUsername);
+            this.wxSession = wxSession;
+        } 
+        #endregion
+
         #region 获取AccessToken public AccessToken GetAccessToken(WXAccount account)
         /// <summary>
         /// 获取AccessToken
@@ -29,10 +47,10 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken</returns>
         public AccessToken GetAccessToken(WXAccount account)
         {
-            AccessToken accessToken = GlobalManager.WXSessionManager.Get<AccessToken>(
+            AccessToken accessToken = wxSession.Get<AccessToken>(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenHead + account.ID);
-            DateTime accessTokenExpDT = GlobalManager.WXSessionManager.Get<DateTime>(
+            DateTime accessTokenExpDT = wxSession.Get<DateTime>(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenTimeHead + account.ID);
             if (accessToken != null && accessTokenExpDT != default(DateTime)
@@ -56,11 +74,11 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
             }
             AccessToken accessTokenNew = JSONHelper.JSONDeserialize<AccessToken>(result);
-            GlobalManager.WXSessionManager.Set(
+            wxSession.Set(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenHead + account.ID,
                 accessTokenNew);
-            GlobalManager.WXSessionManager.Set(
+            wxSession.Set(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenTimeHead + account.ID,
                 DateTime.Now + new TimeSpan(0, 0, accessTokenNew.expires_in));

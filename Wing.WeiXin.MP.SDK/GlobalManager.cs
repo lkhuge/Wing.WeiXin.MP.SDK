@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
+using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -38,14 +39,9 @@ namespace Wing.WeiXin.MP.SDK
         public static EventManager EventManager { get; private set; }
 
         /// <summary>
-        /// AccessToken容器
+        /// 微信用户会话接口
         /// </summary>
-        public static AccessTokenContainer AccessTokenContainer { get; private set; }
-
-        /// <summary>
-        /// 微信用户会话管理类
-        /// </summary>
-        public static WXSessionManager WXSessionManager { get; private set; }
+        public static IWXSession WXSession { get; private set; }
 
         /// <summary>
         /// 外部调用的程序集
@@ -72,8 +68,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             CallingAssembly = Assembly.GetCallingAssembly();
             InitConfig(config == null ? new ConfigManager() : new ConfigManager(config));
-            InitWXSessionManager(wxSession ?? new StaticWXSession());
-            InitAccessTokenContainer();
+            InitWXSession(wxSession ?? new StaticWXSession());
             InitEvent(new EventManager());
 
             IsInit = true;
@@ -105,24 +100,15 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 初始化AccessToken容器 public static void InitAccessTokenContainer()
+        #region 初始化微信用户会话接口 public static void InitWXSession(IWXSession wxSession)
         /// <summary>
-        /// 初始化AccessToken容器
+        /// 初始化微信用户会话接口
         /// </summary>
-        public static void InitAccessTokenContainer()
+        /// <param name="wxSession">微信用户会话接口</param>
+        public static void InitWXSession(IWXSession wxSession)
         {
-            AccessTokenContainer = new AccessTokenContainer();
-        }
-        #endregion
-
-        #region 初始化微信用户会话管理类 public static void InitWXSessionManager(IWXSession wxSession)
-        /// <summary>
-        /// 初始化微信用户会话管理类
-        /// </summary>
-        /// <param name="wxSession">微信用户会话管理类</param>
-        public static void InitWXSessionManager(IWXSession wxSession)
-        {
-            WXSessionManager = new WXSessionManager(wxSession);
+            WXSession = wxSession;
+            WXController.AccessTokenContainer = new AccessTokenContainer(wxSession);
         }
         #endregion
 
@@ -154,22 +140,6 @@ namespace Wing.WeiXin.MP.SDK
         public static WXAccount GetFirstAccount()
         {
             return ConfigManager.Config.Base.AccountList.FirstOrDefault();
-        }
-        #endregion
-
-        #region 检测事件是否可以执行 public static bool CheckEventAction(string actionKey)
-        /// <summary>
-        /// 检测事件是否可以执行
-        /// </summary>
-        /// <param name="actionKey">事件配置Key</param>
-        /// <returns>事件是否可以执行</returns>
-        public static bool CheckEventAction(string actionKey)
-        {
-            LogManager.WriteSystem(String.Format("检测事件({0})是否可以执行", actionKey));
-            bool result = ConfigManager.CheckEvent(actionKey);
-            LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
-
-            return result;
         }
         #endregion
 
