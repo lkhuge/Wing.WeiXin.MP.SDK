@@ -82,20 +82,19 @@ function weixin(url) {
     /// <summary>Weixin JS SDK</summary>
     /// <param name="url" type="String">获取参数接口的URL(不填默认是"/WeixinConfig")</param>
 
-    if (typeof jQuery == 'undefined') {
-        alert('未发现JQuery');
-    }
-
     /// <field name='isDebug' type='Boolean'>
     /// 设置是否为调试模式
     /// 用于PC端调试（不加载微信接口）
     /// </field>
-    this.isDebug = true;
-
     /// <field name='isHideOptionMenu' type='Boolean'>
     /// 是否隐藏右上角菜单
     /// </field>
+    this.isDebug = true;
     this.isHideOptionMenu = false;
+
+    if (typeof jQuery == 'undefined') {
+        alert('未发现JQuery');
+    }
 
     this.load = function (apiList, callback) {
         /// <summary>载入配置</summary>

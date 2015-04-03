@@ -1,6 +1,7 @@
 ﻿using System;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
 {
@@ -20,22 +21,6 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// </summary>
         public event Action<WXAccount> NewAccessToken;
 
-        /// <summary>
-        /// AccessToken管理类
-        /// </summary>
-        private readonly IAccessTokenManager accessTokenManager;
-
-        #region 根据AccessToken管理类实例化 public AccessTokenContainer(IAccessTokenManager accessTokenManager)
-        /// <summary>
-        /// 根据AccessToken管理类实例化
-        /// </summary>
-        /// <param name="accessTokenManager">AccessToken管理类</param>
-        public AccessTokenContainer(IAccessTokenManager accessTokenManager)
-        {
-            this.accessTokenManager = accessTokenManager;
-        } 
-        #endregion
-
         #region 获取AccessToken public AccessToken GetAccessToken(WXAccount account)
         /// <summary>
         /// 获取AccessToken
@@ -44,9 +29,14 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
         /// <returns>AccessToken</returns>
         public AccessToken GetAccessToken(WXAccount account)
         {
-            AccessToken accessToken = accessTokenManager.GetAccessToken(account);
-            if (accessToken != null
-                && DateTime.Now < accessTokenManager.GetExpiresDateTime(account)) return accessToken;
+            AccessToken accessToken = GlobalManager.WXSessionManager.Get<AccessToken>(
+                Settings.Default.SystemUsername,
+                Settings.Default.AccessTokenHead + account.ID);
+            DateTime accessTokenExpDT = GlobalManager.WXSessionManager.Get<DateTime>(
+                Settings.Default.SystemUsername,
+                Settings.Default.AccessTokenTimeHead + account.ID);
+            if (accessToken != null && accessTokenExpDT != default(DateTime)
+                && DateTime.Now < accessTokenExpDT) return accessToken;
 
             return GetNewAccessToken(account);
         } 
@@ -66,8 +56,14 @@ namespace Wing.WeiXin.MP.SDK.Common.AccessTokenManager
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
             }
             AccessToken accessTokenNew = JSONHelper.JSONDeserialize<AccessToken>(result);
-            accessTokenManager.SetAccessToken(account, accessTokenNew);
-            accessTokenManager.SetExpiresDateTime(account, DateTime.Now + new TimeSpan(0, 0, accessTokenNew.expires_in));
+            GlobalManager.WXSessionManager.Set(
+                Settings.Default.SystemUsername,
+                Settings.Default.AccessTokenHead + account.ID,
+                accessTokenNew);
+            GlobalManager.WXSessionManager.Set(
+                Settings.Default.SystemUsername,
+                Settings.Default.AccessTokenTimeHead + account.ID,
+                DateTime.Now + new TimeSpan(0, 0, accessTokenNew.expires_in));
 
             return accessTokenNew;
         } 

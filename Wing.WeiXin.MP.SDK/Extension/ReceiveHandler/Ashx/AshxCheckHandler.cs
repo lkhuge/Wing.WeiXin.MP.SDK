@@ -32,6 +32,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     public class AshxCheckHandler : IHttpHandler
     {
         /// <summary>
+        /// 用于测试响应速度的方法
+        /// </summary>
+        public static Action TestSpeedEvent { get; set; }
+
+        /// <summary>
         /// 用于测试的文本
         /// </summary>
         private const string TestText = "Hello World";
@@ -173,7 +178,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                         GlobalManager.EventManager.AddTempReceiveEvent(
                             RequestBuilder.TestToUserName,
                             RequestBuilder.TestFromUserName,
-                            re => re.GetTextResponse(TestText));
+                            re =>
+                            {
+                                if (TestSpeedEvent != null) TestSpeedEvent();
+                                return re.GetTextResponse(TestText);
+                            });
                         Response response = new ReceiveController().Action(TestTextRequest);
                         ReceiveController.IsSumRunTime = tempState;
 

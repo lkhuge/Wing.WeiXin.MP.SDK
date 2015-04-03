@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Wing.WeiXin.MP.SDK.Common.AccessTokenManager;
+using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -61,19 +62,18 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         internal static bool IsInit;
 
-        #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null, IAccessTokenManager accessTokenManager = null)
+        #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
         /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="config">配置信息</param>
         /// <param name="wxSession">微信会话接口</param>
-        /// <param name="accessTokenManager">AccessToken管理类接口</param>
-        public static void Init(ConfigInfo config = null, IWXSession wxSession = null, IAccessTokenManager accessTokenManager = null)
+        public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
         {
             CallingAssembly = Assembly.GetCallingAssembly();
             InitConfig(config == null ? new ConfigManager() : new ConfigManager(config));
             InitWXSessionManager(wxSession ?? new StaticWXSession());
-            InitAccessTokenContainer(accessTokenManager ?? new WXSessionAccessTokenManager());
+            InitAccessTokenContainer();
             InitEvent(new EventManager());
 
             IsInit = true;
@@ -105,15 +105,13 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 初始化AccessToken容器 public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
+        #region 初始化AccessToken容器 public static void InitAccessTokenContainer()
         /// <summary>
         /// 初始化AccessToken容器
         /// </summary>
-        /// <param name="accessTokenManager">AccessToken管理类</param>
-        public static void InitAccessTokenContainer(IAccessTokenManager accessTokenManager)
+        public static void InitAccessTokenContainer()
         {
-            if (accessTokenManager == null) throw WXException.GetInstance("AccessToken容器不能为空", Settings.Default.SystemUsername);
-            AccessTokenContainer = new AccessTokenContainer(accessTokenManager);
+            AccessTokenContainer = new AccessTokenContainer();
         }
         #endregion
 
@@ -185,6 +183,17 @@ namespace Wing.WeiXin.MP.SDK
             if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
             LogManager.WriteSystem("确认已初始化");
         }
+        #endregion
+
+        #region 添加重复消息过滤器 public static void AddRepetitionMessageFilter(string toUserName)
+        /// <summary>
+        /// 添加重复消息过滤器
+        /// </summary>
+        /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
+        public static void AddRepetitionMessageFilter(string toUserName)
+        {
+            RepetitionMessageFilter.AddFilter(toUserName);
+        } 
         #endregion
     }
 }

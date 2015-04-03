@@ -49,10 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\AccessTokenManager\AccessTokenContainer.cs" />
-    <Compile Include="Common\AccessTokenManager\IAccessTokenManager.cs" />
-    <Compile Include="Common\AccessTokenManager\StaticAccessTokenManager.cs" />
-    <Compile Include="Common\AccessTokenManager\WXSessionAccessTokenManager.cs" />
+    <Compile Include="Common\AccessTokenContainer.cs" />
     <Compile Include="Common\MenuHelper.cs">
       <SubType>Code</SubType>
     </Compile>
