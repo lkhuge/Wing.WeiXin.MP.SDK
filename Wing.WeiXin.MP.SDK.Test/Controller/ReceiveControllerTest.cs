@@ -22,26 +22,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void ActionTest()
         {
-//            GlobalManager.EventManager.AddGloablReceiveEvent("Event1",null, r =>
-//            {
-//                if (r.MsgType == ReceiveEntityType.text &&
-//                    RequestAMessage.GetRequestAMessage<RequestText>(r).Content.Equals("test1"))
-//                {
-//                    return EntityBuilder.GetMessageTCS(r);
-//                }
-//                return null;
-//            });
-//            GlobalManager.EventManager.AddGloablReceiveEvent("Event2",null, r => EntityBuilder.GetMessageFromFriend(r, "http://huwing.vicp.cc/Receive"));
-//            GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "gh_7f215c8b1c91", r => EntityBuilder.GetMessageText(r.Request, "qwe"));
-//            GlobalManager.EventManager.AddReceiveEvent<RequestEventClick>("Event2", "gh_7f215c8b1c91", E2);
-//            Stopwatch sw = new Stopwatch();
-//            sw.Start();
-//            for (int i = 0; i < 10000; i ++)
-//            {
-//                new ReceiveController().Action(messageText);
-//            }
-//            sw.Stop();
-//            Debug.WriteLine(sw.ElapsedMilliseconds);
+            GlobalManager.EventManager.AddReceiveEvent<RequestText>("Event1", "$", r => r.Request.GetTextResponse("qwe"));
             Response result = new ReceiveController().Action(messageText, false);
             Assert.IsNotNull(result);
         } 

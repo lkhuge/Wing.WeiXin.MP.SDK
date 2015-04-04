@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -41,15 +43,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 获取菜单 public MenuForGet GetMenu(WXAccount account)
+        #region 获取菜单 public Menu GetMenu(WXAccount account)
         /// <summary>
         /// 获取菜单
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <returns>菜单</returns>
-        public MenuForGet GetMenu(WXAccount account)
+        public Menu GetMenu(WXAccount account)
         {
-            return Action<MenuForGet>(UrlGetMenu, account);
+            return GetMenu(Action<MenuForGet>(UrlGetMenu, account));
         } 
         #endregion
 
@@ -63,6 +65,52 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return Action<ErrorMsg>(UrlDeleteMenu, null, account);
         } 
+        #endregion
+
+        #region 将用于适配查询的目录对象转换为目录对象 private Menu GetMenu(MenuForGet menu)
+        /// <summary>
+        /// 将用于适配查询的目录对象转换为目录对象
+        /// </summary>
+        /// <param name="menu">目录对象（适配查询目录）</param>
+        /// <returns>目录对象</returns>
+        private Menu GetMenu(MenuForGet menu)
+        {
+            return new Menu { button = GetListMenuItem(menu.menu.button) };
+        }
+        #endregion
+
+        #region 将用于适配查询目录的项目列表转换为项目列表 private List<AMenuItem> GetListMenuItem(List<MenuButtonForGet> listMenuForGet)
+        /// <summary>
+        /// 将用于适配查询目录的项目列表转换为项目列表
+        /// </summary>
+        /// <param name="listMenuForGet">用于适配查询目录的项目列表</param>
+        /// <returns>项目列表</returns>
+        private List<AMenuItem> GetListMenuItem(List<MenuButtonForGet> listMenuForGet)
+        {
+            List<AMenuItem> returnMenu = new List<AMenuItem>();
+            foreach (MenuButtonForGet menuButton in listMenuForGet)
+            {
+                if (menuButton.sub_button != null && menuButton.sub_button.Count > 0)
+                {
+                    returnMenu.Add(new MenuList
+                    {
+                        name = menuButton.name,
+                        sub_button = GetListMenuItem(menuButton.sub_button)
+                    });
+                    continue;
+                }
+                if (menuButton.type.Equals("view"))
+                {
+                    returnMenu.Add(new MenuButtonView { name = menuButton.name, url = menuButton.url });
+                }
+                if (menuButton.type.Equals("click"))
+                {
+                    returnMenu.Add(new MenuButtonClick { name = menuButton.name, key = menuButton.key });
+                }
+            }
+
+            return returnMenu;
+        }
         #endregion
     }
 }

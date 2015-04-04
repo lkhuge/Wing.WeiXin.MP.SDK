@@ -34,8 +34,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void GetMenuTest()
         {
-            MenuForGet m = new MenuController().GetMenu(account);
-            Assert.AreEqual(m.menu.button.Count, menu.button.Count);
+            Menu m = new MenuController().GetMenu(account);
+            Assert.AreEqual(m.button.Count, menu.button.Count);
         } 
     }
 }
