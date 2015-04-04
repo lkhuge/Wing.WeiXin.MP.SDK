@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Common;
+using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -16,6 +17,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
     public class LReceiveController
     {
         /// <summary>
+        /// 微信账号
+        /// </summary>
+        public WXAccount WXAccount { get; private set; }
+
+        /// <summary>
+        /// Token
+        /// </summary>
+        private readonly string token;
+
+        /// <summary>
         /// 事件管理类
         /// </summary>
         public EventManager EventManager { get; private set; }
@@ -25,107 +36,95 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         public IWXSession WXSession { get; private set; }
 
-        /// <summary>
-        /// 是否需要检查请求
-        /// </summary>
-        public bool NeedCheck { get; set; }
-
-        /// <summary>
-        /// 微信服务器IP
-        /// </summary>
-        public WXServerIPList WXServerIPList;
-
-        /// <summary>
-        /// 接收开始事件
-        /// </summary>
-        public static event Action<Request> ReceiveStart;
-
-        /// <summary>
-        /// 接收结束事件
-        /// </summary>
-        public static event Action<Request, Response> ReceiveEnd;
-
-        /// <summary>
-        /// 接收异常事件
-        /// </summary>
-        public static event Action<Request, Exception> ReceiveException;
-
-        #region 根据微信账号实例化 public LReceiveController(IWXSession wxSession)
+        #region 根据微信账号实例化 public LReceiveController(string token, string id, string appID, string appSecret, bool needEncoding, string encodingAESKey = null, IWXSession wxSession = null)
         /// <summary>
         /// 根据微信账号实例化
         /// </summary>
+        /// <param name="token">Token</param>
+        /// <param name="id">微信公共平台ID</param>
+        /// <param name="appID">AppID</param>
+        /// <param name="appSecret">AppSecret</param>
+        /// <param name="needEncoding">是否需要加密</param>
+        /// <param name="encodingAESKey">加密密钥</param>
         /// <param name="wxSession">微信会话接口</param>
-        public LReceiveController(IWXSession wxSession)
+        public LReceiveController(string token, string id, string appID, string appSecret, bool needEncoding, string encodingAESKey = null, IWXSession wxSession = null)
         {
+            this.token = token;
+            WXAccount = new WXAccount
+            {
+                ID = id,
+                AppID = appID,
+                AppSecret = appSecret,
+                NeedEncoding = needEncoding,
+                EncodingAESKey = encodingAESKey
+            };
+            if (needEncoding)
+                WXAccount.WXBizMsgCrypt = new WXBizMsgCrypt
+                {
+                    token = token,
+                    encodingAESKey = encodingAESKey,
+                    appID = appID
+                };
             EventManager = new EventManager();
             EventManager.IsCheckEventName = false;
             EventManager.IsCheckToUserName = false;
-            WXSession = wxSession;
-            NeedCheck = true;
-            if (wxSession != null) 
-                WXController.AccessTokenContainer = new AccessTokenContainer(wxSession);
+            WXSession = wxSession ?? new StaticWXSession();
+            WXController.AccessTokenContainer = new AccessTokenContainer(WXSession);
         } 
         #endregion
 
-        #region 执行事件 public Response Action(Request request)
+        #region 执行事件 public Response Action(string postData)
         /// <summary>
         /// 执行事件
+        /// 不需要检查请求
         /// </summary>
-        /// <param name="request">请求对象</param>
+        /// <param name="postData">POST数据</param>
         /// <returns>响应对象</returns>
-        public Response Action(Request request)
+        public Response Action(string postData)
         {
-            if (ReceiveStart != null)
+            Request request = new Request(postData)
             {
-                LogManager.WriteSystem("触发接收开始事件");
-                ReceiveStart(request);
-                LogManager.WriteSystem("接收开始事件结束");
-            }
+                WXAccount = WXAccount
+            };
             try
             {
-                if (NeedCheck) request.Check();
                 request.ParsePostData();
-                if (NeedCheck)
-                {
-                    CheckRequestIP(request);
-                    if (CheckMsgID(request)) return null;
-                }
-                Response response = EventManager.ActionEvent(request);
-                if (ReceiveEnd != null)
-                {
-                    LogManager.WriteSystem("触发接收结束事件");
-                    ReceiveEnd(request, response);
-                    LogManager.WriteSystem("接收结束事件结束");
-                }
-                return response;
+                return EventManager.ActionEvent(request);
             }
             catch (WXException e)
             {
-                if (!e.IsMessage && ReceiveException != null)
-                {
-                    LogManager.WriteSystem("触发接收异常事件");
-                    ReceiveException(request, e);
-                    LogManager.WriteSystem("接收异常事件结束");
-                }
+                return new Response(e);
+            }
+        }
+        #endregion
+
+        #region 执行事件 public Response Action(string signature, string timestamp, string nonce, string echostr, string postData)
+        /// <summary>
+        /// 执行事件
+        /// </summary>
+        /// <param name="signature">微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。</param>
+        /// <param name="timestamp">时间戳</param>
+        /// <param name="nonce">随机数</param>
+        /// <param name="echostr">随机字符串</param>
+        /// <param name="postData">POST数据</param>
+        /// <returns>响应对象</returns>
+        public Response Action(string signature, string timestamp, string nonce, string echostr, string postData)
+        {
+            Request request = new Request(token, signature, timestamp, nonce, echostr, postData)
+            {
+                WXAccount = WXAccount
+            };
+            try
+            {
+                request.Check();
+                request.ParsePostData();
+                return CheckMsgID(request) ? null : EventManager.ActionEvent(request);
+            }
+            catch (WXException e)
+            {
                 return new Response(e);
             }
         } 
-        #endregion
-
-        #region 检测请求IP private void CheckRequestIP(Request request)
-        /// <summary>
-        /// 检测请求IP
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        private void CheckRequestIP(Request request)
-        {
-            if (WXServerIPList == null || String.IsNullOrEmpty(request.IP)) return;
-            LogManager.WriteSystem(String.Format("触发检查微信服务器IP（请求者IP:{0}）", request.IP));
-            bool result = WXServerIPList.ip_list.Contains(request.IP);
-            LogManager.WriteSystem("检查微信服务器IP" + (result ? "通过" : "不通过"));
-            if (!result) throw WXException.GetInstance(
-                String.Format("检查微信服务器IP不通过（请求者IP:{0}）", request.IP), request.ToUserName);
-        }
         #endregion
 
         #region 检测MsgID防止消息重复 private bool CheckMsgID(Request request)

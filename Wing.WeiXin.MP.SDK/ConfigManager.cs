@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.ConfigSection;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
@@ -29,7 +30,8 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public ConfigManager()
         {
-            LoadFromConfigSection();
+            Config = LoadFromConfigSection();
+            InitCryptList(Config);
         }
         #endregion
 
@@ -53,6 +55,7 @@ namespace Wing.WeiXin.MP.SDK
             if (config.Event.EventInfoList == null)
                 config.Event.EventInfoList = new List<EventInfoConfigInfo>();
             Config = config;
+            InitCryptList(config);
         }
         #endregion
 
@@ -96,13 +99,14 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 通过本地配置节点载入配置 private void LoadFromConfigSection()
+        #region 通过本地配置节点载入配置 private ConfigInfo LoadFromConfigSection()
         /// <summary>
         /// 通过本地配置节点载入配置
         /// </summary>
-        private void LoadFromConfigSection()
+        /// <returns>配置信息</returns>
+        private ConfigInfo LoadFromConfigSection()
         {
-            Config = new ConfigInfo
+            return new ConfigInfo
             {
                 Base = GetBaseConfigSection(),
                 Event = GetEventConfigSection()
@@ -160,6 +164,26 @@ namespace Wing.WeiXin.MP.SDK
                     .ToList()
             };
         } 
+        #endregion
+
+        #region 初始化微信加解密工具类列表 private  void InitCryptList(ConfigInfo config)
+        /// <summary>
+        /// 初始化微信加解密工具类列表
+        /// </summary>
+        /// <param name="config">配置信息</param>
+        private void InitCryptList(ConfigInfo config)
+        {
+            if (config.Base.AccountList == null) return;
+            foreach (WXAccount a in config.Base.AccountList.Where(a => a.NeedEncoding))
+            {
+                a.WXBizMsgCrypt = new WXBizMsgCrypt
+                {
+                    token = config.Base.Token,
+                    encodingAESKey = a.EncodingAESKey,
+                    appID = a.AppID
+                };
+            }
+        }
         #endregion
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="Controller\SendAllControllerTest.cs" />
     <Compile Include="Controller\JSControllerTest.cs" />
     <Compile Include="Controller\MaterialControllerTest.cs" />
+    <Compile Include="Controller\LReceiveControllerTest.cs" />
     <Compile Include="Controller\WXUserControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

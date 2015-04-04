@@ -105,6 +105,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public WXAccount WXAccount
         {
             get { return wxAccount ?? (wxAccount = GlobalManager.ConfigManager.GetWXAccountByID(ToUserName)); }
+            set { wxAccount = value; }
         }
 
         /// <summary>
@@ -240,9 +241,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (enElement == null) return root;
             LogManager.WriteSystem("解密POST数据");
             string weixinID = GetPostData("ToUserName");
-            if (!GlobalManager.CryptList.ContainsKey(weixinID)) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", weixinID);
+            if (wxAccount.WXBizMsgCrypt == null) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", weixinID);
             string outMsg = null;
-            if (GlobalManager.CryptList[weixinID].DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
+            if (wxAccount.WXBizMsgCrypt.DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
                 throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), weixinID);
 
             return XDocument.Parse(outMsg).Element("xml");
@@ -307,12 +308,12 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 获取运行时长 public long GetRunTime()
+        #region 获取运行时长 internal long GetRunTime()
         /// <summary>
         /// 获取运行时长
         /// </summary>
         /// <returns>运行时长</returns>
-        public long GetRunTime()
+        internal long GetRunTime()
         {
             if (!IsSumRunTime) return 0;
             Stopwatch.Stop();

@@ -49,11 +49,6 @@ namespace Wing.WeiXin.MP.SDK
         public static Assembly CallingAssembly { get; set; }
 
         /// <summary>
-        /// 微信加解密工具类列表
-        /// </summary>
-        internal static Dictionary<string, WXBizMsgCrypt> CryptList;
-
-        /// <summary>
         /// 是否已经初始化
         /// </summary>
         internal static bool IsInit;
@@ -84,7 +79,6 @@ namespace Wing.WeiXin.MP.SDK
         {
             if (ConfigLoad != null) ConfigLoad();
             ConfigManager = configManager;
-            InitCryptList();
         }
         #endregion
 
@@ -109,26 +103,6 @@ namespace Wing.WeiXin.MP.SDK
         {
             WXSession = wxSession;
             WXController.AccessTokenContainer = new AccessTokenContainer(wxSession);
-        }
-        #endregion
-
-        #region 初始化微信加解密工具类列表 public static void InitCryptList()
-        /// <summary>
-        /// 初始化微信加解密工具类列表
-        /// </summary>
-        public static void InitCryptList()
-        {
-            if (ConfigManager.Config.Base.AccountList == null) return;
-            CryptList = ConfigManager.Config.Base.AccountList
-                .Where(n => n.NeedEncoding)
-                .ToDictionary(
-                    k => k.ID,
-                    v => new WXBizMsgCrypt
-                    {
-                        token = ConfigManager.Config.Base.Token,
-                        encodingAESKey = v.EncodingAESKey,
-                        appID = v.AppID
-                    });
         }
         #endregion
 
