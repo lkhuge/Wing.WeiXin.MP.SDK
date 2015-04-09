@@ -117,6 +117,7 @@
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventPicWeixin.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventLocationSelect.cs" />
     <Compile Include="Entities\RequestMessage\Event\RequestTemplateSendJobFinish.cs" />
+    <Compile Include="Entities\RequestMessage\Message\RequestShortVideo.cs" />
     <Compile Include="Entities\RequestMessage\RequestAMessage.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventClick.cs" />
     <Compile Include="Entities\RequestMessage\Event\RequestEventLocation.cs" />

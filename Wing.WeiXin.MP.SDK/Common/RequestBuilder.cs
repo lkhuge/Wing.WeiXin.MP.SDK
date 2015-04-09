@@ -11,6 +11,11 @@ namespace Wing.WeiXin.MP.SDK.Common
     public static class RequestBuilder
     {
         /// <summary>
+        /// 用于测试的Token
+        /// </summary>
+        public static string TestToken = "TestToken";
+
+        /// <summary>
         /// 用于测试的时间戳
         /// </summary>
         public static string TestTimestamp = "TestTimestamp";
@@ -520,7 +525,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         private static Request GetRequest(string content, params object[] paramList)
         {
             return new Request(
-                            GlobalManager.ConfigManager.Config.Base.Token,
+                            TestToken,
                             GetNewSignature(),
                             TestTimestamp, 
                             TestNonce, 
@@ -542,7 +547,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         public static Request GetRequest()
         {
             return new Request(
-                            GlobalManager.ConfigManager.Config.Base.Token,
+                            TestToken,
                             GetNewSignature(),
                             TestTimestamp,
                             TestNonce,
@@ -560,7 +565,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             string[] arr = new[] 
             { 
-                GlobalManager.ConfigManager.Config.Base.Token, 
+                TestToken, 
                 TestTimestamp, 
                 TestNonce
             }.OrderBy(z => z).ToArray();

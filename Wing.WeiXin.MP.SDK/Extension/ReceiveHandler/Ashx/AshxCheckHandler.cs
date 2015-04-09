@@ -39,7 +39,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// <summary>
         /// 用于测试的文本
         /// </summary>
-        private const string TestText = "Hello World";
+        public static string TestText = "Hello World";
 
         #region 测试项列表 private Dictionary<string, AshxCheckItem[]> CheckItemList = new Dictionary<string, AshxCheckItem[]>
         /// <summary>
@@ -150,6 +150,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "对首次验证进行测试",
                     Check = () =>
                     {
+                        RequestBuilder.TestToken = GlobalManager.ConfigManager.Config.Base.Token;
                         Request TestFirstRequest = RequestBuilder.GetRequest();
                         Response response = new ReceiveController().Action(TestFirstRequest);
 
@@ -163,6 +164,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "添加测试事件到临时事件列表进行模拟测试",
                     Check = () =>
                     {
+                        RequestBuilder.TestToken = GlobalManager.ConfigManager.Config.Base.Token;
+                        WXAccount testAccount = GlobalManager.ConfigManager.Config.Base.AccountList.FirstOrDefault();
+                        if (testAccount == null) return "没有发现可用账号";
+                        RequestBuilder.TestToUserName = testAccount.ID;
                         Request TestTextRequest = RequestBuilder.GetMessageText(TestText);
 
                         GlobalManager.EventManager.AddTempReceiveEvent(
@@ -180,6 +185,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     Text = "运行时长测试",
                     Check = () =>
                     {
+                        RequestBuilder.TestToken = GlobalManager.ConfigManager.Config.Base.Token;
+                        WXAccount testAccount = GlobalManager.ConfigManager.Config.Base.AccountList.FirstOrDefault();
+                        if (testAccount == null) return "没有发现可用账号";
+                        RequestBuilder.TestToUserName = testAccount.ID;
                         bool tempState = Request.IsSumRunTime;
                         Request.IsSumRunTime = true;
                         Request TestTextRequest = RequestBuilder.GetMessageText(TestText);

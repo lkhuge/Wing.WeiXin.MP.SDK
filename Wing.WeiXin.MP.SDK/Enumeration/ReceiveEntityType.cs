@@ -36,6 +36,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         video,
 
         /// <summary>
+        /// 小视频消息
+        /// </summary>
+        shortvideo,
+
+        /// <summary>
         /// 语音消息
         /// </summary>
         voice,
