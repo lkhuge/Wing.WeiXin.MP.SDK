@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
     public class WXException : Exception
     {
         /// <summary>
-        /// 
+        /// 是否为消息
         /// </summary>
         public bool IsMessage { get; protected set; }
 

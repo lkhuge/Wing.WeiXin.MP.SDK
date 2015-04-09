@@ -31,7 +31,6 @@ namespace Wing.WeiXin.MP.SDK
         public ConfigManager()
         {
             Config = LoadFromConfigSection();
-            InitCryptList(Config);
         }
         #endregion
 
@@ -55,7 +54,6 @@ namespace Wing.WeiXin.MP.SDK
             if (config.Event.EventInfoList == null)
                 config.Event.EventInfoList = new List<EventInfoConfigInfo>();
             Config = config;
-            InitCryptList(config);
         }
         #endregion
 
@@ -129,14 +127,13 @@ namespace Wing.WeiXin.MP.SDK
                 Token = baseConfig.Token,
                 AccountList = baseConfig.AccountList
                     .Cast<AccountItemConfigSection>()
-                    .Select(a => new WXAccount
-                    {
-                        ID = a.WeixinMPID,
-                        AppID = a.AppID,
-                        AppSecret = a.AppSecret,
-                        NeedEncoding = a.NeedEncoding,
-                        EncodingAESKey = a.EncodingAESKey
-                    })
+                    .Select(a => new WXAccount(
+                        baseConfig.Token, 
+                        a.WeixinMPID, 
+                        a.AppID, 
+                        a.AppSecret, 
+                        a.NeedEncoding, 
+                        a.EncodingAESKey))
                     .ToList()
             };
         } 
@@ -164,26 +161,6 @@ namespace Wing.WeiXin.MP.SDK
                     .ToList()
             };
         } 
-        #endregion
-
-        #region 初始化微信加解密工具类列表 private  void InitCryptList(ConfigInfo config)
-        /// <summary>
-        /// 初始化微信加解密工具类列表
-        /// </summary>
-        /// <param name="config">配置信息</param>
-        private void InitCryptList(ConfigInfo config)
-        {
-            if (config.Base.AccountList == null) return;
-            foreach (WXAccount a in config.Base.AccountList.Where(a => a.NeedEncoding))
-            {
-                a.WXBizMsgCrypt = new WXBizMsgCrypt
-                {
-                    token = config.Base.Token,
-                    encodingAESKey = a.EncodingAESKey,
-                    appID = a.AppID
-                };
-            }
-        }
         #endregion
     }
 }

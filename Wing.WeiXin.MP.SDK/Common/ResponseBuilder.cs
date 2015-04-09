@@ -232,28 +232,6 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 从快速配置回复消息上获取响应对象 public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
-        /// <summary>
-        /// 从快速配置回复消息上获取响应对象
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <param name="filename">文件名</param>
-        /// <returns>响应对象</returns>
-        public static Response GetMessageFromQuickConfigReturnMessage(Request request, string filename)
-        {
-            return QuickConfigReturnMessageManager.GetReturnMessage(
-                File.ReadAllLines(filename)
-                .Where(r => !String.IsNullOrEmpty(r) && !String.IsNullOrEmpty(r.Trim()) && r.IndexOf(':') != -1)
-                .ToDictionary(
-                    k => k.Substring(0, k.IndexOf(':')).Trim(),
-                    v => v.Substring(v.IndexOf(':') + 1).Trim()
-                            .Replace("{LF}", "\n")
-                            .Replace("{NowDate}", DateTime.Now.ToString("yyyy年MM月dd日"))
-                            .Replace("{NowTime}", DateTime.Now.ToString("hh:mm:ss"))),
-                request);
-        }
-        #endregion
-
         #region 获取响应 private static Response GetResponse(string content, Request request, params object[] paramList)
         /// <summary>
         /// 获取响应
@@ -394,19 +372,6 @@ namespace Wing.WeiXin.MP.SDK.Common
         public static Response GetFromFriendResponse(this Request request, string apiUrl)
         {
             return GetMessageFromFriend(request, apiUrl);
-        }
-        #endregion
-
-        #region 从快速配置回复消息上获取响应对象 public static Response GetFromQuickConfigReturnMessageResponse(this Request request, string filename)
-        /// <summary>
-        /// 从快速配置回复消息上获取响应对象
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <param name="filename">文件名</param>
-        /// <returns>响应对象</returns>
-        public static Response GetFromQuickConfigReturnMessageResponse(this Request request, string filename)
-        {
-            return GetMessageFromQuickConfigReturnMessage(request, filename);
         }
         #endregion
     }

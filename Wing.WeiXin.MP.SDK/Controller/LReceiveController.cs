@@ -50,21 +50,13 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public LReceiveController(string token, string id, string appID, string appSecret, bool needEncoding, string encodingAESKey = null, IWXSession wxSession = null)
         {
             this.token = token;
-            WXAccount = new WXAccount
-            {
-                ID = id,
-                AppID = appID,
-                AppSecret = appSecret,
-                NeedEncoding = needEncoding,
-                EncodingAESKey = encodingAESKey
-            };
-            if (needEncoding)
-                WXAccount.WXBizMsgCrypt = new WXBizMsgCrypt
-                {
-                    token = token,
-                    encodingAESKey = encodingAESKey,
-                    appID = appID
-                };
+            WXAccount = new WXAccount(
+                token,
+                id,
+                appID,
+                appSecret,
+                needEncoding,
+                encodingAESKey);
             EventManager = new EventManager();
             EventManager.IsCheckEventName = false;
             EventManager.IsCheckToUserName = false;

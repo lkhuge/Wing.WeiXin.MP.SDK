@@ -208,7 +208,6 @@
     <Compile Include="Enumeration\ReturnCode.cs" />
     <Compile Include="Enumeration\ReturnEntityType.cs" />
     <Compile Include="Enumeration\UploadMediaType.cs" />
-    <Compile Include="Common\QuickConfigReturnMessageManager.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="Entities\WXException.cs" />
     <Compile Include="Extension\Event\Attributes\WXEventAttribute.cs" />
