@@ -30,6 +30,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                     context.Request.QueryString["nonce"],
                     context.Request.QueryString["echostr"],
                     HTTPHelper.GetPostStream(context),
+                    context.Request.QueryString["encrypt_type"],
+                    context.Request.QueryString["msg_signature"],
                     HTTPHelper.GetRequestIP(context.Request)));
 
             context.Response.Write(response == null ? "" : response.Text);

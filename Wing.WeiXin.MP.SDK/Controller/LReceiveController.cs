@@ -36,7 +36,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         public IWXSession WXSession { get; private set; }
 
-        #region 根据微信账号实例化 public LReceiveController(string token, string id, string appID, string appSecret, bool needEncoding, string encodingAESKey = null, IWXSession wxSession = null)
+        #region 根据微信账号实例化 public LReceiveController(string token, string id, string appID, string appSecret, string encodingAESKey = null, IWXSession wxSession = null)
         /// <summary>
         /// 根据微信账号实例化
         /// </summary>
@@ -44,10 +44,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="id">微信公共平台ID</param>
         /// <param name="appID">AppID</param>
         /// <param name="appSecret">AppSecret</param>
-        /// <param name="needEncoding">是否需要加密</param>
         /// <param name="encodingAESKey">加密密钥</param>
         /// <param name="wxSession">微信会话接口</param>
-        public LReceiveController(string token, string id, string appID, string appSecret, bool needEncoding, string encodingAESKey = null, IWXSession wxSession = null)
+        public LReceiveController(string token, string id, string appID, string appSecret, string encodingAESKey = null, IWXSession wxSession = null)
         {
             this.token = token;
             WXAccount = new WXAccount(
@@ -55,7 +54,6 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 id,
                 appID,
                 appSecret,
-                needEncoding,
                 encodingAESKey);
             EventManager = new EventManager();
             EventManager.IsCheckEventName = false;
@@ -65,16 +63,18 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
-        #region 执行事件 public Response Action(string postData)
+        #region 执行事件 public Response Action(string postData, string encryptType, string msgSignature)
         /// <summary>
         /// 执行事件
         /// 不需要检查请求
         /// </summary>
         /// <param name="postData">POST数据</param>
+        /// <param name="encryptType">加密类型</param>
+        /// <param name="msgSignature">消息体的签名</param>
         /// <returns>响应对象</returns>
-        public Response Action(string postData)
+        public Response Action(string postData, string encryptType, string msgSignature)
         {
-            Request request = new Request(postData)
+            Request request = new Request(postData, encryptType, msgSignature)
             {
                 WXAccount = WXAccount
             };
@@ -90,7 +90,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         }
         #endregion
 
-        #region 执行事件 public Response Action(string signature, string timestamp, string nonce, string echostr, string postData)
+        #region 执行事件 public Response Action(string signature, string timestamp, string nonce, string echostr, string postData, string encryptType, string msgSignature)
         /// <summary>
         /// 执行事件
         /// </summary>
@@ -99,10 +99,12 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="nonce">随机数</param>
         /// <param name="echostr">随机字符串</param>
         /// <param name="postData">POST数据</param>
+        /// <param name="encryptType">加密类型</param>
+        /// <param name="msgSignature">消息体的签名</param>
         /// <returns>响应对象</returns>
-        public Response Action(string signature, string timestamp, string nonce, string echostr, string postData)
+        public Response Action(string signature, string timestamp, string nonce, string echostr, string postData, string encryptType, string msgSignature)
         {
-            Request request = new Request(token, signature, timestamp, nonce, echostr, postData)
+            Request request = new Request(token, signature, timestamp, nonce, echostr, postData, encryptType, msgSignature)
             {
                 WXAccount = WXAccount
             };

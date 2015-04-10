@@ -34,11 +34,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string AppSecret { get; private set; }
 
         /// <summary>
-        /// 是否需要加密
-        /// </summary>
-        public bool NeedEncoding { get; private set; }
-
-        /// <summary>
         /// 加密密钥
         /// </summary>
         public string EncodingAESKey { get; private set; }
@@ -48,7 +43,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         internal WXBizMsgCrypt WXBizMsgCrypt;
 
-        #region 根据参数实例化 public WXAccount(string token, string id, string appID, string appSecret, bool needEncoding = false, string encodingAESKey = null)
+        #region 根据参数实例化 public WXAccount(string token, string id, string appID, string appSecret, string encodingAESKey = null)
         /// <summary>
         /// 根据参数实例化
         /// </summary>
@@ -56,16 +51,14 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="id">微信公共平台ID</param>
         /// <param name="appID">AppID</param>
         /// <param name="appSecret">AppSecret</param>
-        /// <param name="needEncoding">是否需要加密</param>
         /// <param name="encodingAESKey">加密密钥</param>
-        public WXAccount(string token, string id, string appID, string appSecret, bool needEncoding = false, string encodingAESKey = null)
+        public WXAccount(string token, string id, string appID, string appSecret, string encodingAESKey = null)
         {
             Token = token;
             ID = id;
             AppID = appID;
             AppSecret = appSecret;
-            NeedEncoding = needEncoding;
-            if (!needEncoding) return;
+            if (encodingAESKey == null) return;
             EncodingAESKey = encodingAESKey;
             WXBizMsgCrypt = new WXBizMsgCrypt
             {
@@ -83,12 +76,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>账户信息</returns>
         public override string ToString()
         {
-            return String.Format("ID:{1}{0}{0}{0}AppID:{2}{0}AppSecret:{3}{0}是否需要加密:{4}{0}加密密钥:{5}",
+            return String.Format("ID:{1}{0}{0}{0}AppID:{2}{0}AppSecret:{3}{0}加密密钥:{4}",
                 Environment.NewLine,
                 ID,
                 AppID,
                 AppSecret,
-                NeedEncoding,
                 EncodingAESKey);
         } 
         #endregion

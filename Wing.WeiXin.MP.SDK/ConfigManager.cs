@@ -132,7 +132,6 @@ namespace Wing.WeiXin.MP.SDK
                         a.WeixinMPID, 
                         a.AppID, 
                         a.AppSecret, 
-                        a.NeedEncoding, 
                         a.EncodingAESKey))
                     .ToList()
             };

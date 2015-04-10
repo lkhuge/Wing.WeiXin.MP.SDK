@@ -26,7 +26,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         {
             Response response = receiveController.Action(
                 new Request(
-                    HTTPHelper.GetPostStream(context), 
+                    HTTPHelper.GetPostStream(context),
+                    context.Request.QueryString["encrypt_type"],
+                    context.Request.QueryString["msg_signature"],
                     HTTPHelper.GetRequestIP(context.Request)), 
                 false);
 

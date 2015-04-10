@@ -14,7 +14,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void ActionTest()
         {
-            LReceiveController receiveController = new LReceiveController("qwe", "qwe", "qwe", "qwe", false);
+            LReceiveController receiveController = new LReceiveController("qwe", "qwe", "qwe", "qwe", "");
             receiveController.EventManager.AddReceiveEvent<RequestText>("qwe", "gh_7f215c8b1c91",
                 r => r.Request.GetTextResponse("qwe"));
             Response response = receiveController.Action(
@@ -25,7 +25,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                      <MsgType><![CDATA[text]]></MsgType>
                      <Content><![CDATA[0]]></Content>
                      <MsgId>12345678s9e012w3456</MsgId>
-                 </xml>");
+                 </xml>", null, null);
 
             Assert.IsNotNull(response);
         }

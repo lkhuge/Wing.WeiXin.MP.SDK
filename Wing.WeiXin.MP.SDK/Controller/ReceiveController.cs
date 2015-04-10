@@ -75,6 +75,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 }
                 return new Response(e);
             }
+            catch (Exception e)
+            {
+                LogManager.WriteError("ReceiveController发生不可预料异常", e, Settings.Default.SystemUsername);
+                throw e;
+            }
         }
         #endregion
 

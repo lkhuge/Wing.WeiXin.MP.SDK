@@ -34,7 +34,7 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 <WeiXinMPSDKConfigGroup>
     <Base Token="xxxxxxxx">
       <AccountList>
-        <add WeixinMPID="xxxxxx" WeixinMPType="Service" AppID="xxxxx" AppSecret="xxxxx" NeedEncoding="False" EncodingAESKey="xxxxxxxxx" />
+        <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxx" EncodingAESKey="xxxxxxxxx" />
       </AccountList>
     </Base>
     <Event>
@@ -103,16 +103,12 @@ private Response E2(RequestEventClick request)
     <Base Token="xxxxxxxx">
         <!-- 微信公众平台帐号列表，支持多帐号配置开发 -->
         <!-- WeixinMPID：微信公众平台帐号ID，可在微信后台网站查询 -->
-        <!-- WeixinMPType：微信公众平台帐号类型 -->
-        <!--     Service：服务号 -->
-        <!--     Subscription：订阅号 -->
         <!-- AppID：微信公众平台应用ID，认证用户或者服务号才可以获取，可在微信后台网站查询 -->
         <!-- AppSecret：微信公众平台应用密钥，认证用户或者服务号才可以获取，可在微信后台网站查询 -->
-        <!-- NeedEncoding：是否需要加解密消息 -->
         <!-- EncodingAESKey：加解密消息的密钥 -->
         <AccountList>
-            <add WeixinMPID="xxxxxx" WeixinMPType="Service" AppID="xxxxx" AppSecret="xxxxx" NeedEncoding="False" EncodingAESKey="xxxxxxxxx" />
-            <add WeixinMPID="xxxxxx" WeixinMPType="Subscription" AppID="xxxxx" AppSecret="xxxxxx" NeedEncoding="False" EncodingAESKey="xxxxxxxxx" />
+            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxx" EncodingAESKey="xxxxxxxxx" />
+            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxxx" EncodingAESKey="xxxxxxxxx" />
         </AccountList>
     </Base>
     <Event>

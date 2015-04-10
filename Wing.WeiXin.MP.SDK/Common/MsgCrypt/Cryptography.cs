@@ -30,6 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Common.MsgCrypt
         /// <returns></returns>
         public static string AES_decrypt(String Input, string EncodingAESKey, ref string appid)
         {
+            if (appid == null) throw new ArgumentNullException("appid");
             byte[] Key = Convert.FromBase64String(EncodingAESKey + "=");
             byte[] Iv = new byte[16];
             Array.Copy(Key, Iv, 16);

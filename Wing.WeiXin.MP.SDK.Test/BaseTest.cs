@@ -169,7 +169,9 @@ namespace Wing.WeiXin.MP.SDK.Test
                 "1395058361",
                 "929810330",
                 "",
-                "echostr"
+                "echostr",
+                null,
+                null
             );
 
             messageText = new Request
@@ -180,16 +182,16 @@ namespace Wing.WeiXin.MP.SDK.Test
                 "1395465999",
                 "",
                  @"<?xml version=""1.0"" encoding=""utf-8""?>
-                            <xml>
-                                <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
-                                <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
-                                <CreateTime>1357986928</CreateTime>
-                                <MsgType><![CDATA[text]]></MsgType>
-                                <Content><![CDATA[test]]></Content>
-                                <MsgId>5832509444155992350</MsgId>
-                            </xml>
-                            ")
-            ;
+                        <xml>
+                            <ToUserName><![CDATA[gh_7f215c8b1c91]]></ToUserName>
+                            <FromUserName><![CDATA[olPjZjsXuQPJoV0HlruZkNzKc91E]]></FromUserName>
+                            <CreateTime>1357986928</CreateTime>
+                            <MsgType><![CDATA[text]]></MsgType>
+                            <Content><![CDATA[test]]></Content>
+                            <MsgId>5832509444155992350</MsgId>
+                        </xml>",
+                null,
+                null);
 
             messageClick = new Request 
             (
@@ -205,8 +207,9 @@ namespace Wing.WeiXin.MP.SDK.Test
                     <MsgType><![CDATA[event]]></MsgType>
                     <Event><![CDATA[CLICK]]></Event>
                     <EventKey><![CDATA[t11]]></EventKey>
-                    </xml>
-                            "
+                    </xml>",
+                null,
+                null
             );
         } 
         #endregion

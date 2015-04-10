@@ -26,7 +26,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 记录日志（信息）
         /// </summary>
-        public static event Action<string, WXException, string> Error;
+        public static event Action<string, Exception, string> Error;
 
         #region 记录日志（信息） public static void WriteInfo(string message, string user)
         /// <summary>
@@ -63,14 +63,14 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 记录错误日志 public static void WriteError(string message, WXException e, string user)
+        #region 记录错误日志 public static void WriteError(string message, Exception e, string user)
         /// <summary>
         /// 记录错误日志
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="e">异常信息</param>
         /// <param name="user">发起用户</param>
-        public static void WriteError(string message, WXException e, string user)
+        public static void WriteError(string message, Exception e, string user)
         {
             if (Error != null) Error(message, e, user);
         }
@@ -89,8 +89,8 @@ namespace Wing.WeiXin.MP.SDK
                 DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), m));
             Warn += (m, u) => callback(String.Format("[{0}]({1}){2}",
                 DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m));
-            Error += (m, e, u) => callback(String.Format("[{0}]({1}){2}{3}{4}",
-                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m, Environment.NewLine, e.Message));
+            Error += (m, e, u) => callback(String.Format("[{0}]({1}){2}{3}{4}{3}{5}",
+                DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"), u, m, Environment.NewLine, e.Message, e.StackTrace));
         }
         #endregion
     }

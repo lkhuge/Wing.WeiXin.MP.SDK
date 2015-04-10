@@ -44,17 +44,6 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
-        #region 是否需要加密 public bool NeedEncoding
-        /// <summary>
-        /// 是否需要加密
-        /// </summary>
-        [ConfigurationProperty("NeedEncoding", DefaultValue = false)]
-        public bool NeedEncoding
-        {
-            get { return Convert.ToBoolean(this["NeedEncoding"]); }
-        }
-        #endregion
-
         #region 加密密钥 public string EncodingAESKey
         /// <summary>
         /// 加密密钥

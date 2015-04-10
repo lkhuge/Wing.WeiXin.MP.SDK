@@ -82,7 +82,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         private static string MessageRequest(string message)
         {
             Response response = new ReceiveController().Action(
-                new Request(message),
+                new Request(message, null, null),
                 false);
             return response == null ? "" : FormatXMLToHTML(response.Text);
         }
@@ -103,6 +103,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
                 Response response = receiveController.Action(
                     new Request(
                         HTTPHelper.GetPostStream(context),
+                        null, 
+                        null,
                         HTTPHelper.GetRequestIP(context.Request)),
                     false);
                 context.Response.Write(response == null ? "" : response.Text);

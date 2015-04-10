@@ -50,6 +50,18 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public string PostData { get; private set; }
 
         /// <summary>
+        /// 加密类型
+        /// 无encrypt_type参数或者其值为raw时表示为不加密；
+        /// encrypt_type为aes时，表示aes加密（暂时只有raw和aes两种值)
+        /// </summary>
+        public string EncryptType { get; private set; }
+
+        /// <summary>
+        /// 消息体的签名
+        /// </summary>
+        public string MsgSignature { get; private set; }
+
+        /// <summary>
         /// 请求XML数据
         /// </summary>
         public XElement RootElement { get; protected set; }
@@ -123,7 +135,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         private static Stopwatch Stopwatch;
 
-        #region 实例化请求对象 public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
+        #region 实例化请求对象 public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string encryptType, string msgSignature, string ip = null)
         /// <summary>
         /// 实例化请求对象
         /// </summary>
@@ -133,9 +145,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="nonce">随机数</param>
         /// <param name="echostr">随机字符串</param>
         /// <param name="postData">POST数据</param>
+        /// <param name="encryptType">加密类型</param>
+        /// <param name="msgSignature">消息体的签名</param>
         /// <param name="ip">请求者服务器IP</param>
-        public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string ip = null)
-            : this(postData, ip)
+        public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string encryptType, string msgSignature, string ip = null)
+            : this(postData, encryptType, msgSignature, ip)
         {
             Token = token;
             Signature = signature;
@@ -145,15 +159,19 @@ namespace Wing.WeiXin.MP.SDK.Entities
         }
         #endregion
 
-        #region 实例化请求对象 public Request(string postData, string ip = null)
+        #region 实例化请求对象 public Request(string postData, string encryptType, string msgSignatur, string ip = null)
         /// <summary>
         /// 实例化请求对象
         /// </summary>
         /// <param name="postData">POST数据</param>
+        /// <param name="encryptType">加密类型</param>
+        /// <param name="msgSignature">消息体的签名</param>
         /// <param name="ip">请求者服务器IP</param>
-        public Request(string postData, string ip = null)
+        public Request(string postData, string encryptType, string msgSignature, string ip = null)
         {
             PostData = postData;
+            EncryptType = encryptType;
+            MsgSignature = msgSignature;
             IP = ip;
             if (!IsSumRunTime) return;
             if (Stopwatch == null) Stopwatch = new Stopwatch();
@@ -237,28 +255,31 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             XElement root = XDocument.Parse(PostData).Element("xml");
             if (root == null) throw WXException.GetInstance("XML格式错误（未发现xml根节点）", Settings.Default.SystemUsername);
+            if (!"aes".Equals(EncryptType)) return root;
+            LogManager.WriteSystem("需要解密POST数据");
             XElement enElement = root.Element("Encrypt");
-            if (enElement == null) return root;
-            LogManager.WriteSystem("解密POST数据");
-            string weixinID = GetPostData("ToUserName");
-            if (wxAccount.WXBizMsgCrypt == null) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", weixinID);
+            if (enElement == null) throw WXException.GetInstance("消息需要解密，可没有获取加密信息", ToUserName);
+            ToUserName = GetPostData("ToUserName", root);
+            if (WXAccount.WXBizMsgCrypt == null) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", ToUserName);
             string outMsg = null;
-            if (wxAccount.WXBizMsgCrypt.DecryptMsg(Signature, Timestamp, Nonce, PostData, ref outMsg) != 0)
-                throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), weixinID);
-
+            LogManager.WriteSystem("开始解密POST数据");
+            if (WXAccount.WXBizMsgCrypt.DecryptMsg(MsgSignature, Timestamp, Nonce, PostData, ref outMsg) != 0)
+                throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), ToUserName);
+            LogManager.WriteSystem("解密POST数据成功");
             return XDocument.Parse(outMsg).Element("xml");
         }
         #endregion
 
-        #region 获取XML数据 internal string GetPostData(string key)
+        #region 获取XML数据 internal string GetPostData(string key, XElement rootElement = null)
         /// <summary>
         /// 获取XML数据
         /// </summary>
         /// <param name="key">数据名称</param>
+        /// <param name="rootElement">获取数据的节点</param>
         /// <returns>XML数据</returns>
-        internal string GetPostData(string key)
+        internal string GetPostData(string key, XElement rootElement = null)
         {
-            XElement element = RootElement.Element(key);
+            XElement element = (rootElement ?? RootElement).Element(key);
             if (element == null) throw WXException.GetInstance(String.Format("XML格式错误（未发现{0}节点）", key), Settings.Default.SystemUsername);
 
             return element.Value;

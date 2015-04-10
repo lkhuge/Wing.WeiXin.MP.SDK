@@ -535,7 +535,9 @@ namespace Wing.WeiXin.MP.SDK.Common
                                 .Replace("{FromUserName}", TestFromUserName)
                                 .Replace("{CreateTime}", DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString())
                                 .Replace("{MsgId}", Guid.NewGuid().ToString().Replace("-", "")),
-                            paramList));
+                            paramList),
+                            null,
+                            null);
         }
         #endregion
 
@@ -552,6 +554,8 @@ namespace Wing.WeiXin.MP.SDK.Common
                             TestTimestamp,
                             TestNonce,
                             TestEchostr,
+                            null,
+                            null,
                             null);
         }
         #endregion
