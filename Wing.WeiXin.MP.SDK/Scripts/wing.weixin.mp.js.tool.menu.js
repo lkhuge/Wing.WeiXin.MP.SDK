@@ -83,7 +83,7 @@
             });
         });
         $('#' + toolIDPrefix + 'operate-save').click(function () {
-            $.post(settings.saveUrl, { Data: escape(JSON.stringify(getMenuObj())) }, function (data) {
+            $.post(settings.saveUrl, { Data: window.escape(JSON.stringify(getMenuObj())) }, function (data) {
                 alert(data.msg);
             });
         });
@@ -107,7 +107,7 @@
                 var type = $('#' + toolIDPrefix + 'head-' + j).data('menu-type');
                 if (type == 'main') {
                     var subButtonList = [];
-                    $('#' + toolIDPrefix + 'body-' + j).children().each(function () {
+                    $('#' + toolIDPrefix + 'body-' + j).children().children().each(function () {
                         var subType = $(this).find('p[data-menu-type="type"]').eq(0).data('menu-value');
                         var subName = $(this).find('p[data-menu-type="name"]').eq(0).data('menu-value');
                         if (subType == 'view') {
@@ -491,7 +491,7 @@
                 ? $('#' + toolIDPrefix + 'head-' + id).text()
                 : subDom.find('p[data-menu-type="name"]').eq(0).data('menu-value'));
 		}
-		var canChangeType = ($('#' + toolIDPrefix + 'head-' + id).data('menu-type') != 'main' || $('#' + toolIDPrefix + 'body-' + id).children().children().length == 0);
+		var canChangeType = (isNew || $('#' + toolIDPrefix + 'head-' + id).data('menu-type') != 'main' || $('#' + toolIDPrefix + 'body-' + id).children().children().length == 0);
 		if (canChangeType) {
 		    var selectType = (isNew ? null : (isMain
                 ? $('#' + toolIDPrefix + 'head-' + id).data('menu-type')

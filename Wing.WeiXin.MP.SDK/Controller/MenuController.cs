@@ -115,11 +115,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 if (menuButton.type.Equals("view"))
                 {
                     returnMenu.Add(new MenuButtonView { name = menuButton.name, url = menuButton.url });
+                    continue;
                 }
-                if (menuButton.type.Equals("click"))
-                {
-                    returnMenu.Add(new MenuButtonClick { name = menuButton.name, key = menuButton.key });
-                }
+                returnMenu.Add(new MenuButtonClick { name = menuButton.name, key = menuButton.key });
             }
 
             return returnMenu;
