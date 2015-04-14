@@ -63,7 +63,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
         /// <returns>菜单信息</returns>
         private object Get()
         {
-            return controller.GetMenu(Account);
+            try
+            {
+                return controller.GetMenu(Account);
+            }
+            catch (WXException e)
+            {
+                return new
+                {
+                    msg = e.Message
+                };
+            }
         } 
         #endregion
 
@@ -75,11 +85,21 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
         /// <returns>结果</returns>
         private object Save(string menu)
         {
-            MenuForGet m = JSONHelper.JSONDeserialize<MenuForGet>(HttpUtility.UrlDecode(menu));
-            return new
+            try
             {
-                msg = controller.CreateMenu(Account, m).GetIntroduce()
-            };
+                MenuForGet m = JSONHelper.JSONDeserialize<MenuForGet>(HttpUtility.UrlDecode(menu));
+                return new
+                {
+                    msg = controller.CreateMenu(Account, m).GetIntroduce()
+                };
+            }
+            catch (WXException e)
+            {
+                return new
+                {
+                    msg = e.Message
+                };
+            }
         } 
         #endregion
 
@@ -90,10 +110,20 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
         /// <returns>结果</returns>
         private object Delete()
         {
-            return new
+            try
             {
-                msg = controller.DeleteMenu(Account).GetIntroduce()
-            };
+                return new
+                {
+                    msg = controller.DeleteMenu(Account).GetIntroduce()
+                };
+            }
+            catch (WXException e)
+            {
+                return new
+                {
+                    msg = e.Message
+                };
+            }
         } 
         #endregion
 
