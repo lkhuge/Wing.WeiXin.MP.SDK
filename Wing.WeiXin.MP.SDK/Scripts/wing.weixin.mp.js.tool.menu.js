@@ -31,9 +31,9 @@
         $.getJSON(settings.getUrl, function (data) {
             if (typeof data.msg != 'undefined') {
                 alert(data.msg);
-            } else {
-                loadData(data);
+                data = { button: [] };
             }
+            loadData(data);
             hideLoading();
         });
     };
