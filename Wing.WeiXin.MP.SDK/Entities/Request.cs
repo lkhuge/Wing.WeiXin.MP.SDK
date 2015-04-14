@@ -231,7 +231,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             LogManager.WriteSystem("解析POST数据");
             RootElement = EncodingData();
-            ToUserName = GetPostData("ToUserName");
             FromUserName = GetPostData("FromUserName");
             MsgTypeName = GetPostData("MsgType");
             MsgTypeName = "event".Equals(MsgTypeName) ? GetPostData("Event") : MsgTypeName;
@@ -255,11 +254,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         {
             XElement root = XDocument.Parse(PostData).Element("xml");
             if (root == null) throw WXException.GetInstance("XML格式错误（未发现xml根节点）", Settings.Default.SystemUsername);
+            ToUserName = GetPostData("ToUserName", root);
             if (!"aes".Equals(EncryptType)) return root;
             LogManager.WriteSystem("需要解密POST数据");
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) throw WXException.GetInstance("消息需要解密，可没有获取加密信息", ToUserName);
-            ToUserName = GetPostData("ToUserName", root);
             if (WXAccount.WXBizMsgCrypt == null) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", ToUserName);
             string outMsg = null;
             LogManager.WriteSystem("开始解密POST数据");

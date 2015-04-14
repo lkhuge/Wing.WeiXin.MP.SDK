@@ -219,6 +219,7 @@
     <Compile Include="Extension\JS\WeixinConfig.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\AshxMenuHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxOAuthHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />
@@ -239,21 +240,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\jquery-2.1.3.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.3.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\wing.weixin.mp.js.sdk.js" />
     <Content Include="Scripts\wing.weixin.mp.js.sdk.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\wing.weixin.mp.js.tool.menu.js" />
+    <Content Include="Scripts\wing.weixin.mp.js.tool.menu.min.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

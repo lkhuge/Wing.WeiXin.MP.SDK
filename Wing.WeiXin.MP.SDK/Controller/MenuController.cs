@@ -43,6 +43,19 @@ namespace Wing.WeiXin.MP.SDK.Controller
         } 
         #endregion
 
+        #region 创建菜单 public ErrorMsg CreateMenu(WXAccount account, MenuForGet menu)
+        /// <summary>
+        /// 创建菜单
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="menu">菜单对象（适配查询目录）</param>
+        /// <returns>错误码</returns>
+        public ErrorMsg CreateMenu(WXAccount account, MenuForGet menu)
+        {
+            return CreateMenu(account, GetMenu(menu));
+        }
+        #endregion
+
         #region 获取菜单 public Menu GetMenu(WXAccount account)
         /// <summary>
         /// 获取菜单

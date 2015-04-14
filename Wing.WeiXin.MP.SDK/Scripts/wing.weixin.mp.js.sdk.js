@@ -400,7 +400,7 @@ function weixin(url) {
         /// 此处获得的 serverId 即 media_id
         /// </summary>
         /// <param name="localId" type="String">需要上传的音频的本地ID，由stopRecord接口获得</param>
-        /// <param name="isShowProgressTips" type="Number ">默认为1，显示进度提示</param>
+        /// <param name="isShowProgressTips" type="Number">默认为1，显示进度提示</param>
         /// <param name="success(res)" type="Function">
         /// 上传语音完毕会执行 success 回调
         /// 返回音频的服务器端ID(res.serverId)
