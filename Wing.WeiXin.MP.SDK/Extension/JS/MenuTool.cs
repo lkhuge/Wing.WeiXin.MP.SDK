@@ -8,12 +8,12 @@ using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Lib;
 
-namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
+namespace Wing.WeiXin.MP.SDK.Extension.JS
 {
     /// <summary>
     /// 菜单操作
     /// </summary>
-    public class AshxMenuHandler : IHttpHandler
+    public class MenuTool : IHttpHandler
     {
         /// <summary>
         /// 使用的微信账号
@@ -25,11 +25,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// </summary>
         private readonly MenuController controller;
 
-        #region 初始化 public AshxMenuHandler()
+        #region 初始化 public MenuTool()
         /// <summary>
         /// 初始化
         /// </summary>
-        public AshxMenuHandler()
+        public MenuTool()
         {
             controller = new MenuController();
             if (Account == null) Account = GlobalManager.GetFirstAccount();

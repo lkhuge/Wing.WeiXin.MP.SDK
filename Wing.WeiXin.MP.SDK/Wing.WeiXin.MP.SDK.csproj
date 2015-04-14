@@ -219,7 +219,7 @@
     <Compile Include="Extension\JS\WeixinConfig.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxMenuHandler.cs" />
+    <Compile Include="Extension\JS\MenuTool.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxOAuthHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />

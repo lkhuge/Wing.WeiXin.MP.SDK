@@ -21,9 +21,9 @@
 		/// <param name="options" type="Object">参数</param>
 
 		settings = $.extend({
-		    getUrl: '/Menu?Operation=Get',
-		    saveUrl: '/Menu?Operation=Save',
-		    deleteUrl: '/Menu?Operation=Delete'
+		    getUrl: '/MenuTool?Operation=Get',
+		    saveUrl: '/MenuTool?Operation=Save',
+		    deleteUrl: '/MenuTool?Operation=Delete'
 		}, options);
 
 		showLoading();
