@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     /// <summary>
     /// OAuth接口处理
     /// </summary>
-    public class AshxOAuthHandler : IHttpHandler
+    public class OAuthHandler : IHttpHandler
     {
         /// <summary>
         /// 使用的账号（如果为空则默认为第一个账号）

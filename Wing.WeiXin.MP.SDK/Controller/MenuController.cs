@@ -115,9 +115,35 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 if (menuButton.type.Equals("view"))
                 {
                     returnMenu.Add(new MenuButtonView { name = menuButton.name, url = menuButton.url });
-                    continue;
                 }
-                returnMenu.Add(new MenuButtonClick { name = menuButton.name, key = menuButton.key });
+                if (menuButton.type.Equals("click"))
+                {
+                    returnMenu.Add(new MenuButtonClick { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("location_select"))
+                {
+                    returnMenu.Add(new MenuButtonLocationSelect { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("pic_photo_or_album"))
+                {
+                    returnMenu.Add(new MenuButtonPicPhotoOrAlbum { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("pic_sysphoto"))
+                {
+                    returnMenu.Add(new MenuButtonPicSysPhoto { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("pic_weixin"))
+                {
+                    returnMenu.Add(new MenuButtonPicWeixin { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("scancode_push"))
+                {
+                    returnMenu.Add(new MenuButtonScanCodePush { name = menuButton.name, key = menuButton.key });
+                }
+                if (menuButton.type.Equals("scancode_waitmsg"))
+                {
+                    returnMenu.Add(new MenuButtonScanCodeWaitMsg { name = menuButton.name, key = menuButton.key });
+                }
             }
 
             return returnMenu;

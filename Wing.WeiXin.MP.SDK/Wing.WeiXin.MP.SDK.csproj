@@ -217,12 +217,10 @@
     <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
     <Compile Include="Extension\JS\WeixinConfig.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxCheckHandler.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxDebugHandler.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\CheckHandler.cs" />
     <Compile Include="Extension\JS\MenuTool.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxOAuthHandler.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveWithoutCheckHandler.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\AshxReceiveHandler.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\OAuthHandler.cs" />
+    <Compile Include="Extension\ReceiveHandler\Ashx\ReceiveHandler.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="Lib\DateTimeHelper.cs" />
     <Compile Include="Lib\HTMLHelper.cs" />
@@ -250,6 +248,7 @@
     <Content Include="Scripts\wing.weixin.mp.js.sdk.min.js" />
     <Content Include="Scripts\wing.weixin.mp.js.tool.menu.js" />
     <Content Include="Scripts\wing.weixin.mp.js.tool.menu.min.js" />
+    <Content Include="Scripts\_references.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

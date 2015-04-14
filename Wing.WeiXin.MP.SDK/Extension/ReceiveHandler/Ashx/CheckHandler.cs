@@ -29,7 +29,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
     ///       3.3 [Info]运行时长测试
     /// </summary>
-    public class AshxCheckHandler : IHttpHandler
+    public class CheckHandler : IHttpHandler
     {
         /// <summary>
         /// 用于测试响应速度的方法
