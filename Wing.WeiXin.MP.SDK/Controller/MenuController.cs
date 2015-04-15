@@ -7,6 +7,7 @@ using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
 using Wing.WeiXin.MP.SDK.Lib;
+using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -103,6 +104,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
             List<AMenuItem> returnMenu = new List<AMenuItem>();
             foreach (MenuButtonForGet menuButton in listMenuForGet)
             {
+                if ((menuButton.sub_button == null || menuButton.sub_button.Count == 0) && String.IsNullOrEmpty(menuButton.type))
+                    throw WXException.GetInstance("子菜单不能不能为空", Settings.Default.SystemUsername);
                 if (menuButton.sub_button != null && menuButton.sub_button.Count > 0)
                 {
                     returnMenu.Add(new MenuList
