@@ -23,18 +23,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
         /// <summary>
         /// 菜单控制器
         /// </summary>
-        private readonly MenuController controller;
-
-        #region 初始化 public MenuTool()
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public MenuTool()
-        {
-            controller = new MenuController();
-            if (Account == null) Account = GlobalManager.GetFirstAccount();
-        } 
-        #endregion
+        private readonly MenuController controller = new MenuController();
 
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
@@ -65,7 +54,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
         {
             try
             {
-                return controller.GetMenu(Account);
+                return controller.GetMenu(Account ?? GlobalManager.GetFirstAccount());
             }
             catch (WXException e)
             {
@@ -90,7 +79,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
                 MenuForGet m = JSONHelper.JSONDeserialize<MenuForGet>(HttpUtility.UrlDecode(menu));
                 return new
                 {
-                    msg = controller.CreateMenu(Account, m).GetIntroduce()
+                    msg = controller.CreateMenu(Account ?? GlobalManager.GetFirstAccount(), m).GetIntroduce()
                 };
             }
             catch (WXException e)
@@ -114,7 +103,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
             {
                 return new
                 {
-                    msg = controller.DeleteMenu(Account).GetIntroduce()
+                    msg = controller.DeleteMenu(Account ?? GlobalManager.GetFirstAccount()).GetIntroduce()
                 };
             }
             catch (WXException e)

@@ -88,7 +88,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>加密后的消息</returns>
         private string GetCryptMessage(string text, Request request)
         {
-            if (request.WXAccount.WXBizMsgCrypt == null) return text;
+            if (request.WXAccount.WXBizMsgCrypt == null || !"aes".Equals(request.EncryptType)) return text;
             string encryptMsg = null;
             if (request.WXAccount.WXBizMsgCrypt.EncryptMsg(
                 text,

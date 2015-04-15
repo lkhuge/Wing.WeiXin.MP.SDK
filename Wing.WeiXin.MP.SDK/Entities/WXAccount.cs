@@ -58,7 +58,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
             ID = id;
             AppID = appID;
             AppSecret = appSecret;
-            if (encodingAESKey == null) return;
+            if (String.IsNullOrEmpty(encodingAESKey)) return;
             EncodingAESKey = encodingAESKey;
             WXBizMsgCrypt = new WXBizMsgCrypt
             {
