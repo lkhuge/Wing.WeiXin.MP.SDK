@@ -216,6 +216,7 @@
     <Compile Include="Extension\Event\IEventBuilder.cs" />
     <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
+    <Compile Include="Extension\JS\DebugTool.cs" />
     <Compile Include="Extension\JS\WeixinConfig.cs" />
     <Compile Include="Extension\ReceiveHandler\Ashx\CheckHandler.cs" />
     <Compile Include="Extension\JS\MenuTool.cs" />
@@ -246,6 +247,8 @@
   <ItemGroup>
     <Content Include="Scripts\wing.weixin.mp.js.sdk.js" />
     <Content Include="Scripts\wing.weixin.mp.js.sdk.min.js" />
+    <Content Include="Scripts\wing.weixin.mp.js.tool.debug.js" />
+    <Content Include="Scripts\wing.weixin.mp.js.tool.debug.min.js" />
     <Content Include="Scripts\wing.weixin.mp.js.tool.menu.js" />
     <Content Include="Scripts\wing.weixin.mp.js.tool.menu.min.js" />
     <Content Include="Scripts\_references.js" />
