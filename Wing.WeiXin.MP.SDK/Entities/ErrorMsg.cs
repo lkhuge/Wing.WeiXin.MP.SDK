@@ -38,7 +38,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public string GetIntroduce()
         {
-            return Enum.GetName(typeof(ReturnCode), Convert.ToInt32(errcode));
+            return Enum.GetName(typeof(ReturnCode), Convert.ToInt32(errcode)) ?? String.Format("未知错误码({0}-{1})", errcode, errmsg);
         } 
         #endregion
 

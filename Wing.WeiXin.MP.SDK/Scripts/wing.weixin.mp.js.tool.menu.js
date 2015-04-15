@@ -7,6 +7,9 @@
     //主菜单数量
     var mainMenuCount = 3;
 
+    //消息显示延迟
+    var alertMessageTimeout = 2000;
+
     //工具ID前缀
     var toolIDPrefix = 'weixin-tool-menu-';
 
@@ -26,16 +29,7 @@
             deleteUrl: '/MenuTool?Operation=Delete'
         }, options);
 
-        showLoading();
-        loadList($(this));
-        $.getJSON(settings.getUrl, function (data) {
-            if (typeof data.msg != 'undefined') {
-                alert(data.msg);
-                data = { button: [] };
-            }
-            loadData(data);
-            hideLoading();
-        });
+        loadData($(this));
     };
 
     function loadList(dom) {
@@ -79,19 +73,14 @@
         /// <param name="dom" type="Object">工具Dom</param>
 
         $('#' + toolIDPrefix + 'operate-refrush').click(function () {
-            showLoading();
-            loadList(dom);
-            $.getJSON(settings.getUrl, function (data) {
-                loadData(data);
-                hideLoading();
-            });
+            loadData(dom);
         });
         $('#' + toolIDPrefix + 'operate-save').click(function () {
             confirm('确定保存？', function () {
                 showLoading();
                 $.post(settings.saveUrl, { Data: window.escape(JSON.stringify(getMenuObj())) }, function (data) {
                     hideLoading();
-                    alert(data.msg);
+                    messageAlert(data.msg);
                 });
             });
         });
@@ -100,7 +89,7 @@
                 showLoading();
                 $.post(settings.deleteUrl, function (data) {
                     hideLoading();
-                    alert(data.msg);
+                    messageAlert(data.msg);
                 });
             });
         });
@@ -165,20 +154,29 @@
         };
     }
 
-    function loadData(data) {
+    function loadData(dom) {
         /// <summary>
         /// 加载数据
         /// </summary>
-        /// <param name="data" type="Object">菜单对象</param>
+        /// <param name="dom" type="Object">工具Dom</param>
 
-        for (var i = 0; i < mainMenuCount; i++) {
-            if (i < data.button.length) {
-                $('#' + toolIDPrefix + 'head-' + i).text(data.button[i].name);
-                setMenu(i, data.button[i], true, true);
-            } else {
-                setButton(i);
+        showLoading();
+        loadList(dom);
+        $.getJSON(settings.getUrl, function (data) {
+            if (typeof data.msg != 'undefined') {
+                messageAlert(data.msg);
+                data = { button: [] };
             }
-        }
+            for (var i = 0; i < mainMenuCount; i++) {
+                if (i < data.button.length) {
+                    $('#' + toolIDPrefix + 'head-' + i).text(data.button[i].name);
+                    setMenu(i, data.button[i], true, true);
+                } else {
+                    setButton(i);
+                }
+            }
+            hideLoading();
+        });
     }
 
     function setMenu(id, obj, isMain, isNew, subDom) {
@@ -504,11 +502,11 @@
 
         var name = $('#' + toolMenuEditIDPrefix + 'name').val();
         if (name.length == 0) {
-            alert("主菜单名称不能为空");
+            messageAlert("主菜单名称不能为空");
             return;
         }
         if (name.length > 16) {
-            alert("主菜单名称不能超过16个字节");
+            messageAlert("主菜单名称不能超过16个字节");
             return;
         }
         if (canChangeType) {
@@ -520,14 +518,14 @@
                     var url = $('#' + toolMenuEditIDPrefix + 'url').val();
                     obj = $.extend({ url: url }, obj);
                     if (url.length == 0) {
-                        alert("URL不能为空");
+                        messageAlert("URL不能为空");
                         return;
                     }
                 } else {
                     var key = $('#' + toolMenuEditIDPrefix + 'key').val();
                     obj = $.extend({ key: key }, obj);
                     if (key.length == 0) {
-                        alert("Key不能为空");
+                        messageAlert("Key不能为空");
                         return;
                     }
                 }
@@ -686,5 +684,21 @@
         /// <summary>隐藏载入框</summary>
 
         $('#' + toolIDPrefix + 'loading').modal('hide');
+    }
+
+    function messageAlert(msg) {
+        /// <summary>
+        /// 消息提示
+        /// </summary>
+        /// <param name="msg" type="String">消息</param>
+
+        $('body').append(
+            '<div id="' + toolIDPrefix + 'message-alert" class="alert alert-info alert-dismissible fade in" role="alert" style="display:none;z-index:9999;position:fixed;left:0;top:0;right:0">' +
+                '<strong>' + msg + '</strong>' +
+            '</div>');
+        $('#' + toolIDPrefix + 'message-alert').slideDown('fast');
+        setTimeout(function () {
+            $('#' + toolIDPrefix + 'message-alert').alert('close');
+        }, alertMessageTimeout);
     }
 }(jQuery));
