@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
             {
                 return controller.GetMenu(Account ?? GlobalManager.GetFirstAccount());
             }
-            catch (WXException e)
+            catch (Exception e)
             {
                 return new
                 {
@@ -82,7 +82,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
                     msg = controller.CreateMenu(Account ?? GlobalManager.GetFirstAccount(), m).GetIntroduce()
                 };
             }
-            catch (WXException e)
+            catch (Exception e)
             {
                 return new
                 {
@@ -106,7 +106,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
                     msg = controller.DeleteMenu(Account ?? GlobalManager.GetFirstAccount()).GetIntroduce()
                 };
             }
-            catch (WXException e)
+            catch (Exception e)
             {
                 return new
                 {

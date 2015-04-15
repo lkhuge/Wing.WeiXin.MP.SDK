@@ -20,7 +20,8 @@
         settings = $.extend({
             submitMessageUrl: '/DebugTool?Mode=SubmitMessage',
             refreshServerUrl: '/DebugTool?Mode=RefreshServer',
-            account: ''
+            account: '',
+            openid: ''
         }, options);
 
         loadTab($(this));
@@ -62,7 +63,7 @@
                         '<div class="form-group">' +
                             '<label for="' + toolIDPrefix + 'tab-test-text-open-id" class="sr-only">微信用户OpenID</label>' +
                             '<div class="input-group">' +
-                                '<input type="text" id="' + toolIDPrefix + 'tab-test-text-open-id" name="open-id" class="form-control" placeholder="微信用户OpenID">' +
+                                '<input type="text" id="' + toolIDPrefix + 'tab-test-text-open-id" name="open-id" class="form-control" placeholder="微信用户OpenID" value="' + settings.openid + '>' +
                                 '<div class="input-group-addon">' +
                                     '<button class="glyphicon glyphicon-user"></button>' +
                                 '</div>' +
@@ -94,7 +95,7 @@
                         '<div class="form-group">' +
                             '<label for="' + toolIDPrefix + 'tab-test-event-click-open-id" class="sr-only">微信用户OpenID</label>' +
                             '<div class="input-group">' +
-                                '<input type="text" id="' + toolIDPrefix + 'tab-test-event-click-open-id" name="open-id" class="form-control" placeholder="微信用户OpenID">' +
+                                '<input type="text" id="' + toolIDPrefix + 'tab-test-event-click-open-id" name="open-id" class="form-control" placeholder="微信用户OpenID" value="' + settings.openid + '>' +
                                 '<div class="input-group-addon">' +
                                     '<button class="glyphicon glyphicon-user"></button>' +
                                 '</div>' +
@@ -268,7 +269,7 @@
                 '<div class="modal-dialog">' +
                     '<div class="modal-content">' +
                         '<div class="modal-header">' +
-                            '<h4 class="modal-title">提示</h4>' +
+                            '<h4 class="modal-title">测试消息结果</h4>' +
                         '</div>' +
                         '<div class="modal-body">' +
                             '<p><strong>' + result + '</strong></p>' +
