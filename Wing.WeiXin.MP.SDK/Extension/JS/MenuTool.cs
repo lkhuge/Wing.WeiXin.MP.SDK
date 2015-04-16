@@ -6,6 +6,7 @@ using System.Web;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Extension.JS
@@ -39,6 +40,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
             if ("Get".Equals(operation)) result = Get();
             if ("Save".Equals(operation)) result = Save(context.Request.Form["Data"]);
             if ("Delete".Equals(operation)) result = Delete();
+            if ("GetOAuthUrl".Equals(operation)) result = GetOAuthURL(
+                context.Request.Form["callback"],
+                context.Request.Form["type"],
+                context.Request.Form["state"]);
 
 
             context.Response.Write(JSONHelper.JSONSerialize(result));
@@ -114,6 +119,37 @@ namespace Wing.WeiXin.MP.SDK.Extension.JS
                 };
             }
         } 
+        #endregion
+
+        #region 获取OAuthURL private object GetOAuthURL()
+        /// <summary>
+        /// 获取OAuthURL
+        /// </summary>
+        /// <param name="callback">回调地址</param>
+        /// <param name="type">OAuth类型</param>
+        /// <param name="state">OAuth参数</param>
+        /// <returns>OAuthURL</returns>
+        private object GetOAuthURL(string callback, string type, string state)
+        {
+            try
+            {
+                return new
+                {
+                    url = new OAuthController().GetURLForOAuthGetCode(
+                        Account ?? GlobalManager.GetFirstAccount(),
+                        callback,
+                        (OAuthScope)Enum.Parse(typeof(OAuthScope), type, true),
+                        state)
+                };
+            }
+            catch (Exception e)
+            {
+                return new
+                {
+                    msg = e.Message
+                };
+            }
+        }
         #endregion
 
         /// <summary>

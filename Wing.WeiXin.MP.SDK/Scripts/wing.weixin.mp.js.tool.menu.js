@@ -26,7 +26,9 @@
         settings = $.extend({
             getUrl: '/MenuTool?Operation=Get',
             saveUrl: '/MenuTool?Operation=Save',
-            deleteUrl: '/MenuTool?Operation=Delete'
+            deleteUrl: '/MenuTool?Operation=Delete',
+            getOAuthUrlUrl: '/MenuTool?Operation=GetOAuthUrl',
+            oauthCallback: ''
         }, options);
 
         loadData($(this));
@@ -473,10 +475,13 @@
                         '</div>' +
                     '</div>' +
                 '</div>');
-            $('#' + toolMenuEditIDPrefix + 'body').append(getMenuTypeForm(id, $('#' + toolMenuEditIDPrefix + 'type').val(), isMain, subDom));
+            var typeNow = $('#' + toolMenuEditIDPrefix + 'type').val();
+            $('#' + toolMenuEditIDPrefix + 'body').append(getMenuTypeForm(id, typeNow, isMain, subDom));
+            bindTypeChangeEvent(typeNow);
             $('#' + toolMenuEditIDPrefix + 'type').change(function () {
                 var type = $(this).val();
                 $('#' + toolMenuEditIDPrefix + 'body').append(getMenuTypeForm(id, type, isMain, subDom));
+                bindTypeChangeEvent(type);
             });
         }
         $('#' + toolMenuEditIDPrefix + 'main').on('hidden.bs.modal', function () {
@@ -601,6 +606,44 @@
                                 '<div class="glyphicon glyphicon-pencil"></div>' +
                             '</div>' +
                         '</div>' +
+                    '</div>' +
+                    '<div class="form-group ' + toolMenuEditIDPrefix + 'arg">' +
+                        '<div class="btn-group" data-toggle="buttons">' +
+                            '<label class="btn btn-primary active">' +
+                                '<input type="radio" name="' + toolMenuEditIDPrefix + 'url-type" id="' + toolMenuEditIDPrefix + 'url-type-common" value="common" autocomplete="off" checked>普通' +
+                            '</label>' +
+                            '<label class="btn btn-primary">' +
+                                '<input type="radio" name="' + toolMenuEditIDPrefix + 'url-type" id="' + toolMenuEditIDPrefix + 'url-type-oauth" value="oauth" autocomplete="off">OAuth' +
+                            '</label>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="form-group ' + toolMenuEditIDPrefix + 'arg hidden ' + toolMenuEditIDPrefix + 'arg-type">' +
+                        '<label for="' + toolMenuEditIDPrefix + 'url-oauth-callback" class="sr-only">回调地址</label>' +
+                        '<div class="input-group">' +
+                            '<input type="text" id="' + toolMenuEditIDPrefix + 'url-oauth-callback" name="url-oauth-callback" value="' + settings.oauthCallback + '" class="form-control" placeholder="回调地址">' +
+                            '<div class="input-group-addon">' +
+                                '<div class="glyphicon glyphicon-cog"></div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="form-group ' + toolMenuEditIDPrefix + 'arg hidden ' + toolMenuEditIDPrefix + 'arg-type">' +
+                        '<label for="' + toolMenuEditIDPrefix + 'url-oauth-type" class="sr-only">应用授权作用域</label>' +
+                        '<select id="' + toolMenuEditIDPrefix + 'url-oauth-type" name="' + toolMenuEditIDPrefix + 'url-oauth-type" class="form-control">' +
+                            '<option value="snsapi_base">基本授权</option>' +
+                            '<option value="snsapi_userinfo">用户信息授权</option>' +
+                        '</select> ' +
+                    '</div>' +
+                    '<div class="form-group ' + toolMenuEditIDPrefix + 'arg hidden ' + toolMenuEditIDPrefix + 'arg-type">' +
+                        '<label for="' + toolMenuEditIDPrefix + 'url-oauth-state" class="sr-only">参数</label>' +
+                        '<div class="input-group">' +
+                            '<input type="text" id="' + toolMenuEditIDPrefix + 'url-oauth-state" name="url-oauth-state" class="form-control" placeholder="参数">' +
+                            '<div class="input-group-addon">' +
+                                '<div class="glyphicon glyphicon-tag"></div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="form-group ' + toolMenuEditIDPrefix + 'arg hidden ' + toolMenuEditIDPrefix + 'arg-type">' +
+                        '<button class="btn btn-primary" id="' + toolMenuEditIDPrefix + 'url-oauth-geturl">获取OAuth地址</button>' +
                     '</div>';
         }
         if (isMain) {
@@ -625,6 +668,62 @@
                         '</div>' +
                     '</div>' +
                 '</div>';
+    }
+
+    function bindTypeChangeEvent(type) {
+        /// <summary>
+        /// 绑定菜单类型改变事件
+        /// </summary>
+        /// <param name="type" type="String">菜单类型</param>
+
+        if (type == 'view') {
+            $('input[name="' + toolMenuEditIDPrefix + 'url-type"]').change(function () {
+                var urlType = $(this).val();
+                if (urlType == 'common') {
+                    $('.' + toolMenuEditIDPrefix + 'arg-type').addClass('hidden');
+                    $('#' + toolMenuEditIDPrefix + 'url').removeAttr('readonly');
+                }
+                if (urlType == 'oauth') {
+                    $('.' + toolMenuEditIDPrefix + 'arg-type').removeClass('hidden');
+                    $('#' + toolMenuEditIDPrefix + 'url').attr('readonly', 'readonly');
+                }
+            });
+            $('#' + toolMenuEditIDPrefix + 'url-oauth-geturl').click(function () {
+                var oauthCallback = $('#' + toolMenuEditIDPrefix + 'url-oauth-callback').val();
+                if (oauthCallback.length == 0) {
+                    messageAlert("OAuth回调地址不能为空");
+                    return;
+                }
+                var oauthType = $('#' + toolMenuEditIDPrefix + 'url-oauth-type').val();
+                var oauthState = $('#' + toolMenuEditIDPrefix + 'url-oauth-state').val();
+                if (oauthState.length == 0) {
+                    messageAlert("OAuth参数不能为空");
+                    return;
+                }
+                if (oauthState.length > 128) {
+                    messageAlert("OAuth参数不能大于128字节");
+                    return;
+                }
+                if (!new RegExp('^[A-Za-z0-9]+$').test(oauthState)) {
+                    messageAlert("OAuth参数必须满足a-zA-Z0-9");
+                    return;
+                }
+                showLoading();
+                $.post(settings.getOAuthUrlUrl, {
+                    callback: oauthCallback,
+                    type: oauthType,
+                    state: oauthState
+                }, function (data) {
+                    hideLoading();
+                    if (typeof data.msg != 'undefined') {
+                        messageAlert(data.msg);
+                        return;
+                    }
+                    $('#' + toolMenuEditIDPrefix + 'url').val(data.url);
+                });
+            });
+            return;
+        }
     }
 
     function confirm(msg, okCallback) {
