@@ -58,25 +58,41 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         private Dictionary<string, IHttpHandler> LoadHandlerList()
         {
             ConfigInfo configInfo = GlobalManager.ConfigManager.Config;
-            if(configInfo == null) return null;
+            if (configInfo == null) return null;
             HandlerConfigInfo handlerConfig = configInfo.Handler;
             if (handlerConfig.HandlerInfoList == null || handlerConfig.HandlerInfoList.Count == 0) return null;
             sign = handlerConfig.Sign;
             defaultName = handlerConfig.Default;
-            Dictionary<string, IHttpHandler> allHandlerList = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(HandlerNamespace) && typeof(IHttpHandler).IsAssignableFrom(t))
-                .Select(s => s.GetConstructors().FirstOrDefault())
-                .Where(c => c != null)
-                .ToDictionary(
-                    k => k.Name,
-                    v => (IHttpHandler)v.Invoke(null));
+            Dictionary<string, IHttpHandler> allHandlerList = GetAllHandlerList();
 
             return handlerConfig.HandlerInfoList
                 .Where(h => allHandlerList.ContainsKey(h.Name) && h.IsAction)
                 .ToDictionary(
                     k => String.IsNullOrEmpty(k.Alias) ? k.Name : k.Alias,
                     v => allHandlerList[v.Name]);
-        } 
+        }
+        #endregion
+
+        #region 获取全部Handler列表 private Dictionary<string, IHttpHandler> GetAllHandlerList()
+        /// <summary>
+        /// 获取全部Handler列表
+        /// </summary>
+        /// <returns>全部Handler列表</returns>
+        private Dictionary<string, IHttpHandler> GetAllHandlerList()
+        {
+            IEnumerable<Type> allHandlerType = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.Namespace != null && t.Namespace.StartsWith(HandlerNamespace) &&
+                        typeof(IHttpHandler).IsAssignableFrom(t));
+            Dictionary<string, IHttpHandler> allHandlerList = new Dictionary<string, IHttpHandler>();
+            foreach (Type t in allHandlerType)
+            {
+                ConstructorInfo constructorInfo = t.GetConstructors().FirstOrDefault(c => c.IsPublic && !c.GetParameters().Any());
+                if (constructorInfo == null) continue;
+                allHandlerList.Add(t.Name, (IHttpHandler)constructorInfo.Invoke(null));
+            }
+
+            return allHandlerList;
+        }
         #endregion
 
         #region 开始请求 private void BeginRequest(object sender, EventArgs e)
