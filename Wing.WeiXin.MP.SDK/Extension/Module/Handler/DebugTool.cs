@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -9,7 +7,7 @@ using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
-namespace Wing.WeiXin.MP.SDK.Extension.JS
+namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
 {
     /// <summary>
     /// 调试工具

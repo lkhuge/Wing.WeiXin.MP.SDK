@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -9,7 +6,7 @@ using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
-namespace Wing.WeiXin.MP.SDK.Extension.JS
+namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
 {
     /// <summary>
     /// 菜单操作

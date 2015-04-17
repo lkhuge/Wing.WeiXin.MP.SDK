@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities.Config.Base;
 using Wing.WeiXin.MP.SDK.Entities.Config.Event;
+using Wing.WeiXin.MP.SDK.Entities.Config.Handler;
 
 namespace Wing.WeiXin.MP.SDK.Entities.Config
 {
@@ -21,5 +22,10 @@ namespace Wing.WeiXin.MP.SDK.Entities.Config
         /// 事件配置信息
         /// </summary>
         public EventConfigInfo Event { get; set; }
+
+        /// <summary>
+        /// Handler配置信息
+        /// </summary>
+        public HandlerConfigInfo Handler { get; set; }
     }
 }

@@ -24,8 +24,9 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 1.首先在配置文件（Web.config）中添加节点(configuration->configSections)
 ```
 <sectionGroup name="WeiXinMPSDKConfigGroup">
-     <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig.BaseConfigSection, Wing.WeiXin.MP.SDK" />
-     <section name="Event" type="Wing.WeiXin.MP.SDK.ConfigSection.EventConfig.EventConfigSection, Wing.WeiXin.MP.SDK" />
+    <section name="Base" type="Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig.BaseConfigSection, Wing.WeiXin.MP.SDK" />
+    <section name="Event" type="Wing.WeiXin.MP.SDK.ConfigSection.EventConfig.EventConfigSection, Wing.WeiXin.MP.SDK" />
+    <section name="Handler" type="Wing.WeiXin.MP.SDK.ConfigSection.HandlerConfig.HandlerConfigSection, Wing.WeiXin.MP.SDK" />
 </sectionGroup>
 ```
 
@@ -43,6 +44,11 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
             <add Name="Event2" IsAction="True" />
         </EventList>
     </Event>
+	<Handler>
+		<HandlerList>
+            <add Name="Receive" IsAction="True" />
+        </HandlerList>
+	</Handler>
 </WeiXinMPSDKConfigGroup>
 ```
 
@@ -50,23 +56,19 @@ PS: V2 与 V1 基本不兼容， 请谨慎切换
 IIS 6.0 Or Mono(jexus)
 ```
 <system.web>
-    <httpHandlers>
-      <add verb="*" path="Receive"  type="Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx.AshxReceiveHandler" />
-    </httpHandlers>
-<system.web>
+    <httpModules>
+        <add name="WeixinModule" type="Wing.WeiXin.MP.SDK.Extension.Module.WeixinModule"/>
+    </httpModules>
+</system.web>
 ```
 
 IIS 7.0 （集成模式）(configuration)
 ```
 <system.webServer>
-  <handlers>
-    <add name="Receive" verb="*"  path="Receive"  type="Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx.AshxReceiveHandler"  resourceType="Unspecified" />
-  </handlers>
+    <modules>
+        <add name="WeixinModule" type="Wing.WeiXin.MP.SDK.Extension.Module.WeixinModule" />
+    </modules>
 </system.webServer>
-```
-
-```
-PS：如果需要觉得调试时参数太多太麻烦，可以将上方配置中的"type"替换为"Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx.AshxReceiveWithoutCheckHandler"
 ```
 
 4.添加接收事件
@@ -121,5 +123,18 @@ private Response E2(RequestEventClick request)
             <add Name="Event2" IsAction="True" />
         </EventList>
     </Event>
+	<!-- Sign：标记 添加后当第一级路径为该标记时才去从第二级路径寻找Handler -->
+	<!-- Default：默认Handler  可以理解为"默认主页" -->
+	<Handler Sign="WX" Default="">
+		<!-- Handler列表 -->
+        <!-- Name：Handler名称(用于定位Handler) -->
+		<!-- Alias：Handler别名(用于更换名称) -->
+        <!-- IsAction：是否启用该事件 -->
+        <!-- PS: 如果没有填写，则默认为不添加 -->
+		<HandlerList>
+            <add Name="Receive" Alias="R" IsAction="True" />
+			<add Name="Check" IsAction="True" />
+        </HandlerList>
+	</Handler>
 </WeiXinMPSDKConfigGroup>
 ```

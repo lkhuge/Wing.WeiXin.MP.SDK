@@ -5,11 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
-using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 
-namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
+namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
 {
     /// <summary>
     /// 测试事件处理
@@ -29,7 +28,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
     ///       3.3 [Info]运行时长测试
     /// </summary>
-    public class CheckHandler : IHttpHandler
+    public class Check : IHttpHandler
     {
         /// <summary>
         /// 用于测试响应速度的方法

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
-using Wing.WeiXin.MP.SDK.ConfigSection;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
+using Wing.WeiXin.MP.SDK.ConfigSection.HandlerConfig;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
 using Wing.WeiXin.MP.SDK.Entities.Config.Base;
 using Wing.WeiXin.MP.SDK.Entities.Config.Event;
+using Wing.WeiXin.MP.SDK.Entities.Config.Handler;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
@@ -41,13 +41,13 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="config">配置信息</param>
         public ConfigManager(ConfigInfo config)
         {
-            if (config == null) 
+            if (config == null)
                 throw WXException.GetInstance("配置信息不能为空", Settings.Default.SystemUsername);
-            if (config.Base == null) 
+            if (config.Base == null)
                 throw WXException.GetInstance("基本配置信息（ConfigInfo.Base）不能为空", Settings.Default.SystemUsername);
-            if (String.IsNullOrEmpty(config.Base.Token)) 
+            if (String.IsNullOrEmpty(config.Base.Token))
                 throw WXException.GetInstance("Token（ConfigInfo.Base.Token）不能为空", Settings.Default.SystemUsername);
-            if (config.Base.AccountList == null) 
+            if (config.Base.AccountList == null)
                 config.Base.AccountList = new List<WXAccount>();
             if (config.Event == null)
                 config.Event = new EventConfigInfo { EventInfoList = new List<EventInfoConfigInfo>() };
@@ -64,8 +64,8 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>是否存在账户</returns>
         public bool HasAccount()
         {
-            return Config.Base != null 
-                && Config.Base.AccountList != null 
+            return Config.Base != null
+                && Config.Base.AccountList != null
                 && Config.Base.AccountList.Count > 0;
         }
         #endregion
@@ -107,9 +107,10 @@ namespace Wing.WeiXin.MP.SDK
             return new ConfigInfo
             {
                 Base = GetBaseConfigSection(),
-                Event = GetEventConfigSection()
+                Event = GetEventConfigSection(),
+                Handler = GetHandlerConfigSection()
             };
-        } 
+        }
         #endregion
 
         #region 获取基础配置节点 private BaseConfigInfo GetBaseConfigSection()
@@ -119,7 +120,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>基础配置节点</returns>
         private BaseConfigInfo GetBaseConfigSection()
         {
-            BaseConfigSection baseConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Base") as BaseConfigSection;
+            BaseConfigSection baseConfig = ConfigurationManager.GetSection(Settings.Default.ConfigRootNameGroup + "/Base") as BaseConfigSection;
             if (baseConfig == null) throw WXException.GetInstance("未发现基础配置", Settings.Default.SystemUsername);
 
             return new BaseConfigInfo
@@ -128,14 +129,14 @@ namespace Wing.WeiXin.MP.SDK
                 AccountList = baseConfig.AccountList
                     .Cast<AccountItemConfigSection>()
                     .Select(a => new WXAccount(
-                        baseConfig.Token, 
-                        a.WeixinMPID, 
-                        a.AppID, 
-                        a.AppSecret, 
+                        baseConfig.Token,
+                        a.WeixinMPID,
+                        a.AppID,
+                        a.AppSecret,
                         a.EncodingAESKey))
                     .ToList()
             };
-        } 
+        }
         #endregion
 
         #region 获取事件配置节点 private EventConfigInfo GetEventConfigSection()
@@ -145,7 +146,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>事件配置节点</returns>
         private EventConfigInfo GetEventConfigSection()
         {
-            EventConfigSection eventConfig = ConfigurationManager.GetSection("WeiXinMPSDKConfigGroup/Event") as EventConfigSection;
+            EventConfigSection eventConfig = ConfigurationManager.GetSection(Settings.Default.ConfigRootNameGroup + "/Event") as EventConfigSection;
             if (eventConfig == null) throw WXException.GetInstance("未发现事件配置", Settings.Default.SystemUsername);
 
             return new EventConfigInfo
@@ -159,7 +160,34 @@ namespace Wing.WeiXin.MP.SDK
                     })
                     .ToList()
             };
-        } 
+        }
+        #endregion
+
+        #region 获取Handler配置节点 private HandlerConfigInfo GetHandlerConfigSection()
+        /// <summary>
+        /// 获取Handler配置节点
+        /// </summary>
+        /// <returns>Handler配置节点</returns>
+        private HandlerConfigInfo GetHandlerConfigSection()
+        {
+            HandlerConfigSection handlerConfig = ConfigurationManager.GetSection(Settings.Default.ConfigRootNameGroup + "/Handler") as HandlerConfigSection;
+            if (handlerConfig == null) throw WXException.GetInstance("未发现Handler配置", Settings.Default.SystemUsername);
+
+            return new HandlerConfigInfo
+            {
+                Sign = handlerConfig.Sign,
+                Default = handlerConfig.Default,
+                HandlerInfoList = handlerConfig.HandlerList
+                    .Cast<HandlerItemConfigSection>()
+                    .Select(e => new HandlerInfoConfigInfo
+                    {
+                        Name = e.Name,
+                        Alias = e.Alias,
+                        IsAction = e.IsAction
+                    })
+                    .ToList()
+            };
+        }
         #endregion
     }
 }

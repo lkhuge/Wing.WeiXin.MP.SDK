@@ -3,12 +3,12 @@ using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
-namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
+namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
 {
     /// <summary>
     /// 接收事件处理
     /// </summary>
-    public class ReceiveHandler : IHttpHandler
+    public class Receive : IHttpHandler
     {
         /// <summary>
         /// 接收消息控制器

@@ -70,6 +70,9 @@
     <Compile Include="ConfigSection\EventConfig\EventItemListConfigSection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ConfigSection\HandlerConfig\HandlerConfigSection.cs" />
+    <Compile Include="ConfigSection\HandlerConfig\HandlerItemConfigSection.cs" />
+    <Compile Include="ConfigSection\HandlerConfig\HandlerItemListConfigSection.cs" />
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\DKFController.cs" />
     <Compile Include="Controller\LReceiveController.cs" />
@@ -91,6 +94,8 @@
     <Compile Include="Entities\Config\ConfigInfo.cs" />
     <Compile Include="Entities\Config\Event\EventConfigInfo.cs" />
     <Compile Include="Entities\Config\Event\EventInfoConfigInfo.cs" />
+    <Compile Include="Entities\Config\Handler\HandlerConfigInfo.cs" />
+    <Compile Include="Entities\Config\Handler\HandlerInfoConfigInfo.cs" />
     <Compile Include="Entities\DKF\DKFrecordList.cs" />
     <Compile Include="Entities\DKF\DKFOnlineList.cs" />
     <Compile Include="Entities\DKF\DKFList.cs" />
@@ -216,12 +221,13 @@
     <Compile Include="Extension\Event\IEventBuilder.cs" />
     <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
     <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
-    <Compile Include="Extension\JS\DebugTool.cs" />
-    <Compile Include="Extension\JS\WeixinConfig.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\CheckHandler.cs" />
-    <Compile Include="Extension\JS\MenuTool.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\OAuthHandler.cs" />
-    <Compile Include="Extension\ReceiveHandler\Ashx\ReceiveHandler.cs" />
+    <Compile Include="Extension\Module\Handler\Check.cs" />
+    <Compile Include="Extension\Module\Handler\DebugTool.cs" />
+    <Compile Include="Extension\Module\Handler\MenuTool.cs" />
+    <Compile Include="Extension\Module\Handler\OAuth.cs" />
+    <Compile Include="Extension\Module\Handler\Receive.cs" />
+    <Compile Include="Extension\Module\Handler\WeixinConfig.cs" />
+    <Compile Include="Extension\Module\WeixinModule.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="Lib\DateTimeHelper.cs" />
     <Compile Include="Lib\HTMLHelper.cs" />

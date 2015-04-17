@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 
-namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
+namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
 {
     /// <summary>
     /// OAuth接口处理
     /// </summary>
-    public class OAuthHandler : IHttpHandler
+    public class OAuth : IHttpHandler
     {
         /// <summary>
         /// 使用的账号（如果为空则默认为第一个账号）
@@ -51,6 +49,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.ReceiveHandler.Ashx
         /// <summary>
         /// 是否重用
         /// </summary>
-        public bool IsReusable { get; private set; }
+        public bool IsReusable { get { return false; } }
     }
 }
