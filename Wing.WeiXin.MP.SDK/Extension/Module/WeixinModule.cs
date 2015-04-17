@@ -16,12 +16,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// <summary>
         /// 微信标记
         /// </summary>
-        private string sign;
+        private static string sign;
 
         /// <summary>
         /// 默认入口名称
         /// </summary>
-        private string defaultName;
+        private static string defaultName;
 
         /// <summary>
         /// Handler命名空间
@@ -31,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// <summary>
         /// Handler列表
         /// </summary>
-        public static Dictionary<string, IHttpHandler> HandlerList = new Dictionary<string,IHttpHandler>(); 
+        private static Dictionary<string, IHttpHandler> handlerList;
 
         #region 注册事件 public void Init(HttpApplication context)
         /// <summary>
@@ -40,45 +40,43 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// <param name="context">HTTP应用</param>
         public void Init(HttpApplication context)
         {
-            GlobalManager.CheckInit();
             context.BeginRequest += BeginRequest;
-            if (HandlerList == null) HandlerList = new Dictionary<string, IHttpHandler>();
-            foreach (KeyValuePair<string, IHttpHandler> kv in LoadHandlerList())
-            {
-                HandlerList.Add(kv.Key, kv.Value);
-            }
         }
         #endregion
 
-        #region 载入Handler列表 private Dictionary<string, IHttpHandler> LoadHandlerList()
+        #region 载入Handler列表 public static void LoadHandlerList(Dictionary<string, IHttpHandler> otherHandlerList = null)
         /// <summary>
         /// 载入Handler列表
         /// </summary>
-        /// <returns>Handler列表</returns>
-        private Dictionary<string, IHttpHandler> LoadHandlerList()
+        /// <param name="otherHandlerList">其他的Handler列表</param>
+        public static void LoadHandlerList(Dictionary<string, IHttpHandler> otherHandlerList = null)
         {
             ConfigInfo configInfo = GlobalManager.ConfigManager.Config;
-            if (configInfo == null) return null;
+            if (configInfo == null) return;
             HandlerConfigInfo handlerConfig = configInfo.Handler;
-            if (handlerConfig.HandlerInfoList == null || handlerConfig.HandlerInfoList.Count == 0) return null;
+            if (handlerConfig.HandlerInfoList == null || handlerConfig.HandlerInfoList.Count == 0) return;
             sign = handlerConfig.Sign;
             defaultName = handlerConfig.Default;
             Dictionary<string, IHttpHandler> allHandlerList = GetAllHandlerList();
-
-            return handlerConfig.HandlerInfoList
+            handlerList = handlerConfig.HandlerInfoList
                 .Where(h => allHandlerList.ContainsKey(h.Name) && h.IsAction)
                 .ToDictionary(
                     k => String.IsNullOrEmpty(k.Alias) ? k.Name : k.Alias,
                     v => allHandlerList[v.Name]);
+            if (otherHandlerList == null) return;
+            foreach (KeyValuePair<string, IHttpHandler> kv in otherHandlerList)
+            {
+                handlerList.Add(kv.Key, kv.Value);
+            }
         }
         #endregion
 
-        #region 获取全部Handler列表 private Dictionary<string, IHttpHandler> GetAllHandlerList()
+        #region 获取全部Handler列表 private static Dictionary<string, IHttpHandler> GetAllHandlerList()
         /// <summary>
         /// 获取全部Handler列表
         /// </summary>
         /// <returns>全部Handler列表</returns>
-        private Dictionary<string, IHttpHandler> GetAllHandlerList()
+        private static Dictionary<string, IHttpHandler> GetAllHandlerList()
         {
             IEnumerable<Type> allHandlerType = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(t => t.Namespace != null && t.Namespace.StartsWith(HandlerNamespace) &&
@@ -103,38 +101,38 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// <param name="e">参数</param>
         private void BeginRequest(object sender, EventArgs e)
         {
-            if (HandlerList == null) return;
-            HttpApplication app = (HttpApplication) sender;
+            if (handlerList == null) return;
+            HttpApplication app = (HttpApplication)sender;
             string[] pathList = app.Request.Path.Split('/');
             string handlerName;
             if (String.IsNullOrEmpty(pathList[1]))
             {
-                if (!HandlerList.ContainsKey(defaultName)) return;
+                if (!handlerList.ContainsKey(defaultName)) return;
                 handlerName = defaultName;
             }
             else
             {
                 if (String.IsNullOrEmpty(sign))
                 {
-                    if (!HandlerList.ContainsKey(pathList[1])) return;
+                    if (!handlerList.ContainsKey(pathList[1])) return;
                     handlerName = pathList[1];
                 }
                 else
                 {
                     if (pathList.Length < 3) return;
-                    if (!HandlerList.ContainsKey(pathList[2])) return;
+                    if (!handlerList.ContainsKey(pathList[2])) return;
                     handlerName = pathList[2];
                 }
             }
-            app.Context.RemapHandler(HandlerList[handlerName]);
-        }  
+            app.Context.RemapHandler(handlerList[handlerName]);
+        }
         #endregion
 
         #region 释放资源 public void Dispose()
         /// <summary>
         /// 释放资源
         /// </summary>
-        public void Dispose() { } 
+        public void Dispose() { }
         #endregion
     }
 }
