@@ -64,7 +64,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
             sign = handlerConfig.Sign;
             defaultName = handlerConfig.Default;
             Dictionary<string, IHttpHandler> allHandlerList = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => t.Namespace != null && t.Namespace.StartsWith(HandlerNamespace))
+                .Where(t => t.Namespace != null && t.Namespace.StartsWith(HandlerNamespace) && typeof(IHttpHandler).IsAssignableFrom(t))
                 .Select(s => s.GetConstructors().FirstOrDefault())
                 .Where(c => c != null)
                 .ToDictionary(
