@@ -9,6 +9,7 @@ using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
+using Wing.WeiXin.MP.SDK.Extension.Module;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
@@ -106,6 +107,16 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
+        #region 初始化基于Module的入口管理类 public static void InitWeixinModule()
+        /// <summary>
+        /// 初始化基于Module的入口管理类
+        /// </summary>
+        public static void InitWeixinModule()
+        {
+            WeixinModule.LoadHandlerList();
+        } 
+        #endregion
+
         #region 获取首个账号 public static WXAccount GetFirstAccount()
         /// <summary>
         /// 获取首个账号
@@ -123,9 +134,7 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void CheckInit()
         {
-            LogManager.WriteSystem("检测是否初始化");
             if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
-            LogManager.WriteSystem("确认已初始化");
         }
         #endregion
 

@@ -44,13 +44,13 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         }
         #endregion
 
-        #region 载入Handler列表 public static void LoadHandlerList(Dictionary<string, IHttpHandler> otherHandlerList = null)
+        #region 载入Handler列表 internal static void LoadHandlerList()
         /// <summary>
         /// 载入Handler列表
         /// </summary>
-        /// <param name="otherHandlerList">其他的Handler列表</param>
-        public static void LoadHandlerList(Dictionary<string, IHttpHandler> otherHandlerList = null)
+        internal static void LoadHandlerList()
         {
+            if (handlerList == null) return;
             ConfigInfo configInfo = GlobalManager.ConfigManager.Config;
             if (configInfo == null) return;
             HandlerConfigInfo handlerConfig = configInfo.Handler;
@@ -63,11 +63,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
                 .ToDictionary(
                     k => String.IsNullOrEmpty(k.Alias) ? k.Name : k.Alias,
                     v => allHandlerList[v.Name]);
-            if (otherHandlerList == null) return;
-            foreach (KeyValuePair<string, IHttpHandler> kv in otherHandlerList)
-            {
-                handlerList.Add(kv.Key, kv.Value);
-            }
         }
         #endregion
 
