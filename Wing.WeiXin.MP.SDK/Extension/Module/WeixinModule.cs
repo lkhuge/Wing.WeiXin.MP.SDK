@@ -50,7 +50,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// </summary>
         internal static void LoadHandlerList()
         {
-            if (handlerList == null) return;
+            if (handlerList != null) return;
             ConfigInfo configInfo = GlobalManager.ConfigManager.Config;
             if (configInfo == null) return;
             HandlerConfigInfo handlerConfig = configInfo.Handler;
