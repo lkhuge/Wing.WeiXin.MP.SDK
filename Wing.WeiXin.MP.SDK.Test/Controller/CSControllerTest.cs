@@ -1,10 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wing.WeiXin.MP.SDK.Common;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Test.Controller
 {
@@ -14,8 +10,10 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void SendCSMessageTest()
         {
-            ErrorMsg e = new CSController().SendCSMessage(account, csMessageText);
-            ErrorMsg e2 = new CSController().SendCSMessage(account, csMessageText);
+            CSController CSController = GlobalManager.FunctionManager.CSController;
+
+            ErrorMsg e = CSController.SendCSMessage(account, csMessageText);
+
             Assert.AreEqual(e.errcode, "0");
         } 
     }

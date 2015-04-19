@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Semantic;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -17,6 +14,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取语义的URL
         /// </summary>
         private const string Url = "https://api.weixin.qq.com/semantic/semproxy/search?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public SemanticController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public SemanticController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 获取语义 public T GetSemantic<T>(WXAccount account, SemanticRequest request) where T : SemanticResponse
         /// <summary>

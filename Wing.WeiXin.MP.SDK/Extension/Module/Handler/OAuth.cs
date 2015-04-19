@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 
@@ -35,7 +34,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// <returns>响应结果</returns>
         public void ProcessRequest(HttpContext context)
         {
-            OAuthAccessToken result = new OAuthController().GetAccessTokenByCode(
+            OAuthAccessToken result = GlobalManager.FunctionManager.OAuthController.GetAccessTokenByCode(
                 Account ?? GlobalManager.GetFirstAccount(), context.Request.QueryString["code"]);
 
             string state = context.Request.QueryString["state"];

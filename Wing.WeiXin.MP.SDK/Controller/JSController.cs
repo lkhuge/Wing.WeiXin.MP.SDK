@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.JS;
 using Wing.WeiXin.MP.SDK.Lib;
@@ -18,6 +18,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取JS接口票据的URL
         /// </summary>
         private const string UrlGetJSAPITicket = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi";
+
+        #region 根据AccessToken容器初始化 public JSController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public JSController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 获取JS接口票据 public JSAPITicket GetJSAPITicket(WXAccount account)
         /// <summary>

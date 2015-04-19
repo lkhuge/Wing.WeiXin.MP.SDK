@@ -228,6 +228,7 @@
     <Compile Include="Extension\Module\Handler\Receive.cs" />
     <Compile Include="Extension\Module\Handler\WeixinConfig.cs" />
     <Compile Include="Extension\Module\WeixinModule.cs" />
+    <Compile Include="FunctionManager.cs" />
     <Compile Include="GlobalManager.cs" />
     <Compile Include="Lib\DateTimeHelper.cs" />
     <Compile Include="Lib\HTMLHelper.cs" />

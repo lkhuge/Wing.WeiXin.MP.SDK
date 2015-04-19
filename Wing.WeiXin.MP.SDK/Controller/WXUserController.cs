@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.User.Group;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
@@ -57,6 +58,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         private const string UrlModityRemark = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token={0}";
 
+        #region 根据AccessToken容器初始化 public WXUserController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public WXUserController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
+
         #region 获取用户基本信息 public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         /// <summary>
         /// 获取用户基本信息
@@ -68,7 +80,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         {
             return ActionWithoutAccessToken<WXUser>(
-                String.Format(UrlGetWXUser, AccessTokenContainer.GetAccessToken(account).access_token, openID, lang),
+                String.Format(UrlGetWXUser, accessTokenContainer.GetAccessToken(account).access_token, openID, lang),
                 account);
         } 
         #endregion
@@ -127,7 +139,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             if (userList.total == userList.count || String.IsNullOrEmpty(userList.next_openid)) return userList;
             return ActionWithoutAccessToken<WXUserList>(
-                String.Format(UrlGetWXUserListNext, AccessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
+                String.Format(UrlGetWXUserListNext, accessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
                 account);
         }
         #endregion

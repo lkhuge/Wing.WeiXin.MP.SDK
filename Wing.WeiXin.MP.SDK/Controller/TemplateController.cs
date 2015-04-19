@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.DKF;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -17,6 +13,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 发送消息模板的URL
         /// </summary>
         private const string UrlSendMessageTemplate = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public TemplateController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public TemplateController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 发送消息模板 public ReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
         /// <summary>

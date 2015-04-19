@@ -17,12 +17,6 @@ namespace Wing.WeiXin.MP.SDK.Test
     /// </summary>
     public abstract class BaseTest
     {
-        /// <summary>
-        ///获取或设置测试上下文，上下文提供
-        ///有关当前测试运行及其功能的信息。
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
         #region 请求头部
         /// <summary>
         /// 正确请求头部

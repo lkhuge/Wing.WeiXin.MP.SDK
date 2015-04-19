@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.Menu.MenuButtonType;
-using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -30,6 +28,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 删除菜单的URL
         /// </summary>
         private const string UrlDeleteMenu = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public MenuController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public MenuController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 创建菜单 public ErrorMsg CreateMenu(WXAccount account, Menu menu)
         /// <summary>

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Entities.OAuth;
 using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -36,6 +31,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取认证用户信息的URL
         /// </summary>
         private const string UrlGetOAuthUser = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}";
+
+        #region 根据AccessToken容器初始化 public OAuthController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public OAuthController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 获取取得Code的URL public string GetURLForOAuthGetCode(WXAccount account, string redirectURL, OAuthScope scope, string state)
         /// <summary>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Material;
 using Wing.WeiXin.MP.SDK.Enumeration;
@@ -58,6 +56,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取素材列表的URL
         /// </summary>
         private const string UrlGetList = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public MaterialController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public MaterialController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 新增临时素材 public Media AddTemp(WXAccount account, UploadMediaType type, string path, string name)
         /// <summary>

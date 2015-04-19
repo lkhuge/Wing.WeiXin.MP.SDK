@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
-using Wing.WeiXin.MP.SDK.Entities.Statistics;
 using Wing.WeiXin.MP.SDK.Entities.Statistics.Interface;
 using Wing.WeiXin.MP.SDK.Entities.Statistics.Message;
 using Wing.WeiXin.MP.SDK.Entities.Statistics.News;
@@ -185,6 +182,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取接口分析分时数据的最大时间跨度
         /// </summary>
         private const int MaxDayGetInterfaceSummaryHour = 1;
+
+        #region 根据AccessToken容器初始化 public StatisticsController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public StatisticsController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 获取用户增减数据 public UserSummary GetUserSummary(WXAccount account, DateTime begin_date, DateTime end_date)
         /// <summary>

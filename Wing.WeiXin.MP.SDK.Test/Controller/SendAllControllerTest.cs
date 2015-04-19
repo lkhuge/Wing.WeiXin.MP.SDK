@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Material;
@@ -14,6 +13,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class SendAllControllerTest : BaseTest
     {
+        private readonly SendAllController SendAllController = GlobalManager.FunctionManager.SendAllController;
+
         [TestMethod]
         public void SendAllTest()
         {
@@ -45,7 +46,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             }; 
             try
             {
-                Media m = new SendAllController().UploadNews(account, news);
+                Media m = SendAllController.UploadNews(account, news);
                 return m;
             }
             catch (Exception e)
@@ -59,17 +60,17 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         public ReturnMessage SendAllByGroupTest(Media m)
         {
             SendAllByGroup group = new SendAllByGroupText("content", "101");
-            return new SendAllController().SendAllByGroup(account, group);
+            return SendAllController.SendAllByGroup(account, group);
         } 
 
         public ReturnMessage SendAllByOpenIDListTest(SendAllByOpenIDList openIDList)
         {
-            return new SendAllController().SendAllByOpenIDList(account, openIDList);
+            return SendAllController.SendAllByOpenIDList(account, openIDList);
         } 
 
         public void DeleteSendAllTest(SendAllDelete delete)
         {
-            ErrorMsg msg = new SendAllController().DeleteSendAll(account, delete);
+            ErrorMsg msg = SendAllController.DeleteSendAll(account, delete);
             Assert.AreEqual(msg.errcode, "0");
         } 
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
 
@@ -78,7 +77,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             catch (Exception e)
             {
                 LogManager.WriteError("ReceiveController发生不可预料异常", e, Settings.Default.SystemUsername);
-                throw e;
+                throw;
             }
         }
         #endregion
@@ -132,7 +131,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="toUserName">微信公共平台账号ID</param>
         public static void CheckWXServerIP(string toUserName)
         {
-            WXServerIPList = new SecurityController().GetWXServerIPList(
+            WXServerIPList = GlobalManager.FunctionManager.SecurityController.GetWXServerIPList(
                 Settings.Default.FirstAccountToUserNameSign.Equals(toUserName) 
                 ? GlobalManager.GetFirstAccount()
                 : GlobalManager.ConfigManager.GetWXAccountByID(toUserName));

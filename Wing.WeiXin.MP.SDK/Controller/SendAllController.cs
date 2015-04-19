@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Material;
 using Wing.WeiXin.MP.SDK.Entities.SendAll;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup;
 using Wing.WeiXin.MP.SDK.Entities.SendAll.ByOpenIDList;
-using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -37,6 +31,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 删除群发的URL
         /// </summary>
         private const string UrlDeleteSendAll = "https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public SendAllController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public SendAllController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 上传图文消息素材 public Media UploadNews(WXAccount account, SendAllMessageNews news)
         /// <summary>

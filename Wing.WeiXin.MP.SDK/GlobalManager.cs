@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Common.MessageFilter;
-using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
 using Wing.WeiXin.MP.SDK.Extension.Module;
@@ -40,6 +37,11 @@ namespace Wing.WeiXin.MP.SDK
         public static EventManager EventManager { get; private set; }
 
         /// <summary>
+        /// 功能管理器
+        /// </summary>
+        public static FunctionManager FunctionManager { get; private set; }
+
+        /// <summary>
         /// 微信用户会话接口
         /// </summary>
         public static IWXSession WXSession { get; private set; }
@@ -64,7 +66,8 @@ namespace Wing.WeiXin.MP.SDK
         {
             CallingAssembly = Assembly.GetCallingAssembly();
             InitConfig(config == null ? new ConfigManager() : new ConfigManager(config));
-            InitWXSession(wxSession ?? new StaticWXSession());
+            WXSession = wxSession ?? new StaticWXSession();
+            InitFunction(WXSession);
             InitEvent(new EventManager());
 
             IsInit = true;
@@ -95,15 +98,14 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 初始化微信用户会话接口 public static void InitWXSession(IWXSession wxSession)
+        #region 初始化功能管理器 public static void InitFunction(IWXSession wxSession)
         /// <summary>
-        /// 初始化微信用户会话接口
+        /// 初始化功能管理器
         /// </summary>
         /// <param name="wxSession">微信用户会话接口</param>
-        public static void InitWXSession(IWXSession wxSession)
+        public static void InitFunction(IWXSession wxSession)
         {
-            WXSession = wxSession;
-            WXController.AccessTokenContainer = new AccessTokenContainer(wxSession);
+            FunctionManager = new FunctionManager(new AccessTokenContainer(wxSession));
         }
         #endregion
 

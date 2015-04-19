@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Menu.ForGet;
 using Wing.WeiXin.MP.SDK.Enumeration;
@@ -17,11 +16,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// 使用的微信账号
         /// </summary>
         public static WXAccount Account;
-
-        /// <summary>
-        /// 菜单控制器
-        /// </summary>
-        private readonly MenuController controller = new MenuController();
 
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
@@ -56,7 +50,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         {
             try
             {
-                return controller.GetMenu(Account ?? GlobalManager.GetFirstAccount());
+                return GlobalManager.FunctionManager.MenuController.GetMenu(Account ?? GlobalManager.GetFirstAccount());
             }
             catch (Exception e)
             {
@@ -81,7 +75,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 MenuForGet m = JSONHelper.JSONDeserialize<MenuForGet>(HttpUtility.UrlDecode(menu));
                 return new
                 {
-                    msg = controller.CreateMenu(Account ?? GlobalManager.GetFirstAccount(), m).GetIntroduce()
+                    msg = GlobalManager.FunctionManager.MenuController.CreateMenu(Account ?? GlobalManager.GetFirstAccount(), m).GetIntroduce()
                 };
             }
             catch (Exception e)
@@ -105,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             {
                 return new
                 {
-                    msg = controller.DeleteMenu(Account ?? GlobalManager.GetFirstAccount()).GetIntroduce()
+                    msg = GlobalManager.FunctionManager.MenuController.DeleteMenu(Account ?? GlobalManager.GetFirstAccount()).GetIntroduce()
                 };
             }
             catch (Exception e)
@@ -132,7 +126,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             {
                 return new
                 {
-                    url = new OAuthController().GetURLForOAuthGetCode(
+                    url = GlobalManager.FunctionManager.OAuthController.GetURLForOAuthGetCode(
                         Account ?? GlobalManager.GetFirstAccount(),
                         callback,
                         (OAuthScope)Enum.Parse(typeof(OAuthScope), type, true),

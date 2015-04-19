@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
-using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -36,6 +31,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// </summary>
         public IWXSession WXSession { get; private set; }
 
+        /// <summary>
+        /// 功能管理器
+        /// </summary>
+        public static FunctionManager FunctionManager { get; private set; }
+
         #region 根据微信账号实例化 public LReceiveController(string token, string id, string appID, string appSecret, string encodingAESKey = null, IWXSession wxSession = null)
         /// <summary>
         /// 根据微信账号实例化
@@ -59,7 +59,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             EventManager.IsCheckEventName = false;
             EventManager.IsCheckToUserName = false;
             WXSession = wxSession ?? new StaticWXSession();
-            WXController.AccessTokenContainer = new AccessTokenContainer(WXSession);
+            FunctionManager = new FunctionManager(new AccessTokenContainer(WXSession));
         } 
         #endregion
 

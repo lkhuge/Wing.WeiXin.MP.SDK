@@ -1,5 +1,4 @@
 ﻿using System.Web;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
@@ -31,11 +30,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// </summary>
         public static string APIList = "apiList";
 
-        /// <summary>
-        /// JSSDK控制器
-        /// </summary>
-        private readonly JSController jsController = new JSController();
-
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
         /// 响应事件
@@ -44,7 +38,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// <returns>响应结果</returns>
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.Write(JSONHelper.JSONSerialize(jsController.GetJSWeixinConfig(
+            context.Response.Write(JSONHelper.JSONSerialize(GlobalManager.FunctionManager.JSController.GetJSWeixinConfig(
                 Account ?? GlobalManager.GetFirstAccount(),
                 HttpUtility.UrlDecode(context.Request.QueryString[URL]),
                 context.Request.QueryString[APIList].Split(','),

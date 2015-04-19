@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
@@ -45,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
         /// <param name="pathName">下载路径加文件名</param>
         public void DownloadImage(WXAccount account, string pathName)
         {
-            new MaterialController().GetTemp(account, MediaId, pathName);
+            GlobalManager.FunctionManager.MaterialController.GetTemp(account, MediaId, pathName);
         }
         #endregion
 

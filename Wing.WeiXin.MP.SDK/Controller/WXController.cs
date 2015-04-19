@@ -16,16 +16,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// AccessToken容器
         /// </summary>
-        internal static AccessTokenContainer AccessTokenContainer;
+        protected readonly AccessTokenContainer accessTokenContainer;
 
-        #region 初始化微信控制器 protected WXController()
+        #region 根据AccessToken容器初始化微信控制器 protected WXController(AccessTokenContainer accessTokenContainer)
         /// <summary>
-        /// 初始化微信控制器
+        /// 根据AccessToken容器初始化微信控制器
         /// </summary>
-        protected WXController()
+        protected WXController(AccessTokenContainer accessTokenContainer)
         {
-            if (AccessTokenContainer == null)
+            if (accessTokenContainer == null)
                 throw WXException.GetInstance("未初始化AccessToken容器", Settings.Default.SystemUsername);
+            this.accessTokenContainer = accessTokenContainer;
         } 
         #endregion
 
@@ -41,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = HTTPHelper.Get(String.Format(
                 url,
-                AccessTokenContainer.GetAccessToken(account).access_token));
+                accessTokenContainer.GetAccessToken(account).access_token));
             if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
             {
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
@@ -84,7 +85,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = HTTPHelper.Post(String.Format(
                     url,
-                    AccessTokenContainer.GetAccessToken(account).access_token),
+                    accessTokenContainer.GetAccessToken(account).access_token),
                     JSONHelper.JSONSerialize(messageObj));
             if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
             {
@@ -109,7 +110,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = HTTPHelper.Upload(String.Format(
                 url,
-                AccessTokenContainer.GetAccessToken(account).access_token,
+                accessTokenContainer.GetAccessToken(account).access_token,
                 type), path, name);
             if (JSONHelper.HasKey(result, "errcode"))
             {
@@ -133,7 +134,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = HTTPHelper.DownloadFile(String.Format(
                 url,
-                AccessTokenContainer.GetAccessToken(account).access_token,
+                accessTokenContainer.GetAccessToken(account).access_token,
                 media_id), pathName, postData);
             if (!String.IsNullOrEmpty(result)) 
             {

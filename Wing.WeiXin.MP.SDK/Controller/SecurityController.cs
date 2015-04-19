@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
     /// <summary>
-    /// 安全控制权
+    /// 安全控制器
     /// </summary>
     public class SecurityController : WXController
     {
@@ -15,6 +12,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 获取微信服务器IP列表的URL
         /// </summary>
         private const string UrlGetWXServerIPList = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public SecurityController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public SecurityController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 获取微信服务器IP列表 public WXServerIPList GetWXServerIPList(WXAccount account)
         /// <summary>

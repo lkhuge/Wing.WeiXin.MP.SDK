@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.CSMessages;
-using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -19,6 +13,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// 发送客服消息的URL
         /// </summary>
         private const string Url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}";
+
+        #region 根据AccessToken容器初始化 public CSController(AccessTokenContainer accessTokenContainer)
+        /// <summary>
+        /// 根据AccessToken容器初始化
+        /// </summary>
+        /// <param name="accessTokenContainer">AccessToken容器</param>
+        public CSController(AccessTokenContainer accessTokenContainer)
+            : base(accessTokenContainer)
+        {
+        } 
+        #endregion
 
         #region 发送客服信息 public ErrorMsg SendCSMessage(WXAccount account, CSMessage csmessage)
         /// <summary>

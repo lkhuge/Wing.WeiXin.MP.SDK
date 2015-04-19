@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
@@ -11,7 +10,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class MaterialControllerTest : BaseTest
     {
-        private readonly MaterialController controller = new MaterialController();
+        private readonly MaterialController controller = GlobalManager.FunctionManager.MaterialController;
 
         private readonly string[] mediaIDList =
         {
@@ -52,7 +51,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             {
                 articles = new List<NewsArticles>
                 {
-                    {new NewsArticles
+                    new NewsArticles
                     {
                         author = "author",
                         content = "content",
@@ -61,7 +60,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                         show_cover_pic = "0",
                         thumb_media_id = mediaIDList[1],
                         title = "title"
-                    }}
+                    }
                 }
             };
 
@@ -123,16 +122,16 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string media_id = "17384130244";
             List<NewsArticles> articles = new List<NewsArticles>
             {
-                {new NewsArticles
-                    {
-                        author = "author",
-                        content = "content",
-                        content_source_url = "content_source_url",
-                        digest = "digest",
-                        show_cover_pic = "0",
-                        thumb_media_id = mediaIDList[1],
-                        title = "title"
-                    }}
+                new NewsArticles
+                {
+                    author = "author",
+                    content = "content",
+                    content_source_url = "content_source_url",
+                    digest = "digest",
+                    show_cover_pic = "0",
+                    thumb_media_id = mediaIDList[1],
+                    title = "title"
+                }
             };
             const int index = 1;
 

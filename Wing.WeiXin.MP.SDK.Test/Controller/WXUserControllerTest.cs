@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities.User.Group;
 using Wing.WeiXin.MP.SDK.Entities.User.User;
@@ -10,6 +9,8 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class WXUserControllerTest : BaseTest
     {
+        private readonly WXUserController WXUserController = GlobalManager.FunctionManager.WXUserController;
+
         [TestMethod]
         public void WXUserAllTest()
         {
@@ -47,53 +48,55 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public WXUserList GetWXUserListTest()
         {
-            WXUserList l = new WXUserController().GetWXUserList(account);
+            WXUserList l = WXUserController.GetWXUserList(account);
             return l;
         } 
 
         public void GetWXUserTest(string openID)
         {
-            Assert.AreEqual(new WXUserController().GetWXUser(account, openID).openid, openID);
+            Assert.AreEqual(WXUserController.GetWXUser(account, openID).openid, openID);
         }
 
         public void AddWXGroupTest(WXUserGroup group)
         {
-            Assert.AreEqual(new WXUserController().AddWXGroup(account, group).group.name, group.group.name);
+            Assert.AreEqual(WXUserController.AddWXGroup(account, group).group.name, group.group.name);
         }
 
         [TestMethod]
         public WXUserGroupList GetWXUserGroupListTest()
         {
-            return new WXUserController().GetWXUserGroupList(account);
+            return WXUserController.GetWXUserGroupList(account);
         } 
 
         public void ModityGroupNameTest(WXUserGroup group)
         {
-            Assert.AreEqual(new WXUserController().ModityGroupName(account, group).errcode, "0");
+            Assert.AreEqual(WXUserController.ModityGroupName(account, group).errcode, "0");
         } 
 
         public void MoveGroupTest(WXUser user, WXUserGroup group)
         {
-            Assert.AreEqual(new WXUserController().MoveGroup(account, user.openid, group.group.id).errcode, "0");
+            Assert.AreEqual(WXUserController.MoveGroup(account, user.openid, group.group.id).errcode, "0");
         } 
 
         public WXUserGroup GetWXGroupByWXUserTest(WXUser user)
         {
-            return new WXUserController().GetWXGroupByWXUser(account, user);
+            return WXUserController.GetWXGroupByWXUser(account, user);
         } 
 
         public WXUser GetWXUserListFromListTest(WXUserList userList)
         {
-            return new WXUserController().GetWXUserListFromList(account, userList, 1)[0];
+            return WXUserController.GetWXUserListFromList(account, userList, 1)[0];
         } 
 
         [TestMethod]
         public void GetWXGroupByWXUserTest()
         {
-            WXUserGroup g = new WXUserController().GetWXGroupByWXUser(account, new WXUser
+            WXUserGroup g = WXUserController.GetWXGroupByWXUser(account, new WXUser
             {
                 openid = "orImOuC33jQiJFrVelQGGTmwPSFE"
             });
+
+            Assert.IsNotNull(g);
         }
     }
 }
