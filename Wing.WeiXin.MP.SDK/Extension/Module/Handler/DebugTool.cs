@@ -19,6 +19,26 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// </summary>
         private readonly ReceiveController receiveController = new ReceiveController();
 
+        /// <summary>
+        /// 模式参数名称
+        /// </summary>
+        public static string ModeName = "Mode";
+
+        /// <summary>
+        /// 提交信息参数名称
+        /// </summary>
+        public static string SubmitMessageName = "SubmitMessage";
+
+        /// <summary>
+        /// 提交信息数据参数名称
+        /// </summary>
+        public static string SubmitMessageDataName = "Data";
+
+        /// <summary>
+        /// 刷新服务器参数名称
+        /// </summary>
+        public static string RefreshServerName = "RefreshServer";
+
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
         /// 响应事件
@@ -27,11 +47,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// <returns>响应结果</returns>
         public void ProcessRequest(HttpContext context)
         {
-            string mode = context.Request.QueryString["Mode"];
-            context.Response.ContentType = "application/json";
+            string mode = context.Request.QueryString[ModeName];
             object result = new { msg = "未知操作" };
-            if ("SubmitMessage".Equals(mode)) result = SubmitMessage(context.Request.Form["Data"]);
-            if ("RefreshServer".Equals(mode)) result = RefreshServer();
+            if (SubmitMessageName.Equals(mode)) result = SubmitMessage(context.Request.Form[SubmitMessageDataName]);
+            if (RefreshServerName.Equals(mode)) result = RefreshServer();
 
             context.Response.Write(JSONHelper.JSONSerialize(result));
         }
