@@ -102,7 +102,9 @@ private Response E2(RequestEventClick request)
 ```
 <WeiXinMPSDKConfigGroup>
     <!-- Token：微信后台网站设置的参数，用于验证用户 -->
-    <Base Token="xxxxxxxx">
+    <!-- Debug：是否为Debug模式 -->
+    <!-- Log：日志路径 -->
+    <Base Token="xxxxxxxx" Debug="True" Log="">
         <!-- 微信公众平台帐号列表，支持多帐号配置开发 -->
         <!-- WeixinMPID：微信公众平台帐号ID，可在微信后台网站查询 -->
         <!-- AppID：微信公众平台应用ID，认证用户或者服务号才可以获取，可在微信后台网站查询 -->
@@ -130,10 +132,21 @@ private Response E2(RequestEventClick request)
         <!-- Name：Handler名称(用于定位Handler) -->
 		<!-- Alias：Handler别名(用于更换名称) -->
         <!-- IsAction：是否启用该事件 -->
+        <!-- RunInRelease：是否能够运行在正式环境 -->
         <!-- PS: 如果没有填写，则默认为不添加 -->
 		<HandlerList>
-            <add Name="Receive" Alias="R" IsAction="True" />
-			<add Name="Check" IsAction="True" />
+            <!-- 接受消息主入口 -->
+            <add Name="Receive" IsAction="True" RunInRelease="True" />
+            <!-- 微信检测入口 -->
+            <add Name="Check" IsAction="True" RunInRelease="False" />
+            <!-- OAuth入口 -->
+            <add Name="OAuth" IsAction="True" RunInRelease="True" />
+            <!-- JS配置入口 -->
+            <add Name="WeixinConfig" IsAction="True" RunInRelease="True" />
+            <!-- 菜单工具入口 -->
+            <add Name="MenuTool" IsAction="True" RunInRelease="False" />
+            <!-- 调试工具入口 -->
+            <add Name="DebugTool" IsAction="True" RunInRelease="False" />
         </HandlerList>
 	</Handler>
 </WeiXinMPSDKConfigGroup>

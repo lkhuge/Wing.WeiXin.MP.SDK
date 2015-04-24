@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Wing.WeiXin.MP.SDK.Common;
@@ -59,9 +60,22 @@ namespace Wing.WeiXin.MP.SDK
             WXSession = wxSession ?? new StaticWXSession();
             FunctionManager = new FunctionManager(new AccessTokenContainer(WXSession));
             EventManager = new EventManager();
+            InitLog();
 
             IsInit = true;
         }
+        #endregion
+
+        #region 初始化日志 private static void InitLog()
+        /// <summary>
+        /// 初始化日志
+        /// </summary>
+        private static void InitLog()
+        {
+            string log = ConfigManager.Config.Base.Log;
+            if (String.IsNullOrEmpty(log)) return;
+            LogManager.AddWriteCallback(msg => File.AppendAllLines(log, new[] { msg }));
+        } 
         #endregion
 
         #region 初始化基于Module的入口管理类 public static void InitWeixinModule()

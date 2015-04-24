@@ -33,6 +33,17 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
+        #region 日志路径 public string Log
+        /// <summary>
+        /// 日志路径
+        /// </summary>
+        [ConfigurationProperty("Log")]
+        public string Log
+        {
+            get { return Convert.ToString(this["Log"]); }
+        }
+        #endregion
+
         #region 公共平台账号项目列表 public AccountItemListConfigSection AccountList
         /// <summary>
         /// 公共平台账号项目列表

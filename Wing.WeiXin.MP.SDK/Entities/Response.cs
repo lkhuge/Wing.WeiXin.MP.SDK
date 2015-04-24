@@ -39,17 +39,17 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// JSON类型
         /// </summary>
-        public static string JSON = "application/json";
+        public const string JSON = "application/json";
 
         /// <summary>
         /// XML类型
         /// </summary>
-        public static string XML = "application/xml";
+        public const string XML = "application/xml";
 
         /// <summary>
         /// 文本类型
         /// </summary>
-        public static string TEXT = "text/plain";
+        public const string TEXT = "text/plain";
         #endregion
 
         #region 根据异常实例化文本类型对象 public Response(Exception e)

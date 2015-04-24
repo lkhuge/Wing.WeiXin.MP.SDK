@@ -104,7 +104,7 @@
                 $.post(settings.saveUrl, { Data: window.escape(JSON.stringify(getMenuObj())) }, function (data) {
                     hideLoading();
                     messageAlert(data.msg);
-                });
+                }, 'json');
             });
         });
         $('#' + toolIDPrefix + 'operate-delete').click(function () {
@@ -113,7 +113,7 @@
                 $.post(settings.deleteUrl, function (data) {
                     hideLoading();
                     messageAlert(data.msg);
-                });
+                }, 'json');
             });
         });
     }
@@ -741,7 +741,7 @@
                         return;
                     }
                     $('#' + toolMenuEditIDPrefix + 'url').val(data.url);
-                });
+                }, 'json');
             });
             return;
         }

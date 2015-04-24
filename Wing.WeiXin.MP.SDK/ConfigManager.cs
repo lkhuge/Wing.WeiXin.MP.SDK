@@ -127,6 +127,7 @@ namespace Wing.WeiXin.MP.SDK
             {
                 Token = baseConfig.Token,
                 Debug = baseConfig.Debug,
+                Log = baseConfig.Log,
                 AccountList = baseConfig.AccountList
                     .Cast<AccountItemConfigSection>()
                     .Select(a => new WXAccount(
