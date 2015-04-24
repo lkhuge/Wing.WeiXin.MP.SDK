@@ -16,6 +16,11 @@ namespace Wing.WeiXin.MP.SDK.Entities.Config.Base
         public string Token { get; set; }
 
         /// <summary>
+        /// 是否为Debug模式
+        /// </summary>
+        public bool Debug { get; set; }
+
+        /// <summary>
         /// 公共平台账户列表
         /// </summary>
         public List<WXAccount> AccountList { get; set; }

@@ -1,9 +1,9 @@
 ﻿/*!
- * Weixin JS SDK v0.0.3
+ * Weixin JS SDK v0.0.4
  * 用于简化微信JS初始化操纵（搭配Wing.Weixin.MP.SDK）
  *
- * Update(v0.0.3)：
- * 1.全部封装WXJS接口
+ * Update(v0.0.4)：
+ * [Change]重写对象
  */
 
 /*!
@@ -78,36 +78,32 @@
  * 一些特殊公众号: "menuItem:share:brand"
  */
 
+if (typeof jQuery == 'undefined') {
+    throw '未发现JQuery';
+}
+
 function weixin(url) {
     /// <summary>Weixin JS SDK</summary>
     /// <param name="url" type="String">获取参数接口的URL(不填默认是"/WeixinConfig")</param>
 
-    /// <field name='isDebug' type='Boolean'>
-    /// 设置是否为调试模式
-    /// 用于PC端调试（不加载微信接口）
-    /// </field>
     /// <field name='isHideOptionMenu' type='Boolean'>
     /// 是否隐藏右上角菜单
     /// </field>
-    this.isDebug = true;
     this.isHideOptionMenu = false;
 
-    if (typeof jQuery == 'undefined') {
-        alert('未发现JQuery');
-    }
+    //为参数接口URL设置默认值
+    this.url = typeof url == 'undefined' ? '/WeixinConfig' : url;
+}
 
-    this.load = function (apiList, callback) {
+weixin.prototype = {
+    // 设置是否为调试模式
+    // 用于PC端调试（不加载微信接口）
+    isDebug: false,
+
+    load: function(apiList, callback) {
         /// <summary>载入配置</summary>
         /// <param name="apiList" type="String">API列表</param>
         /// <param name="callback" type="Function">获取成功后的回调方法</param>
-
-        //判断是否为调试模式
-        if (this.isDebug) {
-            //执行回调方法
-            callback();
-
-            return;
-        }
 
         //判断接口列表是否存在
         if (!$.isArray(apiList) || apiList.length == 0) {
@@ -116,42 +112,56 @@ function weixin(url) {
 
         //判断是否需要隐藏右上角菜单
         if (this.isHideOptionMenu) {
-            apiList.concat(['hideOptionMenu']);
+            apiList = apiList.concat(['hideOptionMenu']);
         }
 
+        //获取当前URL
+        var urlThis = encodeURIComponent((typeof this.href != 'undefined') ? this.href : location.href);
+        
         //获取配置
-        $.getJSON((typeof url == 'undefined' ? '/WeixinConfig' : url) +
-            '?url=' + encodeURIComponent((typeof this.href != 'undefined') ? this.href : location.href) +
-            '&apiList=' + apiList.join(), function (data) {
-                //注入配置
-                wx.config(data);
+        $.getJSON(this.url + '?url=' + urlThis + '&apiList=' + apiList.join(), function(data) {
+            //设置调试模式
+            this.isDebug = data.debug;
 
-                //配置注入完成后执行对应操作
-                wx.ready(function () {
-                    //判断是否需要隐藏右上角菜单
-                    if (isHideOptionMenu) {
-                        hideOptionMenu();
-                    }
+            //如果是调试模式直接执行回调
+            if (this.isDebug) {
+                //执行回调方法
+                callback();
+                return;
+            }
 
-                    //执行回调方法
-                    callback();
-                });
+            //获取是否隐藏右上角菜单
+            var isHideOptionMenu = this.isHideOptionMenu;
 
-                //配置注入失败
-                wx.error(function (res) {
-                    failCallback(res);
-                });
+            //配置注入完成后执行对应操作
+            wx.ready(function () {
+                //判断是否需要隐藏右上角菜单
+                if (isHideOptionMenu) {
+                    this.hideOptionMenu();
+                }
+
+                //执行回调方法
+                callback();
+            }.bind(this));
+
+            //配置注入失败
+            wx.error(function(res) {
+                failCallback(res);
             });
-    }
 
-    this.failCallback = function (r) {
+            //注入配置
+            wx.config(data);
+        }.bind(this));
+    },
+
+    failCallback: function(r) {
         /// <summary>获取失败后的回调方法</summary>
         /// <param name="r" type="String">API失败原因描述</param>
 
         throw ('配置注入失败，原因：' + r);
-    }
+    },
 
-    this.onMenuShareTimeline = function (title, link, imgUrl, success, cancel) {
+    onMenuShareTimeline: function(title, link, imgUrl, success, cancel) {
         /// <summary>
         /// “分享到朋友圈”按钮点击状态及自定义分享内容
         /// 如果处于调试模式则直接调用success
@@ -173,9 +183,9 @@ function weixin(url) {
             success: success,
             cancel: cancel
         });
-    }
+    },
 
-    this.onMenuShareAppMessage = function (title, desc, link, imgUrl, type, dataUrl, success, cancel) {
+    onMenuShareAppMessage: function(title, desc, link, imgUrl, type, dataUrl, success, cancel) {
         /// <summary>
         /// “分享给朋友”按钮点击状态及自定义分享内容
         /// 如果处于调试模式则直接调用success
@@ -203,9 +213,9 @@ function weixin(url) {
             success: success,
             cancel: cancel
         });
-    }
+    },
 
-    this.onMenuShareQQ = function (title, desc, link, imgUrl, success, cancel) {
+    onMenuShareQQ: function(title, desc, link, imgUrl, success, cancel) {
         /// <summary>
         /// “分享到QQ”按钮点击状态及自定义分享内容
         /// 如果处于调试模式则直接调用success
@@ -229,9 +239,9 @@ function weixin(url) {
             success: success,
             cancel: cancel
         });
-    }
+    },
 
-    this.onMenuShareWeibo = function (title, desc, link, imgUrl, success, cancel) {
+    onMenuShareWeibo: function(title, desc, link, imgUrl, success, cancel) {
         /// <summary>
         /// “分享到腾讯微博”按钮点击状态及自定义分享内容
         /// 如果处于调试模式则直接调用success
@@ -255,9 +265,9 @@ function weixin(url) {
             success: success,
             cancel: cancel
         });
-    }
+    },
 
-    this.startRecord = function (debugEvent) {
+    startRecord: function(debugEvent) {
         /// <summary>
         /// 开始录音
         /// 如果处于调试模式则执行回调函数
@@ -269,9 +279,9 @@ function weixin(url) {
             return;
         }
         wx.startRecord();
-    }
+    },
 
-    this.stopRecord = function (success, debugRes) {
+    stopRecord: function(success, debugRes) {
         /// <summary>
         /// 停止录音
         /// 如果处于调试模式则直接调用success
@@ -289,9 +299,9 @@ function weixin(url) {
         wx.stopRecord({
             success: success
         });
-    }
+    },
 
-    this.onVoiceRecordEnd = function (complete, debugRes) {
+    onVoiceRecordEnd: function(complete, debugRes) {
         /// <summary>
         /// 监听录音自动停止
         /// 如果处于调试模式则直接调用complete
@@ -309,9 +319,9 @@ function weixin(url) {
         wx.onVoiceRecordEnd({
             complete: complete
         });
-    }
+    },
 
-    this.playVoice = function (localId, debugEvent) {
+    playVoice: function(localId, debugEvent) {
         /// <summary>
         /// 播放语音
         /// 如果处于调试模式则直接调用debugEvent
@@ -329,9 +339,9 @@ function weixin(url) {
         wx.playVoice({
             localId: localId
         });
-    }
+    },
 
-    this.pauseVoice = function (localId, debugEvent) {
+    pauseVoice: function(localId, debugEvent) {
         /// <summary>
         /// 暂停播放
         /// 如果处于调试模式则直接调用debugEvent
@@ -349,9 +359,9 @@ function weixin(url) {
         wx.pauseVoice({
             localId: localId
         });
-    }
+    },
 
-    this.stopVoice = function (localId, debugEvent) {
+    stopVoice: function(localId, debugEvent) {
         /// <summary>
         /// 停止播放
         /// 如果处于调试模式则直接调用debugEvent
@@ -369,9 +379,9 @@ function weixin(url) {
         wx.stopVoice({
             localId: localId
         });
-    }
+    },
 
-    this.onVoicePlayEnd = function (success, debugRes) {
+    onVoicePlayEnd: function(success, debugRes) {
         /// <summary>
         /// 监听语音播放完毕
         /// 如果处于调试模式则直接调用success
@@ -389,9 +399,9 @@ function weixin(url) {
         wx.onVoicePlayEnd({
             success: success
         });
-    }
+    },
 
-    this.uploadVoice = function (localId, isShowProgressTips, success, debugRes) {
+    uploadVoice: function(localId, isShowProgressTips, success, debugRes) {
         /// <summary>
         /// 上传语音
         /// 如果处于调试模式则直接调用success
@@ -416,9 +426,9 @@ function weixin(url) {
             isShowProgressTips: isShowProgressTips,
             success: success
         });
-    }
+    },
 
-    this.downloadVoice = function (serverId, isShowProgressTips, success, debugRes) {
+    downloadVoice: function(serverId, isShowProgressTips, success, debugRes) {
         /// <summary>
         /// 下载语音
         /// 如果处于调试模式则直接调用success
@@ -440,9 +450,9 @@ function weixin(url) {
             isShowProgressTips: isShowProgressTips,
             success: success
         });
-    }
+    },
 
-    this.chooseImage = function (success, debugRes) {
+    chooseImage: function(success, debugRes) {
         /// <summary>
         /// 拍照或从手机相册中选图
         /// 如果处于调试模式则直接调用success
@@ -460,9 +470,9 @@ function weixin(url) {
         wx.chooseImage({
             success: success
         });
-    }
+    },
 
-    this.previewImage = function (current, urls, debugEvent) {
+    previewImage: function(current, urls, debugEvent) {
         /// <summary>
         /// 预览图片
         /// 如果处于调试模式则直接调用debugEvent
@@ -483,9 +493,9 @@ function weixin(url) {
             current: current,
             urls: urls
         });
-    }
+    },
 
-    this.uploadImage = function (localId, isShowProgressTips, success, debugRes) {
+    uploadImage: function(localId, isShowProgressTips, success, debugRes) {
         /// <summary>
         /// 上传图片
         /// 如果处于调试模式则直接调用success
@@ -510,9 +520,9 @@ function weixin(url) {
             isShowProgressTips: isShowProgressTips,
             success: success
         });
-    }
+    },
 
-    this.downloadImage = function (serverId, isShowProgressTips, success, debugRes) {
+    downloadImage: function(serverId, isShowProgressTips, success, debugRes) {
         /// <summary>
         /// 下载图片
         /// 如果处于调试模式则直接调用success
@@ -534,9 +544,9 @@ function weixin(url) {
             isShowProgressTips: isShowProgressTips,
             success: success
         });
-    }
+    },
 
-    this.translateVoice = function (localId, isShowProgressTips, success, debugRes) {
+    translateVoice: function(localId, isShowProgressTips, success, debugRes) {
         /// <summary>
         /// 识别音频并返回识别结果
         /// 如果处于调试模式则直接调用success
@@ -558,9 +568,9 @@ function weixin(url) {
             isShowProgressTips: isShowProgressTips,
             success: success
         });
-    }
+    },
 
-    this.getNetworkType = function (success, debugRes) {
+    getNetworkType: function(success, debugRes) {
         /// <summary>
         /// 获取网络状态
         /// 如果处于调试模式则直接调用success
@@ -578,9 +588,9 @@ function weixin(url) {
         wx.getNetworkType({
             success: success
         });
-    }
+    },
 
-    this.openLocation = function (latitude, longitude, name, address, scale, infoUrl, debugEvent) {
+    openLocation: function(latitude, longitude, name, address, scale, infoUrl, debugEvent) {
         /// <summary>
         /// 使用微信内置地图查看位置
         /// 如果处于调试模式则直接调用debugEvent
@@ -613,9 +623,9 @@ function weixin(url) {
             scale: scale,
             infoUrl: infoUrl
         });
-    }
+    },
 
-    this.getLocation = function (success, debugRes) {
+    getLocation: function(success, debugRes) {
         /// <summary>
         /// 获取地理位置
         /// 如果处于调试模式则直接调用success
@@ -636,9 +646,9 @@ function weixin(url) {
         wx.getLocation({
             success: success
         });
-    }
+    },
 
-    this.hideOptionMenu = function (debugEvent) {
+    hideOptionMenu: function(debugEvent) {
         /// <summary>
         /// 隐藏右上角菜单
         /// 如果处于调试模式则执行回调函数
@@ -652,9 +662,9 @@ function weixin(url) {
             return;
         }
         wx.hideOptionMenu();
-    }
+    },
 
-    this.showOptionMenu = function (debugEvent) {
+    showOptionMenu: function(debugEvent) {
         /// <summary>
         /// 显示右上角菜单
         /// 如果处于调试模式则执行回调函数
@@ -668,9 +678,9 @@ function weixin(url) {
             return;
         }
         wx.showOptionMenu();
-    }
+    },
 
-    this.hideMenuItems = function (menuList, debugEvent) {
+    hideMenuItems: function(menuList, debugEvent) {
         /// <summary>
         /// 批量隐藏功能按钮
         /// 如果处于调试模式则执行回调函数
@@ -688,9 +698,9 @@ function weixin(url) {
         wx.hideMenuItems({
             menuList: menuList
         });
-    }
+    },
 
-    this.showMenuItems = function (menuList, debugEvent) {
+    showMenuItems: function(menuList, debugEvent) {
         /// <summary>
         /// 批量显示功能按钮
         /// 如果处于调试模式则执行回调函数
@@ -708,9 +718,9 @@ function weixin(url) {
         wx.showMenuItems({
             menuList: menuList
         });
-    }
+    },
 
-    this.hideAllNonBaseMenuItem = function (debugEvent) {
+    hideAllNonBaseMenuItem: function(debugEvent) {
         /// <summary>
         /// 隐藏所有非基础按钮
         /// 如果处于调试模式则执行回调函数
@@ -724,9 +734,9 @@ function weixin(url) {
             return;
         }
         wx.hideAllNonBaseMenuItem();
-    }
+    },
 
-    this.showAllNonBaseMenuItem = function (debugEvent) {
+    showAllNonBaseMenuItem: function(debugEvent) {
         /// <summary>
         /// 显示所有功能按钮
         /// 如果处于调试模式则执行回调函数
@@ -740,9 +750,9 @@ function weixin(url) {
             return;
         }
         wx.showAllNonBaseMenuItem();
-    }
+    },
 
-    this.closeWindow = function (debugEvent) {
+    closeWindow: function(debugEvent) {
         /// <summary>
         /// 关闭当前网页窗口
         /// 如果处于调试模式则执行回调函数
@@ -756,9 +766,9 @@ function weixin(url) {
             return;
         }
         wx.closeWindow();
-    }
+    },
 
-    this.scanQRCode = function (needResult, scanType, success, debugRes) {
+    scanQRCode: function(needResult, scanType, success, debugRes) {
         /// <summary>
         /// 调起微信扫一扫
         /// 如果处于调试模式则直接调用success
@@ -781,9 +791,9 @@ function weixin(url) {
             scanType: scanType,
             success: success
         });
-    }
+    },
 
-    this.chooseWXPay = function (timestamp, nonceStr, prepay_id, signType, paySign, success, debugRes) {
+    chooseWXPay: function(timestamp, nonceStr, prepay_id, signType, paySign, success, debugRes) {
         /// <summary>
         /// 发起一个微信支付请求
         /// 如果处于调试模式则直接调用success
@@ -819,9 +829,9 @@ function weixin(url) {
             paySign: paySign,
             success: success
         });
-    }
+    },
 
-    this.openProductSpecificView = function (productId, viewType, debugEvent) {
+    openProductSpecificView: function(productId, viewType, debugEvent) {
         /// <summary>
         /// 跳转微信商品页
         /// 如果处于调试模式则执行回调函数
@@ -842,9 +852,9 @@ function weixin(url) {
             productId: productId,
             viewType: viewType
         });
-    }
+    },
 
-    this.addCard = function (cardList, success, debugRes) {
+    addCard: function(cardList, success, debugRes) {
         /// <summary>
         /// 批量添加卡券
         /// 如果处于调试模式则直接调用success
@@ -867,9 +877,9 @@ function weixin(url) {
             cardList: cardList,
             success: success
         });
-    }
+    },
 
-    this.chooseCard = function (shopId, cardType, cardId, timestamp, nonceStr, signType, cardSign, success, debugRes) {
+    chooseCard: function(shopId, cardType, cardId, timestamp, nonceStr, signType, cardSign, success, debugRes) {
         /// <summary>
         /// 调起适用于门店的卡券列表并获取用户选择列表
         /// 如果处于调试模式则直接调用success
@@ -901,9 +911,9 @@ function weixin(url) {
             cardSign: cardSign,
             success: success
         });
-    }
+    },
 
-    this.openCard = function (cardList, debugEvent) {
+    openCard: function(cardList, debugEvent) {
         /// <summary>
         /// 查看微信卡包中的卡券
         /// 如果处于调试模式则执行回调函数
@@ -925,4 +935,4 @@ function weixin(url) {
             cardList: cardList
         });
     }
-}
+};

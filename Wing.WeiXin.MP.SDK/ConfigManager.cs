@@ -126,6 +126,7 @@ namespace Wing.WeiXin.MP.SDK
             return new BaseConfigInfo
             {
                 Token = baseConfig.Token,
+                Debug = baseConfig.Debug,
                 AccountList = baseConfig.AccountList
                     .Cast<AccountItemConfigSection>()
                     .Select(a => new WXAccount(
@@ -183,7 +184,8 @@ namespace Wing.WeiXin.MP.SDK
                     {
                         Name = e.Name,
                         Alias = e.Alias,
-                        IsAction = e.IsAction
+                        IsAction = e.IsAction,
+                        RunInRelease = e.RunInRelease
                     })
                     .ToList()
             };

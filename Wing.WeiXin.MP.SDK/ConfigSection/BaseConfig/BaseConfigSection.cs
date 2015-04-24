@@ -22,6 +22,17 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
+        #region 是否为Debug模式 public bool Debug
+        /// <summary>
+        /// 是否为Debug模式
+        /// </summary>
+        [ConfigurationProperty("Debug", DefaultValue = false)]
+        public bool Debug
+        {
+            get { return Convert.ToBoolean(this["Debug"]); }
+        }
+        #endregion
+
         #region 公共平台账号项目列表 public AccountItemListConfigSection AccountList
         /// <summary>
         /// 公共平台账号项目列表

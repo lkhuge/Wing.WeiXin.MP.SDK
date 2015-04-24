@@ -26,6 +26,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// </summary>
         public static string ErrorUrl;
 
+        /// <summary>
+        /// URL选择规则
+        /// string UrlSelectHandler(string state, string openid)
+        /// </summary>
+        public static Func<string, string, string> UrlSelectHandler = (state, openid) => UrlList[state];
+
         #region 响应事件 public void ProcessRequest(HttpContext context)
         /// <summary>
         /// 响应事件
@@ -38,9 +44,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 Account ?? GlobalManager.GetFirstAccount(), context.Request.QueryString["code"]);
 
             string state = context.Request.QueryString["state"];
+            string openID = result.openid;
+            string urlKey = UrlSelectHandler(state, openID);
 
-            context.Response.Redirect(UrlList.ContainsKey(state)
-                ? String.Format(UrlList[state], result.openid)
+            context.Response.Redirect(UrlList.ContainsKey(urlKey)
+                ? String.Format(UrlList[urlKey], result.openid)
                 : ErrorUrl);
         }
         #endregion

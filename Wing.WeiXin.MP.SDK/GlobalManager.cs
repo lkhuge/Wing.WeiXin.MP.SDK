@@ -105,5 +105,16 @@ namespace Wing.WeiXin.MP.SDK
             RepetitionMessageFilter.AddFilter(toUserName);
         } 
         #endregion
+
+        #region 当前是否为Debug模式 public static bool IsDebug()
+        /// <summary>
+        /// 当前是否为Debug模式
+        /// </summary>
+        /// <returns>是否为Debug模式</returns>
+        public static bool IsDebug()
+        {
+            return ConfigManager.Config.Base.Debug;
+        } 
+        #endregion
     }
 }

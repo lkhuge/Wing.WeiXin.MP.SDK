@@ -40,5 +40,16 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.HandlerConfig
             get { return Convert.ToBoolean(this["IsAction"]); }
         }
         #endregion
+
+        #region Handler项目是否允许运行在正式环境 public bool RunInRelease
+        /// <summary>
+        /// Handler项目是否允许运行在正式环境
+        /// </summary>
+        [ConfigurationProperty("RunInRelease", DefaultValue = true)]
+        public bool RunInRelease
+        {
+            get { return Convert.ToBoolean(this["RunInRelease"]); }
+        }
+        #endregion
     }
 }

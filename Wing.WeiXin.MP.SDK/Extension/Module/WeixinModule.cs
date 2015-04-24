@@ -59,7 +59,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
             defaultName = handlerConfig.Default;
             Dictionary<string, IHttpHandler> allHandlerList = GetAllHandlerList();
             handlerList = handlerConfig.HandlerInfoList
-                .Where(h => allHandlerList.ContainsKey(h.Name) && h.IsAction)
+                .Where(h => allHandlerList.ContainsKey(h.Name) && h.IsAction && (GlobalManager.IsDebug() || h.RunInRelease))
                 .ToDictionary(
                     k => String.IsNullOrEmpty(k.Alias) ? k.Name : k.Alias,
                     v => allHandlerList[v.Name]);

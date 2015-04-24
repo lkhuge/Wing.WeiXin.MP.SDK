@@ -1,4 +1,24 @@
-﻿(function ($) {
+﻿/*!
+ * Weixin JS Debug Tool v0.0.3
+ * 用于图形化调试程序
+ *
+ * Dependency：
+ * 1.JQuery
+ * 2.Bootstrap(V3)
+ *
+ * Update(v0.0.3)：
+ * [Fix]修正部分Bug
+ * 
+ * Usage：
+ * $('#main').weixindebug({
+ *     submitMessageUrl: '/DebugTool?Mode=SubmitMessage', //提交消息URL
+ *     refreshServerUrl: '/DebugTool?Mode=RefreshServer', //重启服务器URL
+ *     account: '',                                       //默认微信账号
+ *     openid: ''                                         //默认OpenID
+ * });
+ */
+
+(function ($) {
     "use strict";
 
     //工具名称
@@ -255,7 +275,7 @@
             }
             hideLoading();
             showResult(data.data);
-        });
+        }, 'json');
     }
 
     function showResult(result) {

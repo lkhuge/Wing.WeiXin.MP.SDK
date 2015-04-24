@@ -24,5 +24,10 @@ namespace Wing.WeiXin.MP.SDK.Entities.Config.Handler
         /// Handler项目是否生效
         /// </summary>
         public bool IsAction { get; set; }
+
+        /// <summary>
+        /// Handler项目是否允许运行在正式环境
+        /// </summary>
+        public bool RunInRelease { get; set; }
     }
 }

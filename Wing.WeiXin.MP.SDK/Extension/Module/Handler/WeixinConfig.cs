@@ -18,7 +18,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// <summary>
         /// 是否使用调试模式
         /// </summary>
-        public static bool IsDebug;
+        public static bool IsDebug = GlobalManager.IsDebug();
         
         /// <summary>
         /// URL参数名称

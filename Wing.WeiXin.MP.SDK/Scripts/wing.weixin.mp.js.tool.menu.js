@@ -1,4 +1,25 @@
-﻿(function ($) {
+﻿/*!
+ * Weixin JS Menu Tool v0.0.6
+ * 用于图形化操作菜单
+ *
+ * Dependency：
+ * 1.JQuery
+ * 2.Bootstrap(V3)
+ *
+ * Update(v0.0.6)：
+ * [Add]添加View菜单的OAuth功能
+ * 
+ * Usage：
+ * $('#main').weixinmenu({
+ *     getUrl: '/Menu?Operation=Get',                   //获取菜单APIUrl
+ *     saveUrl: '/Menu?Operation=Save',                 //保存菜单APIUrl
+ *     deleteUrl: '/Menu?Operation=Delete',             //删除菜单APIUrl
+ *     getOAuthUrlUrl: '/Menu?Operation=GetOAuthUrl',   //获取OAuth地址APIUrl
+ *     oauthCallback: ''                                //OAuth回调地址
+ * });
+ */
+
+(function ($) {
     "use strict";
 
     //工具名称
