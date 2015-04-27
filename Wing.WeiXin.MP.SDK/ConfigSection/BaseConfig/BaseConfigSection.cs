@@ -44,6 +44,17 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
+        #region 默认账号 public string DefaultAccount
+        /// <summary>
+        /// 默认账号
+        /// </summary>
+        [ConfigurationProperty("DefaultAccount")]
+        public string DefaultAccount
+        {
+            get { return Convert.ToString(this["DefaultAccount"]); }
+        }
+        #endregion
+
         #region 公共平台账号项目列表 public AccountItemListConfigSection AccountList
         /// <summary>
         /// 公共平台账号项目列表

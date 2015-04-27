@@ -99,6 +99,21 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
+        #region 获取默认账号账号 public static WXAccount GetDefaultAccount()
+        /// <summary>
+        /// 获取默认账号账号
+        /// 如果未设置或者不存在则返回第一个账号
+        /// </summary>
+        /// <returns>默认账号账号</returns>
+        public static WXAccount GetDefaultAccount()
+        {
+            string id = ConfigManager.Config.Base.DefaultAccount;
+            if (String.IsNullOrEmpty(id)) return GetFirstAccount();
+
+            return ConfigManager.Config.Base.AccountList.FirstOrDefault(a => a.ID.Equals(id)) ?? GetFirstAccount();
+        }
+        #endregion
+
         #region 检测是否初始化 public static void CheckInit()
         /// <summary>
         /// 检测是否初始化

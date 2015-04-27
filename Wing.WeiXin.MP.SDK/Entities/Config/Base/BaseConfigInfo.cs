@@ -24,6 +24,11 @@ namespace Wing.WeiXin.MP.SDK.Entities.Config.Base
         /// 日志路径
         /// </summary>
         public string Log { get; set; }
+        
+        /// <summary>
+        /// 默认账号
+        /// </summary>
+        public string DefaultAccount { get; set; }
 
         /// <summary>
         /// 公共平台账户列表
