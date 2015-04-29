@@ -38,7 +38,7 @@
     <Setting Name="LastMsgIDKey" Type="System.String" Scope="Application">
       <Value Profile="(Default)">LastMsgID</Value>
     </Setting>
-    <Setting Name="DefaultAccountToUserNameSign" Type="System.String" Scope="User">
+    <Setting Name="DefaultAccountToUserNameSign" Type="System.String" Scope="Application">
       <Value Profile="(Default)">&amp;</Value>
     </Setting>
   </Settings>

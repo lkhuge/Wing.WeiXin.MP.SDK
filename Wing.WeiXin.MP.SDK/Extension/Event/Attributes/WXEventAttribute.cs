@@ -29,6 +29,11 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         public int Priority { get; set; }
 
         /// <summary>
+        /// 是否只运行在调试模式
+        /// </summary>
+        public bool OnlyDebug { get; set; }
+
+        /// <summary>
         /// 限定类型
         /// 为事件自动添加对于类型的限制
         /// 

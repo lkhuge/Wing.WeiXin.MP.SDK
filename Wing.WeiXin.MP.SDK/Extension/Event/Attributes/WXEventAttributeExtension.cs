@@ -26,6 +26,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                 WXEventAttribute[] attList = (WXEventAttribute[])
                     methodInfo.GetCustomAttributes(typeof(WXEventAttribute), false);
                 if (attList.Length != 1) continue;
+                if (attList[0].OnlyDebug && !GlobalManager.IsDebug()) continue;
                 ParameterInfo arg = GetParameterInfo(methodInfo, receiveEvent.GetType(), attList[0]);
                 if (arg.ParameterType == typeof(Request))
                 {

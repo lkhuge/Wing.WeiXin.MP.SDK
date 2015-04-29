@@ -131,15 +131,12 @@ namespace Wing.WeiXin.MP.SDK.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("&")]
         public string DefaultAccountToUserNameSign {
             get {
                 return ((string)(this["DefaultAccountToUserNameSign"]));
-            }
-            set {
-                this["DefaultAccountToUserNameSign"] = value;
             }
         }
     }
