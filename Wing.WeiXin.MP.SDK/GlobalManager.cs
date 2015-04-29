@@ -99,9 +99,9 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 获取默认账号账号 public static WXAccount GetDefaultAccount()
+        #region 获取默认账号 public static WXAccount GetDefaultAccount()
         /// <summary>
-        /// 获取默认账号账号
+        /// 获取默认账号
         /// 如果未设置或者不存在则返回第一个账号
         /// </summary>
         /// <returns>默认账号账号</returns>

@@ -94,7 +94,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         {
             try
             {
-                return GlobalManager.FunctionManager.MenuController.GetMenu(Account ?? GlobalManager.GetFirstAccount());
+                return GlobalManager.FunctionManager.MenuController.GetMenu(Account ?? GlobalManager.GetDefaultAccount());
             }
             catch (Exception e)
             {
@@ -119,7 +119,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 MenuForGet m = JSONHelper.JSONDeserialize<MenuForGet>(HttpUtility.UrlDecode(menu));
                 return new
                 {
-                    msg = GlobalManager.FunctionManager.MenuController.CreateMenu(Account ?? GlobalManager.GetFirstAccount(), m).GetIntroduce()
+                    msg = GlobalManager.FunctionManager.MenuController.CreateMenu(Account ?? GlobalManager.GetDefaultAccount(), m).GetIntroduce()
                 };
             }
             catch (Exception e)
@@ -143,7 +143,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             {
                 return new
                 {
-                    msg = GlobalManager.FunctionManager.MenuController.DeleteMenu(Account ?? GlobalManager.GetFirstAccount()).GetIntroduce()
+                    msg = GlobalManager.FunctionManager.MenuController.DeleteMenu(Account ?? GlobalManager.GetDefaultAccount()).GetIntroduce()
                 };
             }
             catch (Exception e)
@@ -171,7 +171,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 return new
                 {
                     url = GlobalManager.FunctionManager.OAuthController.GetURLForOAuthGetCode(
-                        Account ?? GlobalManager.GetFirstAccount(),
+                        Account ?? GlobalManager.GetDefaultAccount(),
                         callback,
                         (OAuthScope)Enum.Parse(typeof(OAuthScope), type, true),
                         state)

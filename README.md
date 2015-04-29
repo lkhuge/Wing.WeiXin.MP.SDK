@@ -104,7 +104,8 @@ private Response E2(RequestEventClick request)
     <!-- Token：微信后台网站设置的参数，用于验证用户 -->
     <!-- Debug：是否为Debug模式 -->
     <!-- Log：日志路径 -->
-    <Base Token="xxxxxxxx" Debug="True" Log="">
+    <!-- DefaultAccount：默认账号ID 如果未设置或者不存在则返回第一个账号 -->
+    <Base Token="xxxxxxxx" Debug="True" Log="" DefaultAccount="xxx">
         <!-- 微信公众平台帐号列表，支持多帐号配置开发 -->
         <!-- WeixinMPID：微信公众平台帐号ID，可在微信后台网站查询 -->
         <!-- AppID：微信公众平台应用ID，认证用户或者服务号才可以获取，可在微信后台网站查询 -->

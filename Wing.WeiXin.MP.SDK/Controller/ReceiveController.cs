@@ -132,9 +132,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public static void CheckWXServerIP(string toUserName)
         {
             WXServerIPList = GlobalManager.FunctionManager.SecurityController.GetWXServerIPList(
-                Settings.Default.FirstAccountToUserNameSign.Equals(toUserName) 
-                ? GlobalManager.GetFirstAccount()
-                : GlobalManager.ConfigManager.GetWXAccountByID(toUserName));
+                GlobalManager.ConfigManager.GetWXAccountByID(EventManager.GetWXAccountID(toUserName)));
             LogManager.WriteSystem(String.Format("微信服务器IP列表：【{0}】", 
                 String.Join(";", WXServerIPList.ip_list)));
         } 

@@ -339,13 +339,12 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>开发者微信号</returns>
         private string CheckToUserName(string toUserName, bool isCheckToUserName = true)
         {
+            toUserName = GetWXAccountID(toUserName);
             if (!IsCheckToUserName) return toUserName;
             if (isCheckToUserName && !GlobalManager.ConfigManager.HasAccount())
                 throw WXException.GetInstance("未发现任何微信公众平台账号", Settings.Default.SystemUsername);
             if (String.IsNullOrEmpty(toUserName))
                 throw WXException.GetInstance("微信公众账号不能为空", toUserName);
-            if (toUserName.Equals(Settings.Default.FirstAccountToUserNameSign)) 
-                toUserName = GlobalManager.GetFirstAccount().ID;
             if (isCheckToUserName && GlobalManager.ConfigManager.GetWXAccountByID(toUserName) == null)
                 throw WXException.GetInstance(String.Format("微信公众平台账号ID({0})不存在", toUserName), 
                     Settings.Default.SystemUsername);
@@ -394,6 +393,24 @@ namespace Wing.WeiXin.MP.SDK
             return ReceiveEvent.SelectMany(g => g.Value.SelectMany(e => e.Value.Select(t =>
                 String.Format("账号ID:{0} 事件类型:{1} 事件ID:{2} 优先级:{3} 是否生效:{4}",
                     g.Key, e.Key, t.Key, ReceiveEventPriorityList[t.Key], CheckEventAction(t.Key)))));
+        }
+        #endregion
+
+        #region 根据ToUserName获取微信平台账号ID internal static string GetWXAccountID(string toUserName)
+        /// <summary>
+        /// 根据ToUserName获取微信平台账号ID
+        /// </summary>
+        /// <param name="toUserName">ToUserName</param>
+        /// <returns>微信平台账号ID</returns>
+        internal static string GetWXAccountID(string toUserName)
+        {
+            if (String.IsNullOrEmpty(toUserName)) return toUserName;
+            if (toUserName.Equals(Settings.Default.FirstAccountToUserNameSign))
+                return GlobalManager.GetFirstAccount().ID;
+            if (toUserName.Equals(Settings.Default.DefaultAccountToUserNameSign))
+                return GlobalManager.GetDefaultAccount().ID;
+
+            return toUserName;
         }
         #endregion
     }

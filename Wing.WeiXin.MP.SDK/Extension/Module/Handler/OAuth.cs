@@ -41,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         public void ProcessRequest(HttpContext context)
         {
             OAuthAccessToken result = GlobalManager.FunctionManager.OAuthController.GetAccessTokenByCode(
-                Account ?? GlobalManager.GetFirstAccount(), context.Request.QueryString["code"]);
+                Account ?? GlobalManager.GetDefaultAccount(), context.Request.QueryString["code"]);
 
             string state = context.Request.QueryString["state"];
             string openID = result.openid;

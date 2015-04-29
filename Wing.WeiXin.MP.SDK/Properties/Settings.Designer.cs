@@ -130,5 +130,17 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["LastMsgIDKey"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("&")]
+        public string DefaultAccountToUserNameSign {
+            get {
+                return ((string)(this["DefaultAccountToUserNameSign"]));
+            }
+            set {
+                this["DefaultAccountToUserNameSign"] = value;
+            }
+        }
     }
 }

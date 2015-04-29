@@ -39,7 +39,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         public void ProcessRequest(HttpContext context)
         {
             context.Response.Write(JSONHelper.JSONSerialize(GlobalManager.FunctionManager.JSController.GetJSWeixinConfig(
-                Account ?? GlobalManager.GetFirstAccount(),
+                Account ?? GlobalManager.GetDefaultAccount(),
                 HttpUtility.UrlDecode(context.Request.QueryString[URL]),
                 context.Request.QueryString[APIList].Split(','),
                 IsDebug)));
