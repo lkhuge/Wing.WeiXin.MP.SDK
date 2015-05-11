@@ -224,8 +224,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         internal void ParsePostData()
         {
             RootElement = EncodingData();
-            if (wxAccount == null) 
-                throw WXException.GetInstance("无法确定微信公共平台账号", Settings.Default.SystemUsername, MsgTypeName);
             FromUserName = GetPostData("FromUserName");
             MsgTypeName = GetPostData("MsgType");
             MsgTypeName = "event".Equals(MsgTypeName) ? GetPostData("Event") : MsgTypeName;
@@ -339,8 +337,8 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>请求简易描述</returns>
         public override string ToString()
         {
-            return String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                    Signature, Timestamp, Nonce, Echostr, PostData);
+            return String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}{5}[postData]:{4}",
+                    Signature, Timestamp, Nonce, Echostr, PostData, Environment.NewLine);
         } 
         #endregion
     }

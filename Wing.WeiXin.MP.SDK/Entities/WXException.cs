@@ -75,7 +75,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>异常</returns>
         public static WXException GetInstance(string message, string user, object exceptionTag = null)
         {
-            LogManager.WriteInfo("ErrorMsg异常" + message);
+            LogManager.WriteInfo("ErrorMsg异常-" + message);
             WXException e = exceptionTag == null
                 ? new WXException(message, user)
                 : new WXException(message, user, exceptionTag);

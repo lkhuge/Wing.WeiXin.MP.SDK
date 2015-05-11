@@ -89,10 +89,10 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         public void AddTempReceiveEvent(string toUserName, string fromUserName, Func<Request, Response> receiveEvent)
         {
-            LogManager.WriteSystem("添加临时接收事件-开始");
             toUserName = CheckToUserName(toUserName, false);
             if (!TempReceiveEvent.ContainsKey(toUserName))
                 TempReceiveEvent.Add(toUserName, new Dictionary<string, Func<Request, Response>>());
+            LogManager.WriteSystem("添加临时接收事件-开始");
             TempReceiveEvent[toUserName].Add(fromUserName, receiveEvent);
             LogManager.WriteSystem("添加临时接收事件-结束");
         }
@@ -106,10 +106,10 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         internal void AddSystemReceiveEvent(string toUserName, Func<Request, Response> receiveEvent)
         {
-            LogManager.WriteSystem("添加系统接收事件-开始");
             toUserName = CheckToUserName(toUserName, false);
             if (!SystemReceiveEvent.ContainsKey(toUserName))
                 SystemReceiveEvent.Add(toUserName, new List<Func<Request, Response>>());
+            LogManager.WriteSystem("添加系统接收事件-开始");
             SystemReceiveEvent[toUserName].Add(receiveEvent);
             LogManager.WriteSystem("添加系统接收事件-结束");
         }
@@ -125,13 +125,14 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent, int priority = 0)
         {
-            LogManager.WriteSystem("添加全局接收事件-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!GloablReceiveEvent.ContainsKey(toUserName))
                 GloablReceiveEvent.Add(toUserName, new Dictionary<string, Func<Request, Response>>());
             if (GloablReceiveEvent[toUserName].ContainsKey(eventName))
                 throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
+            if (!CheckEventAction(eventName)) return;
+            LogManager.WriteSystem("添加全局接收事件-开始");
             GloablReceiveEvent[toUserName].Add(eventName, receiveEvent);
             GloablReceiveEventPriorityList.Add(eventName, priority);
             LogManager.WriteSystem("添加全局接收事件-结束");
@@ -148,10 +149,8 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, Func<T, Response> receiveEvent, int priority = 0) where T : RequestAMessage, new()
         {
-            LogManager.WriteSystem("添加普通接收事件(泛型委托)-开始");
             AddReceiveEvent(new T().ReceiveEntityType, eventName, toUserName,
                 r => receiveEvent(RequestAMessage.GetRequestAMessage<T>(r)), priority);
-            LogManager.WriteSystem("添加普通接收事件(泛型委托)-结束");
         }
         #endregion
 
@@ -165,7 +164,6 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, IEventBuilder<T> eventBuilder, int priority = 0) where T : RequestAMessage, new()
         {
-            LogManager.WriteSystem("添加普通接收事件(IEventBuilder<T>)-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
@@ -181,6 +179,8 @@ namespace Wing.WeiXin.MP.SDK
             {
                 throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             }
+            if (!CheckEventAction(eventName)) return;
+            LogManager.WriteSystem("添加普通接收事件(IEventBuilder<T>)-开始");
             ReceiveEvent[toUserName][typeName].Add(
                 eventName,
                 r => eventBuilder.GetEvent()(RequestAMessage.GetRequestAMessage<T>(r)));
@@ -200,7 +200,6 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         internal void AddReceiveEvent(ReceiveEntityType typeName, string eventName, string toUserName, Func<Request, Response> receiveEvent, int priority = 0)
         {
-            LogManager.WriteSystem("添加普通接收事件(类型委托)-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
@@ -215,9 +214,11 @@ namespace Wing.WeiXin.MP.SDK
             {
                 throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             }
+            if (!CheckEventAction(eventName)) return;
+            LogManager.WriteSystem("添加普通接收事件(委托)-开始");
             ReceiveEvent[toUserName][typeName].Add(eventName, receiveEvent);
             ReceiveEventPriorityList.Add(eventName, priority);
-            LogManager.WriteSystem("添加普通接收事件(类型委托)-结束");
+            LogManager.WriteSystem("添加普通接收事件(委托)-结束");
         }
         #endregion
 
@@ -231,12 +232,31 @@ namespace Wing.WeiXin.MP.SDK
         internal Response ActionEvent(Request request, bool needCheck)
         {
             LogManager.WriteSystem("执行事件-开始");
-            Response response = request.WXAccount.MessageFilter(request, needCheck);
-            Response result = response ?? ActionEventList.Select(r => r(request)).FirstOrDefault();
+            Response response = MessageFilter(request, needCheck);
+            Response result = response ?? ActionEventList.Select(r => r(request)).FirstOrDefault(r => r != null);
             LogManager.WriteSystem("执行事件-结束");
 
             return result;
         }
+        #endregion
+
+        #region 执行消息过滤 private Response MessageFilter(Request request, bool needCheck)
+        /// <summary>
+        /// 执行消息过滤
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="needCheck">是否检查请求</param>
+        /// <returns>响应对象</returns>
+        private Response MessageFilter(Request request, bool needCheck)
+        {
+            WXAccount account = request.WXAccount;
+            if (account == null)
+                throw WXException.GetInstance("无法确定微信公共平台账号", Settings.Default.SystemUsername);
+            LogManager.WriteSystem("执行消息过滤-开始");
+            Response result = account.MessageFilter(request, needCheck);
+            LogManager.WriteSystem("执行消息过滤-结束");
+            return result;
+        } 
         #endregion
 
         #region 执行临时事件 private Response ActionTempEvent(Request request)
@@ -247,9 +267,9 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionTempEvent(Request request)
         {
-            LogManager.WriteSystem("执行临时事件-开始");
             if (!TempReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!TempReceiveEvent[request.ToUserName].ContainsKey(request.FromUserName)) return null;
+            LogManager.WriteSystem("执行临时事件-开始");
             Response response = TempReceiveEvent[request.ToUserName][request.FromUserName](request);
             if (response != null)
             {
@@ -272,8 +292,8 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionSystemEvent(Request request)
         {
-            LogManager.WriteSystem("执行系统事件-开始");
             if (!SystemReceiveEvent.ContainsKey(request.ToUserName)) return null;
+            LogManager.WriteSystem("执行系统事件-开始");
             Response response = SystemReceiveEvent[request.ToUserName]
                 .Select(e => e(request)).FirstOrDefault(r => r != null);
             if (response != null)
@@ -297,10 +317,9 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionGlobalEvent(Request request)
         {
-            LogManager.WriteSystem("执行全局事件-开始");
             if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
+            LogManager.WriteSystem("执行全局事件-开始");
             Response response = GloablReceiveEventPriorityList
-                .Where(e => CheckEventAction(e.Key))
                 .OrderByDescending(e => e.Value)
                 .Select(e =>
                 {
@@ -325,12 +344,11 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionReceiveEvent(Request request)
         {
-            LogManager.WriteSystem("执行普通事件-开始");
             if (!ReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
+            LogManager.WriteSystem("执行普通事件-开始");
             Response response = ReceiveEventPriorityList
-                .Where(e => ReceiveEvent[request.ToUserName][request.MsgType].ContainsKey(e.Key) && 
-                    CheckEventAction(e.Key))
+                .Where(e => ReceiveEvent[request.ToUserName][request.MsgType].ContainsKey(e.Key))
                 .OrderByDescending(e => e.Value)
                 .Select(e =>
                 {
@@ -370,16 +388,16 @@ namespace Wing.WeiXin.MP.SDK
         } 
         #endregion
 
-        #region 检测事件是否可以执行 public bool CheckEventAction(string actionKey)
+        #region 检测事件是否可以执行 private bool CheckEventAction(string actionName)
         /// <summary>
         /// 检测事件是否可以执行
         /// </summary>
-        /// <param name="actionKey">事件配置Key</param>
+        /// <param name="actionName">事件名称</param>
         /// <returns>事件是否可以执行</returns>
-        public bool CheckEventAction(string actionKey)
+        private bool CheckEventAction(string actionName)
         {
             if (!IsCheckEventName) return true;
-            bool result = GlobalManager.ConfigManager.CheckEvent(actionKey);
+            bool result = GlobalManager.ConfigManager.CheckEvent(actionName);
 
             return result;
         }
@@ -393,8 +411,8 @@ namespace Wing.WeiXin.MP.SDK
         internal IEnumerable<string> GetGloablReceiveEventInfoList()
         {
             return GloablReceiveEvent.SelectMany(g => g.Value.Select(e =>
-                String.Format("账号ID:{0} 事件ID:{1} 优先级:{2} 是否生效:{3}",
-                    g.Key, e.Key, GloablReceiveEventPriorityList[e.Key], CheckEventAction(e.Key))));
+                String.Format("账号ID:{0} 事件ID:{1} 优先级:{2}",
+                    g.Key, e.Key, GloablReceiveEventPriorityList[e.Key])));
         } 
         #endregion
 
@@ -406,8 +424,8 @@ namespace Wing.WeiXin.MP.SDK
         internal IEnumerable<string> GetReceiveEventInfoList()
         {
             return ReceiveEvent.SelectMany(g => g.Value.SelectMany(e => e.Value.Select(t =>
-                String.Format("账号ID:{0} 事件类型:{1} 事件ID:{2} 优先级:{3} 是否生效:{4}",
-                    g.Key, e.Key, t.Key, ReceiveEventPriorityList[t.Key], CheckEventAction(t.Key)))));
+                String.Format("账号ID:{0} 事件类型:{1} 事件ID:{2} 优先级:{3}",
+                    g.Key, e.Key, t.Key, ReceiveEventPriorityList[t.Key]))));
         }
         #endregion
 

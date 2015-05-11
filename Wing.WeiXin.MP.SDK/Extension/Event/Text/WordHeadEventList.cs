@@ -13,16 +13,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
     public class WordHeadEventList : IEventBuilder<RequestText>
     {
         /// <summary>
-        /// 是否需要根据配置判断是否执行
-        /// </summary>
-        public bool ActionByConfig = true;
-
-        /// <summary>
-        /// 配置前缀（配置名称格式：配置前缀@消息头部）
-        /// </summary>
-        public string ActionNameHead = null;
-
-        /// <summary>
         /// 字符串头部是否区分大小写
         /// </summary>
         public bool IsCaseSensitive;
@@ -56,9 +46,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 return Handler(
                     text.Substring(0, index).Trim(),
                     text.Substring(index + 1).Trim(),
-                    request.Request,
-                    ActionByConfig,
-                    ActionNameHead);
+                    request.Request);
             };
         } 
         #endregion
@@ -80,9 +68,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
                 return Handler(
                     text.Substring(0, headWordLength).Trim(),
                     text.Substring(headWordLength).Trim(),
-                    request.Request,
-                    ActionByConfig,
-                    ActionNameHead);
+                    request.Request);
             };
         }
         #endregion
@@ -98,20 +84,17 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Text
         }
         #endregion
 
-        #region 执行事件 private Response Handler(string head, string content, Request request, bool actionByConfig, string actionNameHead)
+        #region 执行事件 private Response Handler(string head, string content, Request request)
         /// <summary>
         /// 执行事件
         /// </summary>
         /// <param name="head">字符串头部</param>
         /// <param name="content">字符串主体</param>
         /// <param name="request">请求</param>
-        /// <param name="actionByConfig">是否需要根据配置判断是否执行</param>
-        /// <param name="actionNameHead">配置前缀（配置名称格式：配置前缀@消息头部）</param>
         /// <returns>响应</returns>
-        private Response Handler(string head, string content, Request request, bool actionByConfig, string actionNameHead)
+        private Response Handler(string head, string content, Request request)
         {
             if (!eventList.ContainsKey(head)) return null;
-            if (actionByConfig && !GlobalManager.EventManager.CheckEventAction(String.Format("{0}@{1}", actionNameHead, head))) return null;
             Func<string, Request, Response> eventTemp = eventList
                 .FirstOrDefault(e => IsCaseSensitive ? e.Key.Equals(head) : e.Key.ToLower().Equals(head.ToLower())).Value;
 
