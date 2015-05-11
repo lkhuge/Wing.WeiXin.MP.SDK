@@ -81,7 +81,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             try
             {
                 request.ParsePostData();
-                return EventManager.ActionEvent(request);
+                return EventManager.ActionEvent(request, false);
             }
             catch (WXException e)
             {
@@ -112,38 +112,13 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 request.Check();
                 request.ParsePostData();
-                return CheckMsgID(request) ? null : EventManager.ActionEvent(request);
+                return EventManager.ActionEvent(request, true);
             }
             catch (WXException e)
             {
                 return new Response(e);
             }
         } 
-        #endregion
-
-        #region 检测MsgID防止消息重复 private bool CheckMsgID(Request request)
-        /// <summary>
-        /// 检测MsgID防止消息重复
-        /// </summary>
-        /// <param name="request">请求对象</param>
-        /// <returns>是否息重复</returns>
-        private bool CheckMsgID(Request request)
-        {
-            LogManager.WriteSystem("检测MsgID");
-            if (!request.HasPostData("MsgId")) return false;
-            if (WXSession == null) return false;
-            string msgID = request.GetMsgId();
-            string msgIDTemp = WXSession.Get<string>(request.FromUserName, Settings.Default.LastMsgIDKey);
-            if (msgIDTemp != null)
-            {
-                LogManager.WriteSystem("检测MsgID通过");
-                string lastMsgID = msgIDTemp;
-                if (msgID.Equals(lastMsgID)) return true;
-            }
-            WXSession.Set(request.FromUserName, Settings.Default.LastMsgIDKey, msgID);
-            LogManager.WriteSystem("检测MsgID未通过");
-            return false;
-        }
         #endregion
     }
 }

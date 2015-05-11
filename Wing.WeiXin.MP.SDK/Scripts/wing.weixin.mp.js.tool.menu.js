@@ -556,7 +556,6 @@
                     }
                 }
             }
-
             if (isMain) {
                 if (isNew) {
                     if (type == 'main') {
@@ -575,11 +574,18 @@
                 if (isNew) {
                     setMenu(id, obj, false, true);
                 } else {
+                    
                     setMenu(id, obj, false, false, subDom);
                 }
             }
         } else {
-            $('#' + toolIDPrefix + 'head-' + id).text(name);
+            if (isMain) {
+                $('#' + toolIDPrefix + 'head-' + id).text(name);
+            } else {
+                var td = subDom.find('p[data-menu-type="name"]').eq(0);
+                td.attr('data-menu-value', name);
+                td.html('<strong>显示标题：' + name + '</strong>');
+            }
         }
 
         $('#' + toolMenuEditIDPrefix + 'main').modal('hide');

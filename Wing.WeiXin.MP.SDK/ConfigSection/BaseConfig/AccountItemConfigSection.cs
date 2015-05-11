@@ -54,5 +54,16 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
             get { return Convert.ToString(this["EncodingAESKey"]); }
         }
         #endregion
+
+        #region 是否启动重复消息过滤 public bool RMFilter
+        /// <summary>
+        /// 是否启动重复消息过滤
+        /// </summary>
+        [ConfigurationProperty("RMFilter", DefaultValue = false)]
+        public bool RMFilter
+        {
+            get { return Convert.ToBoolean(this["RMFilter"]); }
+        }
+        #endregion
     }
 }

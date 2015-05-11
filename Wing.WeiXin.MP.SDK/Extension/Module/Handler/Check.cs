@@ -18,11 +18,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
     ///       1.1 [Warn]运行环境
     ///       1.2 [Info]SDK版本
     ///     2 配置测试
-    ///       2.1 [Error]是否已经初始化 （GlobalManager.IsInit）
-    ///       2.2 [Warn]是否存在微信公众平台账号
-    ///       2.3 [Warn]微信用户会话接口是否可用
-    ///       2.4 [Info]全局事件列表
-    ///       2.5 [Info]普通事件列表
+    ///       2.1 [Warn]是否存在微信公众平台账号
+    ///       2.2 [Warn]微信用户会话接口是否可用
+    ///       2.3 [Info]全局事件列表
+    ///       2.4 [Info]普通事件列表
     ///     3 模拟测试
     ///       3.1 [Error]对首次验证进行测试
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
@@ -69,12 +68,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             }},
             {"配置测试", new []
             {
-                new AshxCheckItem
-                {
-                    Type = AshxCheckItem.AshxCheckItemType.Error,
-                    Text = "是否已经初始化",
-                    Check = () => GlobalManager.IsInit ? null : "未初始化完成"
-                },
                 new AshxCheckItem
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,

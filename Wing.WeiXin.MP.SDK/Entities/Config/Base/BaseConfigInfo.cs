@@ -31,6 +31,16 @@ namespace Wing.WeiXin.MP.SDK.Entities.Config.Base
         public string DefaultAccount { get; set; }
 
         /// <summary>
+        /// 自动添加事件
+        /// </summary>
+        public string AutoEvent { get; set; }
+
+        /// <summary>
+        /// 是否加载基于Module的入口管理类
+        /// </summary>
+        public bool WeixinModule { get; set; }
+
+        /// <summary>
         /// 公共平台账户列表
         /// </summary>
         public List<WXAccount> AccountList { get; set; }

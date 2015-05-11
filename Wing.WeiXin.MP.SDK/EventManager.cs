@@ -59,6 +59,27 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         private readonly Dictionary<string, int> ReceiveEventPriorityList = new Dictionary<string, int>();
 
+        /// <summary>
+        /// 执行事件列表
+        /// </summary>
+        private readonly Func<Request, Response>[] ActionEventList;
+
+        #region 初始化 public EventManager()
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public EventManager()
+        {
+            ActionEventList = new Func<Request, Response>[]
+            {
+                ActionTempEvent,
+                ActionSystemEvent,
+                ActionGlobalEvent,
+                ActionReceiveEvent
+            };
+        } 
+        #endregion
+
         #region 添加临时接收事件 public void AddTempReceiveEvent(string toUserName, string fromUserName, Func<Request, Response> receiveEvent)
         /// <summary>
         /// 添加临时接收事件
@@ -68,10 +89,12 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         public void AddTempReceiveEvent(string toUserName, string fromUserName, Func<Request, Response> receiveEvent)
         {
+            LogManager.WriteSystem("添加临时接收事件-开始");
             toUserName = CheckToUserName(toUserName, false);
             if (!TempReceiveEvent.ContainsKey(toUserName))
                 TempReceiveEvent.Add(toUserName, new Dictionary<string, Func<Request, Response>>());
             TempReceiveEvent[toUserName].Add(fromUserName, receiveEvent);
+            LogManager.WriteSystem("添加临时接收事件-结束");
         }
         #endregion
 
@@ -83,10 +106,12 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="receiveEvent">事件</param>
         internal void AddSystemReceiveEvent(string toUserName, Func<Request, Response> receiveEvent)
         {
+            LogManager.WriteSystem("添加系统接收事件-开始");
             toUserName = CheckToUserName(toUserName, false);
             if (!SystemReceiveEvent.ContainsKey(toUserName))
                 SystemReceiveEvent.Add(toUserName, new List<Func<Request, Response>>());
             SystemReceiveEvent[toUserName].Add(receiveEvent);
+            LogManager.WriteSystem("添加系统接收事件-结束");
         }
         #endregion
 
@@ -100,6 +125,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddGloablReceiveEvent(string eventName, string toUserName, Func<Request, Response> receiveEvent, int priority = 0)
         {
+            LogManager.WriteSystem("添加全局接收事件-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!GloablReceiveEvent.ContainsKey(toUserName))
@@ -108,6 +134,7 @@ namespace Wing.WeiXin.MP.SDK
                 throw WXException.GetInstance(String.Format("事件名（{0}）重复", eventName), toUserName);
             GloablReceiveEvent[toUserName].Add(eventName, receiveEvent);
             GloablReceiveEventPriorityList.Add(eventName, priority);
+            LogManager.WriteSystem("添加全局接收事件-结束");
         }
         #endregion
 
@@ -121,8 +148,10 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, Func<T, Response> receiveEvent, int priority = 0) where T : RequestAMessage, new()
         {
+            LogManager.WriteSystem("添加普通接收事件(泛型委托)-开始");
             AddReceiveEvent(new T().ReceiveEntityType, eventName, toUserName,
                 r => receiveEvent(RequestAMessage.GetRequestAMessage<T>(r)), priority);
+            LogManager.WriteSystem("添加普通接收事件(泛型委托)-结束");
         }
         #endregion
 
@@ -136,6 +165,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         public void AddReceiveEvent<T>(string eventName, string toUserName, IEventBuilder<T> eventBuilder, int priority = 0) where T : RequestAMessage, new()
         {
+            LogManager.WriteSystem("添加普通接收事件(IEventBuilder<T>)-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
@@ -155,7 +185,7 @@ namespace Wing.WeiXin.MP.SDK
                 eventName,
                 r => eventBuilder.GetEvent()(RequestAMessage.GetRequestAMessage<T>(r)));
             ReceiveEventPriorityList.Add(eventName, priority);
-
+            LogManager.WriteSystem("添加普通接收事件(IEventBuilder<T>)-结束");
         }
         #endregion
 
@@ -170,6 +200,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="priority">优先级（值越高优先级越大）</param>
         internal void AddReceiveEvent(ReceiveEntityType typeName, string eventName, string toUserName, Func<Request, Response> receiveEvent, int priority = 0)
         {
+            LogManager.WriteSystem("添加普通接收事件(类型委托)-开始");
             if (String.IsNullOrEmpty(eventName)) throw WXException.GetInstance("事件名不能为空", toUserName);
             toUserName = CheckToUserName(toUserName);
             if (!ReceiveEvent.ContainsKey(toUserName))
@@ -186,24 +217,25 @@ namespace Wing.WeiXin.MP.SDK
             }
             ReceiveEvent[toUserName][typeName].Add(eventName, receiveEvent);
             ReceiveEventPriorityList.Add(eventName, priority);
+            LogManager.WriteSystem("添加普通接收事件(类型委托)-结束");
         }
         #endregion
 
-        #region 执行事件 internal Response ActionEvent(Request request)
+        #region 执行事件 internal Response ActionEvent(Request request, bool needCheck)
         /// <summary>
         /// 执行事件
         /// </summary>
         /// <param name="request">请求对象</param>
+        /// <param name="needCheck">是否检查请求</param>
         /// <returns>响应对象</returns>
-        internal Response ActionEvent(Request request)
+        internal Response ActionEvent(Request request, bool needCheck)
         {
-            Response result = ActionTempEvent(request);
-            if (result != null) return result;
-            result = ActionSystemEvent(request);
-            if (result != null) return result;
-            result = ActionGlobalEvent(request);
+            LogManager.WriteSystem("执行事件-开始");
+            Response response = request.WXAccount.MessageFilter(request, needCheck);
+            Response result = response ?? ActionEventList.Select(r => r(request)).FirstOrDefault();
+            LogManager.WriteSystem("执行事件-结束");
 
-            return result ?? ActionReceiveEvent(request);
+            return result;
         }
         #endregion
 
@@ -215,23 +247,19 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionTempEvent(Request request)
         {
+            LogManager.WriteSystem("执行临时事件-开始");
             if (!TempReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!TempReceiveEvent[request.ToUserName].ContainsKey(request.FromUserName)) return null;
-            LogManager.WriteSystem("触发临时事件");
             Response response = TempReceiveEvent[request.ToUserName][request.FromUserName](request);
             if (response != null)
             {
                 response.ActionEventName = String.Format("临时事件（账号ID:{0} 用户ID:{1}）", 
                     request.ToUserName, request.FromUserName);
-                LogManager.WriteInfo("临时事件响应" + Environment.NewLine + response.Text,
-                    request.FromUserName);
-                bool deleteResult = TempReceiveEvent[request.ToUserName].Remove(request.FromUserName);
-                LogManager.WriteInfo("删除临时事件响应" + (deleteResult ? "成功" : "失败"),
-                    request.FromUserName);
+                TempReceiveEvent[request.ToUserName].Remove(request.FromUserName);
+                LogManager.WriteSystem("执行临时事件-删除临时事件-结束");
                 return response;
             }
-            LogManager.WriteSystem("临时事件无响应");
-
+            LogManager.WriteSystem("执行临时事件-保留临时事件-结束");
             return null;
         }
         #endregion
@@ -244,20 +272,19 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionSystemEvent(Request request)
         {
+            LogManager.WriteSystem("执行系统事件-开始");
             if (!SystemReceiveEvent.ContainsKey(request.ToUserName)) return null;
-            LogManager.WriteSystem("触发系统事件");
             Response response = SystemReceiveEvent[request.ToUserName]
                 .Select(e => e(request)).FirstOrDefault(r => r != null);
             if (response != null)
             {
                 response.ActionEventName = String.Format("系统事件（账号ID:{0}）",
                     request.ToUserName);
-                LogManager.WriteInfo("系统事件响应" + Environment.NewLine + response.Text,
-                    request.FromUserName);
+                LogManager.WriteSystem("执行系统事件-发现响应-结束");
                 return response;
             }
-            LogManager.WriteSystem("系统事件无响应");
 
+            LogManager.WriteSystem("执行系统事件-未发现响应-结束");
             return null;
         }
         #endregion
@@ -270,8 +297,8 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionGlobalEvent(Request request)
         {
+            LogManager.WriteSystem("执行全局事件-开始");
             if (!GloablReceiveEvent.ContainsKey(request.ToUserName)) return null;
-            LogManager.WriteSystem("触发全局单账号事件");
             Response response = GloablReceiveEventPriorityList
                 .Where(e => CheckEventAction(e.Key))
                 .OrderByDescending(e => e.Value)
@@ -280,18 +307,13 @@ namespace Wing.WeiXin.MP.SDK
                     Response r = GloablReceiveEvent[request.ToUserName][e.Key](request);
                     if(r != null) r.ActionEventName = String.Format("全局事件（账号ID:{0} 事件ID:{1}）",
                         request.ToUserName, e.Key);
+                    LogManager.WriteSystem("执行全局事件-发现响应-结束");
                     return r;
                 })
-                .FirstOrDefault(r => r != null); 
-            if (response != null)
-            {
-                LogManager.WriteInfo("全局单账号事件响应" + Environment.NewLine + response.Text,
-                    request.FromUserName);
-                return response;
-            }
-            LogManager.WriteSystem("全局单账号事件无响应");
+                .FirstOrDefault(r => r != null);
 
-            return null;
+            LogManager.WriteSystem("执行全局事件-未发现响应-结束");
+            return response;
         }
         #endregion
 
@@ -303,9 +325,9 @@ namespace Wing.WeiXin.MP.SDK
         /// <returns>响应对象</returns>
         private Response ActionReceiveEvent(Request request)
         {
+            LogManager.WriteSystem("执行普通事件-开始");
             if (!ReceiveEvent.ContainsKey(request.ToUserName)) return null;
             if (!ReceiveEvent[request.ToUserName].ContainsKey(request.MsgType)) return null;
-            LogManager.WriteSystem("触发普通事件");
             Response response = ReceiveEventPriorityList
                 .Where(e => ReceiveEvent[request.ToUserName][request.MsgType].ContainsKey(e.Key) && 
                     CheckEventAction(e.Key))
@@ -315,18 +337,13 @@ namespace Wing.WeiXin.MP.SDK
                     Response r = ReceiveEvent[request.ToUserName][request.MsgType][e.Key](request);
                     if (r != null) r.ActionEventName = String.Format("普通事件（账号ID:{0} 事件类型:{1} 事件ID:{2}）",
                          request.ToUserName, request.MsgType, e.Key);
+                    LogManager.WriteSystem("执行普通事件-发现响应-结束");
                     return r;
                 })
-                .FirstOrDefault(r => r != null); 
-            if (response != null)
-            {
-                LogManager.WriteInfo("普通事件响应" + Environment.NewLine + response.Text,
-                    request.FromUserName);
-                return response;
-            }
-            LogManager.WriteSystem("普通事件无响应");
+                .FirstOrDefault(r => r != null);
 
-            return null;
+            LogManager.WriteSystem("执行普通事件-未发现响应-结束");
+            return response;
         }
         #endregion
 
@@ -362,9 +379,7 @@ namespace Wing.WeiXin.MP.SDK
         public bool CheckEventAction(string actionKey)
         {
             if (!IsCheckEventName) return true;
-            LogManager.WriteSystem(String.Format("检测事件({0})是否可以执行", actionKey));
             bool result = GlobalManager.ConfigManager.CheckEvent(actionKey);
-            LogManager.WriteSystem(String.Format("事件({0}){1}可以执行", actionKey, result ? "" : "不"));
 
             return result;
         }

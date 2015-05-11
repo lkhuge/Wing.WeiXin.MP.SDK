@@ -7,6 +7,7 @@ using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
+using Wing.WeiXin.MP.SDK.Extension.Event.Attributes;
 using Wing.WeiXin.MP.SDK.Extension.Module;
 using Wing.WeiXin.MP.SDK.Properties;
 
@@ -42,11 +43,6 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static Assembly CallingAssembly { get; set; }
 
-        /// <summary>
-        /// 是否已经初始化
-        /// </summary>
-        internal static bool IsInit;
-
         #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
         /// <summary>
         /// 初始化
@@ -55,26 +51,28 @@ namespace Wing.WeiXin.MP.SDK
         /// <param name="wxSession">微信会话接口</param>
         public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
         {
+            LogManager.WriteSystem("全局-初始化-开始");
             CallingAssembly = Assembly.GetCallingAssembly();
             ConfigManager = config == null ? new ConfigManager() : new ConfigManager(config);
             WXSession = wxSession ?? new StaticWXSession();
             FunctionManager = new FunctionManager(new AccessTokenContainer(WXSession));
             EventManager = new EventManager();
-            InitLog();
-
-            IsInit = true;
+            InitConfig();
+            LogManager.WriteSystem("全局-初始化-结束");
         }
         #endregion
 
-        #region 初始化日志 private static void InitLog()
+        #region 初始化配置信息 private static void InitConfig()
         /// <summary>
-        /// 初始化日志
+        /// 初始化配置信息
         /// </summary>
-        private static void InitLog()
+        private static void InitConfig()
         {
             string log = ConfigManager.Config.Base.Log;
-            if (String.IsNullOrEmpty(log)) return;
-            LogManager.AddWriteCallback(msg => File.AppendAllLines(log, new[] { msg }));
+            if (!String.IsNullOrEmpty(log)) LogManager.AddWriteCallback(msg => File.AppendAllLines(log, new[] { msg }));
+            string autoEvent = ConfigManager.Config.Base.AutoEvent;
+            if (!String.IsNullOrEmpty(autoEvent)) EventManager.AutoAddReceiveEvent(autoEvent);
+            if (ConfigManager.Config.Base.WeixinModule) InitWeixinModule();
         } 
         #endregion
 
@@ -84,7 +82,9 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void InitWeixinModule()
         {
+            LogManager.WriteSystem("基于Module的入口管理类-初始化-开始");
             WeixinModule.LoadHandlerList();
+            LogManager.WriteSystem("基于Module的入口管理类-初始化-结束");
         } 
         #endregion
 
@@ -112,27 +112,6 @@ namespace Wing.WeiXin.MP.SDK
 
             return ConfigManager.Config.Base.AccountList.FirstOrDefault(a => a.ID.Equals(id)) ?? GetFirstAccount();
         }
-        #endregion
-
-        #region 检测是否初始化 public static void CheckInit()
-        /// <summary>
-        /// 检测是否初始化
-        /// </summary>
-        public static void CheckInit()
-        {
-            if (!IsInit) throw WXException.GetInstance("微信公共平台未初始化", Settings.Default.SystemUsername);
-        }
-        #endregion
-
-        #region 添加重复消息过滤器 public static void AddRepetitionMessageFilter(string toUserName)
-        /// <summary>
-        /// 添加重复消息过滤器
-        /// </summary>
-        /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
-        public static void AddRepetitionMessageFilter(string toUserName)
-        {
-            RepetitionMessageFilter.AddFilter(toUserName);
-        } 
         #endregion
 
         #region 当前是否为Debug模式 public static bool IsDebug()

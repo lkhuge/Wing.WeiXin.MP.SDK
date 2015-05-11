@@ -14,7 +14,7 @@ namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
     /// 重复消息过滤器
     /// 可用于过滤刷屏
     /// </summary>
-    public static class RepetitionMessageFilter
+    public class RepetitionMessageFilter : IMessageFilter
     {
         /// <summary>
         /// 最大重复数
@@ -27,30 +27,47 @@ namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
         public static Func<Request, Response> OutRepetitionEvent = 
             request => request.GetTextResponse("禁止刷屏");
 
-        #region 添加重复消息过滤器 public static void AddFilter(string toUserName)
         /// <summary>
-        /// 添加重复消息过滤器
+        /// 杂质元素列表
         /// </summary>
-        /// <param name="toUserName">开发者微信号（如果为空则为全局事件）</param>
-        public static void AddFilter(string toUserName)
+        public static string[] ImpurityList =
         {
-            GlobalManager.EventManager.AddSystemReceiveEvent(toUserName, request =>
-            {
-                if (request.MsgType != ReceiveEntityType.text) return null;
-                RequestText requestText = RequestAMessage.GetRequestAMessage<RequestText>(request);
-                string content = RemoveImpurity(requestText.Content);
-                string contentTextTemp = GlobalManager.WXSession.Get<string>(request.FromUserName, Settings.Default.RepetitionMessageTextSign);
-                int contentCountTemp = GlobalManager.WXSession.Get<int>(request.FromUserName, Settings.Default.RepetitionMessageCountSign);
-                contentTextTemp = contentTextTemp ?? "";
-                contentCountTemp = contentTextTemp.ToString().Equals(content) ? contentCountTemp + 1 : 0;
-                GlobalManager.WXSession.Set(request.FromUserName, Settings.Default.RepetitionMessageTextSign, content);
-                GlobalManager.WXSession.Set(request.FromUserName, Settings.Default.RepetitionMessageCountSign, contentCountTemp);
+            " ",
+            ",",
+            "，",
+            ".",
+            "。",
+            "?",
+            "？",
+            "!",
+            "！",
+            ";",
+            "；",
+            ":",
+            "："
+        };
 
-                return contentCountTemp > MaxRepetition
-                    ? OutRepetitionEvent(request) 
-                    : null;
-            });
-        }
+        #region 执行过滤 public Response Action(Request request)
+        /// <summary>
+        /// 执行过滤
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <returns>响应对象（如果为空则跳过过滤）</returns>
+        public Response Action(Request request)
+        {
+            if (request.MsgType != ReceiveEntityType.text) return null;
+            string content = RemoveImpurity(RequestAMessage.GetRequestAMessage<RequestText>(request).Content);
+            string contentTextTemp = GlobalManager.WXSession.Get<string>(request.FromUserName, Settings.Default.RepetitionMessageTextSign);
+            int contentCountTemp = GlobalManager.WXSession.Get<int>(request.FromUserName, Settings.Default.RepetitionMessageCountSign);
+            contentTextTemp = contentTextTemp ?? "";
+            contentCountTemp = contentTextTemp.Equals(content) ? contentCountTemp + 1 : 0;
+            GlobalManager.WXSession.Set(request.FromUserName, Settings.Default.RepetitionMessageTextSign, content);
+            GlobalManager.WXSession.Set(request.FromUserName, Settings.Default.RepetitionMessageCountSign, contentCountTemp);
+
+            return contentCountTemp > MaxRepetition
+                ? OutRepetitionEvent(request)
+                : null;
+        } 
         #endregion
 
         #region 去除杂质内容 private static string RemoveImpurity(string message)
@@ -61,21 +78,8 @@ namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
         /// <returns>过滤后的消息</returns>
         private static string RemoveImpurity(string message)
         {
-            return message
-                .Replace(" ", "")
-                .Replace(",", "")
-                .Replace("，", "")
-                .Replace(".", "")
-                .Replace("。", "")
-                .Replace("?", "")
-                .Replace("？", "")
-                .Replace("!", "")
-                .Replace("！", "")
-                .Replace(";", "")
-                .Replace("；", "")
-                .Replace(":", "")
-                .Replace("：", "");
-        } 
+            return ImpurityList.Aggregate(message, (current, i) => current.Replace(i, ""));
+        }
         #endregion
     }
 }

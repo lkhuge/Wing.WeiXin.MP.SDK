@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.EventConfig;
 using Wing.WeiXin.MP.SDK.ConfigSection.HandlerConfig;
@@ -129,14 +130,21 @@ namespace Wing.WeiXin.MP.SDK
                 Debug = baseConfig.Debug,
                 Log = baseConfig.Log,
                 DefaultAccount = baseConfig.DefaultAccount,
+                AutoEvent = baseConfig.AutoEvent,
+                WeixinModule = baseConfig.WeixinModule,
                 AccountList = baseConfig.AccountList
                     .Cast<AccountItemConfigSection>()
-                    .Select(a => new WXAccount(
-                        baseConfig.Token,
-                        a.WeixinMPID,
-                        a.AppID,
-                        a.AppSecret,
-                        a.EncodingAESKey))
+                    .Select(a =>
+                    {
+                        WXAccount account = new WXAccount(
+                            baseConfig.Token,
+                            a.WeixinMPID,
+                            a.AppID,
+                            a.AppSecret,
+                            a.EncodingAESKey);
+                        if (a.RMFilter) account.AddMessageFilter(new RepetitionMessageFilter());
+                        return account;
+                    })
                     .ToList()
             };
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -43,6 +44,16 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         internal WXBizMsgCrypt WXBizMsgCrypt;
 
+        /// <summary>
+        /// 检查MsgID消息过滤器
+        /// </summary>
+        private static readonly CheckMsgIDMessageFilter CheckMsgIDMessageFilter = new CheckMsgIDMessageFilter();
+
+        /// <summary>
+        /// 消息过滤器列表
+        /// </summary>
+        private List<IMessageFilter> MessageFilterList;
+
         #region 根据参数实例化 public WXAccount(string token, string id, string appID, string appSecret, string encodingAESKey = null)
         /// <summary>
         /// 根据参数实例化
@@ -82,6 +93,38 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 AppID,
                 AppSecret,
                 EncodingAESKey);
+        } 
+        #endregion
+
+        #region 添加消息过滤器 public void AddMessageFilter(IMessageFilter messageFilter)
+        /// <summary>
+        /// 添加消息过滤器
+        /// </summary>
+        /// <param name="messageFilter">消息过滤器</param>
+        public void AddMessageFilter(IMessageFilter messageFilter)
+        {
+            if (MessageFilterList == null) MessageFilterList = new List<IMessageFilter>();
+            MessageFilterList.Add(messageFilter);
+        } 
+        #endregion
+
+        #region 消息过滤 internal Response MessageFilter(Request request, bool isCheckMsgID)
+        /// <summary>
+        /// 消息过滤
+        /// </summary>
+        /// <param name="request">请求对象</param>
+        /// <param name="isCheckMsgID">是否检查MsgID</param>
+        /// <returns>响应对象（如果为空则跳过过滤）</returns>
+        internal Response MessageFilter(Request request, bool isCheckMsgID)
+        {
+            if (isCheckMsgID)
+            {
+                Response checkMsgIDResponse = CheckMsgIDMessageFilter.Action(request);
+                if (checkMsgIDResponse != null) return checkMsgIDResponse;
+            }
+            if (MessageFilterList == null || MessageFilterList.Count == 0) return null;
+
+            return MessageFilterList.Select(t => t.Action(request)).FirstOrDefault(response => response != null);
         } 
         #endregion
     }

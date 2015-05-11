@@ -50,6 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AccessTokenContainer.cs" />
+    <Compile Include="Common\MessageFilter\CheckMsgIDMessageFilter.cs" />
+    <Compile Include="Common\MessageFilter\CheckWXServerIPMessageFilter.cs" />
+    <Compile Include="Common\MessageFilter\IMessageFilter.cs" />
     <Compile Include="Common\MessageFilter\RepetitionMessageFilter.cs" />
     <Compile Include="Common\MsgCrypt\Cryptography.cs" />
     <Compile Include="Common\MsgCrypt\WXBizMsgCrypt.cs" />

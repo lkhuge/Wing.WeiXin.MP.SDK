@@ -55,6 +55,28 @@ namespace Wing.WeiXin.MP.SDK.ConfigSection.BaseConfig
         }
         #endregion
 
+        #region 自动添加事件 public string AutoEvent
+        /// <summary>
+        /// 自动添加事件
+        /// </summary>
+        [ConfigurationProperty("AutoEvent")]
+        public string AutoEvent
+        {
+            get { return Convert.ToString(this["AutoEvent"]); }
+        }
+        #endregion
+
+        #region 是否加载基于Module的入口管理类 public bool WeixinModule
+        /// <summary>
+        /// 是否加载基于Module的入口管理类
+        /// </summary>
+        [ConfigurationProperty("WeixinModule", DefaultValue = true)]
+        public bool WeixinModule
+        {
+            get { return Convert.ToBoolean(this["WeixinModule"]); }
+        }
+        #endregion
+
         #region 公共平台账号项目列表 public AccountItemListConfigSection AccountList
         /// <summary>
         /// 公共平台账号项目列表

@@ -186,19 +186,13 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>结果（空则验证通过）</returns>
         internal void Check()
         {
-            LogManager.WriteSystem("验证请求头部");
             if (!CheckSignature(Nonce))
             {
-                LogManager.WriteSystem("验证请求头部未通过");
-                throw WXException.GetInstance("验证未通过\nRequest:" +
-                String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
-                    Signature, Timestamp, Nonce, Echostr, PostData), Settings.Default.SystemUsername);
+                throw WXException.GetInstance("验证未通过:" + Environment.NewLine + ToString(), Settings.Default.SystemUsername);
             }
-            LogManager.WriteSystem("验证请求头部通过");
             //首次验证
             if (!String.IsNullOrEmpty(Echostr))
             {
-                LogManager.WriteSystem("首次验证");
                 throw WXException.GetInstance(Echostr);
             }
         }
@@ -229,8 +223,9 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         internal void ParsePostData()
         {
-            LogManager.WriteSystem("解析POST数据");
             RootElement = EncodingData();
+            if (wxAccount == null) 
+                throw WXException.GetInstance("无法确定微信公共平台账号", Settings.Default.SystemUsername, MsgTypeName);
             FromUserName = GetPostData("FromUserName");
             MsgTypeName = GetPostData("MsgType");
             MsgTypeName = "event".Equals(MsgTypeName) ? GetPostData("Event") : MsgTypeName;
@@ -241,7 +236,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
             ReceiveEntityType Temp;
             if (!Enum.TryParse(MsgTypeName, out Temp)) throw WXException.GetInstance("XML格式错误（未知消息类型）", Settings.Default.SystemUsername, MsgTypeName);
             MsgType = Temp;
-            LogManager.WriteSystem("确认为消息类型为：" + MsgType);
         }
         #endregion
 
@@ -256,15 +250,12 @@ namespace Wing.WeiXin.MP.SDK.Entities
             if (root == null) throw WXException.GetInstance("XML格式错误（未发现xml根节点）", Settings.Default.SystemUsername);
             ToUserName = GetPostData("ToUserName", root);
             if (!"aes".Equals(EncryptType)) return root;
-            LogManager.WriteSystem("需要解密POST数据");
             XElement enElement = root.Element("Encrypt");
             if (enElement == null) throw WXException.GetInstance("消息需要解密，可没有获取加密信息", ToUserName);
             if (WXAccount.WXBizMsgCrypt == null) throw WXException.GetInstance("消息需要解密，可没有提供解密密钥", ToUserName);
             string outMsg = null;
-            LogManager.WriteSystem("开始解密POST数据");
             if (WXAccount.WXBizMsgCrypt.DecryptMsg(MsgSignature, Timestamp, Nonce, PostData, ref outMsg) != 0)
                 throw WXException.GetInstance(String.Format("消息解密失败，原文：{0}", PostData), ToUserName);
-            LogManager.WriteSystem("解密POST数据成功");
             return XDocument.Parse(outMsg).Element("xml");
         }
         #endregion
@@ -339,6 +330,18 @@ namespace Wing.WeiXin.MP.SDK.Entities
             Stopwatch.Stop();
             return Stopwatch.ElapsedMilliseconds;
         }
+        #endregion
+
+        #region 返回请求简易描述 public override string ToString()
+        /// <summary>
+        /// 返回请求简易描述
+        /// </summary>
+        /// <returns>请求简易描述</returns>
+        public override string ToString()
+        {
+            return String.Format("[signature]:{0}[timestamp]:{1}[nonce]:{2}[echostr]:{3}[postData]:{4}",
+                    Signature, Timestamp, Nonce, Echostr, PostData);
+        } 
         #endregion
     }
 }

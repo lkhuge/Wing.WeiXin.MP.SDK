@@ -75,17 +75,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>异常</returns>
         public static WXException GetInstance(string message, string user, object exceptionTag = null)
         {
+            LogManager.WriteInfo("ErrorMsg异常" + message);
             WXException e = exceptionTag == null
                 ? new WXException(message, user)
                 : new WXException(message, user, exceptionTag);
-            LogManager.WriteError(
-                String.Format("微信公众平台服务器发送异常：[{0}]{1}异常信息标签：{2}{1}详细信息：{1}{3}", 
-                    e.Message, 
-                    Environment.NewLine, 
-                    exceptionTag == null ? "" : exceptionTag.ToString(),
-                    e.StackTrace),
-                e,
-                user);
 
             return e;
         }
@@ -112,6 +105,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>异常</returns>
         public static WXException GetInstance(string message)
         {
+            LogManager.WriteInfo("消息类异常" + message);
             return new WXException(message);
         }
         #endregion

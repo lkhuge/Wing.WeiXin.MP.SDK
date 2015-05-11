@@ -105,15 +105,18 @@ private Response E2(RequestEventClick request)
     <!-- Debug：是否为Debug模式 -->
     <!-- Log：日志路径 -->
     <!-- DefaultAccount：默认账号ID 如果未设置或者不存在则返回第一个账号 -->
-    <Base Token="xxxxxxxx" Debug="True" Log="" DefaultAccount="xxx">
+    <!-- AutoEvent: 自动添加制定命名空间下的事件 -->
+    <!-- WeixinModule: 是否加载基于Module的入口管理类 -->
+    <Base Token="xxxxxxxx" Debug="True" Log="" DefaultAccount="xxx" AutoEvent="xxx" WeixinModule="True">
         <!-- 微信公众平台帐号列表，支持多帐号配置开发 -->
         <!-- WeixinMPID：微信公众平台帐号ID，可在微信后台网站查询 -->
         <!-- AppID：微信公众平台应用ID，认证用户或者服务号才可以获取，可在微信后台网站查询 -->
         <!-- AppSecret：微信公众平台应用密钥，认证用户或者服务号才可以获取，可在微信后台网站查询 -->
         <!-- EncodingAESKey：加解密消息的密钥 -->
+        <!-- RMFilter：是否启动重复消息过滤 -->
         <AccountList>
-            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxx" EncodingAESKey="xxxxxxxxx" />
-            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxxx" EncodingAESKey="xxxxxxxxx" />
+            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxx" EncodingAESKey="xxxxxxxxx" RMFilter="True" />
+            <add WeixinMPID="xxxxxx" AppID="xxxxx" AppSecret="xxxxxx" EncodingAESKey="xxxxxxxxx" RMFilter="False" />
         </AccountList>
     </Base>
     <Event>
