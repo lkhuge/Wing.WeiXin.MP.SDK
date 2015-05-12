@@ -81,7 +81,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             try
             {
                 request.ParsePostData();
-                return EventManager.ActionEvent(request, false);
+                return EventManager.ActionEvent(request);
             }
             catch (WXException e)
             {
@@ -112,7 +112,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 request.Check();
                 request.ParsePostData();
-                return EventManager.ActionEvent(request, true);
+                return EventManager.ActionEvent(request);
             }
             catch (WXException e)
             {

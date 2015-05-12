@@ -1,13 +1,13 @@
 ﻿/*!
- * Weixin JS Debug Tool v0.0.3
+ * Weixin JS Debug Tool v0.0.4
  * 用于图形化调试程序
  *
  * Dependency：
  * 1.JQuery
  * 2.Bootstrap(V3)
  *
- * Update(v0.0.3)：
- * [Fix]修正部分Bug
+ * Update(v0.0.4)：
+ * [Change]调整MsgID生成机制
  * 
  * Usage：
  * $('#main').weixindebug({
@@ -200,8 +200,20 @@
                 '<CreateTime>1348831860</CreateTime>' +
                 '<MsgType><![CDATA[text]]></MsgType>' +
                 '<Content><![CDATA[' + content + ']]></Content>' +
-                '<MsgId>1234567890123456</MsgId>' +
+                '<MsgId>' + createMsgID() + '</MsgId>' +
             '</xml>');
+    }
+
+    function createMsgID() {
+        /// <summary>
+        /// 创建MsgID
+        /// </summary>
+        /// <return>MsgID</return>
+
+        return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     }
 
     function testEventClickSubmit() {

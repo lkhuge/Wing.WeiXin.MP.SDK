@@ -72,6 +72,7 @@ namespace Wing.WeiXin.MP.SDK
         {
             ActionEventList = new Func<Request, Response>[]
             {
+                MessageFilter,
                 ActionTempEvent,
                 ActionSystemEvent,
                 ActionGlobalEvent,
@@ -222,38 +223,35 @@ namespace Wing.WeiXin.MP.SDK
         }
         #endregion
 
-        #region 执行事件 internal Response ActionEvent(Request request, bool needCheck)
+        #region 执行事件 internal Response ActionEvent(Request request)
         /// <summary>
         /// 执行事件
         /// </summary>
         /// <param name="request">请求对象</param>
-        /// <param name="needCheck">是否检查请求</param>
         /// <returns>响应对象</returns>
-        internal Response ActionEvent(Request request, bool needCheck)
+        internal Response ActionEvent(Request request)
         {
             LogManager.WriteSystem("执行事件-开始");
-            Response response = MessageFilter(request, needCheck);
-            Response result = response ?? ActionEventList.Select(r => r(request)).FirstOrDefault(r => r != null);
+            Response result = ActionEventList.Select(r => r(request)).FirstOrDefault(r => r != null);
             LogManager.WriteSystem("执行事件-结束");
 
             return result;
         }
         #endregion
 
-        #region 执行消息过滤 private Response MessageFilter(Request request, bool needCheck)
+        #region 执行消息过滤 private Response MessageFilter(Request request)
         /// <summary>
         /// 执行消息过滤
         /// </summary>
         /// <param name="request">请求对象</param>
-        /// <param name="needCheck">是否检查请求</param>
         /// <returns>响应对象</returns>
-        private Response MessageFilter(Request request, bool needCheck)
+        private Response MessageFilter(Request request)
         {
             WXAccount account = request.WXAccount;
             if (account == null)
                 throw WXException.GetInstance("无法确定微信公共平台账号", Settings.Default.SystemUsername);
             LogManager.WriteSystem("执行消息过滤-开始");
-            Response result = account.MessageFilter(request, needCheck);
+            Response result = account.MessageFilter(request);
             LogManager.WriteSystem("执行消息过滤-结束");
             return result;
         } 

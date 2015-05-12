@@ -28,7 +28,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
             {
                 if (needCheck) request.Check();
                 request.ParsePostData();
-                Response response = GlobalManager.EventManager.ActionEvent(request, needCheck);
+                Response response = GlobalManager.EventManager.ActionEvent(request);
                 LogManager.WriteInfo("响应：" + Environment.NewLine + response);
 
                 return response;

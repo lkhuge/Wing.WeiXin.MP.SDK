@@ -22,11 +22,10 @@ Usage
 ----------------
 ###Web.config
 
-```
 <a href="https://github.com/lkhuge/Wing.WeiXin.MP.SDK/tree/V2/Sample/Web.config" target="_blank">Sample</a>
-```
+
+
 
 ###Global.asax
-```
+
 <a href="https://github.com/lkhuge/Wing.WeiXin.MP.SDK/tree/V2/Sample/Global.cs" target="_blank">Sample</a>
-```

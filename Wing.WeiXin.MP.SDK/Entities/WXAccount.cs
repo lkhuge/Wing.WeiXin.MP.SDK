@@ -45,11 +45,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         internal WXBizMsgCrypt WXBizMsgCrypt;
 
         /// <summary>
-        /// 检查MsgID消息过滤器
-        /// </summary>
-        private static readonly CheckMsgIDMessageFilter CheckMsgIDMessageFilter = new CheckMsgIDMessageFilter();
-
-        /// <summary>
         /// 消息过滤器列表
         /// </summary>
         private List<IMessageFilter> MessageFilterList;
@@ -103,26 +98,23 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="messageFilter">消息过滤器</param>
         public void AddMessageFilter(IMessageFilter messageFilter)
         {
-            if (MessageFilterList == null) MessageFilterList = new List<IMessageFilter>();
+            if (MessageFilterList == null) MessageFilterList = new List<IMessageFilter>
+            {
+                new CheckMsgIDMessageFilter()
+            };
             MessageFilterList.Add(messageFilter);
         } 
         #endregion
 
-        #region 消息过滤 internal Response MessageFilter(Request request, bool isCheckMsgID)
+        #region 消息过滤 internal Response MessageFilter(Request request)
         /// <summary>
         /// 消息过滤
         /// </summary>
         /// <param name="request">请求对象</param>
-        /// <param name="isCheckMsgID">是否检查MsgID</param>
         /// <returns>响应对象（如果为空则跳过过滤）</returns>
-        internal Response MessageFilter(Request request, bool isCheckMsgID)
+        internal Response MessageFilter(Request request)
         {
-            if (isCheckMsgID)
-            {
-                Response checkMsgIDResponse = CheckMsgIDMessageFilter.Action(request);
-                if (checkMsgIDResponse != null) return checkMsgIDResponse;
-            }
-            if (MessageFilterList == null || MessageFilterList.Count == 0) return null;
+            if (MessageFilterList == null) return null;
 
             return MessageFilterList.Select(t => t.Action(request)).FirstOrDefault(response => response != null);
         } 
