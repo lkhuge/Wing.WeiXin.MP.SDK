@@ -47,6 +47,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>AccessToken</returns>
         public AccessToken GetAccessToken(WXAccount account)
         {
+            LogManager.WriteSystem("获取AccessToken-开始");
             AccessToken accessToken = wxSession.Get<AccessToken>(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenHead + account.ID);
@@ -54,9 +55,14 @@ namespace Wing.WeiXin.MP.SDK.Common
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenTimeHead + account.ID);
             if (accessToken != null && accessTokenExpDT != default(DateTime)
-                && DateTime.Now < accessTokenExpDT) return accessToken;
-
-            return GetNewAccessToken(account);
+                && DateTime.Now < accessTokenExpDT)
+            {
+                LogManager.WriteSystem("获取AccessToken-缓存-结束" + Environment.NewLine + accessToken);
+                return accessToken;
+            }
+            AccessToken result = GetNewAccessToken(account);
+            LogManager.WriteSystem("获取AccessToken-新-结束" + Environment.NewLine + result);
+            return result;
         } 
         #endregion
 

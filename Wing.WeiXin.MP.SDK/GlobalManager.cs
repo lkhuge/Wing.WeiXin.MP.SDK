@@ -54,12 +54,23 @@ namespace Wing.WeiXin.MP.SDK
             LogManager.WriteSystem("全局-初始化-开始");
             CallingAssembly = Assembly.GetCallingAssembly();
             ConfigManager = config == null ? new ConfigManager() : new ConfigManager(config);
-            WXSession = wxSession ?? new StaticWXSession();
-            FunctionManager = new FunctionManager(new AccessTokenContainer(WXSession));
+            InitWXSession(wxSession);
             EventManager = new EventManager();
             InitConfig();
             LogManager.WriteSystem("全局-初始化-结束");
         }
+        #endregion
+
+        #region 初始化微信会话接口 public static void InitWXSession(IWXSession wxSession)
+        /// <summary>
+        /// 初始化微信会话接口
+        /// </summary>
+        /// <param name="wxSession">微信会话接口</param>
+        public static void InitWXSession(IWXSession wxSession)
+        {
+            WXSession = wxSession ?? new StaticWXSession();
+            FunctionManager = new FunctionManager(new AccessTokenContainer(WXSession));
+        } 
         #endregion
 
         #region 初始化配置信息 private static void InitConfig()

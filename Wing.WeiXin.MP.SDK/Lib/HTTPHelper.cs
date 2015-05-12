@@ -32,11 +32,14 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns></returns>
         public static string Get(string url, Encoding encoding = null)
         {
+            LogManager.WriteSystem("HTTP-GET-请求-开始" + Environment.NewLine + url);
             WebClient wc = new WebClient
             {
                 Encoding = encoding ?? Encoding.UTF8,
             };
-            return wc.DownloadString(url);
+            string result = wc.DownloadString(url);
+            LogManager.WriteSystem("HTTP-GET-请求-结束" + Environment.NewLine + result);
+            return result;
         }
         #endregion
 
@@ -50,11 +53,14 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns>结果</returns>
         public static string Post(string url, string data, Encoding encoding = null)
         {
+            LogManager.WriteSystem("HTTP-POST-请求-开始" + Environment.NewLine + url + Environment.NewLine + data);
             WebClient wc = new WebClient
             {
                 Encoding = encoding ?? Encoding.UTF8,
             };
-            return wc.UploadString(url, data);
+            string result = wc.UploadString(url, data);
+            LogManager.WriteSystem("HTTP-POST-请求-结束" + Environment.NewLine + result);
+            return result;
         }
         #endregion
 
@@ -68,6 +74,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns>响应内容</returns>
         public static string DownloadFile(string url, string pathname, string data = null)
         {
+            LogManager.WriteSystem("HTTP-Download-请求-开始" + Environment.NewLine + url + Environment.NewLine + data + Environment.NewLine + pathname);
             HttpWebRequest webRequest = WebRequest.Create(url) as HttpWebRequest;
             if (webRequest == null) throw WXException.GetInstance("无法获取HttpWebRequest", Settings.Default.SystemUsername);
             bool isGet = String.IsNullOrEmpty(data);
@@ -91,7 +98,9 @@ namespace Wing.WeiXin.MP.SDK.Lib
                 }
                 if (webResponse.ContentType.Equals("text/plain"))
                 {
-                    return new StreamReader(webStream, Encoding.UTF8).ReadToEnd();
+                    string result = new StreamReader(webStream, Encoding.UTF8).ReadToEnd();
+                    LogManager.WriteSystem("HTTP-Download-请求-结束" + Environment.NewLine + result);
+                    return result;
                 }
                 byte[] bt = new byte[1024];
                 int osize = webStream.Read(bt, 0, bt.Length);
@@ -104,7 +113,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
                     }
                 }
             }
-
+            LogManager.WriteSystem("HTTP-Download-请求-结束");
             return null;
         }
         #endregion
@@ -119,6 +128,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns>成功返回1，失败返回0</returns>
         public static string Upload(string url, string path, string name)
         {
+            LogManager.WriteSystem("HTTP-Upload-请求-开始" + Environment.NewLine + url + Environment.NewLine + path + Environment.NewLine + name);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.Timeout = 60000;
@@ -162,7 +172,9 @@ namespace Wing.WeiXin.MP.SDK.Lib
                 if (responseStream == null) throw WXException.GetInstance("无法获取ResponseStream", Settings.Default.SystemUsername);
                 using (StreamReader myStreamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")))
                 {
-                    return myStreamReader.ReadToEnd();
+                    string result = myStreamReader.ReadToEnd();
+                    LogManager.WriteSystem("HTTP-Upload-请求-结束" + Environment.NewLine + result);
+                    return result;
                 }
             }
         }
