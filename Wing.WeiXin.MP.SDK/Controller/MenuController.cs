@@ -17,17 +17,17 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 创建菜单的URL
         /// </summary>
-        private const string UrlCreateMenu = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}";
+        private const string UrlCreateMenu = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=[AT]";
 
         /// <summary>
         /// 获取菜单的URL
         /// </summary>
-        private const string UrlGetMenu = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token={0}";
+        private const string UrlGetMenu = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=[AT]";
 
         /// <summary>
         /// 删除菜单的URL
         /// </summary>
-        private const string UrlDeleteMenu = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={0}";
+        private const string UrlDeleteMenu = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public MenuController(AccessTokenContainer accessTokenContainer)
         /// <summary>

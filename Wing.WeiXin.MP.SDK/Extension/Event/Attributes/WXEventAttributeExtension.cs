@@ -82,14 +82,12 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         {
             Func<Request, Response> gloablReceiveEvent =
                 request => (Response)methodInfo.Invoke(receiveEvent, new object[] { request });
-            gloablReceiveEvent = attr.PackageEventByLimitKey(gloablReceiveEvent);
-            gloablReceiveEvent = attr.PackageEventByLimitType(gloablReceiveEvent);
             eventManager.AddGloablReceiveEvent(
                 attr.EventName,
                 attr.ToUserName,
-                gloablReceiveEvent,
+                attr.PackageGlobalEvent(gloablReceiveEvent),
                 attr.Priority);
-        } 
+        }
         #endregion
 
         #region 执行添加普通接收事件 private static void ToAddReceiveEvent(EventManager eventManager, MethodInfo methodInfo, WXEventAttribute attr, object receiveEvent, ParameterInfo arg)
@@ -110,16 +108,15 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
             Func<Request, Response> receiveEventTemp =
                 request =>
                     (Response)
-                        methodInfo.Invoke(receiveEvent, new[] {methodInfoGen.Invoke(null, new object[] {request})});
-            ReceiveEntityType type = ((RequestAMessage) constructorInfo.Invoke(null)).ReceiveEntityType;
-            receiveEventTemp = attr.PackageEventByLimitKey(receiveEventTemp, type);
+                        methodInfo.Invoke(receiveEvent, new[] { methodInfoGen.Invoke(null, new object[] { request }) });
+            ReceiveEntityType type = ((RequestAMessage)constructorInfo.Invoke(null)).ReceiveEntityType;
             eventManager.AddReceiveEvent(
                 type,
                 attr.EventName,
                 attr.ToUserName,
-                receiveEventTemp,
+                attr.PackageEvent(receiveEventTemp, type),
                 attr.Priority);
-        } 
+        }
         #endregion
 
         #region 自动添加接收事件 public static void AutoAddReceiveEvent(this EventManager eventManager, string namespaceName)
@@ -139,7 +136,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                 .Select(c => c.Invoke(null))
                 .ToList()
                 .ForEach(eventManager.AddReceiveEvent);
-        } 
+        }
         #endregion
     }
 }

@@ -40,36 +40,16 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>类型为T的对象</returns>
         protected T Action<T>(string url, WXAccount account)
         {
-            string result = HTTPHelper.Get(String.Format(
-                url,
-                accessTokenContainer.GetAccessToken(account).access_token));
-            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
+            string result = Action(url, u => HTTPHelper.Get(u), account);
+            if (typeof (ErrorMsg).IsAssignableFrom(typeof (T))) return JSONHelper.JSONDeserialize<T>(result);
+            ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            if (!String.IsNullOrEmpty(errorMsg.errcode))
             {
-                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(errorMsg, account.ID);
             }
 
             return JSONHelper.JSONDeserialize<T>(result);
         } 
-        #endregion
-
-        #region 执行请求（无需AccessToken） 响应类型为T的对象 protected T ActionWithoutAccessToken<T>(string url, WXAccount account)
-        /// <summary>
-        /// 执行请求（无需AccessToken） 响应类型为T的对象
-        /// </summary>
-        /// <typeparam name="T">消息类型</typeparam>
-        /// <param name="url">请求接口地址</param>
-        /// <param name="account">微信账号</param>
-        /// <returns>类型为T的对象</returns>
-        protected T ActionWithoutAccessToken<T>(string url, WXAccount account)
-        {
-            string result = HTTPHelper.Get(url);
-            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
-            {
-                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
-            }
-
-            return JSONHelper.JSONDeserialize<T>(result);
-        }
         #endregion
 
         #region 执行带有消息对象的请求 响应类型为T的对象 protected T Action<T>(string url, object messageObj, WXAccount account)
@@ -83,13 +63,15 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>类型为T的对象</returns>
         protected T Action<T>(string url, object messageObj, WXAccount account)
         {
-            string result = HTTPHelper.Post(String.Format(
-                    url,
-                    accessTokenContainer.GetAccessToken(account).access_token),
-                    JSONHelper.JSONSerialize(messageObj));
-            if (!typeof(ErrorMsg).IsAssignableFrom(typeof(T)) && JSONHelper.HasKey(result, "errcode"))
+            string result = Action(
+                url,
+                u => HTTPHelper.Post(u, JSONHelper.JSONSerialize(messageObj)),
+                account);
+            if (typeof (ErrorMsg).IsAssignableFrom(typeof (T))) return JSONHelper.JSONDeserialize<T>(result);
+            ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            if (!String.IsNullOrEmpty(errorMsg.errcode))
             {
-                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(errorMsg, account.ID);
             }
 
             return JSONHelper.JSONDeserialize<T>(result);
@@ -108,13 +90,14 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         protected Media Upload(string url, WXAccount account, UploadMediaType type, string path, string name)
         {
-            string result = HTTPHelper.Upload(String.Format(
+            string result = Action(
                 url,
-                accessTokenContainer.GetAccessToken(account).access_token,
-                type), path, name);
-            if (JSONHelper.HasKey(result, "errcode"))
+                u => HTTPHelper.Upload(String.Format(u, type), path, name),
+                account);
+            ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            if (!String.IsNullOrEmpty(errorMsg.errcode))
             {
-                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result), account.ID);
+                throw WXException.GetInstance(errorMsg, account.ID);
             }
 
             return JSONHelper.JSONDeserialize<Media>(result);
@@ -132,14 +115,33 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="postData">POST参数（如果该参数不为空则使用POST方式下载）</param>
         protected void Download(string url, WXAccount account, string media_id, string pathName, string postData = null)
         {
-            string result = HTTPHelper.DownloadFile(String.Format(
+            string result = Action(
                 url,
-                accessTokenContainer.GetAccessToken(account).access_token,
-                media_id), pathName, postData);
+                u => HTTPHelper.DownloadFile(String.Format(u, media_id), pathName, postData),
+                account);
             if (!String.IsNullOrEmpty(result)) 
             {
                 throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID);
             }
+        } 
+        #endregion
+
+        #region 执行请求 protected string Action(string url, Func<string, string> action, WXAccount account)
+        /// <summary>
+        /// 执行请求
+        /// </summary>
+        /// <param name="url">原始URL</param>
+        /// <param name="action">执行操作(result Action(url))</param>
+        /// <param name="account">微信公共平台账号</param>
+        /// <returns>处理后的URL</returns>
+        protected string Action(string url, Func<string, string> action, WXAccount account)
+        {
+            string sign = Settings.Default.AccessTokenURLSign;
+            return url.Contains(sign)
+                ? accessTokenContainer.UseAccessToken(
+                    at => action(url.Replace(sign, at)),
+                    account)
+                : action(url);
         } 
         #endregion
     }

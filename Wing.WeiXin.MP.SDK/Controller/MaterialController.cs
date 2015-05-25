@@ -15,47 +15,47 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 新增临时素材的URL
         /// </summary>
-        private const string UrlAddTemp = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token={0}&type={1}";
+        private const string UrlAddTemp = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=[AT]&type={0}";
 
         /// <summary>
         /// 获取临时素材的URL
         /// </summary>
-        private const string UrlGetTemp = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}";
+        private const string UrlGetTemp = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=[AT]&media_id={0}";
 
         /// <summary>
         /// 新增永久图文素材的URL
         /// </summary>
-        private const string UrlAddNews = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={0}";
+        private const string UrlAddNews = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=[AT]";
 
         /// <summary>
         /// 新增除了图文的其他类型永久素材的URL
         /// </summary>
-        private const string UrlAdd = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token={0}";
+        private const string UrlAdd = "http://api.weixin.qq.com/cgi-bin/material/add_material?access_token=[AT]";
 
         /// <summary>
         /// 获取永久素材的URL
         /// </summary>
-        private const string UrlGet = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token={0}";
+        private const string UrlGet = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=[AT]";
 
         /// <summary>
         /// 删除永久素材的URL
         /// </summary>
-        private const string UrlDelete = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token={0}";
+        private const string UrlDelete = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=[AT]";
 
         /// <summary>
         /// 修改永久图文素材的URL
         /// </summary>
-        private const string UrlUpdate = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token={0}";
+        private const string UrlUpdate = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token=[AT]";
 
         /// <summary>
         /// 获取素材总数的URL
         /// </summary>
-        private const string UrlGetCount = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token={0}";
+        private const string UrlGetCount = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=[AT]";
 
         /// <summary>
         /// 获取素材列表的URL
         /// </summary>
-        private const string UrlGetList = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}";
+        private const string UrlGetList = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public MaterialController(AccessTokenContainer accessTokenContainer)
         /// <summary>

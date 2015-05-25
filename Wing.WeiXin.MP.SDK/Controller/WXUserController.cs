@@ -16,47 +16,47 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取用户基本信息的URL
         /// </summary>
-        private const string UrlGetWXUser = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang={2}";
+        private const string UrlGetWXUser = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=[AT]&openid={0}&lang={1}";
 
         /// <summary>
         /// 获取用户列表的URL
         /// </summary>
-        private const string UrlGetWXUserList = "https://api.weixin.qq.com/cgi-bin/user/get?access_token={0}";
+        private const string UrlGetWXUserList = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=[AT]";
 
         /// <summary>
         /// 获取后续用户列表的URL
         /// </summary>
-        private const string UrlGetWXUserListNext = "https://api.weixin.qq.com/cgi-bin/user/get?access_token={0}&next_openid={1}";
+        private const string UrlGetWXUserListNext = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=[AT]&next_openid={0}";
 
         /// <summary>
         /// 添加组的URL
         /// </summary>
-        private const string UrlAddWXGroup = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token={0}";
+        private const string UrlAddWXGroup = "https://api.weixin.qq.com/cgi-bin/groups/create?access_token=[AT]";
 
         /// <summary>
         /// 获取用户组列表的URL
         /// </summary>
-        private const string UrlGetWXUserGroupList = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token={0}";
+        private const string UrlGetWXUserGroupList = "https://api.weixin.qq.com/cgi-bin/groups/get?access_token=[AT]";
 
         /// <summary>
         /// 根据用户获取组的URL
         /// </summary>
-        private const string UrlGetWXGroupByWXUser = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token={0}";
+        private const string UrlGetWXGroupByWXUser = "https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=[AT]";
 
         /// <summary>
         /// 修改组名的URL
         /// </summary>
-        private const string UrlModityGroupName = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token={0}";
+        private const string UrlModityGroupName = "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=[AT]";
 
         /// <summary>
         /// 移动用户分组的URL
         /// </summary>
-        private const string UrlMoveGroup = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token={0}";
+        private const string UrlMoveGroup = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=[AT]";
 
         /// <summary>
         /// 修改备注名的URL
         /// </summary>
-        private const string UrlModityRemark = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token={0}";
+        private const string UrlModityRemark = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public WXUserController(AccessTokenContainer accessTokenContainer)
         /// <summary>
@@ -79,8 +79,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>用户基本信息</returns>
         public WXUser GetWXUser(WXAccount account, string openID, WXLanguageType lang = WXLanguageType.zh_CN)
         {
-            return ActionWithoutAccessToken<WXUser>(
-                String.Format(UrlGetWXUser, accessTokenContainer.GetAccessToken(account).access_token, openID, lang),
+            return Action<WXUser>(
+                String.Format(UrlGetWXUser, openID, lang),
                 account);
         } 
         #endregion
@@ -138,8 +138,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public WXUserList GetWXUserListNext(WXAccount account, WXUserList userList)
         {
             if (userList.total == userList.count || String.IsNullOrEmpty(userList.next_openid)) return userList;
-            return ActionWithoutAccessToken<WXUserList>(
-                String.Format(UrlGetWXUserListNext, accessTokenContainer.GetAccessToken(account).access_token, userList.next_openid),
+            return Action<WXUserList>(
+                String.Format(UrlGetWXUserListNext, userList.next_openid),
                 account);
         }
         #endregion

@@ -13,7 +13,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取语义的URL
         /// </summary>
-        private const string Url = "https://api.weixin.qq.com/semantic/semproxy/search?access_token={0}";
+        private const string Url = "https://api.weixin.qq.com/semantic/semproxy/search?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public SemanticController(AccessTokenContainer accessTokenContainer)
         /// <summary>

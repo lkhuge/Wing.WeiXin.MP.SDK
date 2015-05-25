@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 发送消息模板的URL
         /// </summary>
-        private const string UrlSendMessageTemplate = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={0}";
+        private const string UrlSendMessageTemplate = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public TemplateController(AccessTokenContainer accessTokenContainer)
         /// <summary>

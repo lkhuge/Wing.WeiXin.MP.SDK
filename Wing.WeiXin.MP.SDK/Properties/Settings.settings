@@ -41,5 +41,8 @@
     <Setting Name="DefaultAccountToUserNameSign" Type="System.String" Scope="Application">
       <Value Profile="(Default)">&amp;</Value>
     </Setting>
+    <Setting Name="AccessTokenURLSign" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[AT]</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

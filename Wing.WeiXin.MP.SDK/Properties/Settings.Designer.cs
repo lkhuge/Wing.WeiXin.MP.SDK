@@ -139,5 +139,14 @@ namespace Wing.WeiXin.MP.SDK.Properties {
                 return ((string)(this["DefaultAccountToUserNameSign"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[AT]")]
+        public string AccessTokenURLSign {
+            get {
+                return ((string)(this["AccessTokenURLSign"]));
+            }
+        }
     }
 }

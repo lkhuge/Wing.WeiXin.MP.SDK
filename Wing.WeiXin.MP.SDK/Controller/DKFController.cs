@@ -2,6 +2,7 @@
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.DKF;
+using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Controller
@@ -14,37 +15,37 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取客服基本信息的URL
         /// </summary>
-        private const string UrlGetDKFList = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token={0}";
+        private const string UrlGetDKFList = "https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=[AT]";
 
         /// <summary>
         /// 获取在线客服接待信息的URL
         /// </summary>
-        private const string UrlGetDKFOnlineList = "https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token={0}";
+        private const string UrlGetDKFOnlineList = "https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token=[AT]";
 
         /// <summary>
         /// 添加多客服账号的URL
         /// </summary>
-        private const string UrlAddDKF = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token={0}";
+        private const string UrlAddDKF = "https://api.weixin.qq.com/customservice/kfaccount/add?access_token=[AT]";
 
         /// <summary>
         /// 设置多客服账号的URL
         /// </summary>
-        private const string UrlSetDKF = "https://api.weixin.qq.com/customservice/kfaccount/update?access_token={0}";
+        private const string UrlSetDKF = "https://api.weixin.qq.com/customservice/kfaccount/update?access_token=[AT]";
 
         /// <summary>
         /// 上传多客服头像图片的URL
         /// </summary>
-        private const string UrlUploadDKFPic = "http://api.weixin.qq.com/customservice/kfacount/uploadheadimg?access_token={0}&kf_account={1}";
+        private const string UrlUploadDKFPic = "http://api.weixin.qq.com/customservice/kfacount/uploadheadimg?access_token=[AT]&kf_account={0}";
 
         /// <summary>
         /// 删除多客服账号的URL
         /// </summary>
-        private const string UrlDeleteDKF = "https://api.weixin.qq.com/customservice/kfaccount/del?access_token={0}&kf_account={1}";
+        private const string UrlDeleteDKF = "https://api.weixin.qq.com/customservice/kfaccount/del?access_token=[AT]&kf_account={0}";
 
         /// <summary>
         /// 获取会话记录的URL
         /// </summary>
-        private const string UrlGetDKFrecordList = "https://api.weixin.qq.com/cgi-bin/customservice/getrecord?access_token={0}";
+        private const string UrlGetDKFrecordList = "https://api.weixin.qq.com/cgi-bin/customservice/getrecord?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public DKFController(AccessTokenContainer accessTokenContainer)
         /// <summary>
@@ -137,12 +138,20 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg UploadDKFPic(WXAccount account, string kf_account, string path, string name)
         {
-            string result = HTTPHelper.Upload(String.Format(
-                UrlUploadDKFPic,
-                accessTokenContainer.GetAccessToken(account).access_token,
-                kf_account), path, name);
-
-            return JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            try
+            {
+                Upload(
+                    String.Format(UrlUploadDKFPic, kf_account),
+                    account,
+                    UploadMediaType.image,
+                    path,
+                    name);
+            }
+            catch (WXException e)
+            {
+                return (ErrorMsg)e.ExceptionTag;
+            }
+            return null;
         } 
         #endregion
 
@@ -158,8 +167,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>错误码</returns>
         public ErrorMsg DeleteDKF(WXAccount account, string kf_account)
         {
-            return ActionWithoutAccessToken<ErrorMsg>(
-                String.Format(UrlDeleteDKF, accessTokenContainer.GetAccessToken(account).access_token, kf_account),
+            return Action<ErrorMsg>(
+                String.Format(UrlDeleteDKF, kf_account),
                 account);
         } 
         #endregion

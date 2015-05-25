@@ -16,7 +16,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取用户增减数据的URL
         /// </summary>
-        private const string UrlGetUserSummary = "https://api.weixin.qq.com/datacube/getusersummary?access_token={0}";
+        private const string UrlGetUserSummary = "https://api.weixin.qq.com/datacube/getusersummary?access_token=[AT]";
 
         /// <summary>
         /// 获取用户增减数据的最大时间跨度
@@ -26,7 +26,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取累计用户数据的URL
         /// </summary>
-        private const string UrlGetUserCumulate = "https://api.weixin.qq.com/datacube/getusercumulate?access_token={0}";
+        private const string UrlGetUserCumulate = "https://api.weixin.qq.com/datacube/getusercumulate?access_token=[AT]";
 
         /// <summary>
         /// 获取累计用户数据的最大时间跨度
@@ -36,7 +36,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文群发每日数据的URL
         /// </summary>
-        private const string UrlGetArticleSummary = "https://api.weixin.qq.com/datacube/getarticlesummary?access_token={0}";
+        private const string UrlGetArticleSummary = "https://api.weixin.qq.com/datacube/getarticlesummary?access_token=[AT]";
 
         /// <summary>
         /// 获取图文群发每日数据的最大时间跨度
@@ -46,7 +46,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文群发总数据的URL
         /// </summary>
-        private const string UrlGetArticleTotal = "https://api.weixin.qq.com/datacube/getarticletotal?access_token={0}";
+        private const string UrlGetArticleTotal = "https://api.weixin.qq.com/datacube/getarticletotal?access_token=[AT]";
 
         /// <summary>
         /// 获取图文群发总数据的最大时间跨度
@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文统计数据的URL
         /// </summary>
-        private const string UrlGetUserRead = "https://api.weixin.qq.com/datacube/getuserread?access_token={0}";
+        private const string UrlGetUserRead = "https://api.weixin.qq.com/datacube/getuserread?access_token=[AT]";
 
         /// <summary>
         /// 获取图文统计数据的最大时间跨度
@@ -66,7 +66,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文统计分时数据的URL
         /// </summary>
-        private const string UrlGetUserReadHour = "https://api.weixin.qq.com/datacube/getuserreadhour?access_token={0}";
+        private const string UrlGetUserReadHour = "https://api.weixin.qq.com/datacube/getuserreadhour?access_token=[AT]";
 
         /// <summary>
         /// 获取图文统计分时数据的最大时间跨度
@@ -76,7 +76,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文分享转发数据的URL
         /// </summary>
-        private const string UrlGetUserShare = "https://api.weixin.qq.com/datacube/getusershare?access_token={0}";
+        private const string UrlGetUserShare = "https://api.weixin.qq.com/datacube/getusershare?access_token=[AT]";
 
         /// <summary>
         /// 获取图文分享转发数据的最大时间跨度
@@ -86,7 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取图文分享转发分时数据的URL
         /// </summary>
-        private const string UrlGetUserShareHour = "https://api.weixin.qq.com/datacube/getusersharehour?access_token={0}";
+        private const string UrlGetUserShareHour = "https://api.weixin.qq.com/datacube/getusersharehour?access_token=[AT]";
 
         /// <summary>
         /// 获取图文分享转发分时数据的最大时间跨度
@@ -96,7 +96,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送概况数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsg = "https://api.weixin.qq.com/datacube/getupstreammsg?access_token={0}";
+        private const string UrlGetUpstreamMsg = "https://api.weixin.qq.com/datacube/getupstreammsg?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送概况数据的最大时间跨度
@@ -106,7 +106,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息分送分时数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgHour = "https://api.weixin.qq.com/datacube/getupstreammsghour?access_token={0}";
+        private const string UrlGetUpstreamMsgHour = "https://api.weixin.qq.com/datacube/getupstreammsghour?access_token=[AT]";
 
         /// <summary>
         /// 获取消息分送分时数据的最大时间跨度
@@ -116,7 +116,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送周数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgWeek = "https://api.weixin.qq.com/datacube/getupstreammsgweek?access_token={0}";
+        private const string UrlGetUpstreamMsgWeek = "https://api.weixin.qq.com/datacube/getupstreammsgweek?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送周数据的最大时间跨度
@@ -126,7 +126,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送月数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgMonth = "https://api.weixin.qq.com/datacube/getupstreammsgmonth?access_token={0}";
+        private const string UrlGetUpstreamMsgMonth = "https://api.weixin.qq.com/datacube/getupstreammsgmonth?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送月数据的最大时间跨度
@@ -136,7 +136,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送分布数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgDist = "https://api.weixin.qq.com/datacube/getupstreammsgdist?access_token={0}";
+        private const string UrlGetUpstreamMsgDist = "https://api.weixin.qq.com/datacube/getupstreammsgdist?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送分布数据的最大时间跨度
@@ -146,7 +146,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送分布周数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgDistWeek = "https://api.weixin.qq.com/datacube/getupstreammsgdistweek?access_token={0}";
+        private const string UrlGetUpstreamMsgDistWeek = "https://api.weixin.qq.com/datacube/getupstreammsgdistweek?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送分布周数据的最大时间跨度
@@ -156,7 +156,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取消息发送分布月数据的URL
         /// </summary>
-        private const string UrlGetUpstreamMsgDistMonth = "https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?access_token={0}";
+        private const string UrlGetUpstreamMsgDistMonth = "https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?access_token=[AT]";
 
         /// <summary>
         /// 获取消息发送分布月数据的最大时间跨度
@@ -166,7 +166,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取接口分析数据的URL
         /// </summary>
-        private const string UrlGetInterfaceSummary = "https://api.weixin.qq.com/datacube/getinterfacesummary?access_token={0}";
+        private const string UrlGetInterfaceSummary = "https://api.weixin.qq.com/datacube/getinterfacesummary?access_token=[AT]";
 
         /// <summary>
         /// 获取接口分析数据的最大时间跨度
@@ -176,7 +176,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取接口分析分时数据的URL
         /// </summary>
-        private const string UrlGetInterfaceSummaryHour = "https://api.weixin.qq.com/datacube/getinterfacesummaryhour?access_token={0}";
+        private const string UrlGetInterfaceSummaryHour = "https://api.weixin.qq.com/datacube/getinterfacesummaryhour?access_token=[AT]";
 
         /// <summary>
         /// 获取接口分析分时数据的最大时间跨度

@@ -30,7 +30,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取认证用户信息的URL
         /// </summary>
-        private const string UrlGetOAuthUser = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}";
+        private const string UrlGetOAuthUser = "https://api.weixin.qq.com/sns/userinfo?access_token=[AT]&openid={0}&lang={1}";
 
         #region 根据AccessToken容器初始化 public OAuthController(AccessTokenContainer accessTokenContainer)
         /// <summary>
@@ -69,7 +69,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthAccessToken GetAccessTokenByCode(WXAccount account, string code)
         {
-            return ActionWithoutAccessToken<OAuthAccessToken>(
+            return Action<OAuthAccessToken>(
                 String.Format(UrlGetAccessTokenByCode, account.AppID, account.AppSecret, code),
                 account);
         } 
@@ -84,7 +84,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthAccessToken RefreshAccessTokenByRefreshToken(WXAccount account, string refresh_token)
         {
-            return ActionWithoutAccessToken<OAuthAccessToken>(
+            return Action<OAuthAccessToken>(
                 String.Format(UrlRefreshAccessTokenByRefreshToken, account.AppID, refresh_token),
                 account);
         }
@@ -100,8 +100,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>AccessToken</returns>
         public OAuthUser GetOAuthUser(WXAccount account, OAuthAccessToken accessToken, WXLanguageType language = WXLanguageType.zh_CN)
         {
-            return ActionWithoutAccessToken<OAuthUser>(
-                String.Format(UrlGetOAuthUser, accessToken.access_token, accessToken.openid, language), 
+            return Action<OAuthUser>(
+                String.Format(UrlGetOAuthUser, accessToken.openid, language), 
                 account);
         } 
         #endregion

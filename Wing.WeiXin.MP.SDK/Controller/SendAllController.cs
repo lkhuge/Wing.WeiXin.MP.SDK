@@ -15,22 +15,22 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 上传图文消息素材的URL
         /// </summary>
-        private const string UrlUploadNews = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token={0}";
+        private const string UrlUploadNews = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=[AT]";
 
         /// <summary>
         /// 根据分组进行群发的URL
         /// </summary>
-        private const string UrlSendAllByGroup = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token={0}";
+        private const string UrlSendAllByGroup = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=[AT]";
 
         /// <summary>
         /// 根据OpenID列表群发的URL
         /// </summary>
-        private const string UrlSendAllByOpenIDList = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token={0}";
+        private const string UrlSendAllByOpenIDList = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=[AT]";
 
         /// <summary>
         /// 删除群发的URL
         /// </summary>
-        private const string UrlDeleteSendAll = "https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token={0}";
+        private const string UrlDeleteSendAll = "https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public SendAllController(AccessTokenContainer accessTokenContainer)
         /// <summary>

@@ -17,7 +17,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取JS接口票据的URL
         /// </summary>
-        private const string UrlGetJSAPITicket = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi";
+        private const string UrlGetJSAPITicket = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=[AT]&type=jsapi";
 
         #region 根据AccessToken容器初始化 public JSController(AccessTokenContainer accessTokenContainer)
         /// <summary>

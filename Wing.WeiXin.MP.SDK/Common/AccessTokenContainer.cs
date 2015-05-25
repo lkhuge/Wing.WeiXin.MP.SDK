@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
@@ -27,6 +28,14 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// </summary>
         private readonly IWXSession wxSession;
 
+        /// <summary>
+        /// 需要刷新AccessToken的错误信息
+        /// </summary>
+        private readonly string[] reflushAccessTokenCode =
+        {
+            "40001"
+        };
+
         #region 根据微信会话接口实例化 public AccessTokenContainer(IWXSession wxSession)
         /// <summary>
         /// 根据微信会话接口实例化
@@ -36,16 +45,16 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (wxSession == null) throw WXException.GetInstance("微信会话接口不能为空", Settings.Default.SystemUsername);
             this.wxSession = wxSession;
-        } 
+        }
         #endregion
 
-        #region 获取AccessToken public AccessToken GetAccessToken(WXAccount account)
+        #region 获取AccessToken private AccessToken GetAccessToken(WXAccount account)
         /// <summary>
         /// 获取AccessToken
         /// </summary>
         /// <param name="account">微信公共平台账号</param>
         /// <returns>AccessToken</returns>
-        public AccessToken GetAccessToken(WXAccount account)
+        private AccessToken GetAccessToken(WXAccount account)
         {
             LogManager.WriteSystem("获取AccessToken-开始");
             AccessToken accessToken = wxSession.Get<AccessToken>(
@@ -63,7 +72,27 @@ namespace Wing.WeiXin.MP.SDK.Common
             AccessToken result = GetNewAccessToken(account);
             LogManager.WriteSystem("获取AccessToken-新-结束" + Environment.NewLine + result);
             return result;
-        } 
+        }
+        #endregion
+
+        #region 使用AccessToken public string UseAccessToken(Func<string, string> action, WXAccount account)
+        /// <summary>
+        /// 使用AccessToken
+        /// </summary>
+        /// <param name="action">执行操作(result Action(accessToken))</param>
+        /// <param name="account">微信公共平台账号</param>
+        /// <returns>结果</returns>
+        public string UseAccessToken(Func<string, string> action, WXAccount account)
+        {
+            string result = action(GetAccessToken(account).access_token);
+            ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            if (!String.IsNullOrEmpty(errorMsg.errcode) && reflushAccessTokenCode.Contains(errorMsg.errcode))
+            {
+                LogManager.WriteSystem("发现无效AccessToken 正在重新获取AccessToken");
+                return action(GetNewAccessToken(account).access_token);
+            }
+            return result;
+        }
         #endregion
 
         #region 获取新的AccessToken private AccessToken GetNewAccessToken(WXAccount account)
@@ -75,9 +104,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         {
             if (NewAccessToken != null) NewAccessToken(account);
             string result = HTTPHelper.Get(String.Format(Url, account.AppID, account.AppSecret));
-            if (JSONHelper.HasKey(result, "errcode"))
+            ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
+            if (!String.IsNullOrEmpty(errorMsg.errcode))
             {
-                throw WXException.GetInstance(JSONHelper.JSONDeserialize<ErrorMsg>(result).GetIntroduce(), account.ID, account);
+                throw WXException.GetInstance(errorMsg, account.ID);
             }
             AccessToken accessTokenNew = JSONHelper.JSONDeserialize<AccessToken>(result);
             wxSession.Set(
@@ -90,7 +120,7 @@ namespace Wing.WeiXin.MP.SDK.Common
                 DateTime.Now + new TimeSpan(0, 0, accessTokenNew.expires_in));
 
             return accessTokenNew;
-        } 
+        }
         #endregion
     }
 }

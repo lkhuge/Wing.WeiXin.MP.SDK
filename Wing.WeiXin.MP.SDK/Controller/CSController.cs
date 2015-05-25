@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 发送客服消息的URL
         /// </summary>
-        private const string Url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token={0}";
+        private const string Url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public CSController(AccessTokenContainer accessTokenContainer)
         /// <summary>

@@ -15,7 +15,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 创建二维码ticket的URL
         /// </summary>
-        private const string UrlGetQRCodeTicket = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={0}";
+        private const string UrlGetQRCodeTicket = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=[AT]";
 
         /// <summary>
         /// 通过ticket换取二维码的URL
@@ -25,7 +25,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取短域名的URL
         /// </summary>
-        private const string UrlGetShortURL = "https://api.weixin.qq.com/cgi-bin/shorturl?access_token={0}";
+        private const string UrlGetShortURL = "https://api.weixin.qq.com/cgi-bin/shorturl?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public QRCodeController(AccessTokenContainer accessTokenContainer)
         /// <summary>

@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <summary>
         /// 获取微信服务器IP列表的URL
         /// </summary>
-        private const string UrlGetWXServerIPList = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token={0}";
+        private const string UrlGetWXServerIPList = "https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=[AT]";
 
         #region 根据AccessToken容器初始化 public SecurityController(AccessTokenContainer accessTokenContainer)
         /// <summary>

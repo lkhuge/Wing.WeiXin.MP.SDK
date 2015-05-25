@@ -48,8 +48,20 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         /// PS:
         /// 1.仅在实际请求类型为Click和Text有效（后续可能还会添加支持类型）
         /// 2.当限定类型不为空时 优先判断类型
+        /// 3.当限定头部关键字不为空时 优先判断限定关键字
         /// </summary>
         public string LimitKey { get; set; }
+
+        /// <summary>
+        /// 限定头部关键字
+        /// 为事件自动添加对于头部关键字的限制
+        /// 
+        /// PS:
+        /// 1.仅在实际请求类型为Text有效（后续可能还会添加支持类型）
+        /// 2.当限定类型不为空时 优先判断类型
+        /// 3.当限定关键字不为空时 优先判断限定关键字
+        /// </summary>
+        public string LimitKeyHead { get; set; }
 
         #region 根据事件名和开发者微信号实例化微信事件特性 public WXEventAttribute(string eventName, string toUserName)
         /// <summary>
@@ -61,7 +73,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         {
             EventName = eventName;
             ToUserName = toUserName;
-        } 
+        }
         #endregion
 
         #region 根据事件名和开发者微信号实例化微信事件特性 public WXEventAttribute(string eventName, string toUserName)
@@ -78,6 +90,36 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
         }
         #endregion
 
+        #region 包装全局事件 internal Func<Request, Response> PackageGlobalEvent(Func<Request, Response> receiveEvent)
+        /// <summary>
+        /// 包装全局事件
+        /// </summary>
+        /// <param name="receiveEvent">原事件</param>
+        /// <returns>包装后的事件</returns>
+        internal Func<Request, Response> PackageGlobalEvent(Func<Request, Response> receiveEvent)
+        {
+            receiveEvent = PackageEventByLimitKeyHead(receiveEvent);
+            receiveEvent = PackageEventByLimitKey(receiveEvent);
+            receiveEvent = PackageEventByLimitType(receiveEvent);
+            return receiveEvent;
+        }
+        #endregion
+
+        #region 包装普通事件 internal Func<Request, Response> PackageEvent(Func<Request, Response> receiveEvent, ReceiveEntityType type)
+        /// <summary>
+        /// 包装普通事件
+        /// </summary>
+        /// <param name="receiveEvent">原事件</param>
+        /// <param name="type">事件类型</param>
+        /// <returns>包装后的事件</returns>
+        internal Func<Request, Response> PackageEvent(Func<Request, Response> receiveEvent, ReceiveEntityType type)
+        {
+            receiveEvent = PackageEventByLimitKeyHead(receiveEvent, type);
+            receiveEvent = PackageEventByLimitKey(receiveEvent, type);
+            return receiveEvent;
+        }
+        #endregion
+
         #region 根据限定类型包装事件 internal Func<Request, Response> PackageEventByLimitType(Func<Request, Response> receiveEvent)
         /// <summary>
         /// 根据限定类型包装事件
@@ -89,7 +131,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
             return LimitType != null
                 ? (request => request.MsgType != LimitType ? null : receiveEvent(request))
                 : receiveEvent;
-        } 
+        }
         #endregion
 
         #region 根据限定关键字包装事件 internal Func<Request, Response> PackageEventByLimitKey(Func<Request, Response> receiveEvent)
@@ -115,7 +157,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
                 }
                 return null;
             };
-        } 
+        }
         #endregion
 
         #region 根据限定关键字包装已知类型事件 internal Func<Request, Response> PackageEventByLimitKey(Func<Request, Response> receiveEvent, ReceiveEntityType type)
@@ -137,6 +179,47 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
             if (type == ReceiveEntityType.text)
             {
                 return request => !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.Equals(LimitKey)
+                    ? null
+                    : receiveEvent(request);
+            }
+            return receiveEvent;
+        }
+        #endregion
+
+        #region 根据限定头部关键字包装事件 internal Func<Request, Response> PackageEventByLimitKeyHead(Func<Request, Response> receiveEvent)
+        /// <summary>
+        /// 根据限定头部关键字包装事件
+        /// </summary>
+        /// <param name="receiveEvent">原事件</param>
+        /// <returns>包装后的事件</returns>
+        internal Func<Request, Response> PackageEventByLimitKeyHead(Func<Request, Response> receiveEvent)
+        {
+            if (String.IsNullOrEmpty(LimitKeyHead)) return receiveEvent;
+            return request =>
+            {
+                if (request.MsgType == ReceiveEntityType.text)
+                {
+                    return !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead)
+                        ? null : receiveEvent(request);
+                }
+                return null;
+            };
+        }
+        #endregion
+
+        #region 根据限定头部关键字包装已知类型事件 internal Func<Request, Response> PackageEventByLimitKeyHead(Func<Request, Response> receiveEvent, ReceiveEntityType type)
+        /// <summary>
+        /// 根据限定头部关键字包装已知类型事件
+        /// </summary>
+        /// <param name="receiveEvent">原事件</param>
+        /// <param name="type">事件类型</param>
+        /// <returns>包装后的事件</returns>
+        internal Func<Request, Response> PackageEventByLimitKeyHead(Func<Request, Response> receiveEvent, ReceiveEntityType type)
+        {
+            if (String.IsNullOrEmpty(LimitKeyHead)) return receiveEvent;
+            if (type == ReceiveEntityType.text)
+            {
+                return request => !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead)
                     ? null
                     : receiveEvent(request);
             }
