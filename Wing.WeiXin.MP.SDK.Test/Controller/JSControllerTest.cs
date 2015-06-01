@@ -11,7 +11,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void GetJSWeixinConfigTest()
         {
-            JSController jsController = GlobalManager.FunctionManager.JSController;
+            JSController jsController = GlobalManager.FunctionManager.JS;
             WXAccount accountT = account;
             const string url = "http://127.0.0.1/test.html";
             string[] jsApiList =  {"hideMenuItems"};

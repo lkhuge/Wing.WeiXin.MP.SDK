@@ -10,7 +10,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void SendCSMessageTest()
         {
-            CSController CSController = GlobalManager.FunctionManager.CSController;
+            CSController CSController = GlobalManager.FunctionManager.CS;
 
             ErrorMsg e = CSController.SendCSMessage(account, csMessageText);
 

@@ -10,7 +10,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class MaterialControllerTest : BaseTest
     {
-        private readonly MaterialController controller = GlobalManager.FunctionManager.MaterialController;
+        private readonly MaterialController controller = GlobalManager.FunctionManager.Material;
 
         private readonly string[] mediaIDList =
         {

@@ -41,7 +41,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Message
         /// <param name="pathName">下载路径加文件名</param>
         public void DownloadImage(WXAccount account, string pathName)
         {
-            GlobalManager.FunctionManager.MaterialController.GetTemp(account, MediaId, pathName);
+            GlobalManager.FunctionManager.Material.GetTemp(account, MediaId, pathName);
         }
         #endregion
 

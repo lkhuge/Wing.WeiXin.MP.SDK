@@ -13,7 +13,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class SendAllControllerTest : BaseTest
     {
-        private readonly SendAllController SendAllController = GlobalManager.FunctionManager.SendAllController;
+        private readonly SendAllController SendAllController = GlobalManager.FunctionManager.SendAll;
 
         [TestMethod]
         public void SendAllTest()

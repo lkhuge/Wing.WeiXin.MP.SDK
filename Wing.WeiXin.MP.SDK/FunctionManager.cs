@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Common;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -87,7 +83,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 客服控制器
         /// </summary>
-        public CSController CSController
+        public CSController CS
         {
             get { return csController ?? (csController = new CSController(accessTokenContainer)); }
         }
@@ -95,7 +91,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 多客服控制器
         /// </summary>
-        public DKFController DKFController
+        public DKFController DKF
         {
             get { return dkfController ?? (dkfController = new DKFController(accessTokenContainer)); }
         }
@@ -103,7 +99,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// JSSDK控制器
         /// </summary>
-        public JSController JSController
+        public JSController JS
         {
             get { return jsController ?? (jsController = new JSController(accessTokenContainer)); }
         }
@@ -111,7 +107,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 素材控制器
         /// </summary>
-        public MaterialController MaterialController
+        public MaterialController Material
         {
             get { return materialController ?? (materialController = new MaterialController(accessTokenContainer)); }
         }
@@ -119,7 +115,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 菜单工具类
         /// </summary>
-        public MenuController MenuController
+        public MenuController Menu
         {
             get { return menuController ?? (menuController = new MenuController(accessTokenContainer)); }
         }
@@ -127,7 +123,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// OAuth控制器
         /// </summary>
-        public OAuthController OAuthController
+        public OAuthController OAuth
         {
             get { return oauthController ?? (oauthController = new OAuthController(accessTokenContainer)); }
         }
@@ -135,7 +131,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 二维码控制器
         /// </summary>
-        public QRCodeController QRCodeController
+        public QRCodeController QRCode
         {
             get { return qrCodeController ?? (qrCodeController = new QRCodeController(accessTokenContainer)); }
         }
@@ -143,7 +139,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 安全控制器
         /// </summary>
-        public SecurityController SecurityController
+        public SecurityController Security
         {
             get { return securityController ?? (securityController = new SecurityController(accessTokenContainer)); }
         }
@@ -151,7 +147,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 语义控制器
         /// </summary>
-        public SemanticController SemanticController
+        public SemanticController Semantic
         {
             get { return semanticController ?? (semanticController = new SemanticController(accessTokenContainer)); }
         }
@@ -159,7 +155,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 群发控制器
         /// </summary>
-        public SendAllController SendAllController
+        public SendAllController SendAll
         {
             get { return sendAllController ?? (sendAllController = new SendAllController(accessTokenContainer)); }
         }
@@ -167,7 +163,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 统计数据控制器
         /// </summary>
-        public StatisticsController StatisticsController
+        public StatisticsController Statistics
         {
             get { return statisticsController ?? (statisticsController = new StatisticsController(accessTokenContainer)); }
         }
@@ -175,7 +171,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 模板消息控制器
         /// </summary>
-        public TemplateController TemplateController
+        public TemplateController Template
         {
             get { return templateController ?? (templateController = new TemplateController(accessTokenContainer)); }
         }
@@ -183,7 +179,7 @@ namespace Wing.WeiXin.MP.SDK
         /// <summary>
         /// 用户控制器
         /// </summary>
-        public WXUserController WXUserController
+        public WXUserController WXUser
         {
             get { return wxUserController ?? (wxUserController = new WXUserController(accessTokenContainer)); }
         }

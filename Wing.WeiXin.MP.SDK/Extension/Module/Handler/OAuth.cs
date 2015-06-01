@@ -40,7 +40,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
         /// <returns>响应结果</returns>
         public void ProcessRequest(HttpContext context)
         {
-            OAuthAccessToken result = GlobalManager.FunctionManager.OAuthController.GetAccessTokenByCode(
+            OAuthAccessToken result = GlobalManager.FunctionManager.OAuth.GetAccessTokenByCode(
                 Account ?? GlobalManager.GetDefaultAccount(), context.Request.QueryString["code"]);
 
             string state = context.Request.QueryString["state"];

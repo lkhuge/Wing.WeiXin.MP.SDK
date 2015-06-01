@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         [TestMethod]
         public void GetSemanticTest()
         {
-            DatetimeSemantic ds = GlobalManager.FunctionManager.SemanticController.GetSemantic<DatetimeSemantic>(
+            DatetimeSemantic ds = GlobalManager.FunctionManager.Semantic.GetSemantic<DatetimeSemantic>(
                 account,
                 new SemanticRequest
                 {

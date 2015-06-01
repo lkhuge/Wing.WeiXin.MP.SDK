@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class QRCodeControllerTest : BaseTest
     {
-        private readonly QRCodeController QRCodeController = GlobalManager.FunctionManager.QRCodeController;
+        private readonly QRCodeController QRCodeController = GlobalManager.FunctionManager.QRCode;
 
         [TestMethod]
         public void GetDownLoadTest()

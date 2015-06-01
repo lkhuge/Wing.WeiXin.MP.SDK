@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
@@ -44,7 +42,7 @@ namespace Wing.WeiXin.MP.SDK.Common.MessageFilter
             if (wxServerIPList == null)
             {
                 wxServerIPList = GlobalManager.FunctionManager
-                    .SecurityController.GetWXServerIPList(request.WXAccount);
+                    .Security.GetWXServerIPList(request.WXAccount);
             }
 
             return wxServerIPList.ip_list;

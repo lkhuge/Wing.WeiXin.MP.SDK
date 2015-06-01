@@ -7,7 +7,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class MenuControllerTest : BaseTest
     {
-        private readonly MenuController MenuController = GlobalManager.FunctionManager.MenuController;
+        private readonly MenuController MenuController = GlobalManager.FunctionManager.Menu;
 
         [TestMethod]
         public void CGDMenuTest()

@@ -9,7 +9,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class WXUserControllerTest : BaseTest
     {
-        private readonly WXUserController WXUserController = GlobalManager.FunctionManager.WXUserController;
+        private readonly WXUserController WXUserController = GlobalManager.FunctionManager.WXUser;
 
         [TestMethod]
         public void WXUserAllTest()
