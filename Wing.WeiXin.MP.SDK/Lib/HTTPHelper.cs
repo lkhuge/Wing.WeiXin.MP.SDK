@@ -19,52 +19,47 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// </summary>
         static HTTPHelper()
         {
+            //为了适配Mono
             ServicePointManager.ServerCertificateValidationCallback =
                 (sender, certificate, chain, sslPolicyErrors) => true;
         } 
 
-        #region 使用Get方法获取字符串结果 public static string Get(string url, Encoding encoding = null)
+        #region 使用Get方法获取结果 public static string Get(string url)
         /// <summary>
-        /// 使用Get方法获取字符串结果
+        /// 使用Get方法获取结果
         /// </summary>
         /// <param name="url">地址</param>
-        /// <param name="encoding">编码</param>
-        /// <returns></returns>
-        public static string Get(string url, Encoding encoding = null)
-        {
-            LogManager.WriteSystem("HTTP-GET-请求-开始" + Environment.NewLine + url);
-            WebClient wc = new WebClient
-            {
-                Encoding = encoding ?? Encoding.UTF8,
-            };
-            string result = wc.DownloadString(url);
-            LogManager.WriteSystem("HTTP-GET-请求-结束" + Environment.NewLine + result);
-            return result;
-        }
-        #endregion
-
-        #region 使用Post方法获取字符串结果 public static string Post(string url, string data, Encoding encoding = null)
-        /// <summary>
-        /// 使用Post方法获取字符串结果
-        /// </summary>
-        /// <param name="url">地址</param>
-        /// <param name="data">请求</param>
-        /// <param name="encoding">编码</param>
         /// <returns>结果</returns>
-        public static string Post(string url, string data, Encoding encoding = null)
+        public static string Get(string url)
         {
-            LogManager.WriteSystem("HTTP-POST-请求-开始" + Environment.NewLine + url + Environment.NewLine + data);
+            DebugManager.OnHttpGet(url);
             WebClient wc = new WebClient
             {
-                Encoding = encoding ?? Encoding.UTF8,
+                Encoding = Encoding.UTF8
             };
-            string result = wc.UploadString(url, data);
-            LogManager.WriteSystem("HTTP-POST-请求-结束" + Environment.NewLine + result);
-            return result;
+            return DebugManager.OnHttpGetD(url, wc.DownloadString(url));
         }
         #endregion
 
-        #region 下载文件 public static string DownloadFile(string url, string pathname, string data = null)
+        #region 使用Post方法获取结果 public static string Post(string url, string data)
+        /// <summary>
+        /// 使用Post方法获取结果
+        /// </summary>
+        /// <param name="url">地址</param>
+        /// <param name="data">参数</param>
+        /// <returns>结果</returns>
+        public static string Post(string url, string data)
+        {
+            DebugManager.OnHttpPost(url, data);
+            WebClient wc = new WebClient
+            {
+                Encoding = Encoding.UTF8
+            };
+            return DebugManager.OnHttpPostD(url, data, wc.UploadString(url, data));
+        }
+        #endregion
+
+        #region 下载文件 public static string Download(string url, string pathname, string data = null)
         /// <summary>
         /// 下载文件
         /// </summary>
@@ -72,9 +67,9 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <param name="pathname">下载后的存放地址以及文件名</param>
         /// <param name="data">POST参数（如果该参数不为空则使用POST方式下载）</param>
         /// <returns>响应内容</returns>
-        public static string DownloadFile(string url, string pathname, string data = null)
+        public static string Download(string url, string pathname, string data = null)
         {
-            LogManager.WriteSystem("HTTP-Download-请求-开始" + Environment.NewLine + url + Environment.NewLine + data + Environment.NewLine + pathname);
+            DebugManager.OnHttpDownload(url, pathname, data);
             HttpWebRequest webRequest = WebRequest.Create(url) as HttpWebRequest;
             if (webRequest == null) throw WXException.GetInstance("无法获取HttpWebRequest", Settings.Default.SystemUsername);
             bool isGet = String.IsNullOrEmpty(data);
@@ -98,9 +93,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
                 }
                 if (webResponse.ContentType.Equals("text/plain"))
                 {
-                    string result = new StreamReader(webStream, Encoding.UTF8).ReadToEnd();
-                    LogManager.WriteSystem("HTTP-Download-请求-结束" + Environment.NewLine + result);
-                    return result;
+                    return DebugManager.OnHttpDownloadHasError(url, pathname, data, new StreamReader(webStream, Encoding.UTF8).ReadToEnd());
                 }
                 byte[] bt = new byte[1024];
                 int osize = webStream.Read(bt, 0, bt.Length);
@@ -113,7 +106,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
                     }
                 }
             }
-            LogManager.WriteSystem("HTTP-Download-请求-结束");
+            DebugManager.OnHttpDownloadD(url, pathname, data);
             return null;
         }
         #endregion
@@ -128,7 +121,7 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns>成功返回1，失败返回0</returns>
         public static string Upload(string url, string path, string name)
         {
-            LogManager.WriteSystem("HTTP-Upload-请求-开始" + Environment.NewLine + url + Environment.NewLine + path + Environment.NewLine + name);
+            DebugManager.OnHttpUpload(url, path, name);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";
             request.Timeout = 60000;
@@ -172,28 +165,25 @@ namespace Wing.WeiXin.MP.SDK.Lib
                 if (responseStream == null) throw WXException.GetInstance("无法获取ResponseStream", Settings.Default.SystemUsername);
                 using (StreamReader myStreamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8")))
                 {
-                    string result = myStreamReader.ReadToEnd();
-                    LogManager.WriteSystem("HTTP-Upload-请求-结束" + Environment.NewLine + result);
-                    return result;
+                    return DebugManager.OnHttpUploadD(url, path, name, myStreamReader.ReadToEnd());
                 }
             }
         }
         #endregion
 
-        #region 获取Post请求流 public static string GetPostStream(HttpContext httpContext, Encoding encoding = null)
+        #region 获取Post请求流 public static string GetPostStream(HttpContext httpContext)
         /// <summary>
         /// 获取Post请求流
         /// </summary>
         /// <param name="httpContext">上下文</param>
-        /// <param name="encoding">编码</param>
         /// <returns>Post请求流字符串</returns>
-        public static string GetPostStream(HttpContext httpContext, Encoding encoding = null)
+        public static string GetPostStream(HttpContext httpContext)
         {
             try
             {
                 return new StreamReader(
                     httpContext.Request.InputStream,
-                    encoding ?? Encoding.UTF8).ReadToEnd();
+                    Encoding.UTF8).ReadToEnd();
             }
             catch
             {
@@ -213,8 +203,8 @@ namespace Wing.WeiXin.MP.SDK.Lib
             string result = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (!String.IsNullOrEmpty(result))
             {
-                if (result.IndexOf(".") == -1) return null;
-                if (result.IndexOf(",") == -1) return result;
+                if (!result.Contains(".")) return null;
+                if (!result.Contains(",")) return result;
                 return result.Split(',').FirstOrDefault(i => 
                     !i.StartsWith("192.168") && !i.StartsWith("10") && !i.StartsWith("172.16"));
             }

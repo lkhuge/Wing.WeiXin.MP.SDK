@@ -92,6 +92,7 @@
     <Compile Include="Controller\JSController.cs" />
     <Compile Include="Controller\WXController.cs" />
     <Compile Include="Controller\WXUserController.cs" />
+    <Compile Include="DebugManager.cs" />
     <Compile Include="Entities\AccessToken.cs" />
     <Compile Include="Entities\Config\Base\BaseConfigInfo.cs" />
     <Compile Include="Entities\Config\ConfigInfo.cs" />

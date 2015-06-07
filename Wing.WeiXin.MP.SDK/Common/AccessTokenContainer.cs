@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>AccessToken</returns>
         private AccessToken GetAccessToken(WXAccount account)
         {
-            LogManager.WriteSystem("获取AccessToken-开始");
+            DebugManager.OnGetAccessToken(account);
             AccessToken accessToken = wxSession.Get<AccessToken>(
                 Settings.Default.SystemUsername,
                 Settings.Default.AccessTokenHead + account.ID);
@@ -66,12 +66,10 @@ namespace Wing.WeiXin.MP.SDK.Common
             if (accessToken != null && accessTokenExpDT != default(DateTime)
                 && DateTime.Now < accessTokenExpDT)
             {
-                LogManager.WriteSystem("获取AccessToken-缓存-结束" + Environment.NewLine + accessToken);
-                return accessToken;
+                return DebugManager.OnGetCacheAccessTokenD(account, accessToken);
             }
-            AccessToken result = GetNewAccessToken(account);
-            LogManager.WriteSystem("获取AccessToken-新-结束" + Environment.NewLine + result);
-            return result;
+
+            return DebugManager.OnGetAccessTokenD(account, GetNewAccessToken(account));
         }
         #endregion
 
@@ -84,14 +82,13 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>结果</returns>
         public string UseAccessToken(Func<string, string> action, WXAccount account)
         {
-            string result = action(GetAccessToken(account).access_token);
+            AccessToken accessToken = GetAccessToken(account);
+            string result = action(accessToken.access_token);
             ErrorMsg errorMsg = JSONHelper.JSONDeserialize<ErrorMsg>(result);
-            if (!String.IsNullOrEmpty(errorMsg.errcode) && reflushAccessTokenCode.Contains(errorMsg.errcode))
-            {
-                LogManager.WriteSystem("发现无效AccessToken 正在重新获取AccessToken");
-                return action(GetNewAccessToken(account).access_token);
-            }
-            return result;
+            if (String.IsNullOrEmpty(errorMsg.errcode) || !reflushAccessTokenCode.Contains(errorMsg.errcode)) return result;
+            DebugManager.OnFindFailureAccessTokenD(account, accessToken);
+
+            return action(GetNewAccessToken(account).access_token);
         }
         #endregion
 

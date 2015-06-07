@@ -117,7 +117,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             string result = Action(
                 url,
-                u => HTTPHelper.DownloadFile(String.Format(u, media_id), pathName, postData),
+                u => HTTPHelper.Download(String.Format(u, media_id), pathName, postData),
                 account);
             if (!String.IsNullOrEmpty(result)) 
             {

@@ -59,7 +59,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="pathName">保存路径</param>
         public void GetQRCode(string ticket, string pathName)
         {
-            HTTPHelper.DownloadFile(String.Format(
+            HTTPHelper.Download(String.Format(
                 UrlGetQRCode,
                 HttpUtility.UrlEncode(ticket)), pathName);
         } 

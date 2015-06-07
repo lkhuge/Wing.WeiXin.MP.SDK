@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {
@@ -75,7 +72,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>异常</returns>
         public static WXException GetInstance(string message, string user, object exceptionTag = null)
         {
-            LogManager.WriteInfo("ErrorMsg异常-" + message);
+            DebugManager.OnCatchWXException(message, user, exceptionTag);
             WXException e = exceptionTag == null
                 ? new WXException(message, user)
                 : new WXException(message, user, exceptionTag);
@@ -105,7 +102,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>异常</returns>
         public static WXException GetInstance(string message)
         {
-            LogManager.WriteInfo("消息类异常" + message);
+            DebugManager.OnCatchMessageWXException(message);
             return new WXException(message);
         }
         #endregion

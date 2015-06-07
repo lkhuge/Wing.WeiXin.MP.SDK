@@ -43,21 +43,23 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static Assembly CallingAssembly { get; set; }
 
-        #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
+        #region 初始化 public static void Init(ConfigInfo config = null, IWXSession wxSession = null, bool isWriteSystemLog = true)
         /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="config">配置信息</param>
         /// <param name="wxSession">微信会话接口</param>
-        public static void Init(ConfigInfo config = null, IWXSession wxSession = null)
+        /// <param name="isWriteSystemLog">是否记录系统日志</param>
+        public static void Init(ConfigInfo config = null, IWXSession wxSession = null, bool isWriteSystemLog = true)
         {
-            LogManager.WriteSystem("全局-初始化-开始");
+            if (isWriteSystemLog) DebugManager.AddLogEvent();
+            DebugManager.OnInit();
             CallingAssembly = Assembly.GetCallingAssembly();
             ConfigManager = config == null ? new ConfigManager() : new ConfigManager(config);
             InitWXSession(wxSession);
             EventManager = new EventManager();
             InitConfig();
-            LogManager.WriteSystem("全局-初始化-结束");
+            DebugManager.OnInitD();
         }
         #endregion
 
@@ -93,9 +95,9 @@ namespace Wing.WeiXin.MP.SDK
         /// </summary>
         public static void InitWeixinModule()
         {
-            LogManager.WriteSystem("基于Module的入口管理类-初始化-开始");
+            DebugManager.OnInitWeixinModule();
             WeixinModule.LoadHandlerList();
-            LogManager.WriteSystem("基于Module的入口管理类-初始化-结束");
+            DebugManager.OnInitWeixinModuleD();
         } 
         #endregion
 
