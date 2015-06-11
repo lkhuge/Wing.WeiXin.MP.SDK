@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Xml.Linq;
-using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Entities
@@ -34,6 +28,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// 响应内容
         /// </summary>
         public string Text { get; private set; }
+
+        /// <summary>
+        /// 请求对象
+        /// </summary>
+        public Request Request { get; private set; }
 
         #region 类型
         /// <summary>
@@ -73,6 +72,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <param name="type">响应类型</param>
         public Response(string text, Request request, string type)
         {
+            Request = request;
             Text = GetCryptMessage(text, request);
             ContentType = type;
             RunTime = request.GetRunTime();
@@ -108,8 +108,10 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>完整响应信息</returns>
         public override string ToString()
         {
-            return String.Format("[ContentType]:{0}[Text]:{1}",
-                ContentType, Text);
+            return String.Format("[ContentType]:{0}{2}{3}[Text]:{1}",
+                ContentType, Text,
+                String.IsNullOrEmpty(ActionEventName) ? "" : String.Format("[ActionEventName]:{0}", ActionEventName),
+                RunTime == 0 ? "" : String.Format("[RunTime]:{0}", RunTime));
         }
         #endregion
     }

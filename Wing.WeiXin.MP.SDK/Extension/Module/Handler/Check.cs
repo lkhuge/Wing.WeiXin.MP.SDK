@@ -181,9 +181,8 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                         WXAccount testAccount = GlobalManager.ConfigManager.Config.Base.AccountList.FirstOrDefault();
                         if (testAccount == null) return "没有发现可用账号";
                         RequestBuilder.TestToUserName = testAccount.ID;
-                        bool tempState = Request.IsSumRunTime;
-                        Request.IsSumRunTime = true;
                         Request TestTextRequest = RequestBuilder.GetMessageText(TestText);
+                        TestTextRequest.IsSumRunTime = true;
                         GlobalManager.EventManager.AddTempReceiveEvent(
                             RequestBuilder.TestToUserName,
                             RequestBuilder.TestFromUserName,
@@ -193,7 +192,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                                 return re.GetTextResponse(TestText);
                             });
                         Response response = new ReceiveController().Action(TestTextRequest);
-                        Request.IsSumRunTime = tempState;
 
                         return response.RunTime + 
                             (response.RunTime > 5000 ? "ms（运行时间过长，请适当优化）" : "ms");

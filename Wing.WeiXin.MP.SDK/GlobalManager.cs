@@ -3,13 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Wing.WeiXin.MP.SDK.Common;
-using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.WXSession;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.Config;
 using Wing.WeiXin.MP.SDK.Extension.Event.Attributes;
 using Wing.WeiXin.MP.SDK.Extension.Module;
-using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK
 {

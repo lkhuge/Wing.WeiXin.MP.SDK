@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
-using Wing.WeiXin.MP.SDK.Controller;
 using Wing.WeiXin.MP.SDK.Enumeration;
 using Wing.WeiXin.MP.SDK.Lib;
 using Wing.WeiXin.MP.SDK.Properties;
@@ -128,7 +127,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 是否计算请求响应时长
         /// </summary>
-        public static bool IsSumRunTime = false;
+        internal bool IsSumRunTime = GlobalManager.IsDebug();
 
         /// <summary>
         /// 运行时长计时器
