@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Wing.WeiXin.MP.SDK.Lib;
 
 namespace Wing.WeiXin.MP.SDK.Entities
@@ -34,6 +36,11 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// </summary>
         public Request Request { get; private set; }
 
+        /// <summary>
+        /// 响应数据
+        /// </summary>
+        public Dictionary<string, object> Data { get; private set; }
+
         #region 类型
         /// <summary>
         /// JSON类型
@@ -51,31 +58,58 @@ namespace Wing.WeiXin.MP.SDK.Entities
         public const string TEXT = "text/plain";
         #endregion
 
-        #region 根据异常实例化文本类型对象 public Response(Exception e)
+        #region 响应数据索引器 public object this[string key]
+        /// <summary>
+        /// 响应数据索引器
+        /// </summary>
+        /// <param name="key">索引Key</param>
+        /// <returns>索引Value（不存在则返回null）</returns>
+        public object this[string key]
+        {
+            get { return Data.ContainsKey(key) ? Data[key] : null; }
+        }
+        #endregion
+
+        #region 根据异常实例化文本类型对象 internal Response(Exception e)
         /// <summary>
         /// 根据异常实例化文本类型对象
         /// </summary>
         /// <param name="e">异常</param>
-        public Response(Exception e)
+        internal Response(Exception e)
         {
             Text = e.Message;
             ContentType = TEXT;
         }
         #endregion
 
-        #region 根据响应内容和响应类型实例化 public Response(string text, Request request, string type)
+        #region 根据响应内容请求对象和响应类型实例化 internal Response(string text, Request request, string type)
         /// <summary>
-        /// 根据响应内容和响应类型实例化
+        /// 根据响应内容请求对象和响应类型实例化
         /// </summary>
         /// <param name="text">响应内容</param>
         /// <param name="request">请求对象</param>
         /// <param name="type">响应类型</param>
-        public Response(string text, Request request, string type)
+        internal Response(string text, Request request, string type)
         {
             Request = request;
             Text = GetCryptMessage(text, request);
             ContentType = type;
             RunTime = request.GetRunTime();
+        }
+        #endregion
+
+        #region 根据响应内容响应数据请求对象和响应类型实例化 internal Response(string text, Dictionary<string, object> data, Request request, string type)
+        /// <summary>
+        /// 根据响应内容响应数据请求对象和响应类型实例化
+        /// </summary>
+        /// <param name="text">响应内容</param>
+        /// <param name="data">响应数据</param>
+        /// <param name="request">请求对象</param>
+        /// <param name="type">响应类型</param>
+        internal Response(string text, Dictionary<string, object> data, Request request, string type) 
+            : this(text, request, type)
+        {
+            Data = data;
         }
         #endregion
 
@@ -113,6 +147,25 @@ namespace Wing.WeiXin.MP.SDK.Entities
                 String.IsNullOrEmpty(ActionEventName) ? "" : String.Format("[ActionEventName]:{0}", ActionEventName),
                 RunTime == 0 ? "" : String.Format("[RunTime]:{0}", RunTime));
         }
+        #endregion
+
+        #region 获取响应数据介绍 public string GetDataIntroduce(Dictionary<string, object> data = null)
+        /// <summary>
+        /// 获取响应数据介绍
+        /// </summary>
+        /// <returns>响应数据介绍</returns>
+        public string GetDataIntroduce(Dictionary<string, object> data = null)
+        {
+            data = data ?? Data;
+            string sp = Environment.NewLine + "#######" + Environment.NewLine;
+            return String.Join(Environment.NewLine,
+                data.Select(d => String.Format("{0}：{1}", 
+                    d.Key, 
+                    (d.Value is string || d.Value is int)
+                        ? d.Value
+                        : (sp + String.Join(sp, ((Dictionary<string, object>[])d.Value)
+                            .Select(GetDataIntroduce)) + sp))));
+        } 
         #endregion
     }
 }

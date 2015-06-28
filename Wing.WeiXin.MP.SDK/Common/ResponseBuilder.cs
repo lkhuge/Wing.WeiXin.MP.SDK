@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
@@ -95,7 +93,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageImage(Request request, string mediaId)
         {
-            return GetResponse(MessageImage, request, mediaId);
+            return GetResponse(MessageImage, request, new Dictionary<string, object>
+            {
+                {"mediaId", mediaId}
+            }, mediaId);
         }
         #endregion
 
@@ -112,7 +113,14 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageMusic(Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
         {
-            return GetResponse(MessageMusic, request, title, description, musicUrl, hqMusicUrl, thumbMediaId);
+            return GetResponse(MessageMusic, request, new Dictionary<string, object>
+            {
+                {"title", title},
+                {"description", description},
+                {"musicUrl", musicUrl},
+                {"hqMusicUrl", hqMusicUrl},
+                {"thumbMediaId", thumbMediaId}
+            }, title, description, musicUrl, hqMusicUrl, thumbMediaId);
         }
         #endregion
 
@@ -135,9 +143,17 @@ namespace Wing.WeiXin.MP.SDK.Common
             {
                 throw WXException.GetInstance("图文消息格式不正确", request.FromUserName);
             }
+            Dictionary<string, object>[] data = new Dictionary<string, object>[count];
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < count; i++)
             {
+                data[i] = new Dictionary<string, object>
+                {
+                    {"title", titleList[i]},
+                    {"description", descriptionList[i]},
+                    {"picUrl", picUrlList[i]},
+                    {"url", urlList[i]}
+                };
                 sb.AppendFormat(MessageNewsOne,
                     titleList[i],
                     descriptionList[i],
@@ -145,7 +161,11 @@ namespace Wing.WeiXin.MP.SDK.Common
                     urlList[i]);
             }
 
-            return GetResponse(MessageNews, request, count.ToString(CultureInfo.InvariantCulture), sb.ToString());
+            return GetResponse(MessageNews, request, new Dictionary<string, object>
+            {
+                {"count", count},
+                {"news", data}
+            }, count.ToString(CultureInfo.InvariantCulture), sb.ToString());
         }
         #endregion
 
@@ -158,7 +178,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageText(Request request, string content)
         {
-            return GetResponse(MessageText, request, content);
+            return GetResponse(MessageText, request, new Dictionary<string, object>
+            {
+                {"content", content}
+            }, content);
         }
         #endregion
 
@@ -173,7 +196,12 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageVideo(Request request, string mediaId, string title, string description)
         {
-            return GetResponse(MessageVideo, request, mediaId, title, description);
+            return GetResponse(MessageVideo, request, new Dictionary<string, object>
+            {
+                {"mediaId", mediaId},
+                {"title", title},
+                {"description", description}
+            }, mediaId, title, description);
         }
         #endregion
 
@@ -186,7 +214,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageVoice(Request request, string mediaId)
         {
-            return GetResponse(MessageVoice, request, mediaId);
+            return GetResponse(MessageVoice, request, new Dictionary<string, object>
+            {
+                {"mediaId", mediaId}
+            }, mediaId);
         }
         #endregion
 
@@ -198,7 +229,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageTCS(Request request)
         {
-            return GetResponse(MessageTCS, request);
+            return GetResponse(MessageTCS, request, new Dictionary<string, object>());
         }
         #endregion
 
@@ -211,7 +242,10 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMessageTCSForOne(Request request, string csID)
         {
-            return GetResponse(MessageTCSForOne, request, csID);
+            return GetResponse(MessageTCSForOne, request, new Dictionary<string, object>
+            {
+                {"csID", csID}
+            }, csID);
         }
         #endregion
 
@@ -232,21 +266,27 @@ namespace Wing.WeiXin.MP.SDK.Common
         }
         #endregion
 
-        #region 获取响应 private static Response GetResponse(string content, Request request, params object[] paramList)
+        #region 获取响应 private static Response GetResponse(string content, Request request, Dictionary<string, object> data, params object[] paramList)
         /// <summary>
         /// 获取响应
         /// </summary>
         /// <param name="content">消息模板</param>
         /// <param name="request">请求对象</param>
+        /// <param name="data">响应数据</param>
         /// <param name="paramList">其余参数列表</param>
         /// <returns>响应对象</returns>
-        private static Response GetResponse(string content, Request request, params object[] paramList)
+        private static Response GetResponse(string content, Request request, Dictionary<string, object> data, params object[] paramList)
         {
+            string createTime = DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString();
+            data.Add("ToUserName", request.FromUserName);
+            data.Add("FromUserName", request.ToUserName);
+            data.Add("CreateTime", createTime);
+
             return new Response(String.Format(content
                     .Replace("{ToUserName}", request.FromUserName)
                     .Replace("{FromUserName}", request.ToUserName)
-                    .Replace("{CreateTime}", DateTimeHelper.GetLongTimeByDateTime(DateTime.Now).ToString()),
-                paramList), request, Response.XML);
+                    .Replace("{CreateTime}", createTime),
+                paramList), data, request, Response.XML);
         }
         #endregion
 
@@ -276,7 +316,7 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <returns>响应对象</returns>
         public static Response GetMusicResponse(this Request request, string title, string description, string musicUrl, string hqMusicUrl, string thumbMediaId)
         {
-            return GetResponse(MessageMusic, request, title, description, musicUrl, hqMusicUrl, thumbMediaId);
+            return GetMessageMusic(request, title, description, musicUrl, hqMusicUrl, thumbMediaId);
         }
         #endregion
 

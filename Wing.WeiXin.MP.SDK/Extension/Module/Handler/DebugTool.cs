@@ -71,7 +71,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                     false);
                 return new
                 {
-                    data = response == null ? "" : FormatXMLToHTML(response.Text)
+                    data = response == null ? "" : FormatXMLToHTML(response.GetDataIntroduce())
                 };
             }
             catch (Exception e)
