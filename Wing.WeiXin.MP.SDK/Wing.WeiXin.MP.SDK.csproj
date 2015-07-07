@@ -223,7 +223,6 @@
     <Compile Include="Extension\Event\Attributes\WXEventAttributeExtension.cs" />
     <Compile Include="Extension\Event\IEventBuilder.cs" />
     <Compile Include="Extension\Event\Text\TextMenuEvent.cs" />
-    <Compile Include="Extension\Event\Text\WordHeadEventList.cs" />
     <Compile Include="Extension\Module\Handler\Check.cs" />
     <Compile Include="Extension\Module\Handler\DebugTool.cs" />
     <Compile Include="Extension\Module\Handler\MenuTool.cs" />

@@ -1,13 +1,15 @@
 ﻿/*!
- * Weixin JS Menu Tool v0.0.6
+ * Weixin JS Menu Tool v0.0.7
  * 用于图形化操作菜单
  *
  * Dependency：
  * 1.JQuery
  * 2.Bootstrap(V3)
  *
- * Update(v0.0.6)：
- * [Add]添加View菜单的OAuth功能
+ * Update(v0.0.7)：
+ * [Add]添加菜单上下移动按钮
+ * [Change]调整删除子菜单按钮方式
+ * [Change]调整View菜单URL显示方式
  * 
  * Usage：
  * $('#main').weixinmenu({
@@ -248,8 +250,8 @@
             setButton(id, $('#' + toolIDPrefix + 'body-' + id).children().children().length);
         }
 
-        $('.' + toolIDPrefix + 'menu-item').unbind();
-        $('.' + toolIDPrefix + 'menu-item').click(function () {
+        $('.' + toolIDPrefix + 'menu-item p').unbind();
+        $('.' + toolIDPrefix + 'menu-item p').click(function () {
             menuEdit(false, false, id, $(this));
         });
     }
@@ -263,10 +265,14 @@
         var name = '<p data-menu-type="name" data-menu-value="' + obj.name + '"><strong>显示标题：' + obj.name + '</strong></p>';
         var type = '<p data-menu-type="type" data-menu-value="' + obj.type + '">类型：' + obj.type + '(' + getMenuTypeName(obj.type) + ')</p>';
         var key = (obj.type == 'view')
-			? '<p data-menu-type="url" data-menu-value="' + obj.url + '">URL：' + obj.url + '</p>'
+			? '<div data-menu-type="url" data-menu-value="' + obj.url + '">URL：<pre>' + obj.url + '</pre></div>'
 			: '<p data-menu-type="key" data-menu-value="' + obj.key + '">Key：' + obj.key + '</p>';
-
-        return name + type + key;
+        var opera = '<div class="panel-footer btn-group" role="group">' +
+                        '<button type="button" class="btn btn-warning" data-menu-event="DeleteSub">删除</button>' +
+                        '<button type="button" class="btn btn-warning" data-menu-event="MoveUpSub">上移</button>' +
+                        '<button type="button" class="btn btn-warning" data-menu-event="MoveDownSub">下移</button>' +
+                    '</div>';
+        return name + type + key + opera;
     }
 
     function setButton(id, count) {
@@ -275,6 +281,10 @@
         /// </summary>
         /// <param name="id" type="Number">主菜单ID</param>
         /// <param name="count" type="Number">子菜单数量（不填为没有主菜单，负数则为非主菜单）</param>
+
+        addButtonDeleteSub(id);
+        addButtonMoveUpSub(id);
+        addButtonMoveDownSub(id);
 
         if (typeof count == 'undefined') {
             addButtonAddMain(id, true);
@@ -293,12 +303,10 @@
         }
         if (count == 5) {
             addButtonModityMain(id, true);
-            addButtonDeleteSub(id);
             return;
         }
         addButtonAddSub(id, true);
         addButtonModityMain(id);
-        addButtonDeleteSub(id);
     }
 
     function addButtonAddSub(id, empty) {
@@ -313,29 +321,120 @@
         }
         var html = '<button type="button" class="btn btn-info" data-menu-event="AddSub" data-menu-id="' + id + '">添加子菜单</button>';
         $('#' + toolIDPrefix + 'footer-' + id).append(html);
+        $('button[data-menu-event="AddSub"][data-menu-id="' + id + '"]').unbind();
         $('button[data-menu-event="AddSub"][data-menu-id="' + id + '"]').click(function () {
             menuEdit(true, false, id);
         });
     }
 
-    function addButtonDeleteSub(id, empty) {
+    function addButtonDeleteSub(id) {
         /// <summary>
         /// 添加删除子菜单按钮
         /// </summary>
         /// <param name="id" type="Number">主菜单ID</param>
-        /// <param name="empty" type="Boolean">添加之前是否清空</param>
 
-        if (typeof empty != 'undefined' && empty) {
-            $('#' + toolIDPrefix + 'footer-' + id).empty();
-        }
-        var html = '<button type="button" class="btn btn-warning" data-menu-event="DeleteSub" data-menu-id="' + id + '">删除子菜单</button>';
-        $('#' + toolIDPrefix + 'footer-' + id).append(html);
-        $('button[data-menu-event="DeleteSub"][data-menu-id="' + id + '"]').click(function () {
+        $('button[data-menu-event="DeleteSub"]').unbind();
+        $('button[data-menu-event="DeleteSub"]').click(function () {
+            var btn = $(this);
             confirm('确定删除？', function () {
-                $('#' + toolIDPrefix + 'body-' + id).children().children().remove('li:last');
-                var childDom = $('#' + toolIDPrefix + 'body-' + id).children().children();
-                setButton(id, childDom.length);
+                btn.parents('li').eq(0).remove();
             });
+        });
+    }
+
+    function addButtonMoveUpSub(id) {
+        /// <summary>
+        /// 添加上移子菜单按钮
+        /// </summary>
+        /// <param name="id" type="Number">主菜单ID</param>
+
+        $('button[data-menu-event="MoveUpSub"]').unbind();
+        $('button[data-menu-event="MoveUpSub"]').click(function () {
+            var main = $(this).parents('ul').eq(0);
+            var list = main.children('li');
+            var thisHtml = $(this).parents('li').eq(0).html();
+            var num = list.length;
+
+            //加载数据
+            var arr = new Array();
+            var thisIndex = -1;
+            list.each(function (i, d) {
+                if (d.innerHTML == thisHtml) {
+                    thisIndex = i;
+                }
+                arr[i] = d;
+            });
+
+            //第一个项 或者 找不到则退出
+            if (thisIndex == -1 || thisIndex == 0) return;
+
+            //交换
+            var temp = arr[thisIndex];
+            arr[thisIndex] = arr[thisIndex - 1];
+            arr[thisIndex - 1] = temp;
+
+            //清空
+            main.empty();
+
+            //写入
+            $.each(arr, function(k, v) {
+                main.append(v.outerHTML);
+            })
+
+            //重新绑定事件
+            $('.' + toolIDPrefix + 'menu-item p').unbind();
+            $('.' + toolIDPrefix + 'menu-item p').click(function () {
+                menuEdit(false, false, id, $(this));
+            });
+            setButton(id, num)
+        });
+    }
+
+    function addButtonMoveDownSub(id) {
+        /// <summary>
+        /// 添加下移子菜单按钮
+        /// </summary>
+        /// <param name="id" type="Number">主菜单ID</param>
+
+        $('button[data-menu-event="MoveDownSub"]').unbind();
+        $('button[data-menu-event="MoveDownSub"]').click(function () {
+            var main = $(this).parents('ul').eq(0);
+            var list = main.children('li');
+            var thisHtml = $(this).parents('li').eq(0).html();
+            var num = list.length;
+
+            //加载数据
+            var arr = new Array();
+            var thisIndex = -1;
+            list.each(function (i, d) {
+                if (d.innerHTML == thisHtml) {
+                    thisIndex = i;
+                }
+                arr[i] = d;
+            });
+
+            //最后个项 或者 找不到则退出
+            if (thisIndex == num - 1 || thisIndex == -1) return;
+
+            //交换
+            var temp = arr[thisIndex];
+            arr[thisIndex] = arr[thisIndex + 1];
+            arr[thisIndex + 1] = temp;
+
+            //清空
+            main.empty();
+
+            //写入
+            $.each(arr, function (k, v) {
+                main.append(v.outerHTML);
+            })
+
+            //重新绑定事件
+            $('.' + toolIDPrefix + 'menu-item p').unbind();
+            $('.' + toolIDPrefix + 'menu-item p').click(function () {
+                menuEdit(false, false, id, $(this));
+            });
+            setButton(id, main.length)
         });
     }
 
@@ -351,6 +450,7 @@
         }
         var html = '<button type="button" class="btn btn-danger" data-menu-event="DeleteMain" data-menu-id="' + id + '">删除主菜单</button>';
         $('#' + toolIDPrefix + 'footer-' + id).append(html);
+        $('button[data-menu-event="DeleteMain"][data-menu-id="' + id + '"]').unbind();
         $('button[data-menu-event="DeleteMain"][data-menu-id="' + id + '"]').click(function () {
             confirm('确定删除？', function () {
                 $('#' + toolIDPrefix + 'head-' + id).removeAttr('data-menu-type');
@@ -374,6 +474,7 @@
         }
         var html = '<button type="button" class="btn btn-primary" data-menu-event="ModityMain" data-menu-id="' + id + '">修改主菜单</button>';
         $('#' + toolIDPrefix + 'footer-' + id).append(html);
+        $('button[data-menu-event="ModityMain"][data-menu-id="' + id + '"]').unbind();
         $('button[data-menu-event="ModityMain"][data-menu-id="' + id + '"]').click(function () {
             menuEdit(false, true, id);
         });
@@ -391,6 +492,7 @@
         }
         var html = '<button type="button" class="btn btn-success" data-menu-event="AddMain" data-menu-id="' + id + '">添加主菜单</button>';
         $('#' + toolIDPrefix + 'footer-' + id).append(html);
+        $('button[data-menu-event="AddMain"][data-menu-id="' + id + '"]').unbind();
         $('button[data-menu-event="AddMain"][data-menu-id="' + id + '"]').click(function () {
             menuEdit(true, true, id);
         });

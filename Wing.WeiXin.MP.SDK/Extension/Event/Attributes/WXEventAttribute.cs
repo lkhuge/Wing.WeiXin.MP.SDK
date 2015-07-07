@@ -54,7 +54,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
 
         /// <summary>
         /// 限定头部关键字
-        /// 为事件自动添加对于头部关键字的限制
+        /// 为事件自动添加对于头部关键字的限制(不区分大小写)
         /// 
         /// PS:
         /// 1.仅在实际请求类型为Text有效（后续可能还会添加支持类型）
@@ -199,7 +199,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
             {
                 if (request.MsgType == ReceiveEntityType.text)
                 {
-                    return !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead)
+                    return !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead, StringComparison.CurrentCultureIgnoreCase)
                         ? null : receiveEvent(request);
                 }
                 return null;
@@ -219,7 +219,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Event.Attributes
             if (String.IsNullOrEmpty(LimitKeyHead)) return receiveEvent;
             if (type == ReceiveEntityType.text)
             {
-                return request => !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead)
+                return request => !RequestAMessage.GetRequestAMessage<RequestText>(request).Content.StartsWith(LimitKeyHead, StringComparison.CurrentCultureIgnoreCase)
                     ? null
                     : receiveEvent(request);
             }
