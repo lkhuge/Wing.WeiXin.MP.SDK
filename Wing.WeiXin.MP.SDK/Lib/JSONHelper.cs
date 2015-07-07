@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 
 namespace Wing.WeiXin.MP.SDK.Lib
@@ -14,6 +16,12 @@ namespace Wing.WeiXin.MP.SDK.Lib
         private static readonly JavaScriptSerializer javaScriptSerializer
             = new JavaScriptSerializer();
 
+        /// <summary>
+        /// 解码Unicode规则
+        /// </summary>
+        private static readonly Regex reUnicode
+            = new Regex(@"\\u([0-9a-fA-F]{4})", RegexOptions.Compiled);
+
         #region 将对象转换为Json字符串 public static string JSONSerialize(object obj)
         /// <summary>
         /// 将对象转换为Json字符串
@@ -22,9 +30,29 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// <returns>Json字符串</returns>
         public static string JSONSerialize(object obj)
         {
-            return javaScriptSerializer.Serialize(obj);
+            return DecodereUnicode(javaScriptSerializer.Serialize(obj));
         }
         #endregion
+
+        #region 解码Unicode private static string DecodereUnicode(string str)
+        /// <summary>
+        /// 解码Unicode
+        /// </summary>
+        /// <param name="str">原始字符串</param>
+        /// <returns>解码后的字符串</returns>
+        private static string DecodereUnicode(string str)
+        {
+            return reUnicode.Replace(str, m =>
+            {
+                short c;
+                return short.TryParse(
+                    m.Groups[1].Value,
+                    NumberStyles.HexNumber,
+                    CultureInfo.InvariantCulture,
+                    out c) ? c.ToString() : m.Value;
+            });
+        }
+        #endregion 
 
         #region 将Json字符串转换为对象 public static T JSONDeserialize<T>(string jsonString)
         /// <summary>
