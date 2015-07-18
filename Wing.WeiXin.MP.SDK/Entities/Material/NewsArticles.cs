@@ -41,6 +41,11 @@ namespace Wing.WeiXin.MP.SDK.Entities.Material
         public string content { get; set; }
 
         /// <summary>
+        /// 图文页的URL
+        /// </summary>
+        public string url { get; set; }
+
+        /// <summary>
         /// 图文消息的原文地址，即点击“阅读原文”后的URL
         /// </summary>
         public string content_source_url { get; set; }

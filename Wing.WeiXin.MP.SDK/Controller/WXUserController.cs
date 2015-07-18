@@ -19,6 +19,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         private const string UrlGetWXUser = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=[AT]&openid={0}&lang={1}";
 
         /// <summary>
+        /// 批量获取用户基本信息的URL
+        /// </summary>
+        private const string UrlBatchGetWXUser = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=[AT]";
+
+        /// <summary>
         /// 获取用户列表的URL
         /// </summary>
         private const string UrlGetWXUserList = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=[AT]";
@@ -83,6 +88,22 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 String.Format(UrlGetWXUser, openID, lang),
                 account);
         } 
+        #endregion
+
+        #region 批量获取用户基本信息 public WXUser BatchGetWXUser(WXAccount account, BatchWXUser user)
+        /// <summary>
+        /// 批量获取用户基本信息
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="user">批量获取用户信息</param>
+        /// <returns>批量用户信息</returns>
+        public BatchWXUserList BatchGetWXUser(WXAccount account, BatchWXUser user)
+        {
+            return Action<BatchWXUserList>(
+                UrlBatchGetWXUser,
+                user,
+                account);
+        }
         #endregion
 
         #region 获取用户列表 public WXUserList GetWXUserList(WXAccount account)

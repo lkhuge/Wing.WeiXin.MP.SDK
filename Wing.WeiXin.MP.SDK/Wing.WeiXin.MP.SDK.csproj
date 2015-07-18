@@ -175,6 +175,8 @@
     <Compile Include="Entities\Statistics\News\UserShare.cs" />
     <Compile Include="Entities\Statistics\News\UserShareHour.cs" />
     <Compile Include="Entities\Statistics\User\UserSummary.cs" />
+    <Compile Include="Entities\User\User\BatchWXUserList.cs" />
+    <Compile Include="Entities\User\User\BatchWXUser.cs" />
     <Compile Include="Entities\WXAccount.cs" />
     <Compile Include="Entities\CSMessages\CSMessage.cs" />
     <Compile Include="Entities\CSMessages\CSMessageImage.cs" />
