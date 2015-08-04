@@ -18,6 +18,11 @@ namespace Wing.WeiXin.MP.SDK.Controller
         private const string UrlAddTemp = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=[AT]&type={0}";
 
         /// <summary>
+        /// 上传的图片获取URL的URL
+        /// </summary>
+        private const string UrlGetImgURLByUpload = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=[AT]";
+
+        /// <summary>
         /// 获取临时素材的URL
         /// </summary>
         private const string UrlGetTemp = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=[AT]&media_id={0}";
@@ -80,6 +85,20 @@ namespace Wing.WeiXin.MP.SDK.Controller
         public Media AddTemp(WXAccount account, UploadMediaType type, string path, string name)
         {
             return Upload(UrlAddTemp, account, type, path, name);
+        }
+        #endregion
+
+        #region 上传的图片获取URL public Media GetImgURLByUpload(WXAccount account, string path, string name)
+        /// <summary>
+        /// 上传的图片获取URL
+        /// </summary>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="path">文件目录</param>
+        /// <param name="name">文件名</param>
+        /// <returns>图片URL</returns>
+        public MediaImgURL GetImgURLByUpload(WXAccount account, string path, string name)
+        {
+            return Upload<MediaImgURL>(UrlGetImgURLByUpload, account, UploadMediaType.image, path, name);
         }
         #endregion
 

@@ -90,6 +90,22 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <returns>多媒体对象</returns>
         protected Media Upload(string url, WXAccount account, UploadMediaType type, string path, string name)
         {
+            return Upload<Media>(url, account, type, path, name);
+        } 
+        #endregion
+
+        #region 上传文件 protected Media Upload(string url, WXAccount account, UploadMediaType type, string path, string name)
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="url">请求接口地址</param>
+        /// <param name="account">微信公共平台账号</param>
+        /// <param name="type">多媒体类型</param>
+        /// <param name="path">文件目录</param>
+        /// <param name="name">文件名</param>
+        /// <returns>多媒体对象</returns>
+        protected T Upload<T>(string url, WXAccount account, UploadMediaType type, string path, string name)
+        {
             string result = Action(
                 url,
                 u => HTTPHelper.Upload(String.Format(u, type), path, name),
@@ -100,8 +116,8 @@ namespace Wing.WeiXin.MP.SDK.Controller
                 throw WXException.GetInstance(errorMsg, account.ID);
             }
 
-            return JSONHelper.JSONDeserialize<Media>(result);
-        } 
+            return JSONHelper.JSONDeserialize<T>(result);
+        }
         #endregion
 
         #region 下载文件 protected void Download(string url, WXAccount account, string media_id, string pathName, string postData = null)

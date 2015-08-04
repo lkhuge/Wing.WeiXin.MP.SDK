@@ -10,8 +10,6 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
     [TestClass]
     public class MaterialControllerTest : BaseTest
     {
-        private readonly MaterialController controller = GlobalManager.FunctionManager.Material;
-
         private readonly string[] mediaIDList =
         {
             "jUtUo6nQzY0Z2FQ3Ay-UA2gy4yfpL-dhOjVRw-P752Ks7Niq4r0jsZIWrZr-xzz_",
@@ -26,7 +24,19 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string path = "E:\\";
             const string name = "2.JPG";
 
-            Media media = controller.AddTemp(testAccount, type, path, name);
+            Media media = GlobalManager.FunctionManager.Material.AddTemp(testAccount, type, path, name);
+
+            Assert.IsNotNull(media);
+        }
+
+        [TestMethod]
+        public void GetImgURLByUploadTest()
+        {
+            WXAccount testAccount = account;
+            const string path = "D:\\";
+            const string name = "2.JPG";
+
+            MediaImgURL media = GlobalManager.FunctionManager.Material.GetImgURLByUpload(testAccount, path, name);
 
             Assert.IsNotNull(media);
         }
@@ -38,7 +48,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             string media_id = mediaIDList[0];
             const string pathName = "E:\\2.JPG";
 
-            controller.GetTemp(testAccount, media_id, pathName);
+            GlobalManager.FunctionManager.Material.GetTemp(testAccount, media_id, pathName);
 
             Assert.IsTrue(true);
         }
@@ -64,7 +74,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
                 }
             };
 
-            Media media = controller.AddNews(testAccount, mediaNews);
+            Media media = GlobalManager.FunctionManager.Material.AddNews(testAccount, mediaNews);
 
             Assert.IsNotNull(media);
         }
@@ -76,7 +86,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const string path = "E:\\";
             const string name = "1.JPG";
 
-            Media media = controller.Add(testAccount, path, name);
+            Media media = GlobalManager.FunctionManager.Material.Add(testAccount, path, name);
 
             Assert.IsNotNull(media);
         }
@@ -87,7 +97,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             WXAccount testAccount = account;
             const string media_id = "17384130244";
 
-            MediaNews media = controller.GetNews(testAccount, media_id);
+            MediaNews media = GlobalManager.FunctionManager.Material.GetNews(testAccount, media_id);
 
             Assert.IsNotNull(media);
         }
@@ -99,7 +109,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             string media_id = mediaIDList[1];
             const string pathName = "E:\\3.JPG";
 
-            controller.Get(testAccount, media_id, pathName);
+            GlobalManager.FunctionManager.Material.Get(testAccount, media_id, pathName);
 
             Assert.IsTrue(true);
         }
@@ -110,7 +120,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             WXAccount testAccount = account;
             const string media_id = "8794195860";
 
-            ErrorMsg msg = controller.Delete(testAccount, media_id);
+            ErrorMsg msg = GlobalManager.FunctionManager.Material.Delete(testAccount, media_id);
 
             Assert.IsTrue(msg.errcode.Equals("0"));
         }
@@ -135,7 +145,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             };
             const int index = 1;
 
-            ErrorMsg msg = controller.Update(testAccount, articles, media_id, index);
+            ErrorMsg msg = GlobalManager.FunctionManager.Material.Update(testAccount, articles, media_id, index);
 
             Assert.IsTrue(msg.errcode.Equals("0"));
         }
@@ -145,7 +155,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
         {
             WXAccount testAccount = account;
 
-            MediaCount msg = controller.GetCount(testAccount);
+            MediaCount msg = GlobalManager.FunctionManager.Material.GetCount(testAccount);
 
             Assert.IsNotNull(msg);
         }
@@ -157,7 +167,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const int offset = 0;
             const int count = 10;
 
-            MediaNewsList msg = controller.GetNewsList(testAccount, offset, count);
+            MediaNewsList msg = GlobalManager.FunctionManager.Material.GetNewsList(testAccount, offset, count);
 
             Assert.IsNotNull(msg);
         }
@@ -170,7 +180,7 @@ namespace Wing.WeiXin.MP.SDK.Test.Controller
             const int offset = 0;
             const int count = 10;
 
-            MediaList msg = controller.GetList(testAccount, type, offset, count);
+            MediaList msg = GlobalManager.FunctionManager.Material.GetList(testAccount, type, offset, count);
 
             Assert.IsNotNull(msg);
         }

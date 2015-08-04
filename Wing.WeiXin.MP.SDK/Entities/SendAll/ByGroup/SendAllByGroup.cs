@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup
+﻿namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup
 {
     /// <summary>
     /// 根据微信用户分组群发
@@ -25,6 +20,12 @@ namespace Wing.WeiXin.MP.SDK.Entities.SendAll.ByGroup
         /// </summary>
         public class Filter
         {
+            /// <summary>
+            /// 用于设定是否向全部用户发送，值为true或false，
+            /// 选择true该消息群发给所有用户，选择false可根据group_id发送给指定群组的用户
+            /// </summary>
+            public bool is_to_all { get; set; }
+
             /// <summary>
             /// 微信用户分组
             /// </summary>

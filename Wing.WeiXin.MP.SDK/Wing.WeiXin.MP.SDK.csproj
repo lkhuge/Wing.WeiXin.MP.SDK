@@ -106,6 +106,7 @@
     <Compile Include="Entities\JS\JSAPITicket.cs" />
     <Compile Include="Entities\JS\JSWeixinConfig.cs" />
     <Compile Include="Entities\Material\MediaCount.cs" />
+    <Compile Include="Entities\Material\MediaImgURL.cs" />
     <Compile Include="Entities\Material\MediaList.cs" />
     <Compile Include="Entities\Material\MediaNews.cs" />
     <Compile Include="Entities\Material\MediaNewsList.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Entities\Semantic\DatetimeSemantic.cs" />
     <Compile Include="Entities\Semantic\SemanticRequest.cs" />
     <Compile Include="Entities\Semantic\SemanticResponse.cs" />
+    <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupCard.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupImage.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupNews.cs" />
     <Compile Include="Entities\SendAll\ByGroup\SendAllByGroupText.cs" />
