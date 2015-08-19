@@ -27,10 +27,15 @@ namespace Wing.WeiXin.MP.SDK.Lib
         /// 将对象转换为Json字符串
         /// </summary>
         /// <param name="obj">对象</param>
+        /// <param name="needDecodereUnicode">是否需要解码Unicode</param>
         /// <returns>Json字符串</returns>
-        public static string JSONSerialize(object obj)
+        public static string JSONSerialize(object obj, bool needDecodereUnicode = true)
         {
-            return DecodereUnicode(javaScriptSerializer.Serialize(obj));
+            string result = javaScriptSerializer.Serialize(obj);
+
+            return needDecodereUnicode 
+                ? DecodereUnicode(result) 
+                : result;
         }
         #endregion
 

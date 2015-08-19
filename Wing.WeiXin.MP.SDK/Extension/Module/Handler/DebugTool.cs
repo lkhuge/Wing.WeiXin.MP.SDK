@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             if (SubmitMessageName.Equals(mode)) result = SubmitMessage(context.Request.Form[SubmitMessageDataName]);
             if (RefreshServerName.Equals(mode)) result = RefreshServer();
 
-            context.Response.Write(JSONHelper.JSONSerialize(result));
+            context.Response.Write(JSONHelper.JSONSerialize(result, false));
         }
         #endregion
 
@@ -71,7 +71,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                     false);
                 return new
                 {
-                    data = response == null ? "" : FormatXMLToHTML(response.GetDataIntroduce())
+                    data = response == null ? "" : FormatXMLToHTML(response.Text)
                 };
             }
             catch (Exception e)
