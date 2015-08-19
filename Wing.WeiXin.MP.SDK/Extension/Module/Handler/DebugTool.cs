@@ -138,9 +138,9 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
-                return "";
+                return String.Format("解析XML错误（{0}）", e.Message);
             }
         }
         #endregion

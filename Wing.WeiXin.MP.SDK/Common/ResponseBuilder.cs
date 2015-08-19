@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Web;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Lib;
 
@@ -151,14 +152,14 @@ namespace Wing.WeiXin.MP.SDK.Common
                 {
                     {"title", titleList[i]},
                     {"description", descriptionList[i]},
-                    {"picUrl", picUrlList[i]},
-                    {"url", urlList[i]}
+                    {"picUrl", HttpUtility.UrlEncode(picUrlList[i])},
+                    {"url", HttpUtility.UrlEncode(urlList[i])}
                 };
                 sb.AppendFormat(MessageNewsOne,
                     titleList[i],
                     descriptionList[i],
-                    picUrlList[i],
-                    urlList[i]);
+                    HttpUtility.UrlEncode(picUrlList[i]),
+                    HttpUtility.UrlEncode(urlList[i]));
             }
 
             return GetResponse(MessageNews, request, new Dictionary<string, object>
