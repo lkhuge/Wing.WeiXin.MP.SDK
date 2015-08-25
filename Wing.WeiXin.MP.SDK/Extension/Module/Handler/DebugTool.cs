@@ -52,7 +52,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
             if (SubmitMessageName.Equals(mode)) result = SubmitMessage(context.Request.Form[SubmitMessageDataName]);
             if (RefreshServerName.Equals(mode)) result = RefreshServer();
 
-            context.Response.Write(JSONHelper.JSONSerialize(result, false));
+            context.Response.Write(JSONHelper.JSONSerialize(result));
         }
         #endregion
 

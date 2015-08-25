@@ -80,7 +80,6 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 context.Request.Form[OAuthTypeName],
                 context.Request.Form[OAuthStateName]);
 
-
             context.Response.Write(JSONHelper.JSONSerialize(result));
         } 
         #endregion

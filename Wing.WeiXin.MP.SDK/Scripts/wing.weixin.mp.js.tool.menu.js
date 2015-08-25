@@ -140,7 +140,7 @@
                             subButtonList = subButtonList.concat([{
                                 name: subName,
                                 type: subType,
-                                url: $(this).find('p[data-menu-type="url"]').eq(0).data('menu-value')
+                                url: $(this).find('div[data-menu-type="url"]').eq(0).data('menu-value')
                             }]);
                         } else {
                             subButtonList = subButtonList.concat([{
