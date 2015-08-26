@@ -152,14 +152,14 @@ namespace Wing.WeiXin.MP.SDK.Common
                 {
                     {"title", titleList[i]},
                     {"description", descriptionList[i]},
-                    {"picUrl", HttpUtility.UrlEncode(picUrlList[i])},
-                    {"url", HttpUtility.UrlEncode(urlList[i])}
+                    {"picUrl", Uri.EscapeUriString(picUrlList[i])},
+                    {"url", Uri.EscapeUriString(urlList[i])}
                 };
                 sb.AppendFormat(MessageNewsOne,
                     titleList[i],
                     descriptionList[i],
-                    HttpUtility.UrlEncode(picUrlList[i]),
-                    HttpUtility.UrlEncode(urlList[i]));
+                    Uri.EscapeUriString(picUrlList[i]),
+                    Uri.EscapeUriString(urlList[i]));
             }
 
             return GetResponse(MessageNews, request, new Dictionary<string, object>

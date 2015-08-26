@@ -61,7 +61,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             HTTPHelper.Download(String.Format(
                 UrlGetQRCode,
-                HttpUtility.UrlEncode(ticket)), pathName);
+                Uri.EscapeDataString(ticket)), pathName);
         } 
         #endregion
 

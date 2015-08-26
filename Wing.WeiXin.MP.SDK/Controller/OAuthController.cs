@@ -56,7 +56,7 @@ namespace Wing.WeiXin.MP.SDK.Controller
         {
             return String.Format(
                 UrlGetURLForOAuthGetCode,
-                account.AppID, HttpUtility.UrlEncode(redirectURL), scope, state);
+                account.AppID, Uri.EscapeDataString(redirectURL), scope, state);
         } 
         #endregion
 
