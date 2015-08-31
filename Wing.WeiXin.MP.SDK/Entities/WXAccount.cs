@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Wing.WeiXin.MP.SDK.Common.MessageFilter;
 using Wing.WeiXin.MP.SDK.Common.MsgCrypt;
-using Wing.WeiXin.MP.SDK.Enumeration;
-using Wing.WeiXin.MP.SDK.Properties;
 
 namespace Wing.WeiXin.MP.SDK.Entities
 {

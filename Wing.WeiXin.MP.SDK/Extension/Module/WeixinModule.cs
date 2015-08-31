@@ -31,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module
         /// <summary>
         /// Handler列表
         /// </summary>
-        private static Dictionary<string, IHttpHandler> handlerList;
+        internal static Dictionary<string, IHttpHandler> handlerList;
 
         #region 注册事件 public void Init(HttpApplication context)
         /// <summary>

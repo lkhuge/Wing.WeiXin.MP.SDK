@@ -26,6 +26,10 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
     ///       3.1 [Error]对首次验证进行测试
     ///       3.2 [Error]添加测试事件到临时事件列表进行测试
     ///       3.3 [Info]运行时长测试
+    ///     4 安全测试
+    ///       4.1 [Warn]是否开启调试模式
+    ///       3.2 [Warn]菜单模块是否开启
+    ///       3.3 [Warn]调试模块是否开启
     /// </summary>
     public class Check : IHttpHandler
     {
@@ -198,6 +202,30 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                     }
                 }
             }},
+            {"安全测试", new []
+            {
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Warn,
+                    Text = "是否开启调试模式",
+                    Check = () => GlobalManager.IsDebug()
+                        ? "调试模式不建议在正式环境下开启" : null
+                },
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Warn,
+                    Text = "菜单模块是否开启",
+                    Check = () => WeixinModule.handlerList.ContainsKey("MenuTool")
+                        ? "菜单模块不建议在正式环境下开启" : null
+                },
+                new AshxCheckItem
+                {
+                    Type = AshxCheckItem.AshxCheckItemType.Warn,
+                    Text = "调试模块是否开启",
+                    Check = () => WeixinModule.handlerList.ContainsKey("DebugTool")
+                        ? "调试模块不建议在正式环境下开启" : null
+                }
+            }}
         };
         #endregion
 

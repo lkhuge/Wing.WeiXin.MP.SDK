@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Wing.WeiXin.MP.SDK.Entities
+﻿namespace Wing.WeiXin.MP.SDK.Entities
 {
     /// <summary>
     /// 返回信息

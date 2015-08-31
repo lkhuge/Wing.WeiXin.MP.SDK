@@ -1,15 +1,13 @@
 ﻿/*!
- * Weixin JS Menu Tool v0.0.7
+ * Weixin JS Menu Tool v0.0.8
  * 用于图形化操作菜单
  *
  * Dependency：
  * 1.JQuery
  * 2.Bootstrap(V3)
  *
- * Update(v0.0.7)：
- * [Add]添加菜单上下移动按钮
- * [Change]调整删除子菜单按钮方式
- * [Change]调整View菜单URL显示方式
+ * Update(v0.0.8)：
+ * [Fix]修正当子菜单数量满后删除子菜单后添加按钮没有出现的Bug
  * 
  * Usage：
  * $('#main').weixinmenu({
@@ -129,14 +127,14 @@
         var buttonList = [];
         for (var j = 0; j < mainMenuCount; j++) {
             var name = $('#' + toolIDPrefix + 'head-' + j).text();
-            if (name != '') {
+            if (name !== '') {
                 var type = $('#' + toolIDPrefix + 'head-' + j).data('menu-type');
-                if (type == 'main') {
+                if (type === 'main') {
                     var subButtonList = [];
                     $('#' + toolIDPrefix + 'body-' + j).children().children().each(function () {
                         var subType = $(this).find('p[data-menu-type="type"]').eq(0).data('menu-value');
                         var subName = $(this).find('p[data-menu-type="name"]').eq(0).data('menu-value');
-                        if (subType == 'view') {
+                        if (subType === 'view') {
                             subButtonList = subButtonList.concat([{
                                 name: subName,
                                 type: subType,
@@ -155,7 +153,7 @@
                         sub_button: subButtonList
                     }]);
                 } else {
-                    if (type == 'view') {
+                    if (type === 'view') {
                         buttonList = buttonList.concat([{
                             name: name,
                             type: type,
@@ -235,7 +233,7 @@
             } else {
                 //在主菜单节点上新建子菜单
                 $('#' + toolIDPrefix + 'head-' + id).attr('data-menu-type', obj.type);
-                if (obj.type == 'view') {
+                if (obj.type === 'view') {
                     $('#' + toolIDPrefix + 'head-' + id).attr('data-menu-url', obj.url);
                 } else {
                     $('#' + toolIDPrefix + 'head-' + id).attr('data-menu-key', obj.key);
@@ -264,7 +262,7 @@
 
         var name = '<p data-menu-type="name" data-menu-value="' + obj.name + '"><strong>显示标题：' + obj.name + '</strong></p>';
         var type = '<p data-menu-type="type" data-menu-value="' + obj.type + '">类型：' + obj.type + '(' + getMenuTypeName(obj.type) + ')</p>';
-        var key = (obj.type == 'view')
+        var key = (obj.type === 'view')
 			? '<div data-menu-type="url" data-menu-value="' + obj.url + '">URL：<pre>' + obj.url + '</pre></div>'
 			: '<p data-menu-type="key" data-menu-value="' + obj.key + '">Key：' + obj.key + '</p>';
         var opera = '<div class="panel-footer btn-group" role="group">' +
@@ -295,13 +293,13 @@
             addButtonDeleteMain(id);
             return;
         }
-        if (count == 0) {
+        if (count === 0) {
             addButtonAddSub(id, true);
             addButtonModityMain(id);
             addButtonDeleteMain(id);
             return;
         }
-        if (count == 5) {
+        if (count === 5) {
             addButtonModityMain(id, true);
             return;
         }
@@ -331,13 +329,18 @@
         /// <summary>
         /// 添加删除子菜单按钮
         /// </summary>
-        /// <param name="id" type="Number">主菜单ID</param>
 
         $('button[data-menu-event="DeleteSub"]').unbind();
         $('button[data-menu-event="DeleteSub"]').click(function () {
             var btn = $(this);
             confirm('确定删除？', function () {
+                //获取子菜单数量
+                var main = btn.parents('ul').eq(0);
+                var list = main.children('li');
+                var num = list.length;
+
                 btn.parents('li').eq(0).remove();
+                setButton(id, num - 1);
             });
         });
     }
@@ -359,14 +362,14 @@
             var arr = new Array();
             var thisIndex = -1;
             list.each(function (i, d) {
-                if (d.innerHTML == thisHtml) {
+                if (d.innerHTML === thisHtml) {
                     thisIndex = i;
                 }
                 arr[i] = d;
             });
 
             //第一个项 或者 找不到则退出
-            if (thisIndex == -1 || thisIndex == 0) return;
+            if (thisIndex === -1 || thisIndex === 0) return;
 
             //交换
             var temp = arr[thisIndex];
@@ -379,14 +382,14 @@
             //写入
             $.each(arr, function(k, v) {
                 main.append(v.outerHTML);
-            })
+            });
 
             //重新绑定事件
             $('.' + toolIDPrefix + 'menu-item p').unbind();
             $('.' + toolIDPrefix + 'menu-item p').click(function () {
                 menuEdit(false, false, id, $(this));
             });
-            setButton(id, num)
+            setButton(id, num);
         });
     }
 
@@ -407,14 +410,14 @@
             var arr = new Array();
             var thisIndex = -1;
             list.each(function (i, d) {
-                if (d.innerHTML == thisHtml) {
+                if (d.innerHTML === thisHtml) {
                     thisIndex = i;
                 }
                 arr[i] = d;
             });
 
             //最后个项 或者 找不到则退出
-            if (thisIndex == num - 1 || thisIndex == -1) return;
+            if (thisIndex === num - 1 || thisIndex === -1) return;
 
             //交换
             var temp = arr[thisIndex];
@@ -425,16 +428,16 @@
             main.empty();
 
             //写入
-            $.each(arr, function (k, v) {
+            $.each(arr, function(k, v) {
                 main.append(v.outerHTML);
-            })
+            });
 
             //重新绑定事件
             $('.' + toolIDPrefix + 'menu-item p').unbind();
             $('.' + toolIDPrefix + 'menu-item p').click(function () {
                 menuEdit(false, false, id, $(this));
             });
-            setButton(id, main.length)
+            setButton(id, main.length);
         });
     }
 
@@ -505,14 +508,14 @@
         /// <param name="type" type="String">菜单类型</param>
         /// <return>菜单类型中文说明</return>
 
-        if (type == 'click') return '点击推事件';
-        if (type == 'view') return '跳转URL';
-        if (type == 'scancode_push') return '扫码推事件';
-        if (type == 'scancode_waitmsg') return '扫码推事件且弹出“消息接收中”提示框';
-        if (type == 'pic_sysphoto') return '弹出系统拍照发图';
-        if (type == 'pic_photo_or_album') return '弹出拍照或者相册发图';
-        if (type == 'pic_weixin') return '弹出微信相册发图器';
-        if (type == 'location_select') return '弹出地理位置选择器';
+        if (type === 'click') return '点击推事件';
+        if (type === 'view') return '跳转URL';
+        if (type === 'scancode_push') return '扫码推事件';
+        if (type === 'scancode_waitmsg') return '扫码推事件且弹出“消息接收中”提示框';
+        if (type === 'pic_sysphoto') return '弹出系统拍照发图';
+        if (type === 'pic_photo_or_album') return '弹出拍照或者相册发图';
+        if (type === 'pic_weixin') return '弹出微信相册发图器';
+        if (type === 'location_select') return '弹出地理位置选择器';
 
         return '未知类型';
     }
@@ -528,16 +531,16 @@
         var isSelect = (typeof selectItem != 'undefined' && selectItem != null);
         var temp = '';
         if (isMain) {
-            temp += '<option value="main"' + ((isSelect && selectItem == 'main') ? 'selected="selected"' : '') + '>主菜单</option>';
+            temp += '<option value="main"' + ((isSelect && selectItem === 'main') ? 'selected="selected"' : '') + '>主菜单</option>';
         }
-        temp += '<option value="click"' + ((isSelect && selectItem == 'click') ? 'selected="selected"' : '') + '>点击推事件</option>' +
-				'<option value="view"' + ((isSelect && selectItem == 'view') ? 'selected="selected"' : '') + '>跳转URL</option>' +
-				'<option value="scancode_push"' + ((isSelect && selectItem == 'scancode_push') ? 'selected="selected"' : '') + '>扫码推事件</option>' +
-				'<option value="scancode_waitmsg"' + ((isSelect && selectItem == 'scancode_waitmsg') ? 'selected="selected"' : '') + '>扫码推事件且弹出“消息接收中”提示框</option>' +
-				'<option value="pic_sysphoto"' + ((isSelect && selectItem == 'pic_sysphoto') ? 'selected="selected"' : '') + '>弹出系统拍照发图</option>' +
-				'<option value="pic_photo_or_album"' + ((isSelect && selectItem == 'pic_photo_or_album') ? 'selected="selected"' : '') + '>弹出拍照或者相册发图</option>' +
-				'<option value="pic_weixin"' + ((isSelect && selectItem == 'pic_weixin') ? 'selected="selected"' : '') + '>弹出微信相册发图器</option>' +
-				'<option value="location_select"' + ((isSelect && selectItem == 'location_select') ? 'selected="selected"' : '') + '>弹出地理位置选择器</option>';
+        temp += '<option value="click"' + ((isSelect && selectItem === 'click') ? 'selected="selected"' : '') + '>点击推事件</option>' +
+				'<option value="view"' + ((isSelect && selectItem === 'view') ? 'selected="selected"' : '') + '>跳转URL</option>' +
+				'<option value="scancode_push"' + ((isSelect && selectItem === 'scancode_push') ? 'selected="selected"' : '') + '>扫码推事件</option>' +
+				'<option value="scancode_waitmsg"' + ((isSelect && selectItem === 'scancode_waitmsg') ? 'selected="selected"' : '') + '>扫码推事件且弹出“消息接收中”提示框</option>' +
+				'<option value="pic_sysphoto"' + ((isSelect && selectItem === 'pic_sysphoto') ? 'selected="selected"' : '') + '>弹出系统拍照发图</option>' +
+				'<option value="pic_photo_or_album"' + ((isSelect && selectItem === 'pic_photo_or_album') ? 'selected="selected"' : '') + '>弹出拍照或者相册发图</option>' +
+				'<option value="pic_weixin"' + ((isSelect && selectItem === 'pic_weixin') ? 'selected="selected"' : '') + '>弹出微信相册发图器</option>' +
+				'<option value="location_select"' + ((isSelect && selectItem === 'location_select') ? 'selected="selected"' : '') + '>弹出地理位置选择器</option>';
 
         return temp;
     }
@@ -581,7 +584,7 @@
                 ? $('#' + toolIDPrefix + 'head-' + id).text()
                 : subDom.find('p[data-menu-type="name"]').eq(0).data('menu-value'));
         }
-        var canChangeType = (isNew || $('#' + toolIDPrefix + 'head-' + id).data('menu-type') != 'main' || $('#' + toolIDPrefix + 'body-' + id).children().children().length == 0);
+        var canChangeType = (isNew || $('#' + toolIDPrefix + 'head-' + id).data('menu-type') !== 'main' || $('#' + toolIDPrefix + 'body-' + id).children().children().length === 0);
         if (canChangeType) {
             var selectType = (isNew ? null : (isMain
                 ? $('#' + toolIDPrefix + 'head-' + id).data('menu-type')
@@ -629,7 +632,7 @@
         /// <param name="subDom" type="Object">子菜单Dom</param>
 
         var name = $('#' + toolMenuEditIDPrefix + 'name').val();
-        if (name.length == 0) {
+        if (name.length === 0) {
             messageAlert("主菜单名称不能为空");
             return;
         }
@@ -640,19 +643,19 @@
         if (canChangeType) {
             var type = $('#' + toolMenuEditIDPrefix + 'type').val();
             var obj = { name: name };
-            if (type != 'main') {
+            if (type !== 'main') {
                 obj = $.extend({ type: type }, obj);
-                if (type == 'view') {
+                if (type === 'view') {
                     var url = $('#' + toolMenuEditIDPrefix + 'url').val();
                     obj = $.extend({ url: url }, obj);
-                    if (url.length == 0) {
+                    if (url.length === 0) {
                         messageAlert("URL不能为空");
                         return;
                     }
                 } else {
                     var key = $('#' + toolMenuEditIDPrefix + 'key').val();
                     obj = $.extend({ key: key }, obj);
-                    if (key.length == 0) {
+                    if (key.length === 0) {
                         messageAlert("Key不能为空");
                         return;
                     }
@@ -660,13 +663,13 @@
             }
             if (isMain) {
                 if (isNew) {
-                    if (type == 'main') {
+                    if (type === 'main') {
                         setMenu(id, obj, true, true);
                     } else {
                         setMenu(id, obj, true, true);
                     }
                 } else {
-                    if (type == 'main') {
+                    if (type === 'main') {
                         setMenu(id, obj, true, false);
                     } else {
                         setMenu(id, obj, true, false);
@@ -711,17 +714,17 @@
             if (typeof subDom == 'undefined' || subDom == null) return '';
             type = subDom.find('p[data-menu-type="type"]').eq(0).data('menu-value');
         }
-        if (type == 'main') return '';
+        if (type === 'main') return '';
         var val;
-        if (type == 'view') {
+        if (type === 'view') {
             if (isMain) {
-                if ($('#' + toolIDPrefix + 'head-' + id).data('menu-type') == type) {
+                if ($('#' + toolIDPrefix + 'head-' + id).data('menu-type') === type) {
                     val = $('#' + toolIDPrefix + 'head-' + id).data('menu-url');
                 } else {
                     val = '';
                 }
             } else {
-                if (subDom != null && subDom.find('p[data-menu-type="type"]').eq(0).data('menu-value') == type) {
+                if (subDom != null && subDom.find('p[data-menu-type="type"]').eq(0).data('menu-value') === type) {
                     val = subDom.find('p[data-menu-type="url"]').eq(0).data('menu-value');
                 } else {
                     val = '';
@@ -776,13 +779,13 @@
                     '</div>';
         }
         if (isMain) {
-            if ($('#' + toolIDPrefix + 'head-' + id).data('menu-type') == type) {
+            if ($('#' + toolIDPrefix + 'head-' + id).data('menu-type') === type) {
                 val = $('#' + toolIDPrefix + 'head-' + id).data('menu-key');
             } else {
                 val = '';
             }
         } else {
-            if (subDom != null && subDom.find('p[data-menu-type="type"]').eq(0).data('menu-value') == type) {
+            if (subDom != null && subDom.find('p[data-menu-type="type"]').eq(0).data('menu-value') === type) {
                 val = subDom.find('p[data-menu-type="key"]').eq(0).data('menu-value');
             } else {
                 val = '';
@@ -805,27 +808,27 @@
         /// </summary>
         /// <param name="type" type="String">菜单类型</param>
 
-        if (type == 'view') {
+        if (type === 'view') {
             $('input[name="' + toolMenuEditIDPrefix + 'url-type"]').change(function () {
                 var urlType = $(this).val();
-                if (urlType == 'common') {
+                if (urlType === 'common') {
                     $('.' + toolMenuEditIDPrefix + 'arg-type').addClass('hidden');
                     $('#' + toolMenuEditIDPrefix + 'url').removeAttr('readonly');
                 }
-                if (urlType == 'oauth') {
+                if (urlType === 'oauth') {
                     $('.' + toolMenuEditIDPrefix + 'arg-type').removeClass('hidden');
                     $('#' + toolMenuEditIDPrefix + 'url').attr('readonly', 'readonly');
                 }
             });
             $('#' + toolMenuEditIDPrefix + 'url-oauth-geturl').click(function () {
                 var oauthCallback = $('#' + toolMenuEditIDPrefix + 'url-oauth-callback').val();
-                if (oauthCallback.length == 0) {
+                if (oauthCallback.length === 0) {
                     messageAlert("OAuth回调地址不能为空");
                     return;
                 }
                 var oauthType = $('#' + toolMenuEditIDPrefix + 'url-oauth-type').val();
                 var oauthState = $('#' + toolMenuEditIDPrefix + 'url-oauth-state').val();
-                if (oauthState.length == 0) {
+                if (oauthState.length === 0) {
                     messageAlert("OAuth参数不能为空");
                     return;
                 }

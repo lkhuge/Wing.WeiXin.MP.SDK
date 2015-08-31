@@ -12,7 +12,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
     public class OAuth : IHttpHandler
     {
         /// <summary>
-        /// 使用的账号（如果为空则默认为第一个账号）
+        /// 使用的账号（如果为空则为默认账号）
         /// </summary>
         public static WXAccount Account;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 using Wing.WeiXin.MP.SDK.Entities.QRCode;

@@ -1,5 +1,4 @@
-﻿using System;
-using Wing.WeiXin.MP.SDK.Common;
+﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
 
 namespace Wing.WeiXin.MP.SDK.Controller
