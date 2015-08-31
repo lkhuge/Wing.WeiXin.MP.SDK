@@ -132,7 +132,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <summary>
         /// 运行时长计时器
         /// </summary>
-        private static Stopwatch Stopwatch;
+        private static Stopwatch Stopwatch = new Stopwatch();
 
         #region 实例化请求对象 public Request(string token, string signature, string timestamp, string nonce, string echostr, string postData, string encryptType, string msgSignature, string ip = null)
         /// <summary>
@@ -323,7 +323,7 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// <returns>运行时长</returns>
         internal long GetRunTime()
         {
-            if (!IsSumRunTime) return 0;
+            if (!IsSumRunTime || Stopwatch == null) return 0;
             Stopwatch.Stop();
             return Stopwatch.ElapsedMilliseconds;
         }

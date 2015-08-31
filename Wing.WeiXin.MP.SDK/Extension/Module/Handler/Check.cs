@@ -198,7 +198,7 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                         Response response = new ReceiveController().Action(TestTextRequest);
 
                         return response.RunTime + 
-                            (response.RunTime > 5000 ? "ms（运行时间过长，请适当优化）" : "ms");
+                            (response.RunTime > 1000 ? "ms（运行时间过长，请适当优化）" : "ms");
                     }
                 }
             }},
@@ -215,14 +215,14 @@ namespace Wing.WeiXin.MP.SDK.Extension.Module.Handler
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "菜单模块是否开启",
-                    Check = () => WeixinModule.handlerList.ContainsKey("MenuTool")
+                    Check = () => !GlobalManager.IsDebug() && WeixinModule.handlerList.ContainsKey("MenuTool")
                         ? "菜单模块不建议在正式环境下开启" : null
                 },
                 new AshxCheckItem
                 {
                     Type = AshxCheckItem.AshxCheckItemType.Warn,
                     Text = "调试模块是否开启",
-                    Check = () => WeixinModule.handlerList.ContainsKey("DebugTool")
+                    Check = () => !GlobalManager.IsDebug() && WeixinModule.handlerList.ContainsKey("DebugTool")
                         ? "调试模块不建议在正式环境下开启" : null
                 }
             }}
