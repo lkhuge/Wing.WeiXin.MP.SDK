@@ -1,5 +1,6 @@
 ﻿using Wing.WeiXin.MP.SDK.Common;
 using Wing.WeiXin.MP.SDK.Entities;
+using Wing.WeiXin.MP.SDK.Entities.Template;
 
 namespace Wing.WeiXin.MP.SDK.Controller
 {
@@ -31,9 +32,9 @@ namespace Wing.WeiXin.MP.SDK.Controller
         /// <param name="account">微信公共平台账号</param>
         /// <param name="messageTemplate">消息模板</param>
         /// <returns></returns>
-        public ReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
+        public MessageTemplateReturnMessage SendMessageTemplate(WXAccount account, MessageTemplate messageTemplate)
         {
-            return Action<ReturnMessage>(UrlSendMessageTemplate, messageTemplate, account);
+            return Action<MessageTemplateReturnMessage>(UrlSendMessageTemplate, messageTemplate, account);
         } 
         #endregion
     }

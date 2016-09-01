@@ -118,6 +118,11 @@ namespace Wing.WeiXin.MP.SDK.Enumeration
         /// <summary>
         /// 发送模板消息事件
         /// </summary>
-        TEMPLATESENDJOBFINISH
+        TEMPLATESENDJOBFINISH,
+
+        /// <summary>
+        /// 买单通知事件
+        /// </summary>
+        user_consume_card
     }
 }

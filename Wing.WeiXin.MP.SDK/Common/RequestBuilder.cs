@@ -402,9 +402,17 @@ namespace Wing.WeiXin.MP.SDK.Common
         /// <summary>
         /// 发送模板消息事件请求内容
         /// </summary>
-        private const string TemplateSendJobFinish =
+        private const string EventTemplateSendJobFinish =
             "<xml><ToUserName><![CDATA[{ToUserName}]]></ToUserName><FromUserName><![CDATA[{FromUserName}]]></FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[TEMPLATESENDJOBFINISH]]></Event><MsgID>{0}</MsgID><Status><![CDATA[{1}]]></Status></xml>";
         #endregion  
+
+        #region 买单通知事件请求内容
+        /// <summary>
+        /// 买单通知事件请求内容
+        /// </summary>
+        private const string EventUserConsumeCard =
+            "<xml><ToUserName><![CDATA[{ToUserName}]]></ToUserName><FromUserName><![CDATA[{FromUserName}]]></FromUserName><CreateTime>{CreateTime}</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[user_consume_card]]></Event><CardId><![CDATA[{0}]]></CardId><UserCardCode><![CDATA[{1}]]></UserCardCode><ConsumeSource><![CDATA[{2}]]></ConsumeSource><OutTradeNo><![CDATA[{3}]]></OutTradeNo><TransId><![CDATA[{4}]]></TransId>";
+        #endregion 
 
         #region 获取上报地理位置事件请求对象 public static Request GetEventLocation(string latitude, string longitude, string precision)
         /// <summary>
@@ -501,16 +509,38 @@ namespace Wing.WeiXin.MP.SDK.Common
         } 
         #endregion
 
-        #region 获取发送模板消息事件请求对象 public static Request GetTemplateSendJobFinish(string msgID, string status)
+        #region 获取发送模板消息事件请求对象 public static Request GetEventTemplateSendJobFinish(string msgID, string status)
         /// <summary>
         /// 获取发送模板消息事件请求对象
         /// </summary>
         /// <param name="msgID">消息id</param>
         /// <param name="status">发送状态</param>
         /// <returns>发送模板消息事件请求对象</returns>
-        public static Request GetTemplateSendJobFinish(string msgID, string status)
+        public static Request GetEventTemplateSendJobFinish(string msgID, string status)
         {
-            return GetRequest(TemplateSendJobFinish, msgID, status);
+            return GetRequest(EventTemplateSendJobFinish, msgID, status);
+        }
+        #endregion 
+
+        #region 获取买单通知事件请求对象 public static Request GetEventUserConsumeCard(string msgID, string status)
+        /// <summary>
+        /// 获取买单通知事件请求对象
+        /// </summary>
+        /// <param name="cardId">卡券ID</param>
+        /// <param name="userCardCode">卡券Code码</param>
+        /// <param name="consumeSource">
+        /// 核销来源
+        /// 支持开发者统计
+        ///     API核销（FROM_API）
+        ///     公众平台核销（FROM_MP）
+        ///     卡券商户助手核销（FROM_MOBILE_HELPER）（核销员微信号）
+        /// </param>
+        /// <param name="transId">微信支付交易订单号</param>
+        /// <param name="outTradeNo">商户订单号</param>
+        /// <returns>买单通知事件请求对象</returns>
+        public static Request GetEventUserConsumeCard(string cardId, string userCardCode, string consumeSource, string transId, string outTradeNo)
+        {
+            return GetRequest(EventUserConsumeCard, cardId, userCardCode, consumeSource, transId, outTradeNo);
         }
         #endregion 
         #endregion

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Wing.WeiXin.MP.SDK.Enumeration;
+﻿using Wing.WeiXin.MP.SDK.Enumeration;
 
 namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event
 {
     /// <summary>
     /// 发送模板消息事件请求
     /// </summary>
-    public class RequestTemplateSendJobFinish : RequestAMessage
+    public class RequestEventTemplateSendJobFinish : RequestAMessage
     {
         /// <summary>
         /// 消息id
@@ -35,7 +31,7 @@ namespace Wing.WeiXin.MP.SDK.Entities.RequestMessage.Event
         /// 实体类型
         /// </summary>
         public override ReceiveEntityType ReceiveEntityType {
-            get { return ReceiveEntityType.CLICK; } 
+            get { return ReceiveEntityType.TEMPLATESENDJOBFINISH; } 
         }
     }
 }

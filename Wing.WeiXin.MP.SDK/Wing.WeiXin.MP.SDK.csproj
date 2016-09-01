@@ -80,12 +80,14 @@
     <Compile Include="ConfigSection\HandlerConfig\HandlerConfigSection.cs" />
     <Compile Include="ConfigSection\HandlerConfig\HandlerItemConfigSection.cs" />
     <Compile Include="ConfigSection\HandlerConfig\HandlerItemListConfigSection.cs" />
+    <Compile Include="Controller\CardController.cs" />
     <Compile Include="Controller\CSController.cs" />
     <Compile Include="Controller\DKFController.cs" />
     <Compile Include="Controller\LReceiveController.cs" />
     <Compile Include="Controller\MaterialController.cs" />
     <Compile Include="Controller\MenuController.cs" />
     <Compile Include="Controller\OAuthController.cs" />
+    <Compile Include="Controller\PayController.cs" />
     <Compile Include="Controller\QRCodeController.cs" />
     <Compile Include="Controller\ReceiveController.cs" />
     <Compile Include="Controller\SecurityController.cs" />
@@ -98,6 +100,15 @@
     <Compile Include="Controller\WXUserController.cs" />
     <Compile Include="DebugManager.cs" />
     <Compile Include="Entities\AccessToken.cs" />
+    <Compile Include="Entities\Card\CardBaseInfo.cs" />
+    <Compile Include="Entities\Card\CardInfo.cs" />
+    <Compile Include="Entities\Card\Type\CardGeneralCoupon.cs" />
+    <Compile Include="Entities\Card\Type\CardGift.cs" />
+    <Compile Include="Entities\Card\Type\CardDiscount.cs" />
+    <Compile Include="Entities\Card\Type\CardCash.cs" />
+    <Compile Include="Entities\Card\Type\CardGroupon.cs" />
+    <Compile Include="Entities\Card\Type\CardTypeBaseInfo.cs" />
+    <Compile Include="Entities\Card\Type\CardTypeInfo.cs" />
     <Compile Include="Entities\Config\Base\BaseConfigInfo.cs" />
     <Compile Include="Entities\Config\ConfigInfo.cs" />
     <Compile Include="Entities\Config\Event\EventConfigInfo.cs" />
@@ -121,7 +132,7 @@
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicPhotoOrAlbum.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonPicWeixin.cs" />
     <Compile Include="Entities\Menu\MenuButtonType\MenuButtonLocationSelect.cs" />
-    <Compile Include="Entities\MessageTemplate.cs" />
+    <Compile Include="Entities\Template\MessageTemplate.cs" />
     <Compile Include="Entities\QRCode\ShortUrl.cs" />
     <Compile Include="Entities\Request.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventScanCodePush.cs" />
@@ -130,7 +141,8 @@
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventPicPhotoOrAlbum.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventPicWeixin.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventLocationSelect.cs" />
-    <Compile Include="Entities\RequestMessage\Event\RequestTemplateSendJobFinish.cs" />
+    <Compile Include="Entities\RequestMessage\Event\RequestEventUserConsumeCard.cs" />
+    <Compile Include="Entities\RequestMessage\Event\RequestEventTemplateSendJobFinish.cs" />
     <Compile Include="Entities\RequestMessage\Message\RequestShortVideo.cs" />
     <Compile Include="Entities\RequestMessage\RequestAMessage.cs" />
     <Compile Include="Entities\RequestMessage\Event\Menu\RequestEventClick.cs" />
@@ -181,6 +193,7 @@
     <Compile Include="Entities\Statistics\News\UserShare.cs" />
     <Compile Include="Entities\Statistics\News\UserShareHour.cs" />
     <Compile Include="Entities\Statistics\User\UserSummary.cs" />
+    <Compile Include="Entities\Template\ReturnMessage.cs" />
     <Compile Include="Entities\User\User\BatchWXUserList.cs" />
     <Compile Include="Entities\User\User\BatchWXUser.cs" />
     <Compile Include="Entities\WXAccount.cs" />

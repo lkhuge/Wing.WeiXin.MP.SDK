@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Wing.WeiXin.MP.SDK.Entities
+namespace Wing.WeiXin.MP.SDK.Entities.Template
 {
     /// <summary>
     /// 信息模板
@@ -21,11 +21,6 @@ namespace Wing.WeiXin.MP.SDK.Entities
         /// 链接
         /// </summary>
         public string url { get; set; }
-
-        /// <summary>
-        /// 顶部颜色
-        /// </summary>
-        public string topcolor { get; set; }
 
         /// <summary>
         /// 模板内容
